@@ -1,7 +1,5 @@
 # PopMovies
-</br>
 <p>Uma Aplicação relativamente simples para  organização de Filmes. Utilizo esse projeto para aprender mais sobre a plataforma Android e suas boas práticas.</p>
-</br>
 ###Base de Dados:
 </br>
 <a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.
