@@ -4,7 +4,7 @@
 </br>
 ###Base de Dados:
 </br>
-<a href="https://www.themoviedb.org/"><b>TheMovieDB</b> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</a>
+<a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.
 </br>
 ###Padrões de Projetos Adotados:
 
