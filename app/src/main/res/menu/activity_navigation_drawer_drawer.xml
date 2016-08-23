@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <!--<item-->
+            <!--android:id="@+id/menu_vetores"-->
+            <!--android:icon="@mipmap/ic_vetores"-->
+            <!--android:title="@string/menu_vetores" />-->
+        <!--<item-->
+            <!--android:id="@+id/menu_matrizes"-->
+            <!--android:icon="@mipmap/ic_matriz"-->
+            <!--android:title="@string/menu_matrizes" />-->
+        <!--<item-->
+            <!--android:id="@+id/menu_polinomios"-->
+            <!--android:icon="@mipmap/ic_polinomios"-->
+            <!--android:title="@string/menu_polinomios" />-->
+        <!--<item-->
+            <!--android:id="@+id/menu_graficos"-->
+            <!--android:icon="@mipmap/ic_graficos"-->
+            <!--android:title="@string/menu_graficos" />-->
+    </group>
+
+    <!--<item android:title="@string/menu_title_basico">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/menu_porcentagem"-->
+                <!--android:icon="@mipmap/ic_porcentagem"-->
+                <!--android:title="@string/menu_porcentagem" />-->
+            <!--<item-->
+                <!--android:id="@+id/menu_conversoes"-->
+                <!--android:icon="@mipmap/ic_conversao"-->
+                <!--android:title="@string/menu_conversoes" />-->
+            <!--<item-->
+                <!--android:id="@+id/menu_primo"-->
+                <!--android:icon="@mipmap/ic_primos"-->
+                <!--android:title="@string/menu_primo" />-->
+            <!--<item-->
+                <!--android:id="@+id/menu_regra_tres"-->
+                <!--android:icon="@mipmap/ic_regra_tres"-->
+                <!--android:title="@string/menu_regra_tres" />-->
+            <!--<item-->
+                <!--android:id="@+id/menu_fracoes"-->
+                <!--android:icon="@mipmap/ic_fracao"-->
+                <!--android:title="@string/menu_fracoes" />-->
+        <!--</menu>-->
+    <!--</item>-->
+
+</menu>
