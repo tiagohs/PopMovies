@@ -1,8 +1,14 @@
 package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
+import android.icu.text.NumberFormat;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -10,6 +16,16 @@ import java.util.TreeMap;
 import br.com.tiagohs.popmovies.R;
 
 public class MovieUtils {
+
+    public static String formatCurrency(long orcamento) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            return format.format(orcamento);
+        } else {
+            java.text.NumberFormat formatter = java.text.NumberFormat.getCurrencyInstance(Locale.getDefault());
+            return formatter.format(orcamento);
+        }
+    }
 
     public static String formatAbrev(long value) {
         NavigableMap<Long, String> suffixes = new TreeMap<>();
@@ -32,6 +48,20 @@ public class MovieUtils {
         long truncated = value / (divideBy / 10);
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
+    }
+
+    public static String formateDate(Context context, String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(dateString);
+        } catch (ParseException e) {
+            return dateString;
+        }
+
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+
+        return dateFormat.format(date);
     }
 
     public static String formatGeneres(Context context, List<Integer> ids) {

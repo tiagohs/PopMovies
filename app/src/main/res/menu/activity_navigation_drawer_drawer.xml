@@ -2,22 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/menu_vetores"-->
-            <!--android:icon="@mipmap/ic_vetores"-->
-            <!--android:title="@string/menu_vetores" />-->
-        <!--<item-->
-            <!--android:id="@+id/menu_matrizes"-->
-            <!--android:icon="@mipmap/ic_matriz"-->
-            <!--android:title="@string/menu_matrizes" />-->
-        <!--<item-->
-            <!--android:id="@+id/menu_polinomios"-->
-            <!--android:icon="@mipmap/ic_polinomios"-->
-            <!--android:title="@string/menu_polinomios" />-->
-        <!--<item-->
-            <!--android:id="@+id/menu_graficos"-->
-            <!--android:icon="@mipmap/ic_graficos"-->
-            <!--android:title="@string/menu_graficos" />-->
+        <item
+            android:id="@+id/menu_favoritos"
+            android:icon="@drawable/ic_favorite_clicked"
+            android:title="Favoritos" />
+        <item
+            android:id="@+id/menu_generos"
+            android:icon="@drawable/ic_favorite_clicked"
+            android:title="Gêneros" />
+        <item
+            android:id="@+id/menu_atores"
+            android:icon="@drawable/ic_favorite_clicked"
+            android:title="Atores" />
+        <item
+            android:id="@+id/menu_lancamentos"
+            android:icon="@drawable/ic_favorite_clicked"
+            android:title="Lançamentos" />
+        <item
+            android:id="@+id/menu_bem_avaliados"
+            android:icon="@drawable/ic_favorite_clicked"
+            android:title="Mais bem Avaliados" />
     </group>
 
     <!--<item android:title="@string/menu_title_basico">-->

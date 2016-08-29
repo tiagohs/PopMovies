@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/movie_deails_item_default_riple"
+        app:mrl_rippleColor="@color/itemBackgroundRiple"
+        android:layout_width="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/background_btn_item_default"
+        app:mrl_rippleOverlay="true">
+
+        <TextView
+            android:id="@+id/movie_deails_item_default_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:text="Steven Spielber"/>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+
+</LinearLayout>

@@ -4,19 +4,18 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 
-import br.com.tiagohs.popmovies.model.MovieResponse;
+import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.server.PopMovieServer;
-import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.view.ListMovieView;
 
-public class ListMoviesPresenterImpl implements ListMoviesPresenter, ResponseListener<MovieResponse> {
+public class ListMoviesPresenterImpl implements ListMoviesPresenter {
     private static final String TAG = ListMoviesPresenterImpl.class.getSimpleName();
 
     private ListMovieView mListMovieView;
     private PopMovieServer mPopMovieServer;
 
     public ListMoviesPresenterImpl() {
-        mPopMovieServer = new PopMovieServer();
+        mPopMovieServer = PopMovieServer.getInstance();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter, ResponseLis
 
     @Override
     public void onResponse(MovieResponse movies) {
-        mListMovieView.atualizarView(movies.getPage(), movies.getTotal_pages(), movies.getResults());
+        mListMovieView.atualizarView(movies.getPage(), movies.getTotalPages(), movies.getResults());
         mListMovieView.hideProgress();
     }
 

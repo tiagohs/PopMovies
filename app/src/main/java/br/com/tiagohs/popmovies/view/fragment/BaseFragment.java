@@ -50,6 +50,10 @@ public abstract class BaseFragment extends Fragment {
                 .show();
     }
 
+    public void showProgressBar() {
+
+    }
+
     public void hideProgress() {
         materialDialog.dismiss();
     }

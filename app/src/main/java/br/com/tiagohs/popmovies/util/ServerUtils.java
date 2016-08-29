@@ -2,27 +2,14 @@ package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 
 public class ServerUtils {
-
-    public static String getUrl(String baseUrl, Map<String, String> queryParams) {
-        Uri.Builder urlBuilder = Uri.parse(baseUrl).buildUpon();
-        if (queryParams != null) {
-            for (String paramName : queryParams.keySet()) {
-                urlBuilder.appendQueryParameter(paramName, queryParams.get(paramName));
-            }
-        }
-
-        return urlBuilder.build().toString();
-    }
 
     public static byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);

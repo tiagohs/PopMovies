@@ -1,26 +1,33 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie;
+import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.Movie.ReleaseInfo;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.view.adapters.GenerosAdapter;
+import br.com.tiagohs.popmovies.view.adapters.NotasAdapter;
+import br.com.tiagohs.popmovies.view.adapters.SimilaresMoviesAdapter;
 import butterknife.BindView;
 
 public class MovieDetailsOverviewFragment extends BaseFragment {
     private static final String TAG = MovieDetailsOverviewFragment.class.getSimpleName();
 
     private static final String ARG_MOVIE = "movie";
-
-    @BindView(R.id.title_original_movie)
-    TextView mNomeOriginalMovie;
-
-    @BindView(R.id.idioma_movie)
-    TextView mIdiomaMovie;
 
     @BindView(R.id.data_lancamento_movie)
     TextView mDataLancamentoMovie;
@@ -31,9 +38,28 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
     @BindView(R.id.adult_movie)
     TextView mAdultMovie;
 
-    private Movie mMovie;
+    @BindView(R.id.classificacao_movie)
+    Button mClassificacaoMovie;
 
-    public static MovieDetailsOverviewFragment newInstance(Movie movie) {
+    @BindView(R.id.data_duracao_movie)
+    TextView mDuracaoMovie;
+
+    @BindView(R.id.notas_recycler_view)
+    RecyclerView mNotasRecyclerView;
+
+    @BindView(R.id.generos_recycler_view)
+    RecyclerView mGenerosRecyclerView;
+
+    @BindView(R.id.similares_recycler_view)
+    RecyclerView mSimilaresRecyclerView;
+
+    private MovieDetails mMovie;
+    private NotasAdapter mNotasAdapter;
+    private GenerosAdapter mGenerosAdapter;
+
+    private Callbacks mCallbacks;
+
+    public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARG_MOVIE, movie);
 
@@ -44,11 +70,27 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+
+    public interface Callbacks {
+        void onMovieSelected(int movieID, ImageView posterMovie);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMovie = (Movie) getArguments().getSerializable(ARG_MOVIE);
+        mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
         Log.i(TAG, "ID do Filme: " + mMovie.getId());
-
     }
 
     @Override
@@ -56,20 +98,50 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mAdultMovie.setVisibility(View.INVISIBLE);
+        mNotasRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+        mGenerosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+
+        mSimilaresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+        mSimilaresRecyclerView.setAdapter(new SimilaresMoviesAdapter(getActivity(), mMovie.getSimilarMovies(), mCallbacks));
+
         updateUI();
     }
 
     private void updateUI() {
 
-        mNomeOriginalMovie.setText(mMovie.getOriginal_title());
-
-        mIdiomaMovie.setText(MovieUtils.formatIdioma(getActivity(), mMovie.getOriginal_language()));
+        mDataLancamentoMovie.setText(MovieUtils.formateDate(getActivity(), mMovie.getReleaseDate()));
+        mDuracaoMovie.setText(mMovie.getRuntime() + " Min.");
         mSinopseMovie.setText(mMovie.getOverview());
-        mDataLancamentoMovie.setText(mMovie.getRelease_date());
+        mClassificacaoMovie.setText(release());
+        mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
 
-        if (mMovie.isAdult()) {
-            mAdultMovie.setVisibility(View.VISIBLE);
+        updateNotas();
+        updateGeneros();
+    }
+
+    private String release() {
+
+        for (ReleaseInfo releaseInfo : mMovie.getReleases()) {
+            if (releaseInfo.getCountry().equals("US"))
+                return releaseInfo.getReleaseDates().get(0).getCertification();
         }
+        return "--";
+    }
+
+    private void updateNotas() {
+        List<MovieDetails> list = new ArrayList<>();
+        list.add(new MovieDetails());
+        list.add(new MovieDetails());
+        list.add(new MovieDetails());
+
+        mNotasAdapter = new NotasAdapter(getActivity(), list);
+        mNotasRecyclerView.setAdapter(mNotasAdapter);
+
+    }
+
+    private void updateGeneros() {
+        mGenerosAdapter = new GenerosAdapter(getActivity(), mMovie.getGenres());
+        mGenerosRecyclerView.setAdapter(mGenerosAdapter);
     }
 
     @Override

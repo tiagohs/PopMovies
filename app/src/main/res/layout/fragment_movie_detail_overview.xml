@@ -6,21 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="fill_vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@color/primary_light">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp">
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="2dp"
             app:cardElevation="4dp">
 
         <LinearLayout
@@ -33,77 +33,91 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:paddingTop="15dp"
+                android:layout_gravity="center">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:text="@string/title_original_movie"
-                    android:textColor="@color/secondary_text"/>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp">
 
-                <TextView
-                    android:id="@+id/title_original_movie"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_data"/>
+
+                    <TextView
+                        android:id="@+id/data_lancamento_movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/secondary_text"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14sp"
+                        android:text="08/11/2016"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="16dp"
-                    android:text="Batman v Superman"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:text="@string/idioma_movie"
-                    android:textColor="@color/secondary_text"/>
-
-                <TextView
-                    android:id="@+id/idioma_movie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/primary_text"
-                    android:textSize="16dp"
-                    android:text="Batman v Superman"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_data"/>
-
-                <TextView
-                    android:id="@+id/data_lancamento_movie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/primary_text"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:textSize="16dp"
-                    android:text="08/11/2016"/>
+                    android:layout_marginRight="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_relogio"/>
+
+                    <TextView
+                        android:id="@+id/data_duracao_movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/secondary_text"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14sp"
+                        android:text="150 Min."/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <Button
+                        android:id="@+id/classificacao_movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="PG-18"
+                        android:textSize="14sp"
+                        android:textColor="@color/secondary_text"
+                        android:background="@android:color/transparent"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/generos_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"/>
 
             </LinearLayout>
 
@@ -114,21 +128,8 @@
                 android:layout_margin="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="22dp"
-                    android:text="@string/sinopse_movie"
-                    android:textColor="@color/secondary_text"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
-
-                <TextView
                     android:id="@+id/sinopse_movie"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/primary_text"
@@ -145,110 +146,82 @@
             </LinearLayout>
 
         </LinearLayout>
-
         </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notas_recycler_view"
+                android:layout_gravity="center|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="2dp"
             app:cardElevation="4dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-
-                <ImageView
-                    android:layout_width="92dp"
-                    android:layout_height="75dp"
-                    android:src="@mipmap/ic_imdb_icon"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5.1/10"
-                    android:textColor="@color/primary_text"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:textStyle="bold"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-
-                    <ImageView
-                        android:layout_width="92dp"
-                        android:layout_height="75dp"
-                        android:src="@mipmap/ic_tomatoes"/>
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5.1/10"
+                        android:layout_gravity="left|center_vertical"
                         android:textColor="@color/primary_text"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="15dp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                        android:text="SIMILARES"
+                        android:layout_weight="0.85"/>
 
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-
-                    <ImageView
-                        android:layout_width="92dp"
-                        android:layout_height="75dp"
-                        android:src="@mipmap/ic_metacritic"/>
-
-                    <TextView
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/movie_deails_item_default_riple"
+                        app:mrl_rippleColor="@color/secondary_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5.1/10"
-                        android:textColor="@color/primary_text"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="15dp"
-                        android:textStyle="bold"/>
+                        app:mrl_rippleOverlay="true">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_weight="0.15"
+                            android:text="MAIS"/>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
                 </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/similares_recycler_view"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"/>
+
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

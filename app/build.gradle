@@ -14,6 +14,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "MOVIEDB_API", "${MOVIEDB_API}"
+        buildConfigField "String", "GOOGLE_KEY", "${GOOGLE_KEY}"
     }
     buildTypes {
         release {
@@ -26,6 +27,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
+
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
 
@@ -61,4 +64,14 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'com.android.volley:volley:1.0.0'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
+    compile 'com.balysv:material-ripple:1.0.2'
+
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+
 }

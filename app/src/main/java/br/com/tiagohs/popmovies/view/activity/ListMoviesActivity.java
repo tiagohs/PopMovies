@@ -1,13 +1,10 @@
 package br.com.tiagohs.popmovies.view.activity;
 
+import android.app.ActivityOptions;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,11 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import java.util.List;
-
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie;
-import br.com.tiagohs.popmovies.model.TabFragments;
+import br.com.tiagohs.popmovies.view.adapters.ListMovieAdapter;
 import br.com.tiagohs.popmovies.view.fragment.ListMoviesFragment;
 import butterknife.BindView;
 
@@ -44,6 +38,9 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
     @BindView(R.id.pager)
     ViewPager mViewPager;
 
+    private final int[] tabIcons = new int[]{R.drawable.ic_tab_home,
+                                             R.drawable.ic_tab_favorite};
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +53,10 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
         configurarDrawerLayout();
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        String[] tabs = new String[]{getString(R.string.tab_populares),
-                                    getString(R.string.tab_lancamentos),
-                                    getString(R.string.tab_favoritos)};
-
-        mViewPager.setAdapter(new ListMovieAdapter(getSupportFragmentManager(), tabs));
+        mViewPager.setAdapter(new ListMovieAdapter(getSupportFragmentManager()));
         mTabHome.setupWithViewPager(mViewPager);
+        mTabHome.getTabAt(0).setIcon(tabIcons[0]);
+        mTabHome.getTabAt(1).setIcon(tabIcons[1]);
 
     }
 
@@ -84,33 +79,16 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
     }
 
     @Override
-    public void onMovieSelected(Movie movie, ImageView posterMovie) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, posterMovie, POSTER_MOVIE_TRANSACTION);
-        startActivity(MovieDetailActivity.newIntent(this, movie), options.toBundle());
-    }
+    public void onMovieSelected(int movieID, ImageView posterMovie) {
 
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        private List<TabFragments> mListFragments;
-
-        public ViewPagerAdapter(FragmentManager fm, List<TabFragments> listFragments) {
-            super(fm);
-            this.mListFragments = listFragments;
-        }
-
-        public Fragment getItem(int num) {
-            return mListFragments.get(num).getFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return mListFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mListFragments.get(position).getTabName();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions transitionActivityOptions = ActivityOptions
+                                                            .makeSceneTransitionAnimation(ListMoviesActivity.this, posterMovie, getString(R.string.poster_movie));
+            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
+        } else {
+            startActivity(MovieDetailActivity.newIntent(this, movieID));
         }
 
     }
+
 }

@@ -14,14 +14,13 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:clipChildren="false"
-        android:theme="@style/AppBarOverlay">
+        android:theme="@style/AppBarDetails">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:titleEnabled="false"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:expandedTitleMarginBottom="32dp"
@@ -29,48 +28,65 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:id="@+id/background_movie"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:background="@color/colorPrimary"
-                app:layout_collapseMode="parallax"/>
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-            <View
-                android:layout_gravity="bottom"
-                android:id="@+id/movieHeader"
-                android:background="@color/colorPrimary"
-                android:fitsSystemWindows="true"
-                android:layout_width="fill_parent"
-                android:layout_height="120dip" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:id="@+id/background_movie"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"/>
 
-            <include
-                layout="@layout/movie_detail_header" />
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_play"
+                    android:id="@+id/play_image_movie_principal"
+                    android:background="@color/background_play"
+                    android:backgroundTint="@color/background_play"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    android:layout_marginTop="83dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+                <View
+                    android:layout_gravity="bottom"
+                    android:id="@+id/movieHeader"
+                    android:background="@android:color/white"
+                    android:fitsSystemWindows="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dip" />
+
+                <include
+                    app:layout_anchor="@+id/cardViewMovieDeatail"
+                    app:layout_anchorGravity="top|left|end"
+                    layout="@layout/movie_detail_header" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/PopupOverlay"/>
+                app:popupTheme="@style/AppTheme.Toolbar.PopupOverlay"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            app:tabIndicatorColor="@color/colorAccent" />
 
     </android.support.design.widget.AppBarLayout>
 
     <com.like.LikeButton
         app:icon_type="heart"
         app:icon_size="23dp"
+        android:elevation="5dp"
+        app:unlike_drawable="@drawable/ic_favorite_border"
+        app:like_drawable="@drawable/ic_favorite_clicked"
         app:layout_anchor="@+id/movieHeader"
         app:layout_anchorGravity="top|right|end"
         android:id="@+id/star_button"
@@ -83,11 +99,15 @@
         android:layout_height="50dp"
         android:background="@drawable/background_oval"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/movie_view_pager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_details_fragment"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        >
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie;
+import br.com.tiagohs.popmovies.model.Movie.Movie;
 import br.com.tiagohs.popmovies.presenter.ListMoviesPresenter;
 import br.com.tiagohs.popmovies.util.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
@@ -70,7 +70,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
 
 
     public interface Callbacks {
-        void onMovieSelected(Movie movie, ImageView posterMovie);
+        void onMovieSelected(int movieID, ImageView posterMovie);
     }
 
     public ListMoviesFragment() {
@@ -192,11 +192,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
         @BindView(R.id.poster_movie)
         ImageView mImageView;
 
-        @BindView(R.id.movie_title)
-        TextView mTitle;
-
-        @BindView(R.id.movie_subtitle)
-        TextView mSubtitle;
+        @BindView(R.id.movie_raking_total)
+        TextView mRanking;
 
         private Context mContext;
         private Movie mMovie;
@@ -212,15 +209,14 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
         public void bindMovie(Movie movie) {
             mMovie = movie;
 
-            ImageUtils.load(getActivity(), movie.getPoster_path(), mImageView, ImageSize.LOGO_185);
-            mTitle.setText(movie.getTitle());
-            mSubtitle.setText(mContext.getString(R.string.title_original) + ": " + movie.getOriginal_title());
+            ImageUtils.load(getActivity(), movie.getPosterPath(), mImageView, ImageSize.LOGO_185);
+            mRanking.setText(mMovie.getVoteAverage());
         }
 
         @Override
         public void onClick(View view) {
             Log.i(TAG, "Clicado!");
-            mCallbacks.onMovieSelected(mMovie, mImageView);
+            mCallbacks.onMovieSelected(mMovie.getId(), mImageView);
         }
     }
 }

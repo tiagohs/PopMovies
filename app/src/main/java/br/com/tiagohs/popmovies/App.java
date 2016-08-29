@@ -8,6 +8,8 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -26,6 +28,18 @@ public class App extends Application {
         mPopMoviesComponent = DaggerPopMoviesComponent.builder().build();
 
         instance = this;
+        initPicasso();
+    }
+
+    private void initPicasso() {
+        Picasso.Builder builder = new Picasso.Builder(this);
+        builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
+
+        Picasso built = builder.build();
+        built.setIndicatorsEnabled(false);
+        built.setLoggingEnabled(true);
+
+        Picasso.setSingletonInstance(built);
     }
 
     public PopMoviesComponent getPopMoviesComponent() {

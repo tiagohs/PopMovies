@@ -47,4 +47,6 @@
     <string name="title_original_movie">TITULO ORIGINAL:</string>
     <string name="idioma_movie">IDIOMA:</string>
     <string name="tab_lancamentos">Lançamentos</string>
+    <string name="poster_movie">poster_movie</string>
+    <string name="tab_midia">Midia</string>
 </resources>

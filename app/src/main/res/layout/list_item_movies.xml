@@ -18,46 +18,47 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="160dp"
             android:src="@drawable/img_1"
             android:scaleType="centerCrop"
+            android:transitionName="@string/poster_movie"
             android:id="@+id/poster_movie"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_gravity="top"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star"/>
 
                 <TextView
-                    android:id="@+id/movie_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/movie_title_padding"
-                    android:paddingRight="@dimen/movie_title_padding"
-                    android:paddingLeft="@dimen/movie_title_padding"
-                    android:textColor="@color/movie_title"
-                    android:textSize="@dimen/movie_title" />
+                    android:id="@+id/movie_raking_total"
+                    android:textSize="16dp"
+                    android:text="5.1"
+                    android:layout_gravity="center|center_vertical"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/movie_subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/movie_subtitle_padding"
-                    android:paddingBottom="@dimen/movie_subtitle_padding"
-                    android:paddingLeft="@dimen/movie_subtitle_padding"
-                    android:textColor="@color/movie_subtitle"
-                    android:textSize="@dimen/movie_subtitle" />
             </LinearLayout>
 
             <com.like.LikeButton
                 app:icon_type="heart"
                 app:icon_size="23dp"
+                app:unlike_drawable="@drawable/ic_favorite_border"
+                app:like_drawable="@drawable/ic_favorite_clicked"
                 android:id="@+id/star_button"
                 android:layout_gravity="center|center_horizontal"
                 android:layout_width="40dp"

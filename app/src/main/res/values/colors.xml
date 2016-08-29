@@ -4,11 +4,16 @@
     <color name="colorPrimaryDark">#4527a0</color>
     <color name="primary_light">#7e57c2</color>
     <color name="colorAccent">#f44336</color>
+
+    <color name="itemBackground">@color/colorAccent</color>
+    <color name="itemBackgroundRiple">#a9241b</color>
+    <color name="itemBackgroundLight">#f76c62</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
 
+    <color name="background_play">#10212121</color>
     <color name="movie_title">#4c4c4c</color>
     <color name="movie_subtitle">#949494</color>
 

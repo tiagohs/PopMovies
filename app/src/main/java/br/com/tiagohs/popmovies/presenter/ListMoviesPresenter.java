@@ -1,12 +1,10 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import br.com.tiagohs.popmovies.model.response.MovieResponse;
+import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.view.ListMovieView;
 
-/**
- * Created by Tiago Henrique on 20/08/2016.
- */
-public interface ListMoviesPresenter {
+public interface ListMoviesPresenter extends BasePresenter<ListMovieView>, ResponseListener<MovieResponse> {
 
-    void setView(ListMovieView view);
     void getMovies(int currentPage);
 }

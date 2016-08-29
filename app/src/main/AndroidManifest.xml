@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name=".view.activity.ListMoviesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,8 +22,7 @@
         <activity
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:parentActivityName=".view.activity.ListMoviesActivity">
         </activity>
     </application>
 
