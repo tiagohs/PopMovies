@@ -9,8 +9,8 @@
     <dimen name="ic_movie_overflow_width">20dp</dimen>
     <dimen name="ic_movie_overflow_height">30dp</dimen>
     <dimen name="ic_movie_overflow_margin_top">10dp</dimen>
-    <dimen name="card_movie_margin">5dp</dimen>
-    <dimen name="card_movie_radius">3dp</dimen>
+    <dimen name="card_movie_margin">4dp</dimen>
+    <dimen name="card_movie_radius">0dp</dimen>
 
     <dimen name="divider_width">2dp</dimen>
     <dimen name="divider_height">2dp</dimen>

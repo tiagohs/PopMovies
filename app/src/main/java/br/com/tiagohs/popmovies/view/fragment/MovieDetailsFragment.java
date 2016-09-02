@@ -25,7 +25,7 @@ public class MovieDetailsFragment extends BaseFragment {
 
     @Override
     protected int getViewID() {
-        return R.layout.movie_detail_bellow;
+        return R.layout.include_movie_detail_bellow;
     }
 
     public static MovieDetailsFragment newInstance(MovieDetails movie) {

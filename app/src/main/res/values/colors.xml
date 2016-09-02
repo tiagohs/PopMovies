@@ -5,13 +5,21 @@
     <color name="primary_light">#7e57c2</color>
     <color name="colorAccent">#f44336</color>
 
+    <color name="colorPlayTransparent">#95ffffff</color>
+    <color name="placeholder_background">@color/primary_light</color>
+
     <color name="itemBackground">@color/colorAccent</color>
     <color name="itemBackgroundRiple">#a9241b</color>
     <color name="itemBackgroundLight">#f76c62</color>
+    <color name="itemImageBottomBackground">#a2000000</color>
+    <color name="itemImageBottomFavoriteBefores">#575260</color>
+
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
+
+    <color name="searchHintColor">#f5f5f5</color>
 
     <color name="background_play">#10212121</color>
     <color name="movie_title">#4c4c4c</color>
@@ -26,4 +34,7 @@
 
     <color name="actionbar_text">#ffffff</color>
     <color name="black_alpha_40">#66000000</color>
+    <color name="nav_drawer_center_color">#6d4caf</color>
+    <color name="nav_drawer_end_color">#392e7d</color>
+    <color name="nav_drawer_start_color">#9581c7</color>
 </resources>

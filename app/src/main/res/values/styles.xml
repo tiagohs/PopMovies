@@ -1,6 +1,6 @@
 <resources
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -15,9 +15,9 @@
     </style>
 
     <declare-styleable name="atrrPersonalizados">
-        <attr name="tabTextColor" format="color" />
-        <attr name="tabSelectedTextColor" format="color" />
-        <attr name="tabIndicatorColor" format="color" />
+        <attr name="tabTextColor" format="color"/>
+        <attr name="tabSelectedTextColor" format="color"/>
+        <attr name="tabIndicatorColor" format="color"/>
     </declare-styleable>
 
     <style name="AppTheme.TabLayout">
@@ -33,17 +33,23 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:popupBackground">@android:color/white</item>
         <item name="titleTextColor">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/searchHintColor</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
 
     <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.Toolbar.PopupOverlay">
         <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:background">@drawable/toobar_transparent</item>
+        <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

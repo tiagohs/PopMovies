@@ -86,4 +86,9 @@ public enum Param {
 
         throw new IllegalArgumentException("Value '" + value + "' not recognised");
     }
+
+    @Override
+    public String toString() {
+        return getParam();
+    }
 }

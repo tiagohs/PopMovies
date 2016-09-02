@@ -14,34 +14,41 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.Movie.Movie;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
-import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
+import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.view.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SimilaresMoviesAdapter extends RecyclerView.Adapter<SimilaresMoviesAdapter.SimilaresMoviesViewHolder> {
-    private List<MovieDetails> list;
+/**
+ * Created by Tiago Henrique on 01/09/2016.
+ */
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
+    private List<Movie> list;
     private Context mContext;
-    private MovieDetailsOverviewFragment.Callbacks mCallbacks;
+    private SearchView mView;
 
-    public SimilaresMoviesAdapter(Context context, List<MovieDetails> list, MovieDetailsOverviewFragment.Callbacks callbacks) {
+    public SearchAdapter(Context context, List<Movie> list, SearchView view) {
         this.list = list;
         this.mContext = context;
-        this.mCallbacks = callbacks;
+        this.mView = view;
+    }
+
+    public void setList(List<Movie> list) {
+        this.list = list;
     }
 
     @Override
-    public SimilaresMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_similares_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_search_movie, parent, false);
 
-        return new SimilaresMoviesViewHolder(mContext, view);
+        return new SearchViewHolder(mContext, view);
     }
 
     @Override
-    public void onBindViewHolder(SimilaresMoviesViewHolder holder, int position) {
+    public void onBindViewHolder(SearchViewHolder holder, int position) {
         holder.bindMovie(list.get(position));
     }
 
@@ -50,20 +57,33 @@ public class SimilaresMoviesAdapter extends RecyclerView.Adapter<SimilaresMovies
         return list.size();
     }
 
-    class SimilaresMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.poster_movie)
         ImageView mImageView;
 
         @BindView(R.id.movie_raking_total)
         TextView mRanking;
 
-        @BindView(R.id.similares_movies_progress)
+        @BindView(R.id.title_movie)
+        TextView mTitleMovie;
+
+        @BindView(R.id.movie_votes)
+        TextView mMovieVotes;
+
+        @BindView(R.id.movie_ano_lancamento)
+        TextView mMovieAnoLancamento;
+
+        @BindView(R.id.geners_movie)
+        TextView mGeners;
+
+        @BindView(R.id.list_item_movies_progress)
         ProgressWheel mProgress;
 
         private Context mContext;
         private Movie mMovie;
 
-        public SimilaresMoviesViewHolder(final Context context, View itemView) {
+        public SearchViewHolder(final Context context, View itemView) {
             super(itemView);
             mContext = context;
             itemView.setOnClickListener(this);
@@ -76,12 +96,15 @@ public class SimilaresMoviesAdapter extends RecyclerView.Adapter<SimilaresMovies
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
             mRanking.setText(mMovie.getVoteAverage());
+            mTitleMovie.setText(mMovie.getTitle());
+            mMovieVotes.setText(MovieUtils.formatAbrev(mMovie.getVoteCount()));
+            mGeners.setText(MovieUtils.formatGeneres(mContext, mMovie.getGenreIDs()));
+            mMovieAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
         }
 
         @Override
         public void onClick(View view) {
-            mCallbacks.onMovieSelected(mMovie.getId(), mImageView);
+            mView.onMovieSelected(mMovie.getId(), mImageView);
         }
     }
-
 }

@@ -10,12 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
-import br.com.tiagohs.popmovies.util.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 
 /**
@@ -37,7 +38,7 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
     @Override
     public ElencoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.person_item_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_person_default, parent, false);
 
         return new ElencoViewHolder(view);
     }
@@ -57,6 +58,7 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
         private TextView mNomeTextView;
         private TextView mSubtituloTextView;
         private CircularImageView mImagemPerson;
+        private ProgressWheel mProgress;
 
         public ElencoViewHolder(View itemView) {
             super(itemView);
@@ -64,13 +66,14 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
             mImagemPerson = (CircularImageView) itemView.findViewById(R.id.imagem_credit_movie);
             mNomeTextView = (TextView) itemView.findViewById(R.id.nome_profissional_movie);
             mSubtituloTextView = (TextView) itemView.findViewById(R.id.subtitulo_item_person_movie);
+            mProgress = (ProgressWheel) itemView.findViewById(R.id.person_movies_progress);
         }
 
         public void bindElenco(MediaCreditCast cast) {
             Log.i("AtorAdp: ", "Ator!" + cast.getName());
             this.mCast = cast;
 
-            ImageUtils.loadByCircularImage(mContext, mCast.getArtworkPath(), mImagemPerson, R.mipmap.ic_person, ImageSize.POSTER_154);
+            ImageUtils.loadByCircularImage(mContext, mCast.getArtworkPath(), mImagemPerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mProgress);
             mNomeTextView.setText(mCast.getName());
             mSubtituloTextView.setText(mCast.getCharacter());
         }

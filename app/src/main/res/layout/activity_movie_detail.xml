@@ -55,6 +55,16 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"/>
 
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/movie_details_header_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:matProg_barColor="@color/colorAccent"
+                    app:matProg_progressIndeterminate="true" />
+
             </RelativeLayout>
 
                 <View
@@ -68,7 +78,7 @@
                 <include
                     app:layout_anchor="@+id/cardViewMovieDeatail"
                     app:layout_anchorGravity="top|left|end"
-                    layout="@layout/movie_detail_header" />
+                    layout="@layout/include_movie_detail_header" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -89,7 +99,7 @@
         app:like_drawable="@drawable/ic_favorite_clicked"
         app:layout_anchor="@+id/movieHeader"
         app:layout_anchorGravity="top|right|end"
-        android:id="@+id/star_button"
+        android:id="@+id/movie_details_favorite_button"
         android:layout_gravity="center"
         android:layout_width="50dp"
         android:layout_marginRight="10dp"

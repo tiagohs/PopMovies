@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
+
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
-import br.com.tiagohs.popmovies.util.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
@@ -39,7 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.image_item_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_wallpapers_movies, parent, false);
 
         return new ImageViewHolder(view);
     }
@@ -59,6 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         private TextView mRaking;
         private TextView mTotalVotos;
         private ImageView mImageArtwork;
+        private ProgressWheel mProgress;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -66,14 +69,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             mRaking = (TextView) itemView.findViewById(R.id.image_movie_raking_total);
             mTotalVotos = (TextView) itemView.findViewById(R.id.image_movie_votes);
             mImageArtwork = (ImageView) itemView.findViewById(R.id.image_movie_poster_movie);
+            mProgress = (ProgressWheel) itemView.findViewById(R.id.image_item_movie_progress);
         }
 
         public void bindImage(Artwork image) {
             this.mImage = image;
 
-            mRaking.setText(String.format("%.1f", image.getVoteAverage()));
-            mTotalVotos.setText(MovieUtils.formatAbrev((long) image.getVoteCount()));
-            ImageUtils.load(mContext, image.getFilePath(), mImageArtwork, ImageSize.BACKDROP_300);
+            mRaking.setText(String.format("%.1f", mImage.getVoteAverage()));
+            mTotalVotos.setText(MovieUtils.formatAbrev((long) mImage.getVoteCount()));
+            ImageUtils.load(mContext, mImage.getFilePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
         }
     }
 

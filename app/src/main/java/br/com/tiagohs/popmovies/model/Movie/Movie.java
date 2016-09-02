@@ -3,6 +3,10 @@ package br.com.tiagohs.popmovies.model.Movie;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -190,6 +194,20 @@ public class Movie implements Serializable {
 
     public void setGenreIDs(List<Integer> genreIDs) {
         this.genreIDs = genreIDs;
+    }
+
+    public int getYearRelease() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(releaseDate);
+        } catch (ParseException e) {
+            return 0;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
     }
 
     @Override

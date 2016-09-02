@@ -8,7 +8,7 @@
         android:orderInCategory="100"
         android:title="@string/action_procurar"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_opcoes"

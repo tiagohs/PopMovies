@@ -27,7 +27,7 @@ public class NotasAdapter extends RecyclerView.Adapter<NotasAdapter.NotasViewHol
     @Override
     public NotasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.notas_item_movie, parent, false);
+        View view = inflater.inflate(R.layout.item_notas__movie, parent, false);
         return new NotasViewHolder(view);
     }
 

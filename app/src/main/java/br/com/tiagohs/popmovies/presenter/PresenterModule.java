@@ -20,4 +20,9 @@ public class PresenterModule {
     public MovieDetailsMidiaPresenter providesMovieDetailsMidiaPresenter() {
         return new MovieDetailsMidiaPresenterImpl();
     }
+
+    @Provides
+    public SearchPresenter providesSearchPresenter() {
+        return new SearchPresenterImpl();
+    }
 }

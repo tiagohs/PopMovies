@@ -1,52 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_group_basico"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/menu_favoritos"
             android:icon="@drawable/ic_favorite_clicked"
-            android:title="Favoritos" />
+            android:title="@string/menu_favoritos" />
         <item
             android:id="@+id/menu_generos"
             android:icon="@drawable/ic_favorite_clicked"
-            android:title="Gêneros" />
+            android:title="@string/menu_generos" />
         <item
             android:id="@+id/menu_atores"
             android:icon="@drawable/ic_favorite_clicked"
-            android:title="Atores" />
+            android:title="@string/menu_atores" />
         <item
             android:id="@+id/menu_lancamentos"
             android:icon="@drawable/ic_favorite_clicked"
-            android:title="Lançamentos" />
+            android:title="@string/menu_lancamentos" />
         <item
             android:id="@+id/menu_bem_avaliados"
             android:icon="@drawable/ic_favorite_clicked"
-            android:title="Mais bem Avaliados" />
+            android:title="@string/menu_bem_avaliados" />
     </group>
 
-    <!--<item android:title="@string/menu_title_basico">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/menu_porcentagem"-->
-                <!--android:icon="@mipmap/ic_porcentagem"-->
-                <!--android:title="@string/menu_porcentagem" />-->
-            <!--<item-->
-                <!--android:id="@+id/menu_conversoes"-->
-                <!--android:icon="@mipmap/ic_conversao"-->
-                <!--android:title="@string/menu_conversoes" />-->
-            <!--<item-->
-                <!--android:id="@+id/menu_primo"-->
-                <!--android:icon="@mipmap/ic_primos"-->
-                <!--android:title="@string/menu_primo" />-->
-            <!--<item-->
-                <!--android:id="@+id/menu_regra_tres"-->
-                <!--android:icon="@mipmap/ic_regra_tres"-->
-                <!--android:title="@string/menu_regra_tres" />-->
-            <!--<item-->
-                <!--android:id="@+id/menu_fracoes"-->
-                <!--android:icon="@mipmap/ic_fracao"-->
-                <!--android:title="@string/menu_fracoes" />-->
-        <!--</menu>-->
-    <!--</item>-->
+    <group
+        android:id="@+id/menu_group_opcoes"
+        android:checkableBehavior="none">
+            <item
+                android:id="@+id/menu_configuracoes"
+                android:icon="@drawable/ic_favorite_clicked"
+                android:title="@string/menu_configuracoes" />
+            <item
+                android:id="@+id/menu_sobre"
+                android:icon="@drawable/ic_favorite_clicked"
+                android:title="@string/menu_sobre" />
+    </group>
 
 </menu>

@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,9 +21,6 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
     private static final String TAG = ListMoviesActivity.class.getSimpleName();
 
     public static final String POSTER_MOVIE_TRANSACTION = "br.com.tiagohs.popmovies.poster_movie";
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
 
     @BindView(R.id.tab_home)
     TabLayout mTabHome;
@@ -44,20 +40,29 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         configurarDrawerLayout();
         mNavigationView.setNavigationItemSelectedListener(this);
 
         mViewPager.setAdapter(new ListMovieAdapter(getSupportFragmentManager()));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setupTabs();
+    }
+
+    private void setupTabs() {
         mTabHome.setupWithViewPager(mViewPager);
         mTabHome.getTabAt(0).setIcon(tabIcons[0]);
         mTabHome.getTabAt(1).setIcon(tabIcons[1]);
+    }
 
+    @Override
+    protected int getActivityBaseViewID() {
+        return R.layout.activity_main;
     }
 
     private void configurarDrawerLayout() {
@@ -69,8 +74,20 @@ public class ListMoviesActivity extends BaseActivity implements NavigationView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_movie, menu);
+        getMenuInflater().inflate(R.menu.menu_principal, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case R.id.action_procurar:
+                startActivity(SearchActivity.newIntent(this));
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override

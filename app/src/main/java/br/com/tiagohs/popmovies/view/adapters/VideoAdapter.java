@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
+
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
@@ -37,11 +39,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
 
-
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.videos_item_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_videos_default, parent, false);
 
         return new VideoViewHolder(view);
     }
@@ -61,6 +62,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         private ImageView mThumbnailVideo;
         private TextView mTitleVideo;
         private CardView mVideoCardView;
+        private ProgressWheel mProgress;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -68,6 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             mThumbnailVideo = (ImageView) itemView.findViewById(R.id.imagem_video);
             mTitleVideo = (TextView) itemView.findViewById(R.id.title_video);
             mVideoCardView = (CardView) itemView.findViewById(R.id.video_item_card_view);
+            mProgress = (ProgressWheel) itemView.findViewById(R.id.videos_image_progress);
 
             mVideoCardView.setOnClickListener(this);
         }
@@ -75,7 +78,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         public void bindVideo(Video video) {
             this.mVideo = video;
 
-            ImageUtils.load(mContext, "http://img.youtube.com/vi/" + mVideo.getKey() + "/0.jpg", mThumbnailVideo);
+            ImageUtils.load(mContext, "http://img.youtube.com/vi/" + mVideo.getKey() + "/0.jpg", R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mThumbnailVideo, mProgress);
             mTitleVideo.setText(mVideo.getName());
         }
 

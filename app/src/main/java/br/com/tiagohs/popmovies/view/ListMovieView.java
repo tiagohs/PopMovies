@@ -7,8 +7,8 @@ import br.com.tiagohs.popmovies.model.Movie.Movie;
 
 public interface ListMovieView {
 
-    void hideProgress();
-    void showProgress();
+    void hideDialogProgress();
+    void showDialogProgress();
     void atualizarView(int currentPage, int totalPages, List<Movie> listMovies);
     void onError(String msg);
 }

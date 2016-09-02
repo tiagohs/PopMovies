@@ -9,16 +9,32 @@
     android:layout_margin="5dp"
     android:layout_weight="1">
 
-    <com.mikhaellopez.circularimageview.CircularImageView
+    <FrameLayout
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imagem_credit_movie"
-        android:src="@drawable/img_1"
-        app:civ_border_color="#EEEEEE"
-        app:civ_border_width="1dp"
-        app:civ_shadow="true"
-        app:civ_shadow_radius="10"
-        app:civ_shadow_color="@color/colorPrimaryDark"/>
+        android:layout_height="100dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imagem_credit_movie"
+            android:src="@drawable/img_1"
+            app:civ_border_color="#EEEEEE"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="10"
+            app:civ_shadow_color="@color/colorPrimaryDark"/>
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/person_movies_progress"
+            android:layout_width="140dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:matProg_barColor="@color/colorAccent"
+            app:matProg_progressIndeterminate="true" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

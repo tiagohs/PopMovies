@@ -36,7 +36,7 @@ public class GenerosAdapter extends RecyclerView.Adapter<GenerosAdapter.GenerosV
     @Override
     public GenerosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.movies_item_default, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_list_words_default, parent, false);
 
         return new GenerosViewHolder(view);
     }

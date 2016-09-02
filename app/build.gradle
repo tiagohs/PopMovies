@@ -74,4 +74,6 @@ dependencies {
 
     compile 'com.mikhaellopez:circularimageview:3.0.2'
 
+    compile 'com.pnikosis:materialish-progress:1.7'
+
 }

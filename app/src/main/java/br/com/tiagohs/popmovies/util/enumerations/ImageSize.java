@@ -1,4 +1,4 @@
-package br.com.tiagohs.popmovies.util;
+package br.com.tiagohs.popmovies.util.enumerations;
 
 /**
  * Created by Tiago Henrique on 21/08/2016.

@@ -42,7 +42,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getViewID();
 
-    public void showProgress() {
+    public void showDialogProgress() {
         materialDialog = new MaterialDialog.Builder(getActivity())
                 .content(getString(R.string.progress_wait))
                 .cancelable(false)
@@ -50,11 +50,7 @@ public abstract class BaseFragment extends Fragment {
                 .show();
     }
 
-    public void showProgressBar() {
-
-    }
-
-    public void hideProgress() {
+    public void hideDialogProgress() {
         materialDialog.dismiss();
     }
 
@@ -66,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         if (materialDialog != null) {
-            hideProgress();
+            hideDialogProgress();
         }
     }
 }

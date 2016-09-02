@@ -13,7 +13,9 @@ import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 /**
  * Created by Tiago Henrique on 28/08/2016.
  */
-public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresenter, ImagemInterceptor.onImagemListener, VideoInterceptor.onVideoListener {
+public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresenter,
+                                                       ImagemInterceptor.onImagemListener,
+                                                       VideoInterceptor.onVideoListener {
     private static final String TAG = MovieDetailsMidiaPresenterImpl.class.getSimpleName();
 
     private MovieDetailsMidiaView mView;

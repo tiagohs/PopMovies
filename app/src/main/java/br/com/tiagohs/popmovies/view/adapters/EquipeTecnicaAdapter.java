@@ -10,12 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
-import br.com.tiagohs.popmovies.util.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 
 public class EquipeTecnicaAdapter extends RecyclerView.Adapter<EquipeTecnicaAdapter.EquipeTecnicaViewHolder> {
@@ -34,7 +35,7 @@ public class EquipeTecnicaAdapter extends RecyclerView.Adapter<EquipeTecnicaAdap
     @Override
     public EquipeTecnicaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.person_item_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_person_default, parent, false);
 
         return new EquipeTecnicaViewHolder(view);
     }
@@ -54,6 +55,7 @@ public class EquipeTecnicaAdapter extends RecyclerView.Adapter<EquipeTecnicaAdap
         private TextView mNomeTextView;
         private TextView mSubtituloTextView;
         private CircularImageView mImagemPerson;
+        private ProgressWheel mProgress;
 
         public EquipeTecnicaViewHolder(View itemView) {
             super(itemView);
@@ -61,13 +63,14 @@ public class EquipeTecnicaAdapter extends RecyclerView.Adapter<EquipeTecnicaAdap
             mImagemPerson = (CircularImageView) itemView.findViewById(R.id.imagem_credit_movie);
             mNomeTextView = (TextView) itemView.findViewById(R.id.nome_profissional_movie);
             mSubtituloTextView = (TextView) itemView.findViewById(R.id.subtitulo_item_person_movie);
+            mProgress = (ProgressWheel) itemView.findViewById(R.id.person_movies_progress);
         }
 
         public void bindEquipeTecnica(MediaCreditCrew crew) {
             Log.i("EquipeAdp: ", "Equipe!" + crew.getName());
             this.mCrew = crew;
 
-            ImageUtils.loadByCircularImage(mContext, mCrew.getArtworkPath(), mImagemPerson, R.mipmap.ic_person, ImageSize.POSTER_154);
+            ImageUtils.loadByCircularImage(mContext, mCrew.getArtworkPath(), mImagemPerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mProgress);
             mNomeTextView.setText(mCrew.getName());
             mSubtituloTextView.setText(mCrew.getDepartment());
         }

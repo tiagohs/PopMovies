@@ -14,56 +14,59 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.Movie.Movie;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
-import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.view.fragment.ListMoviesFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SimilaresMoviesAdapter extends RecyclerView.Adapter<SimilaresMoviesAdapter.SimilaresMoviesViewHolder> {
-    private List<MovieDetails> list;
+/**
+ * Created by Tiago Henrique on 01/09/2016.
+ */
+public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.ListMoviesViewHolder> {
+    private List<Movie> list;
     private Context mContext;
-    private MovieDetailsOverviewFragment.Callbacks mCallbacks;
+    private ListMoviesFragment.Callbacks mCallbacks;
 
-    public SimilaresMoviesAdapter(Context context, List<MovieDetails> list, MovieDetailsOverviewFragment.Callbacks callbacks) {
+    public ListMoviesAdapter(Context context, List<Movie> list, ListMoviesFragment.Callbacks callbacks) {
         this.list = list;
         this.mContext = context;
         this.mCallbacks = callbacks;
     }
 
     @Override
-    public SimilaresMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_similares_movie, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_list_movies, parent, false);
 
-        return new SimilaresMoviesViewHolder(mContext, view);
+        return new ListMoviesViewHolder(mContext, view);
     }
 
     @Override
-    public void onBindViewHolder(SimilaresMoviesViewHolder holder, int position) {
+    public void onBindViewHolder(ListMoviesViewHolder holder, int position) {
         holder.bindMovie(list.get(position));
-    }
+     }
 
     @Override
     public int getItemCount() {
         return list.size();
-    }
+     }
 
-    class SimilaresMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.poster_movie)
         ImageView mImageView;
 
         @BindView(R.id.movie_raking_total)
         TextView mRanking;
 
-        @BindView(R.id.similares_movies_progress)
+        @BindView(R.id.list_item_movies_progress)
         ProgressWheel mProgress;
 
         private Context mContext;
         private Movie mMovie;
 
-        public SimilaresMoviesViewHolder(final Context context, View itemView) {
+        public ListMoviesViewHolder(final Context context, View itemView) {
             super(itemView);
             mContext = context;
             itemView.setOnClickListener(this);
@@ -83,5 +86,4 @@ public class SimilaresMoviesAdapter extends RecyclerView.Adapter<SimilaresMovies
             mCallbacks.onMovieSelected(mMovie.getId(), mImageView);
         }
     }
-
 }

@@ -11,11 +11,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +23,10 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.Movie.Movie;
 import br.com.tiagohs.popmovies.presenter.ListMoviesPresenter;
-import br.com.tiagohs.popmovies.util.ImageSize;
-import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.view.ListMovieView;
 import br.com.tiagohs.popmovies.view.activity.ListMoviesActivity;
+import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ListMoviesFragment extends BaseFragment implements ListMovieView {
     public enum Sort{ POPULARES, FAVORITOS, LANCAMENTOS };
@@ -153,70 +148,11 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
     private void setupAdapter() {
 
         if (mListMoviesAdapter == null) {
-            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies);
+            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks);
             mRecyclerView.setAdapter(mListMoviesAdapter);
         } else {
             mListMoviesAdapter.notifyDataSetChanged();
         }
     }
 
-    class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesViewHolder> {
-        private List<Movie> list;
-        private Context mContext;
-
-        public ListMoviesAdapter(Context context, List<Movie> list) {
-            this.list = list;
-            this.mContext = context;
-        }
-
-        @Override
-        public ListMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            View view = layoutInflater.inflate(R.layout.list_item_movies, parent, false);
-
-            return new ListMoviesViewHolder(mContext, view);
-        }
-
-        @Override
-        public void onBindViewHolder(ListMoviesViewHolder holder, int position) {
-            holder.bindMovie(list.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
-
-    }
-    class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)
-        ImageView mImageView;
-
-        @BindView(R.id.movie_raking_total)
-        TextView mRanking;
-
-        private Context mContext;
-        private Movie mMovie;
-
-        public ListMoviesViewHolder(final Context context, View itemView) {
-            super(itemView);
-            mContext = context;
-            itemView.setOnClickListener(this);
-
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void bindMovie(Movie movie) {
-            mMovie = movie;
-
-            ImageUtils.load(getActivity(), movie.getPosterPath(), mImageView, ImageSize.LOGO_185);
-            mRanking.setText(mMovie.getVoteAverage());
-        }
-
-        @Override
-        public void onClick(View view) {
-            Log.i(TAG, "Clicado!");
-            mCallbacks.onMovieSelected(mMovie.getId(), mImageView);
-        }
-    }
 }

@@ -49,4 +49,13 @@
     <string name="tab_lancamentos">Lançamentos</string>
     <string name="poster_movie">poster_movie</string>
     <string name="tab_midia">Midia</string>
+    <string name="menu_sobre">Sobre</string>
+    <string name="menu_configuracoes">Configurações</string>
+    <string name="menu_favoritos">Favoritos</string>
+    <string name="menu_generos">Gêneros</string>
+    <string name="menu_atores">Atores</string>
+    <string name="menu_lancamentos">Lançamentos</string>
+    <string name="menu_bem_avaliados">Mais bem avaliados</string>
+    <string name="menu_compartilhar">Compartilhar</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

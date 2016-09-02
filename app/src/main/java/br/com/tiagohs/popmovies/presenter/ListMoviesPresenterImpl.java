@@ -26,19 +26,19 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter {
     public void getMovies(int currentPage) {
         mPopMovieServer.getPopularMovies(currentPage, this);
         Log.i(TAG, "Há Conexão com a Internet, continuando.");
-        mListMovieView.showProgress();
+        mListMovieView.showDialogProgress();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
         mListMovieView.onError("Algo deu errado.");
-        mListMovieView.hideProgress();
+        mListMovieView.hideDialogProgress();
     }
 
     @Override
     public void onResponse(MovieResponse movies) {
         mListMovieView.atualizarView(movies.getPage(), movies.getTotalPages(), movies.getResults());
-        mListMovieView.hideProgress();
+        mListMovieView.hideDialogProgress();
     }
 
 }

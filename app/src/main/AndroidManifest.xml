@@ -24,6 +24,21 @@
             android:label="@string/title_activity_movie_detail"
             android:parentActivityName=".view.activity.ListMoviesActivity">
         </activity>
+        <activity
+            android:name=".view.activity.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.tiagohs.popmovies.view.activity.ListMoviesActivity"/>
+        </activity>
     </application>
 
 </manifest>
