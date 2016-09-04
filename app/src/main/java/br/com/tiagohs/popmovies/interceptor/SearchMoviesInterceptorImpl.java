@@ -3,7 +3,7 @@ package br.com.tiagohs.popmovies.interceptor;
 
 import com.android.volley.VolleyError;
 
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;

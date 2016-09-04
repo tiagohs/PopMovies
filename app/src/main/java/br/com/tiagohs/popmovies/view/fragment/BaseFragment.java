@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import butterknife.ButterKnife;
@@ -56,6 +58,10 @@ public abstract class BaseFragment extends Fragment {
 
     public boolean isInternetConnected() {
         return ServerUtils.isNetworkConnected(getActivity());
+    }
+
+    protected PopMoviesComponent getApplicationComponent() {
+        return ((App) getActivity().getApplication()).getPopMoviesComponent();
     }
 
     @Override

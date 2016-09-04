@@ -10,15 +10,15 @@
             android:title="@string/menu_favoritos" />
         <item
             android:id="@+id/menu_generos"
-            android:icon="@drawable/ic_favorite_clicked"
+            android:icon="@drawable/ic_genre"
             android:title="@string/menu_generos" />
         <item
             android:id="@+id/menu_atores"
-            android:icon="@drawable/ic_favorite_clicked"
+            android:icon="@drawable/ic_actor"
             android:title="@string/menu_atores" />
         <item
             android:id="@+id/menu_lancamentos"
-            android:icon="@drawable/ic_favorite_clicked"
+            android:icon="@drawable/ic_lancamento"
             android:title="@string/menu_lancamentos" />
         <item
             android:id="@+id/menu_bem_avaliados"
@@ -31,11 +31,11 @@
         android:checkableBehavior="none">
             <item
                 android:id="@+id/menu_configuracoes"
-                android:icon="@drawable/ic_favorite_clicked"
+                android:icon="@drawable/ic_settings"
                 android:title="@string/menu_configuracoes" />
             <item
                 android:id="@+id/menu_sobre"
-                android:icon="@drawable/ic_favorite_clicked"
+                android:icon="@drawable/ic_about"
                 android:title="@string/menu_sobre" />
     </group>
 

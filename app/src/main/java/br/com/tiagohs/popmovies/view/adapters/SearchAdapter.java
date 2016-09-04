@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -13,7 +14,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
@@ -80,6 +81,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         @BindView(R.id.list_item_movies_progress)
         ProgressWheel mProgress;
 
+        @BindView(R.id.nota_progress)
+        ProgressBar mProgRanking;
+
+
         private Context mContext;
         private Movie mMovie;
 
@@ -95,11 +100,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             mMovie = movie;
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
-            mRanking.setText(mMovie.getVoteAverage());
+
             mTitleMovie.setText(mMovie.getTitle());
             mMovieVotes.setText(MovieUtils.formatAbrev(mMovie.getVoteCount()));
             mGeners.setText(MovieUtils.formatGeneres(mContext, mMovie.getGenreIDs()));
             mMovieAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
+            mRanking.setText(String.format("%.1f", Float.parseFloat(mMovie.getVoteAverage())));
+            mProgRanking.setProgress(Math.round(Float.parseFloat(mMovie.getVoteAverage())));
+            mProgRanking.setMax(10);
         }
 
         @Override

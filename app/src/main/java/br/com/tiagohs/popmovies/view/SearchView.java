@@ -4,7 +4,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 
 /**
  * Created by Tiago Henrique on 01/09/2016.

@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class GenericListResponse<T> {
 
+    @JsonProperty("id")
+    private int id;
+
     @JsonProperty("page")
     private int page;
 
@@ -53,5 +56,13 @@ public class GenericListResponse<T> {
 
     public void setTotalResults(int totalResults) {
         this.totalResults = totalResults;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.view.adapters.MovieDetailsAdapter;
 import butterknife.BindView;
 

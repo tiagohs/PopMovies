@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;

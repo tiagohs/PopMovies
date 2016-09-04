@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -16,8 +15,9 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
-import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.view.fragment.MovieDetailsTecnicoFragment;
 
 /**
  * Created by Tiago Henrique on 27/08/2016.
@@ -25,10 +25,12 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoViewHolder> {
     private Context mContext;
     private List<MediaCreditCast> mElenco;
+    private MovieDetailsTecnicoFragment.Callbacks mCallbacks;
 
-    public ElencoAdapter(Context context, List<MediaCreditCast> cast) {
+    public ElencoAdapter(Context context, List<MediaCreditCast> cast, MovieDetailsTecnicoFragment.Callbacks callbacks) {
         this.mContext = context;
         this.mElenco = cast;
+        this.mCallbacks = callbacks;
     }
 
     public void setElenco(List<MediaCreditCast> genre) {
@@ -67,6 +69,8 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
             mNomeTextView = (TextView) itemView.findViewById(R.id.nome_profissional_movie);
             mSubtituloTextView = (TextView) itemView.findViewById(R.id.subtitulo_item_person_movie);
             mProgress = (ProgressWheel) itemView.findViewById(R.id.person_movies_progress);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bindElenco(MediaCreditCast cast) {
@@ -80,7 +84,7 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(mContext, "Ator: " + mCast.getName(), Toast.LENGTH_SHORT).show();
+            mCallbacks.onClickCast(mCast.getId());
         }
     }
 }

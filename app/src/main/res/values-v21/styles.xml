@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/apk/res-auto">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -9,11 +9,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionMenuTextColor">@android:color/white</item>
 
-        <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
 
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/slide</item>
@@ -51,7 +49,23 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.Toolbar.PopupOverlay">
+        <item name="windowActionBarOverlay">true</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
+
+    <style name="AppTheme.PersonButton">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:foreground">@drawable/button_keyboard</item>
+    </style>
+
+    <style name="PopupOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:background">@drawable/background_action_bar_transparent</item>
+    </style>
+
 
 </resources>

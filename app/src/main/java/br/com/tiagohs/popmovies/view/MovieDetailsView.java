@@ -1,6 +1,6 @@
 package br.com.tiagohs.popmovies.view;
 
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
 /**

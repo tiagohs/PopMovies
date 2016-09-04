@@ -76,4 +76,8 @@ dependencies {
 
     compile 'com.pnikosis:materialish-progress:1.7'
 
+    compile ('com.github.florent37:materialviewpager:1.2.0@aar'){
+        transitive = true
+    }
+
 }

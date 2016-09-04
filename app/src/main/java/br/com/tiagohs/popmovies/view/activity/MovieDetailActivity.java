@@ -26,7 +26,8 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.Genre;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 import br.com.tiagohs.popmovies.model.media.Video;
@@ -43,10 +44,12 @@ import br.com.tiagohs.popmovies.view.adapters.DiretoresAdapter;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
+import br.com.tiagohs.popmovies.view.fragment.MovieDetailsTecnicoFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MovieDetailActivity extends BaseActivity implements MovieDetailsView, MovieDetailsMidiaFragment.Callbacks, MovieDetailsOverviewFragment.Callbacks {
+public class MovieDetailActivity extends BaseActivity implements MovieDetailsView,
+        MovieDetailsMidiaFragment.Callbacks, MovieDetailsOverviewFragment.Callbacks, MovieDetailsTecnicoFragment.Callbacks {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
@@ -89,7 +92,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         getApplicationComponent().inject(this);
         mPresenter.setView(this);
-
         onSetupRecyclerView();
     }
 
@@ -243,5 +245,20 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
         startActivity(MovieDetailActivity.newIntent(this, movieID));
+    }
+
+    @Override
+    public void onGenreSelected(Genre genre) {
+        startActivity(MoviesByGenreActivity.newIntent(this, genre));
+    }
+
+    @Override
+    public void onClickCast(int castID) {
+        startActivity(PersonDetailActivity.newIntent(this, castID));
+    }
+
+    @Override
+    public void onClickCrew(int crewID) {
+
     }
 }

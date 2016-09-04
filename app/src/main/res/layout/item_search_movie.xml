@@ -16,22 +16,24 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="100dp">
+            android:layout_width="70dp"
+            android:layout_height="110dp">
 
             <ImageView
                 android:layout_margin="5dp"
                 android:layout_width="70dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:src="@drawable/img_1"
+                android:layout_gravity="center_vertical"
                 android:scaleType="centerCrop"
+                android:elevation="5dp"
                 android:transitionName="@string/poster_movie"
                 android:id="@+id/poster_movie"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/list_item_movies_progress"
-                android:layout_width="70dp"
-                android:layout_height="100dp"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -41,13 +43,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_margin="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_gravity="top"
                 android:layout_weight="0.75">
@@ -56,21 +58,31 @@
                     android:textSize="20dp"
                     android:textColor="@color/primary_text"
                     android:id="@+id/title_movie"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
                     android:layout_height="30dip"
                     android:singleLine="true"
+                    android:text="Deadpool"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit ="marquee_forever"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:scrollHorizontally="true" />
 
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/primary_light"/>
+
                 <TextView
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:textColor="@color/secondary_text"
                     android:id="@+id/geners_movie"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="italic"
                     android:text="Ação, Aventura, Comédia"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="22dip"
                     android:singleLine="true"
                     android:ellipsize="marquee"
@@ -82,8 +94,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="left"
-                    android:layout_marginTop="15dp"
                     android:gravity="center">
 
                     <ImageView
@@ -96,11 +108,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/movie_ano_lancamento"
-                        android:textSize="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="14dp"
                         android:text="2016"
                         android:layout_gravity="center|center_vertical"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorPrimary"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -118,11 +130,11 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/movie_votes"
                             android:layout_marginLeft="5dp"
-                            android:textSize="19dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="14dp"
                             android:text="3K"
                             android:layout_gravity="center|center_vertical"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold"/>
+                            android:textColor="@color/colorPrimary"/>
 
                     </LinearLayout>
 
@@ -138,30 +150,33 @@
                 android:orientation="vertical"
                 android:layout_margin="5dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp">
+                <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="right|bottom">
+
+                    <ProgressBar
+                        android:id="@+id/nota_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:indeterminate="false"
+                        android:max="10"
+                        android:layout_gravity="right|bottom"
+                        android:progressDrawable="@drawable/progress_circle" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/movie_raking_total"
-                        android:textSize="16dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="14dp"
                         android:text="5.1"
-                        android:layout_gravity="center|center_vertical"
-                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/holo_green_dark"
                         android:textStyle="bold"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_star"/>
-
-                </LinearLayout>
+                </FrameLayout>
 
 
             </LinearLayout>

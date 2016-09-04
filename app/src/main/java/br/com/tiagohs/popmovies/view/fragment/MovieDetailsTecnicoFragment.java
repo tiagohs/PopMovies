@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.view.adapters.ElencoAdapter;
 import br.com.tiagohs.popmovies.view.adapters.EquipeTecnicaAdapter;
@@ -48,6 +49,8 @@ public class MovieDetailsTecnicoFragment extends BaseFragment {
 
     private MovieDetails mMovie;
 
+    private Callbacks mCallbacks;
+
     public static MovieDetailsTecnicoFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARG_MOVIE, movie);
@@ -56,6 +59,23 @@ public class MovieDetailsTecnicoFragment extends BaseFragment {
         movieDetailsTecnicoFragment.setArguments(bundle);
 
         return movieDetailsTecnicoFragment;
+    }
+
+    public interface Callbacks {
+        void onClickCast(int castID);
+        void onClickCrew(int crewID);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
@@ -76,7 +96,7 @@ public class MovieDetailsTecnicoFragment extends BaseFragment {
         mReceita.setText(MovieUtils.formatCurrency(mMovie.getRevenue()));
 
         mElencoRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mElencoRecyclerView.setAdapter(new ElencoAdapter(getActivity(), mMovie.getCast()));
+        mElencoRecyclerView.setAdapter(new ElencoAdapter(getActivity(), mMovie.getCast(), mCallbacks));
 
         mEquipeTecnicaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
         mEquipeTecnicaRecyclerView.setAdapter(new EquipeTecnicaAdapter(getActivity(), mMovie.getCrew()));

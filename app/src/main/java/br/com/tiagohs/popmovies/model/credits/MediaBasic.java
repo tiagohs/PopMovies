@@ -1,15 +1,18 @@
 package br.com.tiagohs.popmovies.model.credits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
-/**
- * Created by Tiago Henrique on 01/09/2016.
- */
 public class MediaBasic {
+
+    @JsonProperty("id")
+    private int id;
+
     @JsonProperty("adult")
     private boolean adult;
 
@@ -25,12 +28,25 @@ public class MediaBasic {
     @JsonProperty("known_for")
     private List<Movie> knowFor;
 
+    private MediaType mediaType;
+
+    public MediaBasic() {
+    }
+
     public MediaBasic(boolean adult, String nama, int popularity, String profilePath, List<Movie> knowFor) {
         this.adult = adult;
         this.nama = nama;
         this.popularity = popularity;
         this.profilePath = profilePath;
         this.knowFor = knowFor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isAdult() {
@@ -71,5 +87,18 @@ public class MediaBasic {
 
     public void setKnowFor(List<Movie> knowFor) {
         this.knowFor = knowFor;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    @JsonSetter("media_type")
+    public void setMediaType(String mediaType) {
+        this.mediaType = MediaType.fromString(mediaType);
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
     }
 }

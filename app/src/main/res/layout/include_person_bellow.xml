@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill_vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_filmes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/primary_text"
+                    android:text="50"
+                    android:textSize="35dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:textColor="@color/secondary_text"
+                    android:layout_marginTop="5dp"
+                    android:text="FILMES"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_fotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/primary_text"
+                    android:text="50"
+                    android:textSize="35dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/secondary_text"
+                    android:fontFamily="sans-serif-light"
+                    android:text="FOTOS"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/descricao_person"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Matthew Paige Matt Damon (born October 8, 1970) is an American actor, screenwriter, and philanthropist.His career launched following the success of the film Good Will Hunting (1997) from a screenplay he co-wrote with friend Ben Affleck. The pair won an Academy Award for Best Original Screenplay and a Golden Globe Award for Best Screenplay for their work. Damon alone received multiple"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <TableRow
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/ic_wiki"
+                        android:id="@+id/btn_wiki"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="WIKI"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple_dois"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/btn_tvrage"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="TVRAGE"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple_tres"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/ButtonTest"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="FREEBASE"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@color/primary_text"
+                    android:text="CONHECIDO POR"
+                    android:layout_weight="0.85"/>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/movie_deails_item_default_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_weight="0.15"
+                        android:text="MAIS"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/conhecido_por_recycler_view"
+                android:layout_gravity="center|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@color/primary_text"
+                    android:text="CONHECIDO POR"
+                    android:layout_weight="0.85"/>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/o_deails_item_default_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_weight="0.15"
+                        android:text="MAIS"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/o_por_recycler_view"
+                android:layout_gravity="center|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

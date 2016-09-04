@@ -1,4 +1,4 @@
-package br.com.tiagohs.popmovies.model.Movie;
+package br.com.tiagohs.popmovies.model.movie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,13 +9,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 
-public class Movie implements Serializable {
-    @JsonProperty("id")
-    private int id;
 
-    @JsonProperty("adult")
-    private boolean adult;
+public class Movie extends MediaBasic implements Serializable {
+
+    @JsonProperty("_id")
+    private String mediaId;
 
     @JsonProperty("poster_path")
     private String posterPath;
@@ -41,9 +41,6 @@ public class Movie implements Serializable {
     @JsonProperty("backdrop_path")
     private String backdropPath;
 
-    @JsonProperty("popularity")
-    private String popularity;
-
     @JsonProperty("video")
     private boolean video;
 
@@ -59,9 +56,8 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(int id, boolean adult, String posterPath, String overview, String releaseDate, String originalTitle, String originalLanguage, String title, String backdropPath, String popularity, boolean video, String voteAverage, int voteCount, boolean favorite) {
-        this.id = id;
-        this.adult = adult;
+    public Movie(String _id, String posterPath, String overview, String releaseDate, String originalTitle, String originalLanguage, String title, String backdropPath, boolean video, String voteAverage, int voteCount, boolean favorite) {
+        this.mediaId = _id;
         this.posterPath = posterPath;
         this.overview = overview;
         this.releaseDate = releaseDate;
@@ -69,27 +65,19 @@ public class Movie implements Serializable {
         this.originalLanguage = originalLanguage;
         this.title = title;
         this.backdropPath = backdropPath;
-        this.popularity = popularity;
         this.video = video;
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
         this.favorite = favorite;
     }
 
+    @Override
     public int getId() {
-        return id;
+        return super.getId();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
     }
 
     public String getPosterPath() {
@@ -146,14 +134,6 @@ public class Movie implements Serializable {
 
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
-    }
-
-    public String getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(String popularity) {
-        this.popularity = popularity;
     }
 
     public boolean isVideo() {

@@ -21,7 +21,7 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.presenter.ListMoviesPresenter;
 import br.com.tiagohs.popmovies.view.ListMovieView;
 import br.com.tiagohs.popmovies.view.activity.ListMoviesActivity;
@@ -42,7 +42,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
 
     private GridLayoutManager mGridLayoutManager;
     private ListMoviesAdapter mListMoviesAdapter;
-    private Callbacks mCallbacks;
+    private ListMoviesCallbacks mCallbacks;
 
     @BindView(R.id.list_movies_recycler_view)
     RecyclerView mRecyclerView;
@@ -54,7 +54,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (Callbacks) context;
+        mCallbacks = (ListMoviesCallbacks) context;
     }
 
     @Override
@@ -62,7 +62,6 @@ public class ListMoviesFragment extends BaseFragment implements ListMovieView {
         super.onDetach();
         mCallbacks = null;
     }
-
 
     public interface Callbacks {
         void onMovieSelected(int movieID, ImageView posterMovie);

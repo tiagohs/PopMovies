@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/card_view"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:elevation="5dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:id="@+id/genre_background"
+                android:alpha="0.9"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                android:src="@drawable/img_gener_action"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:background="@drawable/background_border_retangule"
+                android:padding="7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ação"
+                    android:id="@+id/title_genre"
+                    android:textColor="@android:color/white"
+                    android:textSize="25dp"
+                    />
+
+            </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+

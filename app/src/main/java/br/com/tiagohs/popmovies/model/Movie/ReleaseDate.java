@@ -17,7 +17,7 @@
  *      along with TheMovieDB API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package br.com.tiagohs.popmovies.model.Movie;
+package br.com.tiagohs.popmovies.model.movie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;

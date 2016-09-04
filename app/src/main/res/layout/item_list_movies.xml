@@ -18,11 +18,11 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="160dp">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="160dp"
                 android:src="@drawable/img_1"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/poster_movie"
@@ -31,59 +31,56 @@
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/list_item_movies_progress"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:matProg_barColor="@color/colorAccent"
                 app:matProg_progressIndeterminate="true" />
-        </FrameLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_gravity="top"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@drawable/background_image_bottom_transparent"
+                android:layout_gravity="right|bottom">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star"/>
+
+
+            <FrameLayout
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="right|bottom">
+
+                <ProgressBar
+                    android:id="@+id/nota_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:indeterminate="false"
+                    android:max="10"
+                    android:layout_gravity="right|bottom"
+                    android:progressDrawable="@drawable/progress_circle" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/movie_raking_total"
-                    android:textSize="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14dp"
                     android:text="5.1"
-                    android:layout_gravity="center|center_vertical"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"/>
 
+            </FrameLayout>
             </LinearLayout>
+        </FrameLayout>
 
-            <com.like.LikeButton
-                app:icon_type="heart"
-                app:icon_size="23dp"
-                app:unlike_drawable="@drawable/ic_favorite_border"
-                app:like_drawable="@drawable/ic_favorite_clicked"
-                android:id="@+id/star_button"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_width="40dp"
-                app:circle_start_color="@color/colorPrimary"
-                app:dots_secondary_color="@color/colorAccent"
-                android:layout_height="40dp" />
 
-        </LinearLayout>
+
+
 
     </LinearLayout>
 

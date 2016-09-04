@@ -26,14 +26,18 @@
     <color name="movie_subtitle">#949494</color>
 
     <color name="movies_dark_divider_color">#222222</color>
+    <color name="genres_efecct">#56000000</color>
     <color name="movies_light_divider_color">#CCCCCC</color>
     <color name="movies_highlight_divider_color">#FFCC55</color>
 
     <color name="transparent">#97000000</color>
     <color name="actionbar_background">#303f9f</color>
 
+    <color name="yellow">#beb80b</color>
+
     <color name="actionbar_text">#ffffff</color>
-    <color name="black_alpha_40">#66000000</color>
+    <color name="black_alpha_40">#42000000</color>
+    <color name="black_alpha_20">#7b000000</color>
     <color name="nav_drawer_center_color">#6d4caf</color>
     <color name="nav_drawer_end_color">#392e7d</color>
     <color name="nav_drawer_start_color">#9581c7</color>

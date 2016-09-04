@@ -12,12 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
-import br.com.tiagohs.popmovies.model.Movie.ReleaseInfo;
+import br.com.tiagohs.popmovies.model.movie.Genre;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.view.adapters.GenerosAdapter;
 import br.com.tiagohs.popmovies.view.adapters.NotasAdapter;
@@ -43,9 +41,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
 
     @BindView(R.id.data_duracao_movie)
     TextView mDuracaoMovie;
-
-    @BindView(R.id.notas_recycler_view)
-    RecyclerView mNotasRecyclerView;
 
     @BindView(R.id.generos_recycler_view)
     RecyclerView mGenerosRecyclerView;
@@ -84,6 +79,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
 
     public interface Callbacks {
         void onMovieSelected(int movieID, ImageView posterMovie);
+        void onGenreSelected(Genre genre);
     }
 
     @Override
@@ -98,7 +94,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mAdultMovie.setVisibility(View.INVISIBLE);
-        mNotasRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
         mGenerosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
 
         mSimilaresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
@@ -115,7 +110,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         mClassificacaoMovie.setText(release());
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
 
-        updateNotas();
         updateGeneros();
     }
 
@@ -128,19 +122,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         return "--";
     }
 
-    private void updateNotas() {
-        List<MovieDetails> list = new ArrayList<>();
-        list.add(new MovieDetails());
-        list.add(new MovieDetails());
-        list.add(new MovieDetails());
-
-        mNotasAdapter = new NotasAdapter(getActivity(), list);
-        mNotasRecyclerView.setAdapter(mNotasAdapter);
-
-    }
-
     private void updateGeneros() {
-        mGenerosAdapter = new GenerosAdapter(getActivity(), mMovie.getGenres());
+        mGenerosAdapter = new GenerosAdapter(getActivity(), mMovie.getGenres(), mCallbacks);
         mGenerosRecyclerView.setAdapter(mGenerosAdapter);
     }
 

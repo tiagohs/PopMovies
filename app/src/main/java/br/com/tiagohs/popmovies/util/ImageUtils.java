@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 
 public class ImageUtils {
+
 
     public static void loadByCircularImage(Context context, String path, final ImageView imageView, int imagePlaceholder, int imageError, ImageSize imageSize, final ProgressWheel progress) {
         progress.setVisibility(View.VISIBLE);
@@ -58,6 +60,11 @@ public class ImageUtils {
                             }
                 });
 
+    }
+
+    public static void load(Context context, int pathImg, int placeholder, ImageView imageView) {
+        new BitmatCreator(context).loadBitmap(pathImg, imageView, BitmapFactory.decodeResource(context.getResources(),
+                placeholder));
     }
 
     public static void load(Context context, String url, int placeholder, int imageError, final ImageView imageView, final ProgressWheel progressbar) {

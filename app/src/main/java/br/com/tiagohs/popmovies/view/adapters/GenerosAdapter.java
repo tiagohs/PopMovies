@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.Genre;
+import br.com.tiagohs.popmovies.model.movie.Genre;
+import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
 
 /**
  * Created by Tiago Henrique on 27/08/2016.
@@ -23,10 +23,12 @@ public class GenerosAdapter extends RecyclerView.Adapter<GenerosAdapter.GenerosV
 
     private Context mContext;
     private List<Genre> mGeneros;
+    private MovieDetailsOverviewFragment.Callbacks mCallbacks;
 
-    public GenerosAdapter(Context context, List<Genre> genres) {
+    public GenerosAdapter(Context context, List<Genre> genres, MovieDetailsOverviewFragment.Callbacks callbacks) {
         this.mContext = context;
         this.mGeneros = genres;
+        this.mCallbacks = callbacks;
     }
 
     public void setGeneros(List<Genre> genre) {
@@ -56,24 +58,26 @@ public class GenerosAdapter extends RecyclerView.Adapter<GenerosAdapter.GenerosV
         private TextView mGeneroNameTextView;
         private Genre mGenero;
 
+
         public GenerosViewHolder(View itemView) {
             super(itemView);
+
+            mRippleView = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
+            mRippleView.setOnClickListener(this);
+            mGeneroNameTextView = (TextView) itemView.findViewById(R.id.movie_deails_item_default_text_view);
+
         }
 
         public void bindGenero(Genre gene) {
             Log.i("GeneroAdp: ", "Genero!" + gene.getName());
             this.mGenero = gene;
 
-            mRippleView = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
-            mRippleView.setOnClickListener(this);
-            mGeneroNameTextView = (TextView) itemView.findViewById(R.id.movie_deails_item_default_text_view);
-
             mGeneroNameTextView.setText(mGenero.getName());
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(mContext, "Diretor: " + mGenero.getName(), Toast.LENGTH_SHORT).show();
+            mCallbacks.onGenreSelected(mGenero);
         }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -45,8 +45,14 @@
     <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.Toolbar.PopupOverlay">
+        <item name="windowActionBar">true</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:background">@drawable/background_action_bar_transparent</item>
+    </style>
+
+    <style name="CustomActionBarTheme"
+           parent="@android:style/Theme.Holo">
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

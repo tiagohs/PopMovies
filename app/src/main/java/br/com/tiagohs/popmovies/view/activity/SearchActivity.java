@@ -22,7 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
 import br.com.tiagohs.popmovies.view.adapters.SearchAdapter;
 import br.com.tiagohs.popmovies.view.fragment.EndlessRecyclerView;
@@ -45,7 +45,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     private List<Movie> mListMovies = new ArrayList<>();
 
     private SearchAdapter mSearchAdapter;
-
+    private boolean isNewSearch = false;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, SearchActivity.class);
@@ -58,7 +58,6 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
 
         mSearchPresenter.setView(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         onConfigureRecyclerView();
     }
 
@@ -71,6 +70,8 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
 
             @Override
             public void onLoadMore(int current_page) {
+                isNewSearch = false;
+
                 if(mCurrentPage < mTotalPages)
                     search(mQuery, ++mCurrentPage);
             }
@@ -91,14 +92,14 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
 
     @Override
     public void atualizarView(int currentPage, int totalPages, List<Movie> listMovies) {
-        if (mCurrentPage > 1)
-            mListMovies.addAll(listMovies);
-        else
+        if (isNewSearch)
             mSearchAdapter.setList(listMovies);
+        else
+            mListMovies.addAll(listMovies);
 
         mCurrentPage = currentPage;
         mTotalPages = totalPages;
-        
+
         setupAdapter();
     }
 
@@ -143,6 +144,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
 
     private void search(String query, int currentPage) {
         mCurrentPage = currentPage;
+        isNewSearch = true;
         mSearchPresenter.searchMovies(query, false, null, null, mCurrentPage);
     }
 

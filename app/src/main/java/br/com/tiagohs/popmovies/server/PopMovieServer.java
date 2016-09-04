@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.server;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,10 +10,12 @@ import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.BuildConfig;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
+import br.com.tiagohs.popmovies.model.response.GenresResponse;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
@@ -98,6 +99,22 @@ public class PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener);
     }
 
+    public void getPersonDetails(int personID, String[] appendToResponse, ResponseListener<PersonInfo> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+
+        mTypeToken = new TypeReference<PersonInfo>(){};
+        mUrl = new UrlBuilder().addMethod(Method.PERSON)
+                .addId(personID)
+                .addParameters(mParameters)
+                .addAppendToResponse(appendToResponse)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
     public void getMovieImagens(int movieID,
                                 ResponseListener<ImageResponse> listener) {
         mParameters = new HashMap<>();
@@ -130,6 +147,41 @@ public class PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener);
     }
 
+    public void getGenres(ResponseListener<GenresResponse> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+
+        mTypeToken = new TypeReference<GenresResponse>(){};
+        mUrl = new UrlBuilder().addMethod(Method.GENRE)
+                .addMethod(Method.MOVIE)
+                .addSubMethod(SubMethod.LIST)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
+    public void getMoviesByGenres(int genreID, int currentPage, ResponseListener<GenericListResponse<Movie>> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
+        mParameters.put(Param.INCLUDE_ALL_MOVIES.getParam(), "true");
+        mParameters.put(Param.INCLUDE_ADULT.getParam(), "true");
+
+        mTypeToken = new TypeReference<GenericListResponse<Movie>>(){};
+        mUrl = new UrlBuilder().addMethod(Method.GENRE)
+                .addIdBySubMethod(genreID)
+                .addSubMethod(SubMethod.MOVIES)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
     public void searchMovies(String query,
                              Boolean includeAdult,
                              Integer searchYear,
@@ -139,7 +191,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), "en");
+        mParameters.put(Param.LANGUAGE.getParam(),  mLanguage + "-" + mCountry);
         mParameters.put(Param.QUERY.getParam(), query);
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.ADULT.getParam(), includeAdult ? String.valueOf(true) : String.valueOf(false));
@@ -163,7 +215,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), "en");
+        mParameters.put(Param.LANGUAGE.getParam(),  mLanguage + "-" + mCountry);
         mParameters.put(Param.QUERY.getParam(), query);
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.ADULT.getParam(), includeAdult ? String.valueOf(true) : String.valueOf(false));
@@ -177,6 +229,7 @@ public class PopMovieServer {
 
         execute(METHOD_REQUEST_GET, null, listener);
     }
+
 
     private void execute(int method, Map<String, String> headers, ResponseListener listener) {
         PopMovieRequest request = new PopMovieRequest(method, mUrl, headers, mParameters, mTypeToken, listener);

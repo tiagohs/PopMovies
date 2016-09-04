@@ -25,4 +25,19 @@ public class PresenterModule {
     public SearchPresenter providesSearchPresenter() {
         return new SearchPresenterImpl();
     }
+
+    @Provides
+    public GenresPresenter providesGenresPresenter() {
+        return new GenresPresenterImpl();
+    }
+
+    @Provides
+    public MoviesByGenrePresenter providesMoviesByGenrePresenter() {
+        return new MoviesByGenrePresenterImpl();
+    }
+
+    @Provides
+    public PersonDetailPresenter providesPersonDetailPresenter() {
+        return new PersonDetailPresenterImpl();
+    }
 }

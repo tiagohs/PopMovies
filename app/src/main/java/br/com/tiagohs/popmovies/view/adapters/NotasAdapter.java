@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 
 /**
  * Created by Tiago Henrique on 27/08/2016.

@@ -1,4 +1,4 @@
-package br.com.tiagohs.popmovies.model.Movie;
+package br.com.tiagohs.popmovies.model.movie;
 
 
 import android.util.Log;

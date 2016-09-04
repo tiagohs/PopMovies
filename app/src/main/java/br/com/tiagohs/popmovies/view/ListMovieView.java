@@ -2,7 +2,7 @@ package br.com.tiagohs.popmovies.view;
 
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 
 
 public interface ListMovieView {

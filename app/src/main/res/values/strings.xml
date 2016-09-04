@@ -58,4 +58,8 @@
     <string name="menu_bem_avaliados">Mais bem avaliados</string>
     <string name="menu_compartilhar">Compartilhar</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_genres">GenresActivity</string>
+    <string name="title_activity_main_novo">MainNovoActivity</string>
+    <string name="title_activity_movies_by_genre">MoviesByGenreActivity</string>
+    <string name="title_activity_actor_details">ActorDetailActivity</string>
 </resources>

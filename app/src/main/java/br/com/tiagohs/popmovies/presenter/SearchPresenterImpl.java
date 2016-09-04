@@ -6,7 +6,7 @@ import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptorImpl;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;

@@ -58,15 +58,15 @@ public class KeywordsAdapter  extends RecyclerView.Adapter<KeywordsAdapter.Keywo
 
         public KeywordViewHolder(View itemView) {
             super(itemView);
+
+            mRippleView = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
+            mRippleView.setOnClickListener(this);
+            mKeywordNameTextView = (TextView) itemView.findViewById(R.id.movie_deails_item_default_text_view);
         }
 
         public void bindGenero(Keyword keyword) {
             Log.i("KeywordAdp: ", "Keyword!" + keyword.getName());
             this.mKeyword = keyword;
-
-            mRippleView = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
-            mRippleView.setOnClickListener(this);
-            mKeywordNameTextView = (TextView) itemView.findViewById(R.id.movie_deails_item_default_text_view);
 
             mKeywordNameTextView.setText(mKeyword.getName());
         }

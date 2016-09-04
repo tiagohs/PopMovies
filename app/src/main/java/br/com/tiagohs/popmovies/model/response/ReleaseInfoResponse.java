@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.Movie.ReleaseInfo;
+import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
 
 /**
  * Created by Tiago Henrique on 24/08/2016.

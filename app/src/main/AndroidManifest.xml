@@ -22,22 +22,44 @@
         <activity
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".view.activity.ListMoviesActivity">
+            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".view.activity.SearchActivity"
             android:label="@string/title_activity_search"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".view.activity.ListMoviesActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.tiagohs.popmovies.view.activity.ListMoviesActivity"/>
+        </activity>
+        <activity
+            android:name=".view.activity.GenresActivity"
+            android:label="@string/title_activity_genres"
+            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".view.activity.MoviesByGenreActivity"
+            android:label="@string/title_activity_movies_by_genre"
+            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".view.activity.PersonDetailActivity"
+            android:label="@string/title_activity_actor_details"
+            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

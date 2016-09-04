@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -13,10 +14,10 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.Movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.view.fragment.ListMoviesFragment;
+import br.com.tiagohs.popmovies.view.fragment.ListMoviesCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,9 +27,9 @@ import butterknife.ButterKnife;
 public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.ListMoviesViewHolder> {
     private List<Movie> list;
     private Context mContext;
-    private ListMoviesFragment.Callbacks mCallbacks;
+    private ListMoviesCallbacks mCallbacks;
 
-    public ListMoviesAdapter(Context context, List<Movie> list, ListMoviesFragment.Callbacks callbacks) {
+    public ListMoviesAdapter(Context context, List<Movie> list, ListMoviesCallbacks callbacks) {
         this.list = list;
         this.mContext = context;
         this.mCallbacks = callbacks;
@@ -63,6 +64,9 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         @BindView(R.id.list_item_movies_progress)
         ProgressWheel mProgress;
 
+        @BindView(R.id.nota_progress)
+        ProgressBar mProgRanking;
+
         private Context mContext;
         private Movie mMovie;
 
@@ -76,9 +80,12 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
         public void bindMovie(Movie movie) {
             mMovie = movie;
+            Float ranking = Float.parseFloat(mMovie.getVoteAverage());
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
-            mRanking.setText(mMovie.getVoteAverage());
+            mRanking.setText(String.format("%.1f", ranking));
+            mProgRanking.setProgress(Math.round(ranking));
+            mProgRanking.setMax(10);
         }
 
         @Override
