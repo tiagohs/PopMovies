@@ -163,7 +163,7 @@
                         android:indeterminate="false"
                         android:max="10"
                         android:layout_gravity="right|bottom"
-                        android:progressDrawable="@drawable/progress_circle" />
+                        android:progressDrawable="@drawable/progress_circle_green" />
 
                     <TextView
                         android:layout_width="wrap_content"

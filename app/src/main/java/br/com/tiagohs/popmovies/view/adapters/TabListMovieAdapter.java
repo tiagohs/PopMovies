@@ -10,14 +10,14 @@ import java.util.Map;
 import br.com.tiagohs.popmovies.view.fragment.ListMoviesFragment;
 
 
-public class ListMovieAdapter extends FragmentStatePagerAdapter {
+public class TabListMovieAdapter extends FragmentStatePagerAdapter {
     private static final int TAB_SIZE = 2;
     private static final int TAB_POPULARES = 0;
     private static final int TAB_FAVORITOS = 1;
 
     private Map<Integer, Fragment> mTabList;
 
-    public ListMovieAdapter(FragmentManager fm) {
+    public TabListMovieAdapter(FragmentManager fm) {
         super(fm);
 
         mTabList = new HashMap<>();
@@ -25,24 +25,16 @@ public class ListMovieAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int tabSelecionada) {
-        Fragment fragmentSelecionado = null;
-
-        if (mTabList.containsKey(tabSelecionada))
-            return mTabList.get(tabSelecionada);
 
         switch(tabSelecionada) {
             case TAB_POPULARES:
-                fragmentSelecionado = ListMoviesFragment.newInstance(ListMoviesFragment.Sort.POPULARES);
-                break;
+                return ListMoviesFragment.newInstance(ListMoviesFragment.Sort.POPULARES);
             case TAB_FAVORITOS:
-                fragmentSelecionado = ListMoviesFragment.newInstance(ListMoviesFragment.Sort.FAVORITOS);
-                break;
-            default:
-                fragmentSelecionado = ListMoviesFragment.newInstance(ListMoviesFragment.Sort.POPULARES);
-        }
+                return ListMoviesFragment.newInstance(ListMoviesFragment.Sort.FAVORITOS);
 
-        mTabList.put(tabSelecionada, fragmentSelecionado);
-        return fragmentSelecionado;
+            default:
+                return ListMoviesFragment.newInstance(ListMoviesFragment.Sort.POPULARES);
+        }
     }
 
     @Override

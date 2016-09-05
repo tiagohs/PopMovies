@@ -16,7 +16,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
+import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 
 /**
  * Created by Tiago Henrique on 28/08/2016.
@@ -25,10 +25,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private static final String TAG = VideoAdapter.class.getSimpleName();
 
     private Context mContext;
-    private MovieDetailsMidiaFragment.Callbacks mCallback;
+    private MovieVideosCallbacks mCallback;
     private List<Video> mVideos;
 
-    public VideoAdapter(Context context, List<Video> videos, MovieDetailsMidiaFragment.Callbacks callbacks) {
+    public VideoAdapter(Context context, List<Video> videos, MovieVideosCallbacks callbacks) {
         this.mContext = context;
         this.mCallback = callbacks;
         this.mVideos = videos;

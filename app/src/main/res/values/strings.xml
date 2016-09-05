@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">PopMovies</string>
-    <string name="movie_action_add_favourite">Add ao Favoritos</string>
+    <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
     <string name="tentar_novamente">TENTAR NOVAMENTE</string>
-    <string name="no_internet">Sem conexão</string>
+    <string name="no_internet">Sem conexão com a Internet</string>
     <string name="pop_movie_title_principal">PopMovies</string>
     <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
     <string name="title_original">Original:</string>
@@ -13,7 +13,51 @@
     <string name="tab_favoritos">Favoritos</string>
     <string name="action_opcoes">Opções</string>
     <string name="action_procurar">Procurar</string>
-    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="movie_duracao">%1$s Min.</string>
+    <string name="nao_ha_sinopse">Não há uma sinopse em %1$s.</string>
+    <string name="nao_ha_biografia">Não há uma biografia disponíbel.</string>
+    <string name="person_carrer_movie_character">Personagem: %1$s</string>
+    <string name="person_carrer_movie_departamento">Departamento: %1$s</string>
+    <string name="label_mais">MAIS</string>
+    <string name="wiki">WIKI</string>
+    <string name="tvrage">TVRAGE</string>
+    <string name="freebase">FREEBASE</string>
+    <string name="titles_movie_details_overview_similares">SIMILARES</string>
+    <string name="titulo_original">Titulo Original:</string>
+    <string name="idioma_original">Idioma Original:</string>
+    <string name="orcamento">Orçamento:</string>
+    <string name="receita">Receita:</string>
+    <string name="titles_movie_detail_tecnico_cast">ELENCO PRINCIPAL</string>
+    <string name="titles_movie_detail_tecnico_crew">EQUIPE TÉCNICA</string>
+    <string name="titles_movie_detail_tecnico_keywords">KEYWORDS</string>
+    <string name="data_nascimento_formatado">%1$s - %2$s</string>
+
+    <!-- Arrays -->
+    <string-array name="movie_detail_tab_array">
+        <item>Resumo</item>
+        <item>Técnico</item>
+        <item>Mídia</item>
+    </string-array>
+    <string-array name="person_carrer_tab_array">
+        <item>Resumo</item>
+        <item>Carreira</item>
+    </string-array>
+
+
+    <!-- Plurals -->
+    <plurals name="number_of_films_person">
+        <item quantity="one">FILME</item>
+        <item quantity="other">FILMES</item>
+    </plurals>
+    <plurals name="number_of_fotos_person">
+        <item quantity="one">FOTO</item>
+        <item quantity="other">FOTOS</item>
+    </plurals>
+
+    <plurals name="number_idade">
+        <item quantity="one">Ano</item>
+        <item quantity="other">Anos</item>
+    </plurals>
 
     <string name="genere_action">Ação</string>
     <string name="genere_adventure">Aventura</string>
@@ -36,9 +80,6 @@
     <string name="genere_war">Guerra</string>
     <string name="genere_western">Faroeste</string>
     <string name="action_settings">Opções</string>
-    <string name="tab_resumo">Resumo</string>
-    <string name="tab_tecnico">Técnico</string>
-    <string name="tab_reviews">Reviews</string>
     <string name="idioma_portugues">Português</string>
     <string name="idioma_ingles">Inglês</string>
     <string name="idioma_espanhol">Espanhol</string>
@@ -49,6 +90,8 @@
     <string name="tab_lancamentos">Lançamentos</string>
     <string name="poster_movie">poster_movie</string>
     <string name="tab_midia">Midia</string>
+
+    <!-- Menus -->
     <string name="menu_sobre">Sobre</string>
     <string name="menu_configuracoes">Configurações</string>
     <string name="menu_favoritos">Favoritos</string>
@@ -57,9 +100,22 @@
     <string name="menu_lancamentos">Lançamentos</string>
     <string name="menu_bem_avaliados">Mais bem avaliados</string>
     <string name="menu_compartilhar">Compartilhar</string>
+
+    <!-- Activitys -->
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_genres">GenresActivity</string>
     <string name="title_activity_main_novo">MainNovoActivity</string>
     <string name="title_activity_movies_by_genre">MoviesByGenreActivity</string>
     <string name="title_activity_actor_details">ActorDetailActivity</string>
+    <string name="titles_movie_detail_midia_videos">VIDEOS E TRAILERS</string>
+    <string name="titles_movie_detail_midia_imagens">POSTER E WALLPAPERS</string>
+    <string name="person_genero">Gênero</string>
+    <string name="person_nascimento">Data de Nascimento</string>
+    <string name="cidade_natal">Cidade Natal</string>
+    <string name="principais_areas">Principais áreas</string>
+    <string name="genero_feminino">Feminino</string>
+    <string name="genero_masculino">Masculino</string>
+    <string name="genero_indefinido">Indefinido</string>
+
 </resources>

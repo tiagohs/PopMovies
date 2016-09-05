@@ -14,7 +14,8 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.presenter.GenresPresenter;
 import br.com.tiagohs.popmovies.view.GenresView;
-import br.com.tiagohs.popmovies.view.adapters.GenresActivityAdapter;
+import br.com.tiagohs.popmovies.view.adapters.GenresListAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 import butterknife.BindView;
 
 /**
@@ -28,7 +29,7 @@ public class GenresFragment extends BaseFragment implements GenresView {
     @Inject
     GenresPresenter mGenresPresenter;
 
-    private GenresActivityAdapter mGenresActivityAdapter;
+    private GenresListAdapter mGenresListAdapter;
     private List<Genre> mGenreList;
     private GenresCallbacks mCallbacks;
 
@@ -77,17 +78,17 @@ public class GenresFragment extends BaseFragment implements GenresView {
 
     @Override
     public void updateView(List<Genre> genres) {
-        mGenresActivityAdapter.setGeneros(genres);
+        mGenresListAdapter.setGeneros(genres);
         setupAdapter();
     }
 
     private void setupAdapter() {
 
-        if (mGenresActivityAdapter == null) {
-            mGenresActivityAdapter = new GenresActivityAdapter(getActivity(), mGenreList, mCallbacks);
-            mGenresRecyclerView.setAdapter(mGenresActivityAdapter);
+        if (mGenresListAdapter == null) {
+            mGenresListAdapter = new GenresListAdapter(getActivity(), mGenreList, mCallbacks);
+            mGenresRecyclerView.setAdapter(mGenresListAdapter);
         } else {
-            mGenresActivityAdapter.notifyDataSetChanged();
+            mGenresListAdapter.notifyDataSetChanged();
         }
     }
 }

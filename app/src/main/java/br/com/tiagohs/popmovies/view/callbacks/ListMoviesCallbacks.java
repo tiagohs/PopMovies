@@ -1,4 +1,4 @@
-package br.com.tiagohs.popmovies.view.fragment;
+package br.com.tiagohs.popmovies.view.callbacks;
 
 import android.widget.ImageView;
 

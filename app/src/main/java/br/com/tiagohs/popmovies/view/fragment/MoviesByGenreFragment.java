@@ -19,11 +19,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.MoviesByGenrePresenter;
 import br.com.tiagohs.popmovies.view.MoviesByGenreView;
 import br.com.tiagohs.popmovies.view.activity.MoviesByGenreActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 
 /**
@@ -47,7 +48,7 @@ public class MoviesByGenreFragment extends BaseFragment implements MoviesByGenre
     private int mCurrentPage;
     private int mTotalPages;
 
-    private List<Movie> mListMovies;
+    private List<MovieListDTO> mListMovies;
     private ListMoviesAdapter mListMoviesAdapter;
 
     public static MoviesByGenreFragment newInstance(int mGenreID) {
@@ -93,7 +94,6 @@ public class MoviesByGenreFragment extends BaseFragment implements MoviesByGenre
         if (isInternetConnected()) {
             mMoviesByGenrePresenter.getMoviesByGenre(mGenreID, mCurrentPage);
 
-
             int columnCount = getResources().getInteger(R.integer.movies_columns);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), columnCount);
             mMoviesRecyclerView.setLayoutManager(gridLayoutManager);
@@ -115,7 +115,7 @@ public class MoviesByGenreFragment extends BaseFragment implements MoviesByGenre
     }
 
     @Override
-    public void atualizarView(int currentPage, int totalPages, List<Movie> listMovies) {
+    public void atualizarView(int currentPage, int totalPages, List<MovieListDTO> listMovies) {
         mCurrentPage = currentPage;
         mTotalPages = totalPages;
 
@@ -126,7 +126,7 @@ public class MoviesByGenreFragment extends BaseFragment implements MoviesByGenre
     private void setupAdapter() {
 
         if (mListMoviesAdapter == null) {
-            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks);
+            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, R.layout.item_list_movies);
             mMoviesRecyclerView.setAdapter(mListMoviesAdapter);
         } else {
             mListMoviesAdapter.notifyDataSetChanged();

@@ -14,10 +14,11 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.view.fragment.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,20 +26,26 @@ import butterknife.ButterKnife;
  * Created by Tiago Henrique on 01/09/2016.
  */
 public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.ListMoviesViewHolder> {
-    private List<Movie> list;
+    private List<MovieListDTO> list;
     private Context mContext;
     private ListMoviesCallbacks mCallbacks;
+    private int mLayoutMovieResID;
 
-    public ListMoviesAdapter(Context context, List<Movie> list, ListMoviesCallbacks callbacks) {
+    public ListMoviesAdapter(Context context, List<MovieListDTO> list, ListMoviesCallbacks callbacks, int layoutMovieResID) {
         this.list = list;
         this.mContext = context;
         this.mCallbacks = callbacks;
+        this.mLayoutMovieResID = layoutMovieResID;
+    }
+
+    public void setList(List<MovieListDTO> list) {
+        this.list = list;
     }
 
     @Override
     public ListMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_list_movies, parent, false);
+        View view = layoutInflater.inflate(mLayoutMovieResID, parent, false);
 
         return new ListMoviesViewHolder(mContext, view);
     }
@@ -68,7 +75,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         ProgressBar mProgRanking;
 
         private Context mContext;
-        private Movie mMovie;
+        private MovieListDTO mMovie;
 
         public ListMoviesViewHolder(final Context context, View itemView) {
             super(itemView);
@@ -78,19 +85,43 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindMovie(Movie movie) {
+        public void bindMovie(MovieListDTO movie) {
             mMovie = movie;
-            Float ranking = Float.parseFloat(mMovie.getVoteAverage());
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
-            mRanking.setText(String.format("%.1f", ranking));
-            mProgRanking.setProgress(Math.round(ranking));
-            mProgRanking.setMax(10);
+
+            if (hasRanking()) {
+                Float ranking = Float.parseFloat(mMovie.getVoteAverage());
+                mRanking.setText(String.format("%.1f", ranking));
+
+                if (ranking < 5f)
+                    setRankingState(R.drawable.progress_circle_red);
+                else if (ranking >= 5f && ranking <= 6)
+                    setRankingState(R.drawable.progress_circle_yellow);
+                else
+                    setRankingState(R.drawable.progress_circle_green);
+
+                mProgRanking.setProgress(Math.round(ranking));
+                mProgRanking.setMax(10);
+            } else {
+                mProgRanking.setVisibility(View.GONE);
+                mRanking.setVisibility(View.GONE);
+            }
+
         }
+
+        private void setRankingState(int state) {
+            mProgRanking.setProgressDrawable(ViewUtils.getDrawableFromResource(mContext, state));
+        }
+
+        private boolean hasRanking() {
+            return mMovie.getVoteAverage() != null;
+        }
+
 
         @Override
         public void onClick(View view) {
-            mCallbacks.onMovieSelected(mMovie.getId(), mImageView);
+            mCallbacks.onMovieSelected(mMovie.getMovieID(), mImageView);
         }
     }
 }

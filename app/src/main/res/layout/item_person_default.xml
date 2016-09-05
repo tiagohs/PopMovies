@@ -17,12 +17,10 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/imagem_credit_movie"
-            android:src="@drawable/img_1"
-            app:civ_border_color="#EEEEEE"
+            app:civ_border_color="@android:color/white"
             app:civ_border_width="1dp"
             app:civ_shadow="true"
-            app:civ_shadow_radius="10"
-            app:civ_shadow_color="@color/colorPrimaryDark"/>
+            app:civ_shadow_radius="10"/>
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/person_movies_progress"
@@ -40,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -47,7 +46,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Michael Jackson"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold"
             android:textColor="@color/primary_text"/>
 
         <TextView
@@ -55,8 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:fontFamily="sans-serif-light"
             android:textSize="12dp"
-            android:text="Coringa sdsdsd sdsd sds"
+            android:maxLines="1"
             android:textColor="@color/secondary_text"/>
     </LinearLayout>
 </LinearLayout>

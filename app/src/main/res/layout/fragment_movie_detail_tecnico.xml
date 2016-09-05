@@ -17,9 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:gravity="center">
 
             <TextView
@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/primary_text"
-                android:text="KEYWORDS"/>
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/titles_movie_detail_tecnico_keywords"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/keywords_recycler_view"
@@ -46,29 +47,23 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"/>
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center">
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.40">
-
+            <TableRow>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/label_movie_details_titulo_original"
                         android:textSize="14sp"
-                        android:text="Titulo Original: "
+                        android:text="@string/titulo_original"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondary_text" />
@@ -86,41 +81,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="20dp"
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/label_movie_details_orcamento_original"
                         android:textSize="14sp"
-                        android:text="Idioma Original: "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text" />
-
-                    <TextView
-                        android:id="@+id/movie_details_idioma_original"
-                        android:textSize="14sp"
-                        android:text="Deadpool "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.60">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:textSize="14sp"
-                        android:text="Orçamento: "
+                        android:text="@string/orcamento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondary_text" />
@@ -133,6 +99,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
+            </TableRow>
+
+            <TableRow>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -142,8 +111,33 @@
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/label_movie_details_idioma_original"
                         android:textSize="14sp"
-                        android:text="Receita: "
+                        android:text="@string/idioma_original"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text" />
+
+                    <TextView
+                        android:id="@+id/movie_details_idioma_original"
+                        android:textSize="14sp"
+                        android:text="Deadpool "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/label_movie_details_receita_original"
+                        android:textSize="14sp"
+                        android:text="@string/receita"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondary_text" />
@@ -156,8 +150,10 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
 
         <View
             android:layout_width="match_parent"
@@ -173,46 +169,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_deails_item_default_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal">
+                app:mrl_rippleOverlay="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:text="ELENCO PRINCIPAL"
-                    android:layout_weight="0.85"/>
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/movie_deails_item_default_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_detail_tecnico_cast"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
 
-                    <Button
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:layout_weight="0.15"
-                        android:text="MAIS"/>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/elenco_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -222,46 +225,52 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp">
 
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/equipe_tecnica_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal">
+                app:mrl_rippleOverlay="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:text="EQUIPE TÉCNICA"
-                    android:layout_weight="0.85"/>
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/movie_deails_item_dois_default_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_detail_tecnico_crew"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
 
-                    <Button
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:layout_weight="0.15"
-                        android:text="MAIS"/>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/equipe_tecnica_recycler_view"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
         </LinearLayout>
 
     </LinearLayout>

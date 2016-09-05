@@ -1,7 +1,5 @@
 package br.com.tiagohs.popmovies.server;
 
-import android.content.res.Resources;
-
 import com.android.volley.Request;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -10,15 +8,16 @@ import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.BuildConfig;
+import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
-import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.model.response.GenresResponse;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Method;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
@@ -37,8 +36,6 @@ public class PopMovieServer {
 
     private Map<String, String> mParameters;
     private TypeReference mTypeToken;
-    public static String mLanguage;
-    public static String mCountry;
 
     private String mUrl;
     private PopMovieServer() {
@@ -53,13 +50,6 @@ public class PopMovieServer {
                 }
             }
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            mLanguage = Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage();
-            mCountry = Resources.getSystem().getConfiguration().getLocales().get(0).getCountry();
-        } else {
-            mLanguage = Resources.getSystem().getConfiguration().locale.getLanguage();
-            mCountry = Resources.getSystem().getConfiguration().locale.getCountry();
-        }
 
         return instance;
     }
@@ -69,7 +59,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
 
         mTypeToken = new TypeReference<MovieResponse>(){};
@@ -87,7 +77,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
 
         mTypeToken = new TypeReference<MovieDetails>(){};
         mUrl = new UrlBuilder().addMethod(Method.MOVIE)
@@ -103,7 +93,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
 
         mTypeToken = new TypeReference<PersonInfo>(){};
         mUrl = new UrlBuilder().addMethod(Method.PERSON)
@@ -151,7 +141,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
 
         mTypeToken = new TypeReference<GenresResponse>(){};
         mUrl = new UrlBuilder().addMethod(Method.GENRE)
@@ -167,7 +157,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.INCLUDE_ALL_MOVIES.getParam(), "true");
         mParameters.put(Param.INCLUDE_ADULT.getParam(), "true");
@@ -191,7 +181,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(),  mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(),  LocaleUtils.getLocaleLanguageAndCountry());
         mParameters.put(Param.QUERY.getParam(), query);
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.ADULT.getParam(), includeAdult ? String.valueOf(true) : String.valueOf(false));
@@ -215,7 +205,7 @@ public class PopMovieServer {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(),  mLanguage + "-" + mCountry);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
         mParameters.put(Param.QUERY.getParam(), query);
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.ADULT.getParam(), includeAdult ? String.valueOf(true) : String.valueOf(false));

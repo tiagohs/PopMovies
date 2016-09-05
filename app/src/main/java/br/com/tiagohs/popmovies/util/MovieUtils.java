@@ -6,7 +6,11 @@ import android.icu.text.NumberFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -14,8 +18,17 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 
 public class MovieUtils {
+
+    public static void sortMoviesByDate(List<CarrerMoviesDTO> movieListDTO) {
+        Collections.sort(movieListDTO, new Comparator<CarrerMoviesDTO>() {
+            public int compare(CarrerMoviesDTO movie1, CarrerMoviesDTO movie2) {
+                return movie2.getDate().compareTo(movie1.getDate());
+            }
+        });
+    }
 
     public static String formatCurrency(long orcamento) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -25,6 +38,26 @@ public class MovieUtils {
             java.text.NumberFormat formatter = java.text.NumberFormat.getCurrencyInstance(Locale.getDefault());
             return formatter.format(orcamento);
         }
+    }
+
+    public static int getAge (int _year, int _month, int _day) {
+
+        GregorianCalendar cal = new GregorianCalendar();
+        int y, m, d, a;
+
+        y = cal.get(Calendar.YEAR);
+        m = cal.get(Calendar.MONTH);
+        d = cal.get(Calendar.DAY_OF_MONTH);
+        cal.set(_year, _month, _day);
+        a = y - cal.get(Calendar.YEAR);
+        if ((m < cal.get(Calendar.MONTH))
+                || ((m == cal.get(Calendar.MONTH)) && (d < cal
+                .get(Calendar.DAY_OF_MONTH)))) {
+            --a;
+        }
+        if(a < 0)
+            throw new IllegalArgumentException("Age < 0");
+        return a;
     }
 
     public static String formatAbrev(long value) {
@@ -120,6 +153,19 @@ public class MovieUtils {
         }
         return genre.substring(genre.length() > 0 ? 1 : 0);
     }
+
+    public static String formatList(List<String> list) {
+
+        if (list.size() > 0) {
+            String listFormatada = list.get(0);
+
+            for (int cont = 1; cont < list.size(); cont++)
+                listFormatada += ", " + list.get(cont);
+            return listFormatada;
+        } else
+            return "--";
+    }
+
 
     public static String formatIdioma(Context context, String tagISO) {
 

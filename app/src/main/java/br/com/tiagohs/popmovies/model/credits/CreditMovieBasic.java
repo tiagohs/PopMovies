@@ -120,4 +120,14 @@ public class CreditMovieBasic extends CreditBasic implements Serializable {
         this.title = title;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof CreditMovieBasic && obj != null) {
+            CreditMovieBasic c = (CreditMovieBasic) obj;
+            return c.getId() == this.getId();
+        }
+        return false;
+
+    }
 }

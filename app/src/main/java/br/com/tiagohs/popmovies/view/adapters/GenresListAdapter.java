@@ -17,15 +17,15 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.view.fragment.GenresCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 
-public class GenresActivityAdapter extends RecyclerView.Adapter<GenresActivityAdapter.GenresActivityViewHolder> {
+public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.GenresActivityViewHolder> {
 
     private Context mContext;
     private GenresCallbacks mCallback;
     private List<Genre> mGeneros;
 
-    public GenresActivityAdapter(Context context, List<Genre> genres, GenresCallbacks callbacks) {
+    public GenresListAdapter(Context context, List<Genre> genres, GenresCallbacks callbacks) {
         this.mContext = context;
         this.mGeneros = genres;
         this.mCallback = callbacks;

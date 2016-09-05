@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Genre;
-import br.com.tiagohs.popmovies.view.fragment.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.MoviesByGenreFragment;
 
 public class MoviesByGenreActivity extends BaseActivity implements ListMoviesCallbacks {

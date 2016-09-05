@@ -14,26 +14,23 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
+import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsTecnicoFragment;
+import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
 
-/**
- * Created by Tiago Henrique on 27/08/2016.
- */
-public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoViewHolder> {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoViewHolder> {
     private Context mContext;
-    private List<MediaCreditCast> mElenco;
-    private MovieDetailsTecnicoFragment.Callbacks mCallbacks;
+    private List<PersonListDTO> mElenco;
+    private PersonCallbacks mCallbacks;
 
-    public ElencoAdapter(Context context, List<MediaCreditCast> cast, MovieDetailsTecnicoFragment.Callbacks callbacks) {
+    public PersonAdapter(Context context, List<PersonListDTO> cast, PersonCallbacks callbacks) {
         this.mContext = context;
         this.mElenco = cast;
         this.mCallbacks = callbacks;
     }
 
-    public void setElenco(List<MediaCreditCast> genre) {
+    public void setElenco(List<PersonListDTO> genre) {
         this.mElenco = genre;
     }
 
@@ -56,7 +53,7 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
     }
 
     class ElencoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private MediaCreditCast mCast;
+        private PersonListDTO mPerson;
         private TextView mNomeTextView;
         private TextView mSubtituloTextView;
         private CircularImageView mImagemPerson;
@@ -73,18 +70,18 @@ public class ElencoAdapter extends RecyclerView.Adapter<ElencoAdapter.ElencoView
             itemView.setOnClickListener(this);
         }
 
-        public void bindElenco(MediaCreditCast cast) {
-            Log.i("AtorAdp: ", "Ator!" + cast.getName());
-            this.mCast = cast;
+        public void bindElenco(PersonListDTO person) {
+            Log.i("AtorAdp: ", "Ator!" + person.getNamePerson());
+            this.mPerson = person;
 
-            ImageUtils.loadByCircularImage(mContext, mCast.getArtworkPath(), mImagemPerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mProgress);
-            mNomeTextView.setText(mCast.getName());
-            mSubtituloTextView.setText(mCast.getCharacter());
+            ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mProgress);
+            mNomeTextView.setText(mPerson.getNamePerson());
+            mSubtituloTextView.setText(mPerson.getSubtitulo());
         }
 
         @Override
         public void onClick(View view) {
-            mCallbacks.onClickCast(mCast.getId());
+            mCallbacks.onClickPerson(mPerson.getID());
         }
     }
 }

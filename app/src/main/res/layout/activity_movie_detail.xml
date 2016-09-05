@@ -122,12 +122,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/movie_details_fragment"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            >
-
-        </LinearLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

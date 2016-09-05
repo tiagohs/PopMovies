@@ -44,6 +44,7 @@
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

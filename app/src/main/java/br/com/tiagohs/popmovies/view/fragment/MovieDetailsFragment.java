@@ -44,13 +44,7 @@ public class MovieDetailsFragment extends BaseFragment {
 
         mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
 
-        String[] tabs = new String[]{getString(R.string.tab_resumo),
-                getString(R.string.tab_tecnico),
-                getString(R.string.tab_midia),
-                //getString(R.string.tab_reviews)
-                };
-
-        mViewPager.setAdapter(new MovieDetailsAdapter(getChildFragmentManager(), mMovie, tabs));
+        mViewPager.setAdapter(new MovieDetailsAdapter(getChildFragmentManager(), mMovie, getResources().getStringArray(R.array.movie_detail_tab_array)));
         mTabLayout.setupWithViewPager(mViewPager);
     }
 

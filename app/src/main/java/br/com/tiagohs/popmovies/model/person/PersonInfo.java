@@ -23,7 +23,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +50,8 @@ import br.com.tiagohs.popmovies.util.enumerations.PeopleMethod;
 public class PersonInfo extends PersonBasic implements Serializable {
 
     private static final long serialVersionUID = 100L;
+
+    private Date birthdayDate;
 
     @JsonProperty("adult")
     private boolean adult;
@@ -74,10 +80,15 @@ public class PersonInfo extends PersonBasic implements Serializable {
     private ExternalID externalIDs = new ExternalID();
     private List<Artwork> images = Collections.emptyList();
     private List<ArtworkMedia> taggedImages = Collections.emptyList();
+
     private PersonCreditList<CreditMovieBasic> movieCredits = new PersonCreditList<>();
     private PersonCreditList<CreditTVBasic> tvCredits = new PersonCreditList<>();
+
     private List<CreditMovieBasic> castCombined = Collections.emptyList();
     private List<CreditMovieBasic> crewCombined = Collections.emptyList();
+
+    private List<CreditMovieBasic> movieCombinedCredits = Collections.emptyList();
+    private List<CreditMovieBasic> tvCombinedCredits = Collections.emptyList();
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public boolean isAdult() {
@@ -157,6 +168,37 @@ public class PersonInfo extends PersonBasic implements Serializable {
         methods.add(method);
     }
 
+    public int getYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDate());
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public int getDay() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDate());
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDate());
+        return calendar.get(Calendar.MONTH);
+    }
+
+    private Date getDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            return sdf.parse(birthday);
+        } catch (ParseException e) {
+            return new Date();
+        } catch (NullPointerException e) {
+            return new Date();
+        }
+    }
+
+
     public Gender getGender() {
         return gender;
     }
@@ -211,6 +253,11 @@ public class PersonInfo extends PersonBasic implements Serializable {
     public void  setCombinedCredits(CombinedCreditsResponse combinedCredits) {
         this.castCombined = combinedCredits.getCast();
         this.crewCombined = combinedCredits.getCrew();
+
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     //</editor-fold>

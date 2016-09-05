@@ -22,6 +22,7 @@ public class App extends Application {
 
     private PopMoviesComponent mPopMoviesComponent;
     private RequestQueue mRequestQueue;
+    
     @Override
     public void onCreate() {
         super.onCreate();

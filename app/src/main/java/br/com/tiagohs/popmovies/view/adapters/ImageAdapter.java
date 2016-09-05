@@ -6,35 +6,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.atwork.Artwork;
-import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
+import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 
 /**
  * Created by Tiago Henrique on 28/08/2016.
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<Artwork> mImages;
+    private List<ImageDTO> mImages;
     private Context mContext;
-    private MovieDetailsMidiaFragment.Callbacks mCallbacks;
+    private ImagesCallbacks mCallbacks;
 
-    public ImageAdapter(Context context, List<Artwork> images, MovieDetailsMidiaFragment.Callbacks callbacks) {
+    public ImageAdapter(Context context, List<ImageDTO> images, ImagesCallbacks callbacks) {
         this.mContext = context;
         this.mImages = images;
         this.mCallbacks = callbacks;
     }
 
-    public void setImages(List<Artwork> images) {
+    public void setImages(List<ImageDTO> images) {
         mImages = images;
     }
 
@@ -56,28 +54,30 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return mImages.size();
     }
 
-    class ImageViewHolder extends RecyclerView.ViewHolder {
-        private Artwork mImage;
-        private TextView mRaking;
-        private TextView mTotalVotos;
+    class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mImageArtwork;
         private ProgressWheel mProgress;
+
+        private ImageDTO mImage;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
 
-            mRaking = (TextView) itemView.findViewById(R.id.image_movie_raking_total);
-            mTotalVotos = (TextView) itemView.findViewById(R.id.image_movie_votes);
             mImageArtwork = (ImageView) itemView.findViewById(R.id.image_movie_poster_movie);
             mProgress = (ProgressWheel) itemView.findViewById(R.id.image_item_movie_progress);
+
+            itemView.setOnClickListener(this);
         }
 
-        public void bindImage(Artwork image) {
+        public void bindImage(ImageDTO image) {
             this.mImage = image;
 
-            mRaking.setText(String.format("%.1f", mImage.getVoteAverage()));
-            mTotalVotos.setText(MovieUtils.formatAbrev((long) mImage.getVoteCount()));
-            ImageUtils.load(mContext, mImage.getFilePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
+            ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mCallbacks.onClickImage(mImage);
         }
     }
 

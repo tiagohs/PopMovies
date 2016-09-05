@@ -39,6 +39,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <RelativeLayout
+                    android:id="@+id/relBack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center">
@@ -90,26 +91,116 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
-            <include
-                app:layout_anchor="@+id/cardViewMovieDeatail"
-                app:layout_anchorGravity="top|left|end"
-                layout="@layout/include_person_bellow" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/total_filmes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/primary_text"
+                        android:textSize="35dp"/>
+
+                    <TextView
+                        android:id="@+id/label_total_filmes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:textColor="@color/secondary_text"
+                        android:layout_marginTop="5dp"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/total_fotos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/primary_text"
+                        android:textSize="35dp"/>
+
+                    <TextView
+                        android:id="@+id/label_total_fotos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/secondary_text"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginTop="5dp"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    app:tabTextColor="@color/colorPrimary"
+                    app:tabSelectedTextColor="@color/colorPrimaryDark"
+                    android:background="@android:color/transparent"
+                    app:tabIndicatorColor="@color/colorAccent"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/carrer_view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
+
+
     </android.support.design.widget.CoordinatorLayout>
 
-<android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/activity_navigation_drawer_drawer" />
+
+
+    <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/navigation_drawer_header"
+            app:menu="@menu/activity_navigation_drawer_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

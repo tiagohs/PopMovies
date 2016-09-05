@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Genre;
-import br.com.tiagohs.popmovies.view.fragment.GenresCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.GenresFragment;
 
 public class GenresActivity extends BaseActivity implements GenresCallbacks {

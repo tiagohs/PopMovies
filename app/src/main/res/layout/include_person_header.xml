@@ -14,15 +14,14 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginBottom="10dp">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:id="@+id/image_person"
-                android:src="@drawable/img_1"
                 app:civ_border_color="#EEEEEE"
                 app:civ_border_width="1dp"
                 app:civ_shadow="true"
@@ -31,8 +30,8 @@
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/image_person_progress"
-                android:layout_width="140dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -47,6 +46,48 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/riple_tres"
+                app:mrl_rippleColor="@android:color/holo_blue_light"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                app:mrl_rippleOverlay="true">
+
+                <ImageView
+                    android:id="@+id/img_facebook"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_facebook"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/riple_um"
+                app:mrl_rippleColor="@android:color/holo_blue_dark"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:mrl_rippleOverlay="true">
+
+                <ImageView
+                    android:id="@+id/img_twitter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_twitter"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

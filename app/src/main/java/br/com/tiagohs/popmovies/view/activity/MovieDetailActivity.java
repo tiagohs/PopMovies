@@ -26,30 +26,37 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.movie.Genre;
-import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
+import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.media.Video;
+import br.com.tiagohs.popmovies.model.movie.Genre;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
-import br.com.tiagohs.popmovies.view.adapters.DiretoresAdapter;
+import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsFragment;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsTecnicoFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailsView,
-        MovieDetailsMidiaFragment.Callbacks, MovieDetailsOverviewFragment.Callbacks, MovieDetailsTecnicoFragment.Callbacks {
+        MovieVideosCallbacks, ImagesCallbacks,
+        PersonCallbacks,
+        ListMoviesCallbacks, ListWordsCallbacks {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
@@ -78,7 +85,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     private int mMovieID;
     private MovieDetails mMovie;
-    private DiretoresAdapter mDiretoresAdapter;
+    private ListWordsAdapter mDiretoresAdapter;
 
     public static Intent newIntent(Context context, int movieID) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
@@ -108,8 +115,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mPresenter.getMovieDetails(mMovieID, mMovieParameters);
     }
 
-
-
     private void onSetupRecyclerView() {
         mDiretoresRecyclerView.setLayoutManager(new LinearLayoutManager(this, RECYCLER_VIEW_ORIENTATION, false));
         updateDirectors();
@@ -134,12 +139,21 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private void updateDirectors() {
 
         if (mDiretoresAdapter == null) {
-            mDiretoresAdapter = new DiretoresAdapter(this, new ArrayList<MediaCreditCrew>());
+            mDiretoresAdapter = new ListWordsAdapter(this, new ArrayList<ItemListDTO>(), this, ItemType.DIRECTORS);
             mDiretoresRecyclerView.setAdapter(mDiretoresAdapter);
         } else {
-            mDiretoresAdapter.setDirectors(mMovie.getCrew());
+            mDiretoresAdapter.setItemListDTOs(getDirectorItem(mMovie.getCrew()));
             mDiretoresAdapter.notifyDataSetChanged();
         }
+    }
+
+    private List<ItemListDTO> getDirectorItem(List<MediaCreditCrew> crews) {
+        List<ItemListDTO> list = new ArrayList<>();
+
+        for (MediaCreditCrew crew : crews)
+            list.add(new ItemListDTO(crew.getId(), crew.getName()));
+
+        return list;
     }
 
     private void updateTabs() {
@@ -189,16 +203,15 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     public void updateVideos(VideosResponse videos) {
         mMovie.setVideos(videos);
+
+        if (videos.getVideos().isEmpty())
+            playButtonImageView.setVisibility(View.GONE);
+
     }
 
     @Override
     public void onClickVideo(Video video) {
         inflateVideoPlayer(video.getKey());
-    }
-
-    @Override
-    public void onClickImage(Artwork image) {
-
     }
 
     @Override
@@ -248,17 +261,26 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
-    public void onGenreSelected(Genre genre) {
-        startActivity(MoviesByGenreActivity.newIntent(this, genre));
-    }
-
-    @Override
-    public void onClickCast(int castID) {
+    public void onClickPerson(int castID) {
         startActivity(PersonDetailActivity.newIntent(this, castID));
     }
 
     @Override
-    public void onClickCrew(int crewID) {
+    public void onItemSelected(ItemListDTO item, ItemType itemType) {
+
+        switch (itemType) {
+            case GENRE:
+                startActivity(MoviesByGenreActivity.newIntent(this, new Genre(item.getItemID(), item.getNameItem())));
+                break;
+            case DIRECTORS:
+                onClickPerson(item.getItemID());
+                break;
+        }
+
+    }
+
+    @Override
+    public void onClickImage(ImageDTO imageDTO) {
 
     }
 }

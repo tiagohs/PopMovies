@@ -8,6 +8,15 @@ public class Genre extends IDNameAbstract implements Serializable {
 
     private int imgPath;
 
+    public Genre() {
+
+    }
+
+    public Genre(int id, String name) {
+        super(id, name);
+    }
+
+
     public int getImgPath() {
         return imgPath;
     }

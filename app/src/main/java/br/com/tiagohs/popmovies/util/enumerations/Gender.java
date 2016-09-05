@@ -20,8 +20,8 @@
 package br.com.tiagohs.popmovies.util.enumerations;
 
 public enum Gender {
-    MALE(1),
-    FEMALE(2),
+    FEMALE(1),
+    MALE(2),
     UNKNOWN(0);
 
     private final int type;

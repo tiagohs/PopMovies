@@ -58,10 +58,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:fontFamily="sans-serif-light"
                 android:id="@+id/title_video"
                 android:textSize="14sp"
-                android:textColor="@color/secondary_text"
-                android:text="Trailer 1"/>
+                android:textColor="@color/secondary_text"/>
 
         </LinearLayout>
 

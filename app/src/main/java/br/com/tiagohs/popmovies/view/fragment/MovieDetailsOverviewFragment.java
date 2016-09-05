@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,18 +9,26 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.view.adapters.GenerosAdapter;
+import br.com.tiagohs.popmovies.util.enumerations.ItemType;
+import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
+import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.adapters.NotasAdapter;
-import br.com.tiagohs.popmovies.view.adapters.SimilaresMoviesAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
 import butterknife.BindView;
 
 public class MovieDetailsOverviewFragment extends BaseFragment {
@@ -50,9 +59,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
 
     private MovieDetails mMovie;
     private NotasAdapter mNotasAdapter;
-    private GenerosAdapter mGenerosAdapter;
 
-    private Callbacks mCallbacks;
+    private ListWordsAdapter mGenerosAdapter;
+
+    private ListMoviesCallbacks mListMoviesCallbacks;
+    private ListWordsCallbacks mGenresCallbacks;
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -67,19 +78,15 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (Callbacks) context;
+        mListMoviesCallbacks = (ListMoviesCallbacks) context;
+        mGenresCallbacks = (ListWordsCallbacks) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
-    }
-
-
-    public interface Callbacks {
-        void onMovieSelected(int movieID, ImageView posterMovie);
-        void onGenreSelected(Genre genre);
+        mListMoviesCallbacks = null;
+        mGenresCallbacks = null;
     }
 
     @Override
@@ -94,21 +101,35 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mAdultMovie.setVisibility(View.INVISIBLE);
+
+        configuraRecyclersViews();
+        updateUI();
+    }
+
+    private void configuraRecyclersViews() {
+        List<MovieListDTO> movieListDTO = new ArrayList<>();
+
+        for (MovieDetails movie : mMovie.getSimilarMovies())
+            movieListDTO.add(new MovieListDTO(movie.getId(), movie.getPosterPath(), movie.getVoteAverage()));
+
         mGenerosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
 
         mSimilaresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mSimilaresRecyclerView.setAdapter(new SimilaresMoviesAdapter(getActivity(), mMovie.getSimilarMovies(), mCallbacks));
-
-        updateUI();
+        mSimilaresRecyclerView.setAdapter(new ListMoviesAdapter(getActivity(), movieListDTO, mListMoviesCallbacks, R.layout.item_similares_movie));
     }
 
     private void updateUI() {
 
-        mDataLancamentoMovie.setText(MovieUtils.formateDate(getActivity(), mMovie.getReleaseDate()));
-        mDuracaoMovie.setText(mMovie.getRuntime() + " Min.");
-        mSinopseMovie.setText(mMovie.getOverview());
+        mDataLancamentoMovie.setText(mMovie.getReleaseDate() != null ? MovieUtils.formateDate(getActivity(), mMovie.getReleaseDate()) : "--");
+        mDuracaoMovie.setText(mMovie.getRuntime() != 0 ? getResources().getString(R.string.movie_duracao, mMovie.getRuntime()) : "--");
+
+        mSinopseMovie.setText(mMovie.getOverview() != null ? mMovie.getOverview() : getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()));
+        mSinopseMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+
         mClassificacaoMovie.setText(release());
+
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
+        mAdultMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         updateGeneros();
     }
@@ -123,8 +144,17 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
     }
 
     private void updateGeneros() {
-        mGenerosAdapter = new GenerosAdapter(getActivity(), mMovie.getGenres(), mCallbacks);
+        mGenerosAdapter = new ListWordsAdapter(getActivity(), getItemsGenres(mMovie.getGenres()), mGenresCallbacks, ItemType.GENRE);
         mGenerosRecyclerView.setAdapter(mGenerosAdapter);
+    }
+
+    private List<ItemListDTO> getItemsGenres(List<Genre> genres) {
+        List<ItemListDTO> list = new ArrayList<>();
+
+        for (Genre g : genres)
+            list.add(new ItemListDTO(g.getId(), g.getName()));
+
+        return list;
     }
 
     @Override

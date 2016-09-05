@@ -50,6 +50,7 @@
 
                     <TextView
                         android:id="@+id/data_lancamento_movie"
+                        android:fontFamily="sans-serif-light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -75,6 +76,7 @@
 
                     <TextView
                         android:id="@+id/data_duracao_movie"
+                        android:fontFamily="sans-serif-light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -100,6 +102,7 @@
                         android:text="PG-18"
                         android:textSize="14sp"
                         android:textColor="@color/secondary_text"
+                        android:fontFamily="sans-serif-light"
                         android:background="@android:color/transparent"/>
 
                 </LinearLayout>
@@ -129,7 +132,7 @@
 
                 <TextView
                     android:id="@+id/sinopse_movie"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/primary_text"
@@ -163,39 +166,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/movie_deails_item_default_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal">
+                    app:mrl_rippleOverlay="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@color/primary_text"
-                        android:text="SIMILARES"
-                        android:layout_weight="0.85"/>
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:orientation="horizontal">
 
-                    <com.balysv.materialripple.MaterialRippleLayout
-                        android:id="@+id/movie_deails_item_default_riple"
-                        app:mrl_rippleColor="@color/secondary_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:mrl_rippleOverlay="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginLeft="16dp"
+                            android:text="@string/titles_movie_details_overview_similares"
+                            android:fontFamily="sans-serif-condensed"
+                            android:layout_weight="0.85"/>
 
-                        <Button
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:background="@android:color/transparent"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:layout_weight="0.15"
-                            android:text="MAIS"/>
 
-                    </com.balysv.materialripple.MaterialRippleLayout>
-                </LinearLayout>
+                            android:layout_marginRight="16dp"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="@string/label_mais"
+                            android:fontFamily="sans-serif-condensed"
+                            android:layout_weight="0.15"/>
+
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/similares_recycler_view"

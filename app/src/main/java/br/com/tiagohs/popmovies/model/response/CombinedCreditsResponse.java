@@ -3,11 +3,12 @@ package br.com.tiagohs.popmovies.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 
-public class CombinedCreditsResponse {
+public class CombinedCreditsResponse implements Serializable {
 
     @JsonProperty("id")
     private int id;

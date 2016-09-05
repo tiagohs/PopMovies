@@ -14,6 +14,14 @@ public abstract class IDNameAbstract implements Serializable {
     @JsonProperty("name")
     private String name;
 
+    public IDNameAbstract(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public IDNameAbstract() {
+    }
+
     public int getId() {
         return id;
     }

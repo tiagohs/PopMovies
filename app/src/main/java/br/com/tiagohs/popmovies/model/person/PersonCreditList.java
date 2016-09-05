@@ -22,11 +22,12 @@ package br.com.tiagohs.popmovies.model.person;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.CreditBasic;
 
-public class PersonCreditList<T extends CreditBasic> {
+public class PersonCreditList<T extends CreditBasic> implements Serializable {
 
     private static final long serialVersionUID = 101L;
 

@@ -5,23 +5,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
-import br.com.tiagohs.popmovies.model.media.Video;
+import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsMidiaPresenter;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.adapters.VideoAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 import butterknife.BindView;
 
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaView {
@@ -38,7 +41,8 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Inject
     MovieDetailsMidiaPresenter mPresenter;
 
-    private Callbacks mCallbacks;
+    private MovieVideosCallbacks mVideosCallbacks;
+    private ImagesCallbacks mImagesCallbacks;
 
     private VideoAdapter mVideoAdapter;
     private ImageAdapter mImageAdapter;
@@ -54,25 +58,19 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         return movieDetailsMidiaFragment;
     }
 
-    public interface Callbacks {
-        void onClickVideo(Video video);
-        void onClickImage(Artwork image);
-    }
-
-    public MovieDetailsMidiaFragment() {
-
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (Callbacks) context;
+        mVideosCallbacks = (MovieVideosCallbacks) context;
+        mImagesCallbacks = (ImagesCallbacks) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
+        mVideosCallbacks = null;
+        mImagesCallbacks = null;
     }
 
     @Override
@@ -92,9 +90,10 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         super.onViewCreated(view, savedInstanceState);
 
         mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        setupMovieAdapter();
+        setupVideoAdapter();
 
-        mImagesRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
+        mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
         setupImageAdapter();
     }
 
@@ -113,17 +112,15 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     public void updateVideoUI(VideosResponse videosResponse) {
 
         mMovieDetails.setVideos(videosResponse);
-        setupMovieAdapter();
+        setupVideoAdapter();
     }
 
-    private void setupMovieAdapter() {
+    private void setupVideoAdapter() {
 
         if (mVideoAdapter == null) {
-            Log.i(TAG, "Adapter null");
-            mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mCallbacks);
+            mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
             mVideosRecyclerView.setAdapter(mVideoAdapter);
         } else {
-            Log.i(TAG, "Adapter não null");
             mVideoAdapter.setVideos(mMovieDetails.getVideos());
             mVideoAdapter.notifyDataSetChanged();
         }
@@ -131,13 +128,25 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     private void setupImageAdapter() {
 
-        if (mImageAdapter == null) {
-            mImageAdapter = new ImageAdapter(getActivity(), mMovieDetails.getImages(), mCallbacks);
-            mImagesRecyclerView.setAdapter(mImageAdapter);
-        } else {
-            mImageAdapter.setImages(mMovieDetails.getImages());
-            mImageAdapter.notifyDataSetChanged();
+        if (mMovieDetails.getImages().size() > 6)
+            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks);
+        else
+            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(mMovieDetails.getImages().size()), mImagesCallbacks);
+
+        mImagesRecyclerView.setAdapter(mImageAdapter);
+
+    }
+
+    private List<ImageDTO> getImageDTO(int numImages) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numImages; cont++) {
+            Artwork image = mMovieDetails.getImages().get(cont);
+            imageDTOs.add(new ImageDTO(mMovieDetails.getId(), image.getId(), image.getFilePath()));
         }
+
+        return imageDTOs;
+
     }
 
 

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="8dp">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="1">
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <FrameLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/poster_movie"
+                        android:src="@drawable/img_1"
+                        app:civ_border_color="@android:color/white"
+                        app:civ_border_width="1dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="10"/>
+
+                    <com.pnikosis.materialishprogress.ProgressWheel
+                        android:id="@+id/poster_movie_progress"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        app:matProg_barColor="@color/colorAccent"
+                        app:matProg_progressIndeterminate="true" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_weight="0.7">
+
+                <TextView
+                    android:id="@+id/person_carrer_movie_title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/primary_text"
+                    android:text="Forrest Gump"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/person_carrer_movie_title_original"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="14dp"
+                        android:maxLines="1"
+                        android:text="Forrest Gump"/>
+
+                    <TextView
+                        android:id="@+id/person_carrer_movie_year"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="14dp"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="5dp"
+                        android:text="2008"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/person_carrer_movie_character"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:maxLines="1"
+                    android:textStyle="italic"
+                    android:textSize="14dp"
+                    android:text="Personagem: Forrest Gump"/>
+
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+
+
+
+</LinearLayout>

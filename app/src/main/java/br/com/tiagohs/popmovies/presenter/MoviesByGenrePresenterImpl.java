@@ -2,6 +2,10 @@ package br.com.tiagohs.popmovies.presenter;
 
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.server.PopMovieServer;
@@ -35,7 +39,13 @@ public class MoviesByGenrePresenterImpl implements MoviesByGenrePresenter, Respo
 
     @Override
     public void onResponse(GenericListResponse<Movie> response) {
+        List<MovieListDTO> moviesDTO = new ArrayList<>();
+
+        for (Movie movie : response.getResults()) {
+            moviesDTO.add(new MovieListDTO(movie.getId(), movie.getPosterPath(), movie.getVoteAverage()));
+        }
+
+        mMoviesByGenreView.atualizarView(response.getPage(), response.getTotalPage(), moviesDTO);
         mMoviesByGenreView.hideProgressBar();
-        mMoviesByGenreView.atualizarView(response.getPage(), response.getTotalPage(), response.getResults());
     }
 }

@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.view.adapters.ListMovieAdapter;
-import br.com.tiagohs.popmovies.view.fragment.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.adapters.TabListMovieAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 
 public class ListMoviesActivity extends BaseActivity implements ListMoviesCallbacks {
@@ -33,7 +33,7 @@ public class ListMoviesActivity extends BaseActivity implements ListMoviesCallba
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewPager.setAdapter(new ListMovieAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(new TabListMovieAdapter(getSupportFragmentManager()));
         configurarDrawerLayout();
     }
 

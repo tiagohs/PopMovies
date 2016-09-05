@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/movie_details_raking_total"
                         android:fontFamily="sans-serif-light"
-                        android:textSize="19dp"
+                        android:textSize="17dp"
                         android:layout_gravity="center|center_vertical"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"/>
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/movie_details_votes"
                         android:fontFamily="sans-serif-light"
-                        android:textSize="19dp"
+                        android:textSize="17dp"
                         android:layout_gravity="center|center_vertical"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"/>
@@ -123,7 +123,6 @@
                     android:singleLine="true"
                     android:fontFamily="sans-serif-condensed"
                     android:ellipsize="marquee"
-                    android:text="Deadpool"
                     android:marqueeRepeatLimit ="marquee_forever"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
