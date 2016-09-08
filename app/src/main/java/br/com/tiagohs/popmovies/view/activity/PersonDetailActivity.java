@@ -10,12 +10,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import javax.inject.Inject;
 
@@ -33,7 +30,6 @@ import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.blurry.Blurry;
 
 public class PersonDetailActivity extends BaseActivity implements PersonDetailView, ListMoviesCallbacks, ImagesCallbacks {
 
@@ -58,9 +54,6 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     @BindView(R.id.background_person)
     ImageView mBackgroundPerson;
 
-    @BindView(R.id.background_person_progress)
-    ProgressWheel mBackgroundProgress;
-
     @BindView(R.id.image_person)
     ImageView mImagePerson;
 
@@ -69,9 +62,6 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @BindView(R.id.img_twitter)
     ImageView mTwitterImage;
-
-    @BindView(R.id.image_person_progress)
-    ProgressWheel mImagePersonProgress;
 
     @BindView(R.id.person_app_bar)
     AppBarLayout mAppBarLayout;
@@ -107,6 +97,11 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
             mArgPersonName = savedInstanceState.getString(ARG_NAME_PERSON);
 
         mPersonID = getIntent().getIntExtra(ARG_PERSON_ID, 0);
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
     }
 
     @Override
@@ -151,19 +146,12 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         Log.i("Person", mPerson.getTaggedImages().size() + "");
 
         if (!mPerson.getTaggedImages().isEmpty()) {
-            ImageUtils.load(this, mPerson.getTaggedImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_780, mBackgroundProgress);
+            ImageUtils.loadWithRevealAnimation(this, mPerson.getTaggedImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
         } else if (!mPerson.getImages().isEmpty()) {
-            ImageUtils.load(this, mPerson.getImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_780, mBackgroundProgress);
-        } else {
-            Blurry.with(this)
-                    .radius(25)
-                    .sampling(2)
-                    .async()
-                    .animate(500)
-                    .onto((ViewGroup) findViewById(R.id.relBack));
+            ImageUtils.loadWithRevealAnimation(this, mPerson.getImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
         }
 
-        ImageUtils.load(this, mPerson.getProfilePath(), mImagePerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mImagePersonProgress);
+        ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
 
         if (mPerson.getExternalIDs().getFacebookId() != null)
             mFacebookImage.setVisibility(View.VISIBLE);

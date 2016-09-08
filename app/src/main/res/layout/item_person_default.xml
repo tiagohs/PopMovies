@@ -13,24 +13,23 @@
         android:layout_width="100dp"
         android:layout_height="100dp">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imagem_credit_movie"
-            app:civ_border_color="@android:color/white"
-            app:civ_border_width="1dp"
-            app:civ_shadow="true"
-            app:civ_shadow_radius="10"/>
-
-        <com.pnikosis.materialishprogress.ProgressWheel
-            android:id="@+id/person_movies_progress"
-            android:layout_width="140dp"
-            android:layout_height="200dp"
+        <android.support.v7.widget.CardView
             android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:matProg_barColor="@color/colorAccent"
-            app:matProg_progressIndeterminate="true" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:elevation="12dp"
+            android:id="@+id/view2"
+            app:cardCornerRadius="40dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/imagem_credit_movie"
+                android:layout_gravity="center"/>
+        </android.support.v7.widget.CardView>
 
     </FrameLayout>
 
@@ -38,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView

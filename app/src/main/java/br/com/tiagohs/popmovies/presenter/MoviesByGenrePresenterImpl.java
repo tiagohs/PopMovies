@@ -42,7 +42,7 @@ public class MoviesByGenrePresenterImpl implements MoviesByGenrePresenter, Respo
         List<MovieListDTO> moviesDTO = new ArrayList<>();
 
         for (Movie movie : response.getResults()) {
-            moviesDTO.add(new MovieListDTO(movie.getId(), movie.getPosterPath(), movie.getVoteAverage()));
+            moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
         }
 
         mMoviesByGenreView.atualizarView(response.getPage(), response.getTotalPage(), moviesDTO);

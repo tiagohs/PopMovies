@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import br.com.tiagohs.popmovies.R;
@@ -17,8 +18,6 @@ import butterknife.BindView;
 
 public class ListMoviesActivity extends BaseActivity implements ListMoviesCallbacks {
     private static final String TAG = ListMoviesActivity.class.getSimpleName();
-
-    public static final String POSTER_MOVIE_TRANSACTION = "br.com.tiagohs.popmovies.poster_movie";
 
     @BindView(R.id.tab_home)
     TabLayout mTabHome;
@@ -35,6 +34,11 @@ public class ListMoviesActivity extends BaseActivity implements ListMoviesCallba
 
         mViewPager.setAdapter(new TabListMovieAdapter(getSupportFragmentManager()));
         configurarDrawerLayout();
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
     }
 
     private void configurarDrawerLayout() {

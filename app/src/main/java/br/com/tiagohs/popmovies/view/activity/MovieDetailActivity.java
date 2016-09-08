@@ -12,22 +12,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.like.LikeButton;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.atwork.Artwork;
-import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.media.Video;
@@ -35,12 +33,12 @@ import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsPresenter;
+import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
-import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
@@ -65,10 +63,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     private static final String EXTRA_MOVIE_ID = "br.com.tiagohs.popmovies.movie";
 
-    private String[] mMovieParameters = new String[]{SubMethod.CREDITS.getValue(), SubMethod.RELEASE_DATES.getValue(),
-                                              SubMethod.SIMILAR.getValue(), SubMethod.KEYWORDS.getValue(),
-                                              SubMethod.VIDEOS.getValue()};
-
     @BindView(R.id.movie_detail_app_bar)          AppBarLayout mAppBarLayout;
     @BindView(R.id.poster_movie)                  ImageView mPosterMovie;
     @BindView(R.id.background_movie)              ImageView mBackgroundMovie;
@@ -78,8 +72,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @BindView(R.id.diretores_recycler_view)       RecyclerView mDiretoresRecyclerView;
     @BindView(R.id.play_image_movie_principal)    ImageView playButtonImageView;
     @BindView(R.id.movie_details_favorite_button) LikeButton mFavoriteButton;
-    @BindView(R.id.movie_details_poster_progress) ProgressWheel mProgressPoster;
-    @BindView(R.id.movie_details_header_progress) ProgressWheel mProgressHeader;
+    @BindView(R.id.progress_movies_details)       ProgressBar mProgressMovieDetails;
+    @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
+    @BindView(R.id.img_background_no_connection)  ImageView mBackgroundNoConnectionImage;
 
     @Inject MovieDetailsPresenter mPresenter;
 
@@ -99,7 +94,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         getApplicationComponent().inject(this);
         mPresenter.setView(this);
-        onSetupRecyclerView();
     }
 
     @Override
@@ -112,51 +106,34 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         super.onStart();
 
         mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
-        mPresenter.getMovieDetails(mMovieID, mMovieParameters);
+        mPresenter.getMovieDetails(mMovieID);
     }
 
-    private void onSetupRecyclerView() {
+    public void setupDirectorsRecyclerView(List<ItemListDTO> directors) {
         mDiretoresRecyclerView.setLayoutManager(new LinearLayoutManager(this, RECYCLER_VIEW_ORIENTATION, false));
-        updateDirectors();
+        mDiretoresAdapter = new ListWordsAdapter(this, directors, this, ItemType.DIRECTORS);
+        mDiretoresRecyclerView.setAdapter(mDiretoresAdapter);
     }
 
     public void updateUI(MovieDetails movie) {
         this.mMovie = movie;
+//        AnimationSet mAnimationSet = new AnimationSet(false);
+//
+//        mAnimationSet.addAnimation(fadeIn);
+//        mAnimationSet.addAnimation(fadeOut);
+//        playButtonImageView.startAnimation(mAnimationSet);
 
-        if (mMovie.getVideos().isEmpty()) mPresenter.getVideos(mMovieID);
-
-        ImageUtils.load(this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_780, mProgressHeader);
-        ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.POSTER_500, mProgressPoster);
+        ImageUtils.loadWithRevealAnimation(this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+        ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
 
         mTitleMovie.setText(mMovie.getTitle());
         mRakingTotalMovie.setText(mMovie.getVoteAverage());
-        mVotesMovie.setText(MovieUtils.formatAbrev((long) mMovie.getVoteCount()));
+        mVotesMovie.setText(MovieUtils.formatAbrev(mMovie.getVoteCount()));
 
-        updateDirectors();
-        updateTabs();
+
     }
 
-    private void updateDirectors() {
-
-        if (mDiretoresAdapter == null) {
-            mDiretoresAdapter = new ListWordsAdapter(this, new ArrayList<ItemListDTO>(), this, ItemType.DIRECTORS);
-            mDiretoresRecyclerView.setAdapter(mDiretoresAdapter);
-        } else {
-            mDiretoresAdapter.setItemListDTOs(getDirectorItem(mMovie.getCrew()));
-            mDiretoresAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private List<ItemListDTO> getDirectorItem(List<MediaCreditCrew> crews) {
-        List<ItemListDTO> list = new ArrayList<>();
-
-        for (MediaCreditCrew crew : crews)
-            list.add(new ItemListDTO(crew.getId(), crew.getName()));
-
-        return list;
-    }
-
-    private void updateTabs() {
+    public void setupTabs() {
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.movie_details_fragment);
@@ -195,19 +172,16 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @OnClick({R.id.play_image_movie_principal, R.id.background_movie})
-    public void onClickPosterTop() {
+    public void onClickBackgroundMovie() {
 
-        if (!mMovie.getVideos().isEmpty())
+        if (isInternetConnected() && !mMovie.getVideos().isEmpty())
             inflateVideoPlayer(mMovie.getVideos().get(0).getKey());
     }
 
     public void updateVideos(VideosResponse videos) {
         mMovie.setVideos(videos);
-
-        if (videos.getVideos().isEmpty())
-            playButtonImageView.setVisibility(View.GONE);
-
     }
+
 
     @Override
     public void onClickVideo(Video video) {
@@ -282,5 +256,47 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     public void onClickImage(ImageDTO imageDTO) {
 
+    }
+
+    @Override
+    public void setProgressVisibility(int visibityState) {
+        mProgressMovieDetails.setVisibility(visibityState);
+    }
+
+    @Override
+    public void setBackgroundNoConnectionImageVisibility(int visibilityState) {
+        mBackgroundNoConnectionImage.setVisibility(visibilityState);
+    }
+
+    @Override
+    public void setPlayButtonVisibility(int visibilityState) {
+        playButtonImageView.setVisibility(visibilityState);
+    }
+
+    @Override
+    public void setTabsVisibility(int visibilityState) {
+
+        if (visibilityState == View.VISIBLE) {
+            mContainerTabs.setAnimation(AnimationsUtils.createFadeInAnimation(1000));
+            mContainerTabs.setVisibility(visibilityState);
+        }
+
+    }
+
+    @OnClick(R.id.img_background_no_connection)
+    public void onClickImageNoConnection() {
+        mPresenter.getMovieDetails(mMovieID);
+        mSnackbar.dismiss();
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.getMovieDetails(mMovieID);
+                mSnackbar.dismiss();
+            }
+        };
     }
 }

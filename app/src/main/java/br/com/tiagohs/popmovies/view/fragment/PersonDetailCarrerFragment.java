@@ -76,6 +76,11 @@ public class PersonDetailCarrerFragment extends BaseFragment {
         return R.layout.fragment_person_detail_carrer;
     }
 
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
     private class CreateDTO extends AsyncTask<Void, Void, List<CarrerMoviesDTO>> {
 
         @Override

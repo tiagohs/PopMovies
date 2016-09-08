@@ -83,6 +83,11 @@ public class MovieDetailsTecnicoFragment extends BaseFragment {
     }
 
     @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
@@ -78,6 +79,24 @@ public class PopMovieServer {
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
         mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
+
+        mTypeToken = new TypeReference<MovieDetails>(){};
+        mUrl = new UrlBuilder().addMethod(Method.MOVIE)
+                .addId(movieID)
+                .addParameters(mParameters)
+                .addAppendToResponse(appendToResponse)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
+    public void getMovieDetails(int movieID,
+                                String[] appendToResponse,
+                                String language, ResponseListener<MovieDetails> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry(new Locale(language)));
 
         mTypeToken = new TypeReference<MovieDetails>(){};
         mUrl = new UrlBuilder().addMethod(Method.MOVIE)

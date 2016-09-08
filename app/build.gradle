@@ -83,4 +83,6 @@ dependencies {
     compile 'jp.wasabeef:blurry:2.0.3'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
 }

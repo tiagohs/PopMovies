@@ -5,7 +5,7 @@
     <color name="primary_light">#7e57c2</color>
     <color name="colorAccent">#f44336</color>
 
-    <color name="colorPlayTransparent">#95ffffff</color>
+    <color name="colorPlayTransparent">#ffffff</color>
     <color name="placeholder_background">@color/primary_light</color>
 
     <color name="itemBackground">@color/colorAccent</color>
@@ -34,6 +34,8 @@
     <color name="actionbar_background">#303f9f</color>
 
     <color name="yellow">#beb80b</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="colorBackgroundLight">#eeeeee</color>
 
     <color name="actionbar_text">#ffffff</color>
     <color name="black_alpha_40">#42000000</color>

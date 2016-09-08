@@ -6,5 +6,5 @@ import br.com.tiagohs.popmovies.view.ListMovieView;
 
 public interface ListMoviesPresenter extends BasePresenter<ListMovieView>, ResponseListener<MovieResponse> {
 
-    void getMovies(int currentPage);
+    void getMovies();
 }

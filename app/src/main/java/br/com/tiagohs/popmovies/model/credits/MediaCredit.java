@@ -71,4 +71,14 @@ public class MediaCredit implements Serializable {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof MediaCredit) {
+            MediaCredit m = (MediaCredit) obj;
+            return getId() == m.getId();
+        }
+
+        return super.equals(obj);
+    }
 }

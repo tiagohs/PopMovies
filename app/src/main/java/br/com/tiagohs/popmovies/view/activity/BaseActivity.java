@@ -1,14 +1,17 @@
 package br.com.tiagohs.popmovies.view.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -24,13 +27,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Nullable @BindView(R.id.toolbar)             Toolbar mToolbar;
     @BindView(R.id.coordenation_layout) CoordinatorLayout coordinatorLayout;
 
-    @BindView(R.id.drawer_layout)
+    @Nullable @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
     protected MaterialDialog materialDialog;
+    protected Snackbar mSnackbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +93,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         return ((App) getApplication()).getPopMoviesComponent();
     }
 
-    protected boolean isInternetConnected() {
+    public void onError(String msg) {
+        mSnackbar = Snackbar
+                .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
+
+        mSnackbar.setActionTextColor(Color.RED);
+        mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
+
+        mSnackbar.show();
+    }
+
+    protected abstract View.OnClickListener onSnackbarClickListener();
+
+    public boolean isInternetConnected() {
         return ServerUtils.isNetworkConnected(this);
     }
 

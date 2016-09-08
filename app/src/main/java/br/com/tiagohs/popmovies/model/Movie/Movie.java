@@ -14,9 +14,6 @@ import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 
 public class Movie extends MediaBasic implements Serializable {
 
-    @JsonProperty("_id")
-    private String mediaId;
-
     @JsonProperty("poster_path")
     private String posterPath;
 
@@ -44,30 +41,23 @@ public class Movie extends MediaBasic implements Serializable {
     @JsonProperty("video")
     private boolean video;
 
-    @JsonProperty("vote_average")
-    private String voteAverage;
-
-    @JsonProperty("vote_count")
-    private int voteCount;
-
     @JsonProperty("favorite")
     private boolean favorite = false;
 
     public Movie() {
     }
 
-    public Movie(String _id, String posterPath, String overview, String releaseDate, String originalTitle, String originalLanguage, String title, String backdropPath, boolean video, String voteAverage, int voteCount, boolean favorite) {
-        this.mediaId = _id;
+    public Movie(boolean adult, String nama, int popularity, String profilePath, List<Movie> knowFor, String posterPath, String overview, String releaseDate, String originalTitle, List<Integer> genreIDs, String originalLanguage, String title, String backdropPath, boolean video, boolean favorite) {
+        super(adult, nama, popularity, profilePath, knowFor);
         this.posterPath = posterPath;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.originalTitle = originalTitle;
+        this.genreIDs = genreIDs;
         this.originalLanguage = originalLanguage;
         this.title = title;
         this.backdropPath = backdropPath;
         this.video = video;
-        this.voteAverage = voteAverage;
-        this.voteCount = voteCount;
         this.favorite = favorite;
     }
 
@@ -76,9 +66,6 @@ public class Movie extends MediaBasic implements Serializable {
         return super.getId();
     }
 
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
 
     public String getPosterPath() {
         return posterPath;
@@ -142,22 +129,6 @@ public class Movie extends MediaBasic implements Serializable {
 
     public void setVideo(boolean video) {
         this.video = video;
-    }
-
-    public String getVoteAverage() {
-        return voteAverage;
-    }
-
-    public void setVoteAverage(String voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public int getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
     }
 
     public boolean isFavorite() {

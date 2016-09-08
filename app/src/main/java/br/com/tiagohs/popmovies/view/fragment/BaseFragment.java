@@ -1,8 +1,11 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +17,13 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.view.activity.ListMoviesActivity;
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
 
     protected MaterialDialog materialDialog;
+    protected Snackbar mSnackbar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +67,22 @@ public abstract class BaseFragment extends Fragment {
 
     protected PopMoviesComponent getApplicationComponent() {
         return ((App) getActivity().getApplication()).getPopMoviesComponent();
+    }
+
+    public void onError(String msg) {
+        mSnackbar = Snackbar
+                .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
+
+        mSnackbar.setActionTextColor(Color.RED);
+        mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
+
+        mSnackbar.show();
+    }
+
+    protected abstract View.OnClickListener onSnackbarClickListener();
+
+    public CoordinatorLayout getCoordinatorLayout() {
+        return ((ListMoviesActivity) getActivity()).getCoordinatorLayout();
     }
 
     @Override

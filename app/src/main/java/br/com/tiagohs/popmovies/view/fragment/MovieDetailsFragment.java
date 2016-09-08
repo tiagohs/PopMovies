@@ -28,6 +28,11 @@ public class MovieDetailsFragment extends BaseFragment {
         return R.layout.include_movie_detail_bellow;
     }
 
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
     public static MovieDetailsFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARG_MOVIE, movie);

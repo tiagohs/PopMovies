@@ -2,14 +2,11 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
@@ -56,25 +53,22 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
         private PersonListDTO mPerson;
         private TextView mNomeTextView;
         private TextView mSubtituloTextView;
-        private CircularImageView mImagemPerson;
-        private ProgressWheel mProgress;
+        private ImageView mImagemPerson;
 
         public ElencoViewHolder(View itemView) {
             super(itemView);
 
-            mImagemPerson = (CircularImageView) itemView.findViewById(R.id.imagem_credit_movie);
+            mImagemPerson = (ImageView) itemView.findViewById(R.id.imagem_credit_movie);
             mNomeTextView = (TextView) itemView.findViewById(R.id.nome_profissional_movie);
             mSubtituloTextView = (TextView) itemView.findViewById(R.id.subtitulo_item_person_movie);
-            mProgress = (ProgressWheel) itemView.findViewById(R.id.person_movies_progress);
 
             itemView.setOnClickListener(this);
         }
 
         public void bindElenco(PersonListDTO person) {
-            Log.i("AtorAdp: ", "Ator!" + person.getNamePerson());
             this.mPerson = person;
 
-            ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_154, mProgress);
+            ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, mPerson.getNamePerson(), ImageSize.PROFILE_185);
             mNomeTextView.setText(mPerson.getNamePerson());
             mSubtituloTextView.setText(mPerson.getSubtitulo());
         }

@@ -20,6 +20,10 @@ public class LocaleUtils {
         return getLocaleAtual().getLanguage();
     }
 
+    public static String getLocaleLanguageISO(Locale locale) {
+        return getLocaleAtual().getLanguage();
+    }
+
     public static String getLocaleLanguageName(String languageIso) {
         return getLocaleAtual().getDisplayLanguage(new Locale(languageIso));
     }
@@ -32,6 +36,10 @@ public class LocaleUtils {
         return getLocaleAtual().getCountry();
     }
 
+    public static String getLocaleCountryISO(Locale locale) {
+        return locale.getCountry();
+    }
+
     public static String getLocaleCountryName() {
         return getLocaleAtual().getDisplayCountry();
     }
@@ -42,6 +50,10 @@ public class LocaleUtils {
 
     public static String getLocaleLanguageAndCountry() {
         return getLocaleLanguageISO() + "-" + getLocaleCountryName();
+    }
+
+    public static String getLocaleLanguageAndCountry(Locale locale) {
+        return getLocaleLanguageISO(locale) + "-" + getLocaleCountryName(locale.getCountry());
     }
 
 }

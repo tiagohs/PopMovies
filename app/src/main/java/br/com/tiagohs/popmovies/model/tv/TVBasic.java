@@ -38,6 +38,10 @@ public class TVBasic extends MediaBasic implements Serializable {
 
     @JsonProperty("name")
     private String name;
+    @JsonProperty("backdrop_path")
+    private String backdropPath;
+    @JsonProperty("poster_path")
+    private String posterPath;
     @JsonProperty("original_name")
     private String originalName;
     @JsonProperty("first_air_date")
@@ -65,12 +69,28 @@ public class TVBasic extends MediaBasic implements Serializable {
         this.name = name;
     }
 
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
     public String getOriginalName() {
         return originalName;
     }
 
     public void setOriginalName(String originalName) {
         this.originalName = originalName;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 
     public String getFirstAirDate() {

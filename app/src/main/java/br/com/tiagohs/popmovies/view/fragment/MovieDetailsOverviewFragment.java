@@ -110,7 +110,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
         List<MovieListDTO> movieListDTO = new ArrayList<>();
 
         for (MovieDetails movie : mMovie.getSimilarMovies())
-            movieListDTO.add(new MovieListDTO(movie.getId(), movie.getPosterPath(), movie.getVoteAverage()));
+            movieListDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
 
         mGenerosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
 
@@ -160,5 +160,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment {
     @Override
     protected int getViewID() {
         return R.layout.fragment_movie_detail_overview;
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
     }
 }

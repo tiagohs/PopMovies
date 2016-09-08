@@ -10,25 +10,30 @@
         <item name="actionMenuTextColor">@android:color/white</item>
 
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
 
         <item name="android:windowContentTransitions">true</item>
 
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/slide</item>
-        <item name="android:windowExitTransition">@transition/slide</item>
 
         <!-- specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">@transition/changebounds</item>
         <item name="android:windowSharedElementExitTransition">@transition/changebounds</item>
+
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="titleTextColor">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/searchHintColor</item>
         <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:colorControlNormal">@android:color/white</item>
     </style>
 
     <declare-styleable name="atrrPersonalizados">
@@ -50,10 +55,6 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.Toolbar.PopupOverlay">
-        <item name="windowActionBarOverlay">true</item>
-        <item name="titleTextColor">@android:color/white</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
 
@@ -63,10 +64,20 @@
         <item name="android:foreground">@drawable/button_keyboard</item>
     </style>
 
-    <style name="PopupOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBarOverlay">true</item>
+    <style name="ThemeGenres" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@drawable/background_action_bar_transparent</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
+    <style name="PopupOverlay" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@drawable/background_action_bar_transparent</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
 
 </resources>

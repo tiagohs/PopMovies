@@ -61,6 +61,11 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         onConfigureRecyclerView();
     }
 
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
     private void onConfigureRecyclerView() {
         int columnCount = getResources().getInteger(R.integer.movies_columns);
 

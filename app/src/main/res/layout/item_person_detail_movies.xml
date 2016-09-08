@@ -24,31 +24,29 @@
                 android:gravity="center_vertical">
 
                 <FrameLayout
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_vertical">
+                    android:layout_width="100dp"
+                    android:layout_height="100dp">
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
+                    <android.support.v7.widget.CardView
+                        android:layout_gravity="center_vertical"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:id="@+id/poster_movie"
-                        android:src="@drawable/img_1"
-                        app:civ_border_color="@android:color/white"
-                        app:civ_border_width="1dp"
-                        app:civ_shadow="true"
-                        app:civ_shadow_radius="10"/>
+                        android:elevation="12dp"
+                        android:id="@+id/view2"
+                        app:cardCornerRadius="30dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9">
 
-                    <com.pnikosis.materialishprogress.ProgressWheel
-                        android:id="@+id/poster_movie_progress"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        app:matProg_barColor="@color/colorAccent"
-                        app:matProg_progressIndeterminate="true" />
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:id="@+id/poster_movie"
+                            android:layout_gravity="center"/>
+                    </android.support.v7.widget.CardView>
 
                 </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout

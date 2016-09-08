@@ -38,32 +38,13 @@
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <RelativeLayout
-                    android:id="@+id/relBack"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="350dp"
-                        android:id="@+id/background_person"
-                        android:fitsSystemWindows="true"
-                        android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax"/>
-
-
-                    <com.pnikosis.materialishprogress.ProgressWheel
-                        android:id="@+id/background_person_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="370dp"
-                        android:layout_gravity="center"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        app:matProg_barColor="@color/colorAccent"
-                        app:matProg_progressIndeterminate="true" />
-
-                </RelativeLayout>
+                    android:layout_height="350dp"
+                    android:id="@+id/background_person"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"/>
 
                 <View
                     android:layout_gravity="bottom"

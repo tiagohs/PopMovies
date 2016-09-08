@@ -22,8 +22,7 @@
         <activity
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
-            android:theme="@style/AppTheme">
+            android:parentActivityName=".view.activity.ListMoviesActivity">
         </activity>
         <activity
             android:name=".view.activity.SearchActivity"
@@ -45,8 +44,7 @@
         <activity
             android:name=".view.activity.GenresActivity"
             android:label="@string/title_activity_genres"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
-            android:theme="@style/AppTheme">
+            android:parentActivityName=".view.activity.ListMoviesActivity">
         </activity>
         <activity
             android:name=".view.activity.MoviesByGenreActivity"
@@ -58,8 +56,7 @@
         <activity
             android:name=".view.activity.PersonDetailActivity"
             android:label="@string/title_activity_actor_details"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
-            android:theme="@style/AppTheme">
+            android:parentActivityName=".view.activity.ListMoviesActivity">
         </activity>
     </application>
 

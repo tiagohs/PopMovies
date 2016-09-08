@@ -5,10 +5,17 @@ import java.util.List;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 
 
-public interface ListMovieView {
+public interface ListMovieView extends BaseView {
 
     void hideDialogProgress();
     void showDialogProgress();
-    void atualizarView(int currentPage, int totalPages, List<MovieListDTO> listMovies);
-    void onError(String msg);
+
+    void setProgressVisibility(int visibityState);
+    void setRecyclerViewVisibility(int visibilityState);
+
+    void setupRecyclerView();
+    void setListMovies(List<MovieListDTO> listMovies, boolean hasMorePages);
+    void addAllMovies(List<MovieListDTO> listMovies, boolean hasMorePages);
+    void updateAdapter();
+
 }

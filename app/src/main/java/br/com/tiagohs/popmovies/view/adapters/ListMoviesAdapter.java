@@ -6,10 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
@@ -22,9 +21,6 @@ import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Tiago Henrique on 01/09/2016.
- */
 public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.ListMoviesViewHolder> {
     private List<MovieListDTO> list;
     private Context mContext;
@@ -68,11 +64,11 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         @BindView(R.id.movie_raking_total)
         TextView mRanking;
 
-        @BindView(R.id.list_item_movies_progress)
-        ProgressWheel mProgress;
-
         @BindView(R.id.nota_progress)
         ProgressBar mProgRanking;
+
+        @BindView(R.id.rodape_list_movies)
+        LinearLayout mRodapeListMovies;
 
         private Context mContext;
         private MovieListDTO mMovie;
@@ -88,7 +84,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         public void bindMovie(MovieListDTO movie) {
             mMovie = movie;
 
-            ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
+            ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
 
             if (hasRanking()) {
                 Float ranking = Float.parseFloat(mMovie.getVoteAverage());
@@ -101,8 +97,11 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                 else
                     setRankingState(R.drawable.progress_circle_green);
 
-                mProgRanking.setProgress(Math.round(ranking));
                 mProgRanking.setMax(10);
+                for (int cont = 0; cont < ranking; cont++) {
+                    mProgRanking.setProgress(Math.round(cont));
+                }
+
             } else {
                 mProgRanking.setVisibility(View.GONE);
                 mRanking.setVisibility(View.GONE);

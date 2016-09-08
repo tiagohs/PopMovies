@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.widget.ImageView;
 
 import br.com.tiagohs.popmovies.R;
@@ -30,6 +31,11 @@ public class MoviesByGenreActivity extends BaseActivity implements ListMoviesCal
 
         mGenre = (Genre) getIntent().getSerializableExtra(ARG_GENRE_ID);
         mToolbar.setTitle(mGenre.getName());
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
     }
 
     @Override

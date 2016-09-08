@@ -103,6 +103,11 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     }
 
     @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
+    @Override
     public void updateImageUI(ImageResponse imageResponse) {
         mMovieDetails.setImages(imageResponse);
         setupImageAdapter();

@@ -10,9 +10,6 @@ import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 
-/**
- * Created by Tiago Henrique on 28/08/2016.
- */
 public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresenter,
                                                        ImagemInterceptor.onImagemListener,
                                                        VideoInterceptor.onVideoListener {

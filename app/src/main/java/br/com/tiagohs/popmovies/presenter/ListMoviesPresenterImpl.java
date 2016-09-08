@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.view.View;
+
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
@@ -17,8 +19,12 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter {
     private ListMovieView mListMovieView;
     private PopMovieServer mPopMovieServer;
 
+    private int mCurrentPage;
+    private int mTotalPages;
+
     public ListMoviesPresenterImpl() {
         mPopMovieServer = PopMovieServer.getInstance();
+        mCurrentPage = 0;
     }
 
     @Override
@@ -26,27 +32,68 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter {
         this.mListMovieView = view;
     }
 
-    public void getMovies(int currentPage) {
-        mPopMovieServer.getPopularMovies(currentPage, this);
-        mListMovieView.showDialogProgress();
+    public void getMovies() {
+        mListMovieView.setProgressVisibility(View.VISIBLE);
+
+        if (mListMovieView.isInternetConnected()) {
+            mPopMovieServer.getPopularMovies(++mCurrentPage, this);
+            mListMovieView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
+            mListMovieView.setBackgroundNoConnectionImageVisibility(View.GONE);
+        } else {
+            noConnectionError();
+        }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        mListMovieView.onError("Problemas com a Internet.");
-        mListMovieView.hideDialogProgress();
+        noConnectionError();
+    }
+
+    private void noConnectionError() {
+
+        mListMovieView.onError("Sem Conexao");
+        mListMovieView.setProgressVisibility(View.GONE);
+
+        if (mCurrentPage == 0) {
+            mListMovieView.setRecyclerViewVisibility(View.GONE);
+            mListMovieView.setBackgroundNoConnectionImageVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onResponse(MovieResponse movies) {
-        List<MovieListDTO> moviesDTO = new ArrayList<>();
+        mCurrentPage = movies.getPage();
+        mTotalPages = movies.getTotalPages();
 
-        for (Movie movie : movies.getResults()) {
-            moviesDTO.add(new MovieListDTO(movie.getId(), movie.getPosterPath(), movie.getVoteAverage()));
+        if (isFirstPage()) {
+            mListMovieView.setListMovies(createMovieDTO(movies.getResults()), hasMorePages());
+            mListMovieView.setupRecyclerView();
+        } else {
+            mListMovieView.addAllMovies(createMovieDTO(movies.getResults()), hasMorePages());
+            mListMovieView.updateAdapter();
         }
 
-        mListMovieView.atualizarView(movies.getPage(), movies.getTotalPages(), moviesDTO);
-        mListMovieView.hideDialogProgress();
+        mListMovieView.setProgressVisibility(View.GONE);
+        mListMovieView.setRecyclerViewVisibility(View.VISIBLE);
     }
+
+    private boolean isFirstPage() {
+        return mCurrentPage == 1;
+    }
+
+    private boolean hasMorePages() {
+        return mCurrentPage < mTotalPages;
+    }
+
+    private List<MovieListDTO> createMovieDTO(List<Movie> movies) {
+        List<MovieListDTO> moviesDTO = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
+        }
+
+        return moviesDTO;
+    }
+
 
 }

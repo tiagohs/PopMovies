@@ -147,6 +147,11 @@ public class MoviesByGenreFragment extends BaseFragment implements MoviesByGenre
         snackbar.show();
     }
 
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
     public CoordinatorLayout getCoordinatorLayout() {
         return ((MoviesByGenreActivity) getActivity()).getCoordinatorLayout();
     }

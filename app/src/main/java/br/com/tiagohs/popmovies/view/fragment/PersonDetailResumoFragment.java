@@ -86,6 +86,11 @@ public class PersonDetailResumoFragment extends BaseFragment  {
         return R.layout.fragment_person_detail_resumo;
     }
 
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return null;
+    }
+
     public static PersonDetailResumoFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARG_PERSON, personInfo);
@@ -201,7 +206,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
 
         for (int cont = 0; cont < numMovies; cont++) {
             CreditMovieBasic person = persons.get(cont);
-            listDTOs.add(new MovieListDTO(person.getId(), person.getArtworkPath(), null));
+            listDTOs.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
 
             if (!mAreasAtuacao.contains(person.getDepartment()) && person.getDepartment() != null) {
                 mAreasAtuacao.add(person.getDepartment());

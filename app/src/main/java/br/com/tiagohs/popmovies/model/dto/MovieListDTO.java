@@ -2,11 +2,13 @@ package br.com.tiagohs.popmovies.model.dto;
 
 public class MovieListDTO {
     private int mMovieID;
+    private String movieName;
     private String mPosterPath;
     private String voteAverage;
 
-    public MovieListDTO(int movieID, String posterPath, String voteAverage) {
+    public MovieListDTO(int movieID, String movieName, String posterPath, String voteAverage) {
         mMovieID = movieID;
+        this.movieName = movieName;
         mPosterPath = posterPath;
         this.voteAverage = voteAverage;
     }
@@ -36,5 +38,13 @@ public class MovieListDTO {
 
     public void setMovieID(int movieID) {
         mMovieID = movieID;
+    }
+
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
     }
 }

@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
@@ -65,7 +63,7 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.poster_movie)
-        CircularImageView mPosterMovie;
+        ImageView mPosterMovie;
 
         @BindView(R.id.person_carrer_movie_title)
         TextView mTitle;
@@ -78,9 +76,6 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
 
         @BindView(R.id.person_carrer_movie_character)
         TextView mCharacter;
-
-        @BindView(R.id.poster_movie_progress)
-        ProgressWheel mProgress;
 
         private CarrerMoviesDTO mMovie;
 
@@ -110,7 +105,7 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
                                 mContext.getResources().getString(R.string.person_carrer_movie_departamento, movie.getDepartment()));
 
             mCharacter.setTypeface(openSans);
-            ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, R.drawable.background_oval, R.mipmap.ic_person, ImageSize.POSTER_92, mProgress);
+            ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_92);
         }
 
         @Override

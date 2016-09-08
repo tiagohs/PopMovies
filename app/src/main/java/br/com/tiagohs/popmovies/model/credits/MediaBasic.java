@@ -10,6 +10,10 @@ import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
 public class MediaBasic {
 
+
+    @JsonProperty("_id")
+    private String _id;
+
     @JsonProperty("id")
     private int id;
 
@@ -27,6 +31,11 @@ public class MediaBasic {
 
     @JsonProperty("known_for")
     private List<Movie> knowFor;
+
+    @JsonProperty("vote_average")
+    private String voteAverage;
+    @JsonProperty("vote_count")
+    private long voteCount;
 
     private MediaType mediaType;
 
@@ -100,5 +109,29 @@ public class MediaBasic {
 
     public void setMediaType(MediaType mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(String voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public long getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(long voteCount) {
+        this.voteCount = voteCount;
     }
 }

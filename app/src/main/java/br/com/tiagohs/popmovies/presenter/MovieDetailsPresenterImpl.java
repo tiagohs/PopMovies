@@ -1,12 +1,20 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.view.View;
+
 import com.android.volley.VolleyError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
+import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
+import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.server.PopMovieServer;
+import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 
 /**
@@ -17,6 +25,13 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     private PopMovieServer mPopMovieServer;
     private VideoInterceptor mVideoInterceptor;
+
+    private MovieDetails mMovieDetails;
+    private int mMovieID;
+
+    private String[] mMovieParameters = new String[]{SubMethod.CREDITS.getValue(), SubMethod.RELEASE_DATES.getValue(),
+            SubMethod.SIMILAR.getValue(), SubMethod.KEYWORDS.getValue(),
+            SubMethod.VIDEOS.getValue()};
 
     public MovieDetailsPresenterImpl() {
         mPopMovieServer = PopMovieServer.getInstance();
@@ -29,8 +44,24 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     }
 
     @Override
-    public void getMovieDetails(int movieID, String[] appendToResponse) {
-        mPopMovieServer.getMovieDetails(movieID, appendToResponse, this);
+    public void getMovieDetails(int movieID) {
+        mMovieID = movieID;
+        mMovieDetailsView.setProgressVisibility(View.VISIBLE);
+
+        if (mMovieDetailsView.isInternetConnected()) {
+            mPopMovieServer.getMovieDetails(movieID, mMovieParameters, this);
+            mMovieDetailsView.setTabsVisibility(View.GONE);
+            mMovieDetailsView.setBackgroundNoConnectionImageVisibility(View.GONE);
+        } else {
+            noConnectionError();
+        }
+
+    }
+
+    private void noConnectionError() {
+        mMovieDetailsView.onError("Sem Conexao");
+        mMovieDetailsView.setProgressVisibility(View.GONE);
+        mMovieDetailsView.setBackgroundNoConnectionImageVisibility(View.VISIBLE);
     }
 
     @Override
@@ -40,21 +71,46 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        noConnectionError();
     }
 
     @Override
     public void onResponse(MovieDetails response) {
+
+        if (response.getVideos().isEmpty())
+            getVideos(mMovieID);
+
+
+        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(response.getCrew()));
         mMovieDetailsView.updateUI(response);
+        mMovieDetailsView.setupTabs();
+        mMovieDetailsView.setProgressVisibility(View.GONE);
+        mMovieDetailsView.setTabsVisibility(View.VISIBLE);
     }
+
+    private List<ItemListDTO> getDirectorsDTO(List<MediaCreditCrew> crews) {
+        List<ItemListDTO> list = new ArrayList<>();
+
+        for (MediaCreditCrew crew : crews) {
+            if (crew.getDepartment().equals("Directing") && !list.contains(crew))
+                list.add(new ItemListDTO(crew.getId(), crew.getName()));
+        }
+
+        return list;
+    }
+
 
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
-        mMovieDetailsView.updateVideos(videosResponse);
+
+        if (!videosResponse.getVideos().isEmpty())
+            mMovieDetailsView.updateVideos(videosResponse);
+        else
+            mMovieDetailsView.setPlayButtonVisibility(View.GONE);
     }
 
     @Override
     public void onVideoRequestError(VolleyError error) {
-
+        noConnectionError();
     }
 }
