@@ -21,6 +21,8 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 
 public class MovieUtils {
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    private static Calendar c = Calendar.getInstance();
 
     public static void sortMoviesByDate(List<CarrerMoviesDTO> movieListDTO) {
         Collections.sort(movieListDTO, new Comparator<CarrerMoviesDTO>() {
@@ -29,6 +31,38 @@ public class MovieUtils {
             }
         });
     }
+
+    public static boolean isEmptyValue(String value) {
+        return value == null || value.equals("") || value.equals(" ");
+    }
+
+    public static String getDateDayWeek(int dayWeek) {
+        c.set(Calendar.DAY_OF_WEEK, dayWeek);
+        return formatter.format(c.getTime());
+    }
+
+    public static String getDateToday() {
+        Calendar c = Calendar.getInstance();
+        return formatter.format(c.getTime());
+    }
+
+    public static String getCurrentYear() {
+        Calendar c = Calendar.getInstance();
+        return String.valueOf(c.get(Calendar.YEAR));
+    }
+
+    public static String getDateBefore(int numDays) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -numDays);
+        return formatter.format(c.getTime());
+    }
+
+    public static String getDateAfter(int numDays) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, numDays);
+        return formatter.format(c.getTime());
+    }
+
 
     public static String formatCurrency(long orcamento) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -40,7 +74,7 @@ public class MovieUtils {
         }
     }
 
-    public static int getAge (int _year, int _month, int _day) {
+    public static int getAge(int _year, int _month, int _day) {
 
         GregorianCalendar cal = new GregorianCalendar();
         int y, m, d, a;

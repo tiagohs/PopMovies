@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +18,18 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 
-/**
- * Created by Tiago Henrique on 28/08/2016.
- */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
     private List<ImageDTO> mImages;
+    private List<ImageDTO> mTotalImagens;
     private Context mContext;
     private ImagesCallbacks mCallbacks;
 
-    public ImageAdapter(Context context, List<ImageDTO> images, ImagesCallbacks callbacks) {
+    public ImageAdapter(Context context, List<ImageDTO> images, ImagesCallbacks callbacks, List<ImageDTO> totalImagens) {
         this.mContext = context;
         this.mImages = images;
         this.mCallbacks = callbacks;
+        this.mTotalImagens = totalImagens;
     }
 
     public void setImages(List<ImageDTO> images) {
@@ -71,13 +71,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public void bindImage(ImageDTO image) {
             this.mImage = image;
-
+            Log.i("IMAGENS", "ID:" + mImage.getImageID());
             ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
         }
 
         @Override
         public void onClick(View view) {
-            mCallbacks.onClickImage(mImage);
+            mCallbacks.onClickImage(mTotalImagens, mImage);
         }
     }
 

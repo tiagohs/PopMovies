@@ -53,16 +53,12 @@ public class PopMovieRequest<T> extends Request<T> {
 
             return Response.success(dataResponse, HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Erro na recuperação do Json.", e);
             e.printStackTrace();
         } catch (JsonParseException e) {
-            Log.e(TAG, "Erro na conversão do Json.", e);
             e.printStackTrace();
         } catch (JsonMappingException e) {
-            Log.e(TAG, "Erro no mapeamento do Json." + e.getCause(), e);
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e(TAG, "Erro na Rede.", e);
             e.printStackTrace();
         }
 

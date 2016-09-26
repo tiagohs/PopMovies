@@ -49,11 +49,11 @@ public class LocaleUtils {
     }
 
     public static String getLocaleLanguageAndCountry() {
-        return getLocaleLanguageISO() + "-" + getLocaleCountryName();
+        return getLocaleLanguageISO() + "-" + getLocaleCountryISO();
     }
 
     public static String getLocaleLanguageAndCountry(Locale locale) {
-        return getLocaleLanguageISO(locale) + "-" + getLocaleCountryName(locale.getCountry());
+        return getLocaleLanguageISO(locale) + "-" + getLocaleCountryISO(locale);
     }
 
 }

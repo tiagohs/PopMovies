@@ -14,17 +14,17 @@ import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.server.PopMovieServer;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 
-/**
- * Created by Tiago Henrique on 25/08/2016.
- */
 public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoInterceptor.onVideoListener {
     private MovieDetailsView mMovieDetailsView;
 
     private PopMovieServer mPopMovieServer;
     private VideoInterceptor mVideoInterceptor;
+
+    private String mOriginalLanguage;
 
     private MovieDetails mMovieDetails;
     private int mMovieID;
@@ -51,7 +51,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
         if (mMovieDetailsView.isInternetConnected()) {
             mPopMovieServer.getMovieDetails(movieID, mMovieParameters, this);
             mMovieDetailsView.setTabsVisibility(View.GONE);
-            mMovieDetailsView.setBackgroundNoConnectionImageVisibility(View.GONE);
         } else {
             noConnectionError();
         }
@@ -61,7 +60,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     private void noConnectionError() {
         mMovieDetailsView.onError("Sem Conexao");
         mMovieDetailsView.setProgressVisibility(View.GONE);
-        mMovieDetailsView.setBackgroundNoConnectionImageVisibility(View.VISIBLE);
     }
 
     @Override
@@ -77,12 +75,36 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     @Override
     public void onResponse(MovieDetails response) {
 
-        if (response.getVideos().isEmpty())
+        if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
+
+            mMovieDetails = response;
+            mOriginalLanguage = response.getOriginalLanguage();
+            mPopMovieServer.getMovieDetails(mMovieID, mMovieParameters, mOriginalLanguage, this);
+
+        } else {
+
+            if (mOriginalLanguage != null) {
+                if (MovieUtils.isEmptyValue(mMovieDetails.getOverview())) {
+                    mMovieDetails.setOverview(response.getOverview());
+                }
+                if (mMovieDetails.getRuntime() == 0)
+                    mMovieDetails.setRuntime(response.getRuntime());
+
+                initUpdates(mMovieDetails);
+            } else {
+                initUpdates(response);
+            }
+
+        }
+
+    }
+
+    private void initUpdates(MovieDetails movieDetails) {
+        if (movieDetails.getVideos().isEmpty())
             getVideos(mMovieID);
 
-
-        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(response.getCrew()));
-        mMovieDetailsView.updateUI(response);
+        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
+        mMovieDetailsView.updateUI(movieDetails);
         mMovieDetailsView.setupTabs();
         mMovieDetailsView.setProgressVisibility(View.GONE);
         mMovieDetailsView.setTabsVisibility(View.VISIBLE);
@@ -102,7 +124,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
-
         if (!videosResponse.getVideos().isEmpty())
             mMovieDetailsView.updateVideos(videosResponse);
         else

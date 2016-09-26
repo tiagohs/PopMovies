@@ -3,13 +3,13 @@ package br.com.tiagohs.popmovies.model.credits;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
-public class MediaBasic {
-
+public class MediaBasic implements Serializable {
 
     @JsonProperty("_id")
     private String _id;
@@ -31,11 +31,26 @@ public class MediaBasic {
 
     @JsonProperty("known_for")
     private List<Movie> knowFor;
-
     @JsonProperty("vote_average")
     private String voteAverage;
     @JsonProperty("vote_count")
     private long voteCount;
+
+    @JsonProperty("poster_path")
+    private String posterPath;
+
+    @JsonProperty("air_date")
+    private String airDate;
+    @JsonProperty("season_number")
+    private int seasonNumber;
+    @JsonProperty("episode_number")
+    private int episodeNumber;
+    @JsonProperty("overview")
+    private String overview;
+    @JsonProperty("still_path")
+    private String stillPath;
+    @JsonProperty("show_id")
+    private String showId;
 
     private MediaType mediaType;
 
@@ -134,4 +149,61 @@ public class MediaBasic {
     public void setVoteCount(long voteCount) {
         this.voteCount = voteCount;
     }
+
+    public String getAirDate() {
+        return airDate;
+    }
+
+    public void setAirDate(String airDate) {
+        this.airDate = airDate;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public int getSeasonNumber() {
+        return seasonNumber;
+    }
+
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
+    }
+
+    public int getEpisodeNumber() {
+        return episodeNumber;
+    }
+
+    public void setEpisodeNumber(int episodeNumber) {
+        this.episodeNumber = episodeNumber;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getStillPath() {
+        return stillPath;
+    }
+
+    public void setStillPath(String stillPath) {
+        this.stillPath = stillPath;
+    }
+
+    public String getShowId() {
+        return showId;
+    }
+
+    public void setShowId(String showId) {
+        this.showId = showId;
+    }
 }
+

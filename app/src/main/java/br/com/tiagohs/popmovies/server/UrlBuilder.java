@@ -13,8 +13,6 @@ import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
  * Created by Tiago Henrique on 25/08/2016.
  */
 public class UrlBuilder {
-    private static final String BASE_URL_MOVIES = "http://api.themoviedb.org/3/";
-
     private final String BARRA = "/";
 
     private StringBuilder mUrl;
@@ -23,8 +21,13 @@ public class UrlBuilder {
     private Map<String, String> mParameters;
 
     public UrlBuilder() {
-        mUrl = new StringBuilder(BASE_URL_MOVIES);
+        mUrl = new StringBuilder();
         mParameters = new HashMap<>();
+    }
+
+    public UrlBuilder addBaseUrl(String baseURL) {
+        mUrl.append(baseURL);
+        return this;
     }
 
     public UrlBuilder addId(int id) {

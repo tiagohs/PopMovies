@@ -55,7 +55,7 @@
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/movie_deails_item_default_riple"
+                android:id="@+id/wallpapers_riple"
                 app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

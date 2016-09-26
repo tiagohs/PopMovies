@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
@@ -61,12 +58,6 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         @BindView(R.id.poster_movie)
         ImageView mImageView;
 
-        @BindView(R.id.movie_raking_total)
-        TextView mRanking;
-
-        @BindView(R.id.nota_progress)
-        ProgressBar mProgRanking;
-
         @BindView(R.id.rodape_list_movies)
         LinearLayout mRodapeListMovies;
 
@@ -86,37 +77,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
 
-            if (hasRanking()) {
-                Float ranking = Float.parseFloat(mMovie.getVoteAverage());
-                mRanking.setText(String.format("%.1f", ranking));
-
-                if (ranking < 5f)
-                    setRankingState(R.drawable.progress_circle_red);
-                else if (ranking >= 5f && ranking <= 6)
-                    setRankingState(R.drawable.progress_circle_yellow);
-                else
-                    setRankingState(R.drawable.progress_circle_green);
-
-                mProgRanking.setMax(10);
-                for (int cont = 0; cont < ranking; cont++) {
-                    mProgRanking.setProgress(Math.round(cont));
-                }
-
-            } else {
-                mProgRanking.setVisibility(View.GONE);
-                mRanking.setVisibility(View.GONE);
-            }
-
         }
-
-        private void setRankingState(int state) {
-            mProgRanking.setProgressDrawable(ViewUtils.getDrawableFromResource(mContext, state));
-        }
-
-        private boolean hasRanking() {
-            return mMovie.getVoteAverage() != null;
-        }
-
 
         @Override
         public void onClick(View view) {

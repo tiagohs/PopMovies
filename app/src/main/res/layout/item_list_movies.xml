@@ -29,42 +29,14 @@
                 android:id="@+id/poster_movie"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:id="@+id/rodape_list_movies"
                 android:orientation="horizontal"
                 android:background="@drawable/background_image_bottom_transparent"
-                android:layout_gravity="right|bottom">
-
-            <FrameLayout
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="right|bottom">
-
-                <ProgressBar
-                    android:id="@+id/nota_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:indeterminate="false"
-                    android:max="10"
-                    android:layout_gravity="right|bottom"
-                    android:progressDrawable="@drawable/progress_circle_green" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/movie_raking_total"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="14dp"
-                    android:text="5.1"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"/>
-
-            </FrameLayout>
+                android:layout_gravity="bottom|right">
             </LinearLayout>
+
         </FrameLayout>
 
     </LinearLayout>

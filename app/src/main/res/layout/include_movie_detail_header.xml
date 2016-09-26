@@ -39,6 +39,7 @@
 
             <LinearLayout
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -47,23 +48,23 @@
                     android:layout_gravity="top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingTop="10dp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_star"/>
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:src="@drawable/ic_data"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/movie_details_raking_total"
+                        android:id="@+id/ano_lancamento_movie"
                         android:fontFamily="sans-serif-light"
-                        android:textSize="17dp"
+                        android:textSize="13dp"
                         android:layout_gravity="center|center_vertical"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/secondary_text"/>
 
                 </LinearLayout>
 
@@ -71,23 +72,24 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_votes"/>
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:src="@drawable/ic_relogio"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/movie_details_votes"
+                        android:id="@+id/duracao_movie"
                         android:fontFamily="sans-serif-light"
-                        android:textSize="17dp"
+                        android:textSize="13dp"
                         android:layout_gravity="center|center_vertical"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/secondary_text"/>
 
                 </LinearLayout>
 
@@ -111,6 +113,8 @@
                     android:singleLine="true"
                     android:fontFamily="sans-serif-condensed"
                     android:ellipsize="marquee"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:marqueeRepeatLimit ="marquee_forever"
                     android:focusable="true"
                     android:focusableInTouchMode="true"

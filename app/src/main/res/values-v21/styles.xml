@@ -36,6 +36,17 @@
         <item name="android:colorControlNormal">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.Toolbar.WebView">
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
+    </style>
+
+    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">30dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:width">30dp</item>
+    </style>
+
     <declare-styleable name="atrrPersonalizados">
         <attr name="tabTextColor" format="color"/>
         <attr name="tabSelectedTextColor" format="color"/>
@@ -57,6 +68,8 @@
     <style name="AppTheme.Toolbar.PopupOverlay">
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.PersonButton">
         <item name="android:fontFamily">sans-serif-light</item>

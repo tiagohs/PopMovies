@@ -17,7 +17,7 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.util.ServerUtils;
-import br.com.tiagohs.popmovies.view.activity.ListMoviesActivity;
+import br.com.tiagohs.popmovies.view.activity.BaseActivity;
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
@@ -82,7 +82,7 @@ public abstract class BaseFragment extends Fragment {
     protected abstract View.OnClickListener onSnackbarClickListener();
 
     public CoordinatorLayout getCoordinatorLayout() {
-        return ((ListMoviesActivity) getActivity()).getCoordinatorLayout();
+        return ((BaseActivity) getActivity()).getCoordinatorLayout();
     }
 
     @Override

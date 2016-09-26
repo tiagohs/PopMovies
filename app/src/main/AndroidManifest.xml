@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/apk/res-auto"
           package="br.com.tiagohs.popmovies">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -12,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.ListMoviesActivity">
+        <activity android:name=".view.activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,13 +23,13 @@
         <activity
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".view.activity.ListMoviesActivity">
+            android:parentActivityName=".view.activity.HomeActivity">
         </activity>
         <activity
             android:name=".view.activity.SearchActivity"
             android:label="@string/title_activity_search"
             android:launchMode="singleTop"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
+            android:parentActivityName=".view.activity.HomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
@@ -39,24 +40,37 @@
                 android:resource="@xml/searchable"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.tiagohs.popmovies.view.activity.ListMoviesActivity"/>
+                android:value="br.com.tiagohs.popmovies.view.activity.HomeActivity"/>
         </activity>
         <activity
             android:name=".view.activity.GenresActivity"
             android:label="@string/title_activity_genres"
-            android:parentActivityName=".view.activity.ListMoviesActivity">
+            android:parentActivityName=".view.activity.HomeActivity">
         </activity>
         <activity
-            android:name=".view.activity.MoviesByGenreActivity"
+            android:name=".view.activity.ListMoviesDefaultActivity"
             android:label="@string/title_activity_movies_by_genre"
-            android:parentActivityName=".view.activity.ListMoviesActivity"
             android:theme="@style/AppTheme">
         </activity>
 
         <activity
             android:name=".view.activity.PersonDetailActivity"
-            android:label="@string/title_activity_actor_details"
-            android:parentActivityName=".view.activity.ListMoviesActivity">
+            android:label="@string/title_activity_actor_details">
+        </activity>
+
+        <activity
+            android:name=".view.activity.WebViewActivity"
+            android:label="@string/title_activity_actor_details">
+        </activity>
+
+        <activity
+            android:name=".view.activity.WallpapersDetailActivity"
+            android:label="@string/title_activity_wallpapers_details">
+        </activity>
+
+        <activity
+            android:name=".view.activity.WallpapersActivity"
+            android:label="@string/title_activity_wallpapers">
         </activity>
     </application>
 

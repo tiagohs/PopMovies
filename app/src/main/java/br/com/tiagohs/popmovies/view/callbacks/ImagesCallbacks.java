@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.view.callbacks;
 
+import java.util.List;
+
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 
 /**
@@ -7,5 +9,5 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
  */
 public interface ImagesCallbacks {
 
-    void onClickImage(ImageDTO imageDTO);
+    void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO);
 }

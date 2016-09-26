@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill_vertical">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/destaques_keywords_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_populares_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/populares"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/populares_subtitle"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_popular_movies"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_estreias_semana_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/estreias_semana"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/estreias_semana_subtitle"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_estreia_movies"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_em_cartaz_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/em_cartaz"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/em_cartaz_subtitle"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_em_cartaz_movies"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_em_breve_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/em_breve"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/em_breve_subtitle"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_em_breve_movies"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

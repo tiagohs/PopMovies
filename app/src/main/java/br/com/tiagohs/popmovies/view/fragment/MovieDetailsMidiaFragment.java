@@ -7,6 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +23,13 @@ import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsMidiaPresenter;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
+import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.adapters.VideoAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaView {
     private static final String TAG = MovieDetailsMidiaFragment.class.getSimpleName();
@@ -38,6 +42,9 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @BindView(R.id.images_recycler_view)
     RecyclerView mImagesRecyclerView;
 
+    @BindView(R.id.wallpapers_riple)
+    MaterialRippleLayout mWallpapersRiple;
+
     @Inject
     MovieDetailsMidiaPresenter mPresenter;
 
@@ -47,6 +54,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     private VideoAdapter mVideoAdapter;
     private ImageAdapter mImageAdapter;
     private MovieDetails mMovieDetails;
+    private List<ImageDTO> mTotalImages;
 
     public static MovieDetailsMidiaFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -71,6 +79,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         super.onDetach();
         mVideosCallbacks = null;
         mImagesCallbacks = null;
+
     }
 
     @Override
@@ -88,13 +97,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        setupVideoAdapter();
-
-        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-        mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
-        setupImageAdapter();
     }
 
     @Override
@@ -110,33 +112,27 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Override
     public void updateImageUI(ImageResponse imageResponse) {
         mMovieDetails.setImages(imageResponse);
+        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
+        mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
         setupImageAdapter();
     }
 
     @Override
     public void updateVideoUI(VideosResponse videosResponse) {
 
-        mMovieDetails.setVideos(videosResponse);
-        setupVideoAdapter();
-    }
-
-    private void setupVideoAdapter() {
-
-        if (mVideoAdapter == null) {
-            mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
-            mVideosRecyclerView.setAdapter(mVideoAdapter);
-        } else {
-            mVideoAdapter.setVideos(mMovieDetails.getVideos());
-            mVideoAdapter.notifyDataSetChanged();
-        }
+        mMovieDetails.addMoreVideos(videosResponse.getVideos());
+        mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
+        mVideosRecyclerView.setAdapter(mVideoAdapter);
     }
 
     private void setupImageAdapter() {
+        mTotalImages = getImageDTO(mMovieDetails.getImages().size());
 
         if (mMovieDetails.getImages().size() > 6)
-            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks);
+            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks, mTotalImages);
         else
-            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(mMovieDetails.getImages().size()), mImagesCallbacks);
+            mImageAdapter = new ImageAdapter(getActivity(), mTotalImages, mImagesCallbacks, mTotalImages);
 
         mImagesRecyclerView.setAdapter(mImageAdapter);
 
@@ -154,5 +150,10 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     }
 
+    @OnClick(R.id.wallpapers_riple)
+    public void onClickWallpapersTitle() {
+        if (!mTotalImages.isEmpty())
+            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages));
+    }
 
 }

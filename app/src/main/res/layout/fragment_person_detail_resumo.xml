@@ -39,7 +39,6 @@
                     <TextView
                         android:id="@+id/person_genero"
                         android:textSize="13dp"
-                        android:text="Masculino"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
@@ -63,7 +62,6 @@
                     <TextView
                         android:id="@+id/person_data_nascimento"
                         android:textSize="13dp"
-                        android:text="21/02/1993 - 43 Anos "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
@@ -90,7 +88,6 @@
                     <TextView
                         android:id="@+id/person_cidade_natal"
                         android:textSize="13dp"
-                        android:text="Concord - California - USA"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
@@ -115,7 +112,6 @@
                     <TextView
                         android:id="@+id/person_principais_areas"
                         android:textSize="13dp"
-                        android:text="Ator, Diretor, Roterista"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
@@ -129,8 +125,7 @@
             android:id="@+id/descricao_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Matthew Paige Matt Damon (born October 8, 1970) is an American actor, screenwriter, and philanthropist.His career launched following the success of the film Good Will Hunting (1997) from a screenplay he co-wrote with friend Ben Affleck. The pair won an Academy Award for Best Original Screenplay and a Golden Globe Award for Best Screenplay for their work. Damon alone received multiple"/>
+            android:layout_margin="16dp" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -144,7 +139,7 @@
                 android:gravity="center">
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple"
+                    android:id="@+id/riple_wiki"
                     app:mrl_rippleColor="@color/secondary_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,8 +150,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:drawableLeft="@drawable/ic_wiki"
                         android:id="@+id/btn_wiki"
+                        android:drawableLeft="@drawable/ic_wiki"
                         android:background="@android:color/transparent"
                         android:textColor="@color/secondary_text"
                         android:padding="10dp"
@@ -166,7 +161,7 @@
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_dois"
+                    android:id="@+id/riple_imdb"
                     app:mrl_rippleColor="@color/secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -177,33 +172,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:id="@+id/btn_tvrage"
+                        android:id="@+id/btn_imdb"
                         android:background="@android:color/transparent"
                         android:textColor="@color/secondary_text"
                         android:padding="10dp"
                         android:textSize="12dp"
-                        android:text="@string/tvrage"/>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_tres"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/ButtonTest"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/secondary_text"
-                        android:padding="10dp"
-                        android:textSize="12dp"
-                        android:text="@string/freebase"/>
+                        android:text="@string/imdb"/>
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -216,39 +190,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/conhecido_por_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
+                app:mrl_rippleOverlay="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/conhecido_por_title_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:text="CONHECIDO POR"
-                    android:layout_weight="0.85"/>
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/movie_deails_item_default_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/conhecido_por"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
 
-                    <Button
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:background="@android:color/transparent"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
-                        android:layout_weight="0.15"
-                        android:text="MAIS"/>
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/conhecido_por_recycler_view"
@@ -264,40 +243,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/person_detail_images_title_container"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/wallpapers_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
+                app:mrl_rippleOverlay="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/person_detail_images_title_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:text="IMAGENS"
-                    android:layout_weight="0.85"/>
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/o_deails_item_default_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_detail_midia_imagens"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
 
-                    <Button
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:background="@android:color/transparent"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
-                        android:layout_weight="0.15"
-                        android:text="MAIS"/>
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/imagens_recycler_view"

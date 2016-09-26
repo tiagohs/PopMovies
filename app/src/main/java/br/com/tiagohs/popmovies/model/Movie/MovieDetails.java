@@ -76,6 +76,24 @@ public class MovieDetails extends Movie implements Serializable  {
     private List<UserList> lists = Collections.emptyList();
     private List<ChangeKeyItem> changes = Collections.emptyList();
 
+    public void addMoreVideos(List<Video> videos) {
+
+        for (Video v : videos) {
+            if (!this.videos.contains(v))
+                this.videos.add(v);
+        }
+
+    }
+
+    public void addMoreImages(List<Artwork> images) {
+
+        for (Artwork v : images) {
+            if (!this.images.contains(v))
+                this.images.add(v);
+        }
+
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Getter methods">
     public BelongsToCollection getBelongsToCollection() {
         return belongsToCollection;

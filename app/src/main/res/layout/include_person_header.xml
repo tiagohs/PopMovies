@@ -53,7 +53,7 @@
             android:gravity="center">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/riple_tres"
+                android:id="@+id/facebook_riple"
                 app:mrl_rippleColor="@android:color/holo_blue_light"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -65,14 +65,13 @@
                     android:id="@+id/img_facebook"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:visibility="gone"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/ic_facebook"/>
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/riple_um"
+                android:id="@+id/twitter_riple"
                 app:mrl_rippleColor="@android:color/holo_blue_dark"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -83,7 +82,6 @@
                     android:id="@+id/img_twitter"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:visibility="gone"
                     android:src="@drawable/ic_twitter"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 

@@ -25,12 +25,14 @@ public class ListWordsAdapter extends RecyclerView.Adapter<ListWordsAdapter.Gene
     private List<ItemListDTO> mItemListDTOs;
     private ListWordsCallbacks mCallbacks;
     private ItemType mItemType;
+    private int mLayoutID;
 
-    public ListWordsAdapter(Context context, List<ItemListDTO> genres, ListWordsCallbacks callbacks, ItemType itemType) {
+    public ListWordsAdapter(Context context, List<ItemListDTO> genres, ListWordsCallbacks callbacks, ItemType itemType, int layoutID) {
         this.mContext = context;
         this.mItemListDTOs = genres;
         this.mCallbacks = callbacks;
         this.mItemType = itemType;
+        this.mLayoutID = layoutID;
     }
 
     public void setItemListDTOs(List<ItemListDTO> itemListDTOs) {
@@ -40,7 +42,7 @@ public class ListWordsAdapter extends RecyclerView.Adapter<ListWordsAdapter.Gene
     @Override
     public GenerosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.item_list_words_default, parent, false);
+        View view = layoutInflater.inflate(mLayoutID, parent, false);
 
         return new GenerosViewHolder(view);
     }

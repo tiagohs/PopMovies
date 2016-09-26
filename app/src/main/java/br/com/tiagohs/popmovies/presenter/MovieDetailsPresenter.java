@@ -8,4 +8,6 @@ public interface MovieDetailsPresenter extends BasePresenter<MovieDetailsView>, 
 
     void getMovieDetails(int movieID);
     void getVideos(int movieID);
+
+    void onResponse(MovieDetails response);
 }

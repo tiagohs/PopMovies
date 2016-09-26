@@ -7,14 +7,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsTecnicoFragment;
 
 
 public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
     private static final int TAB_RESUMO = 0;
-    private static final int TAB_TECNICO = 1;
-    private static final int TAB_MIDIA = 2;
-    private static final int TAB_REVIEWS = 3;
+    private static final int TAB_MIDIA = 1;
+    private static final int TAB_REVIEWS = 2;
 
     private MovieDetails mMovie;
     private String[] mTabsNames;
@@ -36,11 +34,8 @@ public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
             case TAB_MIDIA:
                 return MovieDetailsMidiaFragment.newInstance(mMovie);
 
-            case TAB_TECNICO:
-                return MovieDetailsTecnicoFragment.newInstance(mMovie);
-
-//            case TAB_REVIEWS:
-//                return MovieDetailsOverviewFragment.newInstance(mMovie);
+            case TAB_REVIEWS:
+                return MovieDetailsMidiaFragment.newInstance(mMovie);
 
             default:
                 return MovieDetailsOverviewFragment.newInstance(mMovie);

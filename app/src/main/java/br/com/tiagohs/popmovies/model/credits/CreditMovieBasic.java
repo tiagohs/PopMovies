@@ -45,6 +45,8 @@ public class CreditMovieBasic extends CreditBasic implements Serializable {
     private int episodeCount;
     @JsonProperty("first_air_date")
     private String firstAirDate;
+    @JsonProperty("air_date")
+    private String airDate;
     @JsonProperty("name")
     private String name;
     @JsonProperty("original_name")
@@ -82,7 +84,13 @@ public class CreditMovieBasic extends CreditBasic implements Serializable {
         this.originalName = originalName;
     }
 
+    public String getAirDate() {
+        return airDate;
+    }
 
+    public void setAirDate(String airDate) {
+        this.airDate = airDate;
+    }
 
     public CreditMovieBasic() {
         setMediaType(MediaType.MOVIE);

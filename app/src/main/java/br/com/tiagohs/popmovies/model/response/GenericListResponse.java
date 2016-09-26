@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class GenericListResponse<T> {
 
+    @JsonProperty("adult")
+    private boolean adult;
+
     @JsonProperty("id")
     private int id;
 
@@ -64,5 +67,13 @@ public class GenericListResponse<T> {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 }

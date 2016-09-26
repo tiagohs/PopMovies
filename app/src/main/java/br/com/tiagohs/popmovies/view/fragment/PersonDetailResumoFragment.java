@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +20,22 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Gender;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.view.activity.ListMoviesDefaultActivity;
+import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
+import br.com.tiagohs.popmovies.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PersonDetailResumoFragment extends BaseFragment  {
     private static final String ARG_PERSON = "br.com.tiagohs.popmovies.person";
@@ -55,6 +64,12 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     @BindView(R.id.person_detail_images_title_container)
     LinearLayout mImagesTitleContainer;
 
+    @BindView(R.id.wallpapers_riple)
+    MaterialRippleLayout mWallpapersRiple;
+
+    @BindView(R.id.conhecido_por_riple)
+    MaterialRippleLayout mConhecidoPorRiple;
+
     private PersonInfo mPerson;
     private ListMoviesCallbacks mCallbacks;
     private ImagesCallbacks mImagesCallbacks;
@@ -62,6 +77,11 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private ImageAdapter mImageAdapter;
 
     private List<String> mAreasAtuacao;
+    private List<Artwork> mTotalImages;
+
+    private List<ImageDTO> mTotalImagesDTO;
+    List<MovieListDTO> mListKnowForDTO;
+
 
     public PersonDetailResumoFragment() {
         mAreasAtuacao = new ArrayList<>();
@@ -141,80 +161,119 @@ public class PersonDetailResumoFragment extends BaseFragment  {
                         "--");
 
         mDescricaoPerson.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mDescricaoPerson.setText(mPerson.getBiography() != null ? mPerson.getBiography() : getString(R.string.nao_ha_biografia));
 
-        mKnowForAdapter = new ListMoviesAdapter(getActivity(), new ArrayList<MovieListDTO>(), mCallbacks, R.layout.item_similares_movie);
-        mKnowForRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mKnowForRecyclerView.setAdapter(mKnowForAdapter);
         getMovieListDTO();
 
-        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-        mImagensRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
-        mImageAdapter = new ImageAdapter(getActivity(), new ArrayList<ImageDTO>(), mImagesCallbacks);
-        mImagensRecyclerView.setAdapter(mImageAdapter);
-        getImageDTO();
+        mDescricaoPerson.setText(MovieUtils.isEmptyValue(mPerson.getBiography())
+                ? ViewUtils.createDefaultPersonBiography(mPerson.getName(),
+                                                        MovieUtils.formatList(mAreasAtuacao),
+                mListKnowForDTO.isEmpty() ? new ArrayList<String>() : createMoviesListKnowFor())
+                : mPerson.getBiography());
+
+        setupImagesRecyclerView();
     }
 
-    private List<ImageDTO> getImageDTO() {
-        List<ImageDTO> imageDTOs = new ArrayList<>();
-        int numTotalImages = 0;
+    private List<String> createMoviesListKnowFor() {
+        int size = mListKnowForDTO.size() < 5 ? mListKnowForDTO.size() : 5;
+        List<String> movies = new ArrayList<String>();
 
-        if (!mPerson.getTaggedImages().isEmpty()) {
-            numTotalImages = mPerson.getTaggedImages().size() < 12 ? mPerson.getTaggedImages().size(): 12;
-
-            for (int cont = 0; cont < numTotalImages; cont++) {
-                Artwork image = mPerson.getTaggedImages().get(cont);
-                imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
-            }
-        } else {
-            numTotalImages = mPerson.getTaggedImages().size() < 12 ? mPerson.getImages().size(): 12;
-
-            for (int cont = 0; cont < numTotalImages; cont++) {
-                Artwork image = mPerson.getImages().get(cont);
-                imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
-            }
+        for (int cont = 0; cont < size; cont++) {
+            movies.add(mListKnowForDTO.get(cont).getMovieName());
         }
 
-        if (imageDTOs.isEmpty())
-            mImagesTitleContainer.setVisibility(View.GONE);
+        return movies;
+    }
 
-        mImageAdapter.setImages(imageDTOs);
-        mImageAdapter.notifyDataSetChanged();
+    private List<ImageDTO> setupImagesRecyclerView() {
+        mTotalImages = getTotalPersonImages();
+        List<ImageDTO> imageDTOs = getPersonImagesDTO(mTotalImages.size() < 12 ? mTotalImages.size(): 12, mTotalImages);
+
+        if (!mTotalImages.isEmpty()) {
+            mTotalImagesDTO = getPersonImagesDTO(mTotalImages.size(), mTotalImages);
+            int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
+            mImagensRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
+            mImageAdapter = new ImageAdapter(getActivity(), imageDTOs,
+                                                            mImagesCallbacks,
+                                                            mTotalImagesDTO);
+            mImagensRecyclerView.setAdapter(mImageAdapter);
+        } else {
+            mWallpapersRiple.setVisibility(View.GONE);
+        }
 
         return imageDTOs;
 
     }
 
+    private List<Artwork> getTotalPersonImages() {
+        List<Artwork> images = new ArrayList<>();
+        images.addAll(mPerson.getTaggedImages());
+        images.addAll(mPerson.getImages());
+
+        return images;
+    }
+
+    public List<ImageDTO> getPersonImagesDTO(int numTotalImages, List<Artwork> images) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numTotalImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+    }
+
+
     private List<MovieListDTO> getMovieListDTO() {
-        List<MovieListDTO> listDTOs = new ArrayList<>();
+        mListKnowForDTO = new ArrayList<>();
 
         if (mPerson.getMovieCredits().getCast().size() > 0)
             mAreasAtuacao.add(mPerson.getGender() == Gender.MALE ? "Actor" : "Actress");
 
-        setPersonDTO(mPerson.getMovieCredits().getCast(), listDTOs);
-        setPersonDTO(mPerson.getMovieCredits().getCrew(), listDTOs);
+        setPersonDTO(mPerson.getMovieCredits().getCast());
+        setPersonDTO(mPerson.getMovieCredits().getCrew());
 
-        mKnowForAdapter.setList(listDTOs);
-        mKnowForAdapter.notifyDataSetChanged();
+        mKnowForAdapter = new ListMoviesAdapter(getActivity(), mListKnowForDTO, mCallbacks, R.layout.item_similares_movie);
+        mKnowForRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+        mKnowForRecyclerView.setAdapter(mKnowForAdapter);
 
-        return listDTOs;
+        return mListKnowForDTO;
     }
 
 
-    private void setPersonDTO(List<CreditMovieBasic> persons, List<MovieListDTO> listDTOs) {
+    private void setPersonDTO(List<CreditMovieBasic> persons) {
         int numMovies = persons.size() < 10 ? persons.size() : 10;
 
         for (int cont = 0; cont < numMovies; cont++) {
             CreditMovieBasic person = persons.get(cont);
-            listDTOs.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
+            mListKnowForDTO.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
 
             if (!mAreasAtuacao.contains(person.getDepartment()) && person.getDepartment() != null) {
-                mAreasAtuacao.add(person.getDepartment());
+                if (!mAreasAtuacao.contains(person.getDepartment()))
+                    mAreasAtuacao.add(person.getDepartment());
             }
         }
 
         mPrincipaisAreas.setText(MovieUtils.formatList(mAreasAtuacao));
     }
 
+    @OnClick(R.id.wallpapers_riple)
+    public void onClickPersonWallpapers() {
+        startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImagesDTO));
+    }
 
+    @OnClick(R.id.conhecido_por_riple)
+    public void onClickConhecidoPorWallpapers() {
+        startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mPerson.getId(), getString(R.string.conhecido_por_title_activity), Sort.PERSON_CONHECIDO_POR, R.layout.item_list_movies)));
+    }
+
+    @OnClick(R.id.riple_wiki)
+    public void onClickWiki() {
+        startActivityForResult(WebViewActivity.newIntent(getActivity(), "http://en.wikipedia.org/w/index.php?search=" + mPerson.getName(), mPerson.getName()), 0);
+    }
+
+    @OnClick(R.id.riple_imdb)
+    public void onClickIMDB() {
+        startActivityForResult(WebViewActivity.newIntent(getActivity(), "http://www.imdb.com/name/" + mPerson.getImdbId(), mPerson.getName()), 0);
+    }
 }

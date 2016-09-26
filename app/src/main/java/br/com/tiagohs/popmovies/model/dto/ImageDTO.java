@@ -1,9 +1,11 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago Henrique on 04/09/2016.
  */
-public class ImageDTO {
+public class ImageDTO implements Serializable {
     private int movieID;
     private String imageID;
     private String imagePath;
@@ -13,6 +15,8 @@ public class ImageDTO {
         this.imageID = imageID;
         this.imagePath = imagePath;
     }
+
+
 
     public int getMovieID() {
         return movieID;
@@ -36,5 +40,15 @@ public class ImageDTO {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof ImageDTO) {
+            ImageDTO im = (ImageDTO) obj;
+            return this.getImagePath().equals(im.getImagePath());
+        }
+        return false;
     }
 }

@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'android-apt'
-
 android {
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/MANIFEST.MF'
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
@@ -41,7 +48,6 @@ dependencies {
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.code.gson:gson:2.5'
 
     //Material Dialogs
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
@@ -57,32 +63,23 @@ dependencies {
     //Linke Button
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
 
-    //Toobar
-    compile 'it.neokree:MaterialTabs:0.11'
-
     //Rede
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'com.android.volley:volley:1.0.0'
 
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.3'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 
     compile 'com.balysv:material-ripple:1.0.2'
 
     compile 'com.mikhaellopez:circularimageview:3.0.2'
 
-    compile 'com.pnikosis:materialish-progress:1.7'
-
-    compile ('com.github.florent37:materialviewpager:1.2.0@aar'){
-        transitive = true
-    }
-
-    compile 'jp.wasabeef:blurry:2.0.3'
-    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
+    compile 'com.github.chrisbanes:PhotoView:1.3.0'
+
+    compile 'com.pnikosis:materialish-progress:1.7'
 }

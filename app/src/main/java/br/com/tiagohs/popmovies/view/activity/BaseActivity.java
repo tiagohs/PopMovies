@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Nullable @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
-    @BindView(R.id.nav_view)
+    @Nullable @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
     protected MaterialDialog materialDialog;

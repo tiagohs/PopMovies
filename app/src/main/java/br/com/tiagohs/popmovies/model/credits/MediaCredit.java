@@ -79,6 +79,6 @@ public class MediaCredit implements Serializable {
             return getId() == m.getId();
         }
 
-        return super.equals(obj);
+        return false;
     }
 }

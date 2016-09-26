@@ -38,7 +38,6 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter {
         if (mListMovieView.isInternetConnected()) {
             mPopMovieServer.getPopularMovies(++mCurrentPage, this);
             mListMovieView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
-            mListMovieView.setBackgroundNoConnectionImageVisibility(View.GONE);
         } else {
             noConnectionError();
         }
@@ -56,7 +55,6 @@ public class ListMoviesPresenterImpl implements ListMoviesPresenter {
 
         if (mCurrentPage == 0) {
             mListMovieView.setRecyclerViewVisibility(View.GONE);
-            mListMovieView.setBackgroundNoConnectionImageVisibility(View.VISIBLE);
         }
     }
 

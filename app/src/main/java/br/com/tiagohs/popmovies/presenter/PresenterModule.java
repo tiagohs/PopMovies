@@ -32,12 +32,18 @@ public class PresenterModule {
     }
 
     @Provides
-    public MoviesByGenrePresenter providesMoviesByGenrePresenter() {
-        return new MoviesByGenrePresenterImpl();
+    public ListMoviesDefaultPresenter providesMoviesByGenrePresenter() {
+        return new ListMoviesDefaultPresenterImpl();
     }
 
     @Provides
     public PersonDetailPresenter providesPersonDetailPresenter() {
         return new PersonDetailPresenterImpl();
     }
+
+    @Provides
+    public MovieDetailsOverviewPresenter providesMovieDetailsOverviewPresenter() {
+        return new MovieDetailsOverviewPresenterImpl();
+    }
+
 }

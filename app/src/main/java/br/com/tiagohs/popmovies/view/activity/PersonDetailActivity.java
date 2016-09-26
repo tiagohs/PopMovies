@@ -3,31 +3,42 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.balysv.materialripple.MaterialRippleLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.atwork.Artwork;
+import br.com.tiagohs.popmovies.model.atwork.ArtworkMedia;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.presenter.PersonDetailPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
-import br.com.tiagohs.popmovies.view.adapters.TabPersonCarrerAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.fragment.PersonDetailFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -66,11 +77,11 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     @BindView(R.id.person_app_bar)
     AppBarLayout mAppBarLayout;
 
-    @BindView(R.id.tabLayout)
-    TabLayout mTabCarrer;
+    @BindView(R.id.facebook_riple)
+    MaterialRippleLayout mFacabookRiple;
 
-    @BindView(R.id.carrer_view_pager)
-    ViewPager mCarrerViewPager;
+    @BindView(R.id.twitter_riple)
+    MaterialRippleLayout mTwitterRiple;
 
     @Inject
     PersonDetailPresenter mPersonDetailPresenter;
@@ -109,7 +120,6 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         super.onStart();
 
         mPersonDetailPresenter.getPersonDeatils(mPersonID);
-        mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
     }
 
     @Override
@@ -140,30 +150,56 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail_default, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_share:
+
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
     public void atualizarView(PersonInfo person) {
         mPerson = person;
 
         Log.i("Person", mPerson.getTaggedImages().size() + "");
 
-        if (!mPerson.getTaggedImages().isEmpty()) {
-            ImageUtils.loadWithRevealAnimation(this, mPerson.getTaggedImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
-        } else if (!mPerson.getImages().isEmpty()) {
-            ImageUtils.loadWithRevealAnimation(this, mPerson.getImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+        if (!isDestroyed()) {
+            mBackgroundPerson.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (!mPerson.getTaggedImages().isEmpty()) {
+                        ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                    } else if (!mPerson.getImages().isEmpty()) {
+                        ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(0).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                    }
+                }
+            });
         }
 
         ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
 
-        if (mPerson.getExternalIDs().getFacebookId() != null)
-            mFacebookImage.setVisibility(View.VISIBLE);
+        if (mPerson.getExternalIDs().getFacebookId() == null)
+            mFacabookRiple.setVisibility(View.GONE);
 
-        if (mPerson.getExternalIDs().getTwitterId() != null)
-            mTwitterImage.setVisibility(View.VISIBLE);
+        if (mPerson.getExternalIDs().getTwitterId() == null)
+            mTwitterRiple.setVisibility(View.GONE);
 
         mPersonName.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
         mPersonName.setText(mPerson.getName());
 
-        mCarrerViewPager.setAdapter(new TabPersonCarrerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.person_carrer_tab_array), mPerson));
-        mTabCarrer.setupWithViewPager(mCarrerViewPager);
         int totalFilmes = mPerson.getMovieCredits().getCast().size() + mPerson.getMovieCredits().getCrew().size();
 
         mLabelTotalFilmes.setText(getResources().getQuantityString(R.plurals.number_of_films_person, totalFilmes));
@@ -173,6 +209,23 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         mLabelTotalFotos.setText(getResources().getQuantityString(R.plurals.number_of_fotos_person, totalFotos));
         mTotalPhotos.setText(String.valueOf(totalFotos));
 
+        setupTabs();
+    }
+
+    public void setupTabs() {
+
+        if (!isDestroyed()) {
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentById(R.id.person_details_fragment);
+
+            if (fragment == null) {
+                fm.beginTransaction()
+                        .add(R.id.person_details_fragment, PersonDetailFragment.newInstance(mPerson))
+                        .commit();
+            }
+        }
+
+        mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
     }
 
     @Override
@@ -182,15 +235,95 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         outState.putString(ARG_NAME_PERSON, mPerson.getName());
     }
 
-    @OnClick(R.id.img_facebook)
+    @OnClick(R.id.facebook_riple)
     public void onClickFacebook() {
-        Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + mPerson.getExternalIDs().getFacebookId())));
     }
 
-    @OnClick(R.id.img_twitter)
+    @OnClick(R.id.twitter_riple)
     public void onClickTwitter() {
-        Toast.makeText(this, "Twitter", Toast.LENGTH_SHORT).show();
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("twitter://user?screen_name=" + mPerson.getExternalIDs().getTwitterId()));
+            startActivity(intent);
+
+        }catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://twitter.com/#!/" + mPerson.getExternalIDs().getTwitterId())));
+        }
+
     }
+
+    @OnClick(R.id.background_person)
+    public void onClickBackground() {
+        if (!mPerson.getTaggedImages().isEmpty())
+            onClickImage(getImagesBackgroundDTO(mPerson.getImages().size(), mPerson.getTaggedImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
+        else if (!mPerson.getImages().isEmpty())
+            onClickProfileImage();
+    }
+
+    @OnClick(R.id.image_person)
+    public void onClickProfileImage() {
+        if (!mPerson.getImages().isEmpty())
+            onClickImage(getImagesDTO(mPerson.getImages().size(), mPerson.getImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
+    }
+
+    @OnClick(R.id.filmes_total_person_riple)
+    public void onClickTotalFilmes() {
+        startActivity(ListMoviesDefaultActivity.newIntent(this, new ListActivityDTO(mPerson.getId(), mPerson.getName(), Sort.PERSON_MOVIES_CARRER, R.layout.item_list_movies)));
+    }
+
+    private List<Artwork> getTotalPersonImages() {
+        List<Artwork> images = new ArrayList<>();
+        images.addAll(mPerson.getTaggedImages());
+        images.addAll(mPerson.getImages());
+
+        return images;
+    }
+
+    public List<ImageDTO> getPersonImagesDTO(int numTotalImages, List<Artwork> images) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numTotalImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+    }
+
+    @OnClick(R.id.fotos_total_person_riple)
+    public void onClickTotalFotos() {
+        List<Artwork> list = getTotalPersonImages();
+
+        if (!getTotalPersonImages().isEmpty())
+            startActivity(WallpapersActivity.newIntent(this, getPersonImagesDTO(list.size(), list)));
+    }
+
+    private List<ImageDTO> getImagesBackgroundDTO(int numImages, List<ArtworkMedia> images) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+    }
+
+    private List<ImageDTO> getImagesDTO(int numImages, List<Artwork> images) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(mPerson.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+
+    }
+
+
 
     @Override
     public void showProgressBar() {
@@ -208,7 +341,13 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     @Override
-    public void onClickImage(ImageDTO imageDTO) {
+    public void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO) {
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO));
+    }
+
+    @Override
+    public void setProgressVisibility(int visibityState) {
 
     }
+
 }

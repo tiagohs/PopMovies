@@ -25,6 +25,7 @@ public enum MediaType {
 
     MOVIE,
     TV,
+    SEASON,
     EPISODE;
 
     public static MediaType fromString(String mediaType) {

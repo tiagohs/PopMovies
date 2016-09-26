@@ -19,9 +19,6 @@ import br.com.tiagohs.popmovies.view.adapters.GenresListAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 import butterknife.BindView;
 
-/**
- * Created by Tiago Henrique on 03/09/2016.
- */
 public class GenresFragment extends BaseFragment implements GenresView {
 
     @BindView(R.id.list_movies_recycler_view)
@@ -35,7 +32,8 @@ public class GenresFragment extends BaseFragment implements GenresView {
     private GenresCallbacks mCallbacks;
 
     public static GenresFragment newInstance() {
-        return new GenresFragment();
+        GenresFragment genresFragment = new GenresFragment();
+        return genresFragment;
     }
 
     public GenresFragment() {
