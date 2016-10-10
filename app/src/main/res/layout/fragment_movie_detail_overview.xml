@@ -208,8 +208,6 @@
 
             </RelativeLayout>
 
-
-
             <RelativeLayout
                 android:id="@+id/tomatoes_consensus_container"
                 android:orientation="horizontal"

@@ -46,6 +46,8 @@ public class ExternalID implements Serializable {
     private String facebookId;
     @JsonProperty("twitter_id")
     private String twitterId;
+    @JsonProperty("instagram_id")
+    private String instagramID;
 
     public int getId() {
         return id;
@@ -111,4 +113,11 @@ public class ExternalID implements Serializable {
         this.twitterId = twitterId;
     }
 
+    public String getInstagramID() {
+        return instagramID;
+    }
+
+    public void setInstagramID(String instagramID) {
+        this.instagramID = instagramID;
+    }
 }

@@ -5,9 +5,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 
 public class ViewUtils {
 
@@ -41,7 +44,7 @@ public class ViewUtils {
 
     }
 
-    public static String createDefaultPersonBiography(String name, String areas, List<String> knowForMovies) {
+    public static String createDefaultPersonBiography(String name, String areas, List<MovieListDTO> knowForMovies) {
         StringBuilder biography = new StringBuilder();
 
         biography.append(name + " is an ");
@@ -50,8 +53,8 @@ public class ViewUtils {
         if (!knowForMovies.isEmpty()) {
             biography.append(", known for ");
 
-            for (String movie : knowForMovies) {
-                biography.append("'" + movie + "', ");
+            for (MovieListDTO movie : knowForMovies) {
+                biography.append("'" + movie.getMovieName() + "', ");
             }
         }
 
@@ -60,9 +63,21 @@ public class ViewUtils {
         return biography.toString();
     }
 
-
     private static void setRankingState(Context context, int state, ProgressBar rankingProgress) {
         rankingProgress.setProgressDrawable(ViewUtils.getDrawableFromResource(context, state));
+    }
+
+    public static List<String> createAreasAtuacoesPerson(List<CreditMovieBasic> personsMovies) {
+        List<String> areas = new ArrayList<>();
+
+        for (CreditMovieBasic movie : personsMovies) {
+            if (!areas.contains(movie.getDepartment()) && movie.getDepartment() != null) {
+                if (!areas.contains(movie.getDepartment()))
+                    areas.add(movie.getDepartment());
+            }
+        }
+
+        return areas;
     }
 
 }

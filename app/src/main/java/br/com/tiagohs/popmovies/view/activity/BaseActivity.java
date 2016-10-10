@@ -18,7 +18,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -61,6 +64,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.menu_generos:
                 startActivity(GenresActivity.newIntent(this));
                 return true;
+            case R.id.menu_atores:
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO("Atores e Atrizes", R.layout.item_list_movies, Sort.PERSON_POPULAR, ListType.PERSON)));
+                return true;
             default:
                 return false;
         }
@@ -98,9 +104,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
 
         mSnackbar.setActionTextColor(Color.RED);
+        mSnackbar.show();
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
 
-        mSnackbar.show();
+
     }
 
     protected abstract View.OnClickListener onSnackbarClickListener();

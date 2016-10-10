@@ -82,4 +82,7 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
 
     compile 'com.pnikosis:materialish-progress:1.7'
+
+    compile 'com.crystal:crystalrangeseekbar:1.1.1'
+
 }

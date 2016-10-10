@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
+import br.com.tiagohs.popmovies.view.fragment.MovieDetailsReviewsFragment;
 
 
 public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
@@ -35,7 +36,7 @@ public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
                 return MovieDetailsMidiaFragment.newInstance(mMovie);
 
             case TAB_REVIEWS:
-                return MovieDetailsMidiaFragment.newInstance(mMovie);
+                return MovieDetailsReviewsFragment.newInstance(mMovie);
 
             default:
                 return MovieDetailsOverviewFragment.newInstance(mMovie);

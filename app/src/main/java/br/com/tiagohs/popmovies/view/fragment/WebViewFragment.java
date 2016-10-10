@@ -50,8 +50,14 @@ public class WebViewFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
 
-        configurateWebView();
-        startUrl();
+        if (isInternetConnected()) {
+            configurateWebView();
+            startUrl();
+        } else {
+            onError(getString(R.string.no_internet));
+        }
+
+
     }
 
 
@@ -72,11 +78,9 @@ public class WebViewFragment extends BaseFragment {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                if (newProgress < 100) {
+                if (newProgress < 100)
                     mWebViewProgress.setProgress(newProgress);
-                    if (isAdded())
-                        getWebViewActivity().setActionBarSubTitle(getString(R.string.loading));
-                }
+
             }
         };
     }
@@ -89,7 +93,14 @@ public class WebViewFragment extends BaseFragment {
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                configurateWebView();
+                startUrl();
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     @Override
@@ -128,14 +139,16 @@ public class WebViewFragment extends BaseFragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             mWebViewProgress.setVisibility(View.VISIBLE);
+            getWebViewActivity().setActionBarSubTitle(mWebView.getUrl());
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mWebViewProgress.setVisibility(View.GONE);
-            if (isAdded())
+            if (isAdded()) {
                 getWebViewActivity().setActionBarSubTitle(view.getTitle());
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,13 +36,13 @@ import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
-import br.com.tiagohs.popmovies.view.activity.ListMoviesDefaultActivity;
+import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
-import br.com.tiagohs.popmovies.view.adapters.PersonAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
@@ -52,106 +54,42 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     private static final String ARG_MOVIE = "movie";
 
-    @BindView(R.id.sinopse_movie)
-    TextView mSinopseMovie;
-
-    @BindView(R.id.adult_movie)
-    TextView mAdultMovie;
-
-    @BindView(R.id.generos_recycler_view)
-    RecyclerView mGenerosRecyclerView;
-
-    @BindView(R.id.similares_recycler_view)
-    RecyclerView mSimilaresRecyclerView;
-
-    @BindView(R.id.imdb_raking_progress)
-    ProgressBar mImdbRankingProgress;
-
-    @BindView(R.id.imdb_raking)
-    TextView mImdbRanking;
-
-    @BindView(R.id.imdb_num_votos)
-    TextView mImdbVotes;
-
-    @BindView(R.id.tomatoes_ranking)
-    TextView mTomatoesRanking;
-
-    @BindView(R.id.tomatoes_ranking_progress)
-    ProgressBar mTomatoesRankingProgress;
-
-    @BindView(R.id.tomatoes_num_votos)
-    TextView mTomatoesVotes;
-
-    @BindView(R.id.metascore_ranking)
-    TextView mMetascoreRanking;
-
-    @BindView(R.id.metascore_ranking_progress)
-    ProgressBar mMetascoreRankingProgress;
-
-    @BindView(R.id.aspas)
-    TextView mAspas;
-
-    @BindView(R.id.movie_tomatoes_consensus)
-    TextView mTomatoesConsensus;
-
-    @BindView(R.id.movie_nomeacoes)
-    TextView mMovieNomeacoes;
-
-    @BindView(R.id.imdb_riple)
-    MaterialRippleLayout mImdbRiple;
-
-    @BindView(R.id.tomatoes_riple)
-    MaterialRippleLayout mTomatoesRiple;
-
-    @BindView(R.id.metascore_riple)
-    MaterialRippleLayout mMetascoreRiple;
-
+    @BindView(R.id.sinopse_movie)                           TextView mSinopseMovie;
+    @BindView(R.id.adult_movie)                             TextView mAdultMovie;
+    @BindView(R.id.generos_recycler_view)                   RecyclerView mGenerosRecyclerView;
+    @BindView(R.id.similares_recycler_view)                 RecyclerView mSimilaresRecyclerView;
+    @BindView(R.id.imdb_raking_progress)                    ProgressBar mImdbRankingProgress;
+    @BindView(R.id.imdb_raking)                             TextView mImdbRanking;
+    @BindView(R.id.imdb_num_votos)                          TextView mImdbVotes;
+    @BindView(R.id.tomatoes_ranking)                        TextView mTomatoesRanking;
+    @BindView(R.id.tomatoes_ranking_progress)               ProgressBar mTomatoesRankingProgress;
+    @BindView(R.id.tomatoes_num_votos)                      TextView mTomatoesVotes;
+    @BindView(R.id.metascore_ranking)                       TextView mMetascoreRanking;
+    @BindView(R.id.metascore_ranking_progress)              ProgressBar mMetascoreRankingProgress;
+    @BindView(R.id.aspas)                                   TextView mAspas;
+    @BindView(R.id.movie_tomatoes_consensus)                TextView mTomatoesConsensus;
+    @BindView(R.id.movie_nomeacoes)                         TextView mMovieNomeacoes;
+    @BindView(R.id.imdb_riple)                              MaterialRippleLayout mImdbRiple;
+    @BindView(R.id.tomatoes_riple)                          MaterialRippleLayout mTomatoesRiple;
+    @BindView(R.id.metascore_riple)                         MaterialRippleLayout mMetascoreRiple;
     @BindView(R.id.movie_details_titulo_original)           TextView mTituloOriginal;
     @BindView(R.id.movie_details_idioma_original)           TextView mIdiomaOriginal;
     @BindView(R.id.movie_details_orcamento_original)        TextView mOcamento;
     @BindView(R.id.movie_details_receita_original)          TextView mReceita;
-    @BindView(R.id.elenco_recycler_view)                    RecyclerView mElencoRecyclerView;
-    @BindView(R.id.equipe_tecnica_recycler_view)            RecyclerView mEquipeTecnicaRecyclerView;
     @BindView(R.id.keywords_recycler_view)                  RecyclerView mKeywordsRecyclerView;
-
-    @BindView(R.id.label_movie_details_idioma_original)
-    TextView mLabelIdiomaOriginal;
-
-    @BindView(R.id.label_movie_details_titulo_original)
-    TextView mLabelTituloOriginal;
-
-    @BindView(R.id.label_movie_details_receita_original)
-    TextView mLabelOcamento;
-
-    @BindView(R.id.label_movie_details_orcamento_original)
-    TextView mLabelReceita;
-
-    @BindView(R.id.label_movie_nomeacoes)
-    TextView mLabelMovieNomeacoes;
-
-    @BindView(R.id.tomatoes_consensus_assign)
-    TextView mTomatoesConsensusAssign;
-
-    @BindView(R.id.imdb_raking_container)
-    FrameLayout mImdbRakingContainer;
-
-    @BindView(R.id.tomatoes_ranking_container)
-    FrameLayout mTomatoesRankingContainer;
-
-    @BindView(R.id.metascore_ranking_container)
-    FrameLayout mMetascoreRankingContainer;
-
-    @BindView(R.id.tomatoes_consensus_container)
-    RelativeLayout mTomatoesConsensusContainer;
-
-    @BindView(R.id.rankings_progress)
-    ProgressWheel mRankingProgress;
-
-    @BindView(R.id.rankings_container)
-    LinearLayout mRankingContainer;
-
-    @BindView(R.id.similares_container)
-    CardView mSimilaresTitleContainer;
+    @BindView(R.id.label_movie_details_idioma_original)     TextView mLabelIdiomaOriginal;
+    @BindView(R.id.label_movie_details_titulo_original)     TextView mLabelTituloOriginal;
+    @BindView(R.id.label_movie_details_receita_original)    TextView mLabelOcamento;
+    @BindView(R.id.label_movie_details_orcamento_original)  TextView mLabelReceita;
+    @BindView(R.id.label_movie_nomeacoes)                   TextView mLabelMovieNomeacoes;
+    @BindView(R.id.tomatoes_consensus_assign)               TextView mTomatoesConsensusAssign;
+    @BindView(R.id.imdb_raking_container)                   FrameLayout mImdbRakingContainer;
+    @BindView(R.id.tomatoes_ranking_container)              FrameLayout mTomatoesRankingContainer;
+    @BindView(R.id.metascore_ranking_container)             FrameLayout mMetascoreRankingContainer;
+    @BindView(R.id.tomatoes_consensus_container)            RelativeLayout mTomatoesConsensusContainer;
+    @BindView(R.id.rankings_progress)                       ProgressWheel mRankingProgress;
+    @BindView(R.id.rankings_container)                      LinearLayout mRankingContainer;
+    @BindView(R.id.similares_container)                     CardView mSimilaresTitleContainer;
 
     @Inject
     MovieDetailsOverviewPresenter mPresenter;
@@ -211,6 +149,21 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             setSimilaresVisibility(View.GONE);
 
         mPresenter.getMoviesRankings(mMovie.getImdbID());
+
+        addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+        addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+    }
+
+    private void addFragment(int id, Fragment fragment) {
+        FragmentManager fm = getChildFragmentManager();
+        Fragment f = fm.findFragmentById(id);
+
+        if (f == null) {
+            fm.beginTransaction()
+                    .add(id, fragment)
+                    .commit();
+        }
+
     }
 
     @Override
@@ -296,12 +249,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mElencoRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mElencoRecyclerView.setAdapter(new PersonAdapter(getActivity(), DTOUtils.createCastPersonListDTO(mMovie.getCast()), mPersonCallbacks));
-
-        mEquipeTecnicaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mEquipeTecnicaRecyclerView.setAdapter(new PersonAdapter(getActivity(), DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), mPersonCallbacks));
-
         mKeywordsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
         mKeywordsRecyclerView.setAdapter(new ListWordsAdapter(getActivity(), DTOUtils.createKeywordsItemsListDTO(mMovie.getKeywords()), mKeyWordsCallbacks, ItemType.KEYWORD, R.layout.item_list_words_default));
 
@@ -318,19 +265,31 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @OnClick(R.id.imdb_riple)
     public void onIMDBClick() {
         if (mMovieRankings.getImdbID() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), "http://www.imdb.com/title/" + mMovie.getImdbID(), mMovie.getTitle()), 0);
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.metacritic_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
     }
 
     @OnClick(R.id.metascore_riple)
     public void onMetascoreClick() {
         if (mMovieRankings.getMetascoreRating() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), "http://www.metacritic.com/search/all/" + mMovie.getOriginalTitle() + "/results", mMovie.getTitle()), 0);
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.metacritic_link, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+    }
+
+    @OnClick(R.id.elenco_riple)
+    public void onClickElencoTitle() {
+        if (!mMovie.getCast().isEmpty())
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.elenco_title_activity), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCastPersonListDTO(mMovie.getCast())));
+    }
+
+    @OnClick(R.id.equipe_tecnica_riple)
+    public void onClickEquipeTitle() {
+        if (!mMovie.getCrew().isEmpty())
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.equipe_tecnica_title), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCrewPersonListDTO(mMovie.getCrew())));
     }
 
     @OnClick(R.id.similares_riple)
     public void onClickSimilaresTitle() {
         if (!mMovie.getSimilarMovies().isEmpty())
-            startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mMovie.getId(), getString(R.string.similares_title_activity, mMovie.getTitle()), Sort.SIMILARS, R.layout.item_list_movies)));
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mMovie.getId(), getString(R.string.similares_title_activity), mMovie.getTitle(), Sort.SIMILARS, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
     public void setImdbRakingContainerVisibility(int visibilityState) {
@@ -364,7 +323,13 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStart();
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     public void setRankingProgressVisibility(int visibility) {

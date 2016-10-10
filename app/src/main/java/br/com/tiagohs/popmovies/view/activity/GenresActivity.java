@@ -10,6 +10,7 @@ import android.view.View;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.movie.Genre;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.GenresFragment;
@@ -49,6 +50,6 @@ public class GenresActivity extends BaseActivity implements GenresCallbacks {
 
     @Override
     public void onGenreSelected(Genre genre) {
-        startActivity(ListMoviesDefaultActivity.newIntent(this, new ListActivityDTO(genre.getId(), genre.getName(), Sort.GENEROS, R.layout.item_list_movies)));
+        startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(genre.getId(), genre.getName(), Sort.GENEROS, R.layout.item_list_movies, ListType.MOVIES)));
     }
 }

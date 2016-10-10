@@ -17,7 +17,7 @@
         android:id="@+id/coordenation_layout"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".view.activity.ListMoviesDefaultActivity">
+        tools:context=".view.activity.ListsDefaultActivity">
 
         <LinearLayout
             android:orientation="vertical"

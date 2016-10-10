@@ -1,9 +1,11 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago Henrique on 04/09/2016.
  */
-public class PersonListDTO {
+public class PersonListDTO implements Serializable {
     private int mID;
     private String mProfilePath;
     private String mNamePerson;

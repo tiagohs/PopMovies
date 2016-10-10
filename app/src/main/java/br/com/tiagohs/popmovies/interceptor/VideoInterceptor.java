@@ -2,6 +2,9 @@ package br.com.tiagohs.popmovies.interceptor;
 
 import com.android.volley.VolleyError;
 
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
 /**
@@ -15,5 +18,5 @@ public interface VideoInterceptor {
         void onVideoRequestError(VolleyError error);
     }
 
-    void getVideos(int movieID);
+    void getVideos(int movieID, List<Translation> translations);
 }

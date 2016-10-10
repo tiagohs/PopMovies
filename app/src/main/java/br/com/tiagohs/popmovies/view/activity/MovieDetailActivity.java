@@ -45,6 +45,7 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
@@ -54,13 +55,14 @@ import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.ReviewCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailsView,
         MovieVideosCallbacks, ImagesCallbacks,
-        PersonCallbacks,
+        PersonCallbacks, ReviewCallbacks,
         ListMoviesCallbacks, ListWordsCallbacks {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
@@ -289,10 +291,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         switch (itemType) {
             case GENRE:
-                startActivity(ListMoviesDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), item.getNameItem(), Sort.GENEROS, R.layout.item_list_movies), new HashMap<String, String>()));
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), item.getNameItem(), Sort.GENEROS, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
                 break;
             case KEYWORD:
-                startActivity(ListMoviesDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), getString(R.string.keyword_name, item.getNameItem()), Sort.KEYWORDS, R.layout.item_list_movies), new HashMap<String, String>()));
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), getString(R.string.keyword_name), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
                 break;
             case DIRECTORS:
                 onClickPerson(item.getItemID());
@@ -340,7 +342,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onClickImage(List<ImageDTO> imagens,  ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mMovie.getTitle())));
     }
 
     @Override
@@ -372,5 +374,15 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
                 mSnackbar.dismiss();
             }
         };
+    }
+
+    @Override
+    public void onClickReviewLink(String url) {
+        startActivityForResult(WebViewActivity.newIntent(this, url, mMovie.getTitle()), 0);
+    }
+
+    @Override
+    public void onClickReview(String reviewID) {
+
     }
 }

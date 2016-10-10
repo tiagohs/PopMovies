@@ -2,11 +2,9 @@ package br.com.tiagohs.popmovies.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +17,6 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
-import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.view.adapters.WallpaperPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +25,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     private static final String ARG_IMAGES = "br.com.tiagohs.popmovies.images";
     private static final String ARG_IMAGE_CURRENT = "br.com.tiagohs.popmovies.imageCurrent";
+    private static final String ARG_WALLPAPERS_PAGE_TITLE = "br.com.tiagohs.popmovies.page_Wallpapers_title";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -38,15 +36,15 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     @BindView(R.id.wallpaper_view_pager)
     ViewPager mWallpaperViewPager;
 
-    protected Snackbar mSnackbar;
-
     private List<ImageDTO> mImagens;
     private ImageDTO mImageCurrent;
+    private String mPageTitle;
 
-    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage) {
+    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle) {
         Intent intent = new Intent(context, WallpapersDetailActivity.class);
         intent.putExtra(ARG_IMAGES, (ArrayList<ImageDTO>) mImagens);
         intent.putExtra(ARG_IMAGE_CURRENT, positioImage);
+        intent.putExtra(ARG_WALLPAPERS_PAGE_TITLE, pageTitle);
 
         return intent;
     }
@@ -64,6 +62,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
         mImagens = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_IMAGES);
         mImageCurrent = (ImageDTO) getIntent().getSerializableExtra(ARG_IMAGE_CURRENT);
+        mPageTitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_TITLE);
     }
 
     @Override
@@ -71,6 +70,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         super.onStart();
 
         mWallpaperViewPager.setAdapter(new WallpaperPagerAdapter(this, mImagens, getSupportActionBar()));
+        setCurrentImage();
+    }
+
+    private void setCurrentImage() {
         for (int i = 0; i < mImagens.size(); i++) {
             if (mImagens.get(i).equals(mImageCurrent))
                 mWallpaperViewPager.setCurrentItem(i);
@@ -104,27 +107,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_go_gallery:
-                startActivity(WallpapersActivity.newIntent(this, mImagens));
+                startActivity(WallpapersActivity.newIntent(this, mImagens, mPageTitle));
             default:
                 return false;
         }
     }
 
-    public void onError(String msg) {
-        mSnackbar = Snackbar
-                .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
-
-        mSnackbar.setActionTextColor(Color.RED);
-        mSnackbar.setAction(getString(R.string.tentar_novamente), null);
-
-        mSnackbar.show();
-    }
-
-    public boolean isInternetConnected() {
-        return ServerUtils.isNetworkConnected(this);
-    }
-
-    public CoordinatorLayout getCoordinatorLayout() {
-        return coordinatorLayout;
-    }
 }

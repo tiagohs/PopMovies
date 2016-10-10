@@ -46,4 +46,14 @@ public class PresenterModule {
         return new MovieDetailsOverviewPresenterImpl();
     }
 
+    @Provides
+    public MovieDetailsReviewsPresenter providesMovieDetailsReviewsPresenter() {
+        return new MovieDetailsReviewsPresenterImpl();
+    }
+
+    @Provides
+    public ListPersonsDefaultPresenter providesListPersonsDefaultPresenter() {
+        return new ListPersonsDefaultPresenterImpl();
+    }
+
 }

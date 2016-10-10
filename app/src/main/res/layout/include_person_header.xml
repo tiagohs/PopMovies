@@ -85,6 +85,21 @@
                     android:src="@drawable/ic_twitter"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/instagram_riple"
+                app:mrl_rippleColor="@color/instagram"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                app:mrl_rippleOverlay="true">
+
+                <ImageView
+                    android:id="@+id/img_instagram"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_instagram"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
         </LinearLayout>
 
     </LinearLayout>

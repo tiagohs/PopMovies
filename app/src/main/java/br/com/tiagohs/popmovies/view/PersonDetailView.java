@@ -2,13 +2,16 @@ package br.com.tiagohs.popmovies.view;
 
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 
-/**
- * Created by Tiago Henrique on 03/09/2016.
- */
 public interface PersonDetailView extends BaseView {
 
-    void atualizarView(PersonInfo person);
+    void updateImages();
+    void updateAditionalInfo(int totalFilmes, int totalFotos);
+    void setupTabs();
 
-    void showProgressBar();
-    void hideProgressBar();
+    boolean isDestroyed();
+    void setPerson(PersonInfo person);
+
+    void setVisibilityFacebook(int visibility);
+    void setVisibilityTwitter(int visibility);
+    void setVisibilityInstagram(int visibility);
 }

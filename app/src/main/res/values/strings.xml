@@ -3,7 +3,7 @@
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
     <string name="tentar_novamente">TENTAR NOVAMENTE</string>
-    <string name="no_internet">Sem conexão com a Internet</string>
+    <string name="no_internet">Sem Conexão</string>
     <string name="pop_movie_title_principal">PopMovies</string>
     <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
     <string name="title_original">Original:</string>
@@ -32,12 +32,25 @@
     <string name="titles_movie_detail_tecnico_keywords">KEYWORDS</string>
     <string name="data_nascimento_formatado">%1$s - %2$d</string>
     <string name="imdb_votes">%1$s votos</string>
-    <string name="keyword_name">Keyword: %1$s</string>
+    <string name="keyword_name">Keyword</string>
     <string name="tomatoes_num_reviews">%1$s reviews</string>
     <string name="conhecido_por_title_activity">Conhecido por..</string>
-    <string name="similares_title_activity">%1$s - Similares</string>
+    <string name="similares_title_activity">Similares</string>
+    <string name="wallpapers_title">Wallpapers - %1$s</string>
     <string name="discover">Discovers</string>
     <string name="popular">Populares</string>
+
+    <string name="facebook_link" translatable="false">https://www.facebook.com/%1$s</string>
+    <string name="twitter_link_uri" translatable="false">twitter://user?screen_name=%1$s</string>
+    <string name="instagram_link_uri" translatable="false">http://instagram.com/_u/%1$s</string>
+    <string name="twitter_link" translatable="false">https://twitter.com/#!/%1$s</string>
+    <string name="instagram_link" translatable="false">http://instagram.com/%1$s</string>
+    <string name="person_wiki" translatable="false">http://en.wikipedia.org/w/index.php?search=%1$s</string>
+    <string name="person_imdb" translatable="false">http://www.imdb.com/name/%1$s</string>
+    <string name="imdb_link" translatable="false">http://www.imdb.com/title/%1$s</string>
+    <string name="imdb_reviews_link" translatable="false">http://www.imdb.com/title/%1$s/reviews</string>
+    <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
+    <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
 
     <!-- Arrays -->
     <string-array name="movie_detail_tab_array">
@@ -48,6 +61,17 @@
     <string-array name="person_carrer_tab_array">
         <item>Resumo</item>
         <item>Carreira</item>
+    </string-array>
+
+    <string-array name="sort_by_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
     </string-array>
 
 
@@ -154,4 +178,29 @@
     <string name="mais_bem_avaliados">Mais bem Avaliados</string>
     <string name="nacionais">Nacionais</string>
     <string name="campeoes_bilheteria">Campeões de Bilheteria</string>
+    <string name="no_movies_find">Nenhum filme encontrado.</string>
+    <string name="buscar_by_ano_lancamento">Escolha o ano de lançamento:</string>
+    <string name="carreira">Carreira</string>
+    <string name="less">Ler menos..</string>
+    <string name="more">Leia mais..</string>
+    <string name="title_activity_list_movies_default">ListMoviesDefaultActivity</string>
+    <string name="title_activity_list_persons_default">ListPersonsDefaultActivity</string>
+    <string name="elenco_title_activity">Elenco</string>
+    <string name="equipe_tecnica_title">Equipe Técnica</string>
+    <string name="menu_filter">Filtrar</string>
+    <string name="popularidade_maior">Popularidade (maior)</string>
+    <string name="popularidade_menor">Popularidade (menor)</string>
+    <string name="release_date_maior">Data de Lançamento (maior)</string>
+    <string name="release_date_menor">Data de Lançamento (menor)</string>
+    <string name="revenue_maior">Receita (maior)</string>
+    <string name="revenue_menor">Receita (menor)</string>
+    <string name="primary_release_date_maior">Data de Lançamento (maior)</string>
+    <string name="primary_release_date_menor">Data de Lançamento (menor)</string>
+    <string name="original_title_maior">Título (maior)</string>
+    <string name="original_title_menor">Título (menor)</string>
+    <string name="vote_average_maior">Nota Comunidade (maior)</string>
+    <string name="vote_average_menor">Nota (menor)</string>
+    <string name="vote_count_maior">Número de Votos (maior)</string>
+    <string name="vote_count_desc">Número de Votos (menor)</string>
+
 </resources>

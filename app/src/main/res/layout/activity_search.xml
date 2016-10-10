@@ -38,8 +38,10 @@
             </android.support.design.widget.AppBarLayout>
 
             <RelativeLayout
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,14 +53,24 @@
                     android:scrollbars="vertical" />
 
                 <com.pnikosis.materialishprogress.ProgressWheel
+                    android:visibility="gone"
                     android:id="@+id/search_progress"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:visibility="gone"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     app:matProg_barColor="@color/colorAccent"
                     app:matProg_progressIndeterminate="true" />
+
+                <TextView
+                    android:id="@+id/nenhum_filme_encontrado"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/no_movies_find"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical|center_horizontal"/>
 
             </RelativeLayout>
 
@@ -72,6 +84,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/activity_navigation_drawer_drawer" />
+        app:menu="@menu/activity_navigation_drawer_drawer" >
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

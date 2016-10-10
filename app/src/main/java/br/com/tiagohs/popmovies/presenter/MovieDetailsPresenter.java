@@ -7,7 +7,6 @@ import br.com.tiagohs.popmovies.view.MovieDetailsView;
 public interface MovieDetailsPresenter extends BasePresenter<MovieDetailsView>, ResponseListener<MovieDetails> {
 
     void getMovieDetails(int movieID);
-    void getVideos(int movieID);
 
     void onResponse(MovieDetails response);
 }

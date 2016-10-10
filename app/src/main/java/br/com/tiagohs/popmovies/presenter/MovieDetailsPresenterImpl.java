@@ -31,7 +31,7 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     private String[] mMovieParameters = new String[]{SubMethod.CREDITS.getValue(), SubMethod.RELEASE_DATES.getValue(),
             SubMethod.SIMILAR.getValue(), SubMethod.KEYWORDS.getValue(),
-            SubMethod.VIDEOS.getValue()};
+            SubMethod.VIDEOS.getValue(), SubMethod.TRANSLATIONS.getValue()};
 
     public MovieDetailsPresenterImpl() {
         mPopMovieServer = PopMovieServer.getInstance();
@@ -62,9 +62,8 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
         mMovieDetailsView.setProgressVisibility(View.GONE);
     }
 
-    @Override
-    public void getVideos(int movieID) {
-        mVideoInterceptor.getVideos(movieID);
+    public void getVideos() {
+        mVideoInterceptor.getVideos(mMovieDetails.getId(), mMovieDetails.getTranslations());
     }
 
     @Override
@@ -74,10 +73,10 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void onResponse(MovieDetails response) {
+        mMovieDetails = response;
 
         if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
 
-            mMovieDetails = response;
             mOriginalLanguage = response.getOriginalLanguage();
             mPopMovieServer.getMovieDetails(mMovieID, mMovieParameters, mOriginalLanguage, this);
 
@@ -101,7 +100,7 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     private void initUpdates(MovieDetails movieDetails) {
         if (movieDetails.getVideos().isEmpty())
-            getVideos(mMovieID);
+            getVideos();
 
         mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
         mMovieDetailsView.updateUI(movieDetails);

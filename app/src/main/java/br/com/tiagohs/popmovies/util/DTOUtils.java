@@ -3,14 +3,19 @@ package br.com.tiagohs.popmovies.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.tiagohs.popmovies.model.atwork.Artwork;
+import br.com.tiagohs.popmovies.model.atwork.ArtworkMedia;
+import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
+import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.model.keyword.Keyword;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.person.PersonInfo;
 
 public class DTOUtils {
 
@@ -59,6 +64,41 @@ public class DTOUtils {
             list.add(new ItemListDTO(g.getId(), g.getName()));
 
         return list;
+    }
+
+    public static List<ImageDTO> createPersonImagesDTO(PersonInfo person, int numTotalImages, List<Artwork> images) {
+        numTotalImages = images.size() <= numTotalImages ? images.size(): numTotalImages;
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numTotalImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(person.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+    }
+
+    public static List<ImageDTO> createPersonImagesBackgroundDTO(PersonInfo person, int numImages, List<ArtworkMedia> images) {
+        List<ImageDTO> imageDTOs = new ArrayList<>();
+
+        for (int cont = 0; cont < numImages; cont++) {
+            Artwork image = images.get(cont);
+            imageDTOs.add(new ImageDTO(person.getId(), image.getId(), image.getFilePath()));
+        }
+
+        return imageDTOs;
+    }
+
+    public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> personsMovies, int maxSize) {
+        int numMovies = personsMovies.size() < maxSize ? personsMovies.size() : maxSize;
+        List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
+
+        for (int cont = 0; cont < numMovies; cont++) {
+            CreditMovieBasic person = personsMovies.get(cont);
+            moviesMovieListDTO.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
+        }
+
+        return moviesMovieListDTO;
     }
 
 }

@@ -1,11 +1,16 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.view.View;
+
 import com.android.volley.VolleyError;
+
+import java.util.List;
 
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptor;
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
+import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
@@ -25,13 +30,27 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     }
 
     @Override
-    public void getVideos(int movieID) {
-        mVideoInterceptor.getVideos(movieID);
+    public void getVideos(int movieID, List<Translation> translations) {
+
+        if (mView.isInternetConnected()) {
+            mVideoInterceptor.getVideos(movieID, translations);
+        } else
+            noConnectionError();
+
+    }
+
+    private void noConnectionError() {
+        mView.onError("Sem Conexão");
+        mView.setProgressVisibility(View.GONE);
     }
 
     @Override
     public void getImagens(int movieID) {
-        mImagemInterceptor.getImagens(movieID);
+        if (mView.isInternetConnected()) {
+            mImagemInterceptor.getImagens(movieID);
+        } else
+            noConnectionError();
+
     }
 
     @Override
@@ -46,7 +65,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onImageRequestError(VolleyError error) {
-
+        mView.onError("Videos: Erro ao carregar as imagens, tente novamente.");
     }
 
     @Override
@@ -56,7 +75,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onVideoRequestError(VolleyError error) {
-
+        mView.onError("Videos: Erro ao carregar os vídeos, tente novamente.");
     }
 
 }

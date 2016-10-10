@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill_vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Conteúdo Adulto"
+                        android:layout_weight="0.7"/>
+
+                    <CheckBox
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/adult_checkbox"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Ordenar por"
+                    android:layout_weight="0.2"/>
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ordenar_por_spinner"
+                    android:layout_weight="0.9"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Ano"
+                    android:layout_weight="0.2"/>
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ano_lancamento_spinner"
+                    android:layout_weight="0.9"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/primary_light"
+                android:layout_weight="0.3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data de Lançamento"/>
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/primary_light"
+                android:layout_weight="0.3"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:textIsSelectable="true"
+                android:gravity="center"
+                android:id="@+id/data_inicial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:hint="Data Inicial" />
+
+            <EditText
+                android:textIsSelectable="true"
+                android:gravity="center"
+                android:id="@+id/data_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:hint="Data Final" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/primary_light"
+                android:layout_weight="0.3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nota na Comunidade"/>
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/primary_light"
+                android:layout_weight="0.3"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                android:id="@+id/nota_comunidade_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:corner_radius="5"
+                app:min_value="0"
+                app:bar_color="@color/secondary_text"
+                app:bar_highlight_color="@color/primary_text"
+                app:left_thumb_color="@color/colorAccent"
+                app:right_thumb_color="@color/colorAccent"
+                app:left_thumb_color_pressed="@color/itemBackgroundLight"
+                app:right_thumb_color_pressed="@color/itemBackgroundLight"
+                app:data_type="_integer"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/min_nota_text_view"
+                    android:layout_gravity="left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/max_nota_text_view"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

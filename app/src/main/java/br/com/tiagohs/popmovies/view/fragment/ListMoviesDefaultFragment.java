@@ -25,6 +25,7 @@ import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.ListMoviesDefaultPresenter;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
+import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
@@ -54,8 +55,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     @Inject
     ListMoviesDefaultPresenter mPresenter;
 
-    public enum TypeListLayout { LINEAR_LAYOUT, GRID_LAYOUT, STAGGERED; }
-
     private RecyclerView.LayoutManager mLayoutManager;
     private ListMoviesCallbacks mCallbacks;
     private boolean hasMorePages;
@@ -65,7 +64,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private int mOrientation;
 
     private Sort mTypeList;
-    private TypeListLayout mTypeListLayout;
+    private ListsDefaultActivity.TypeListLayout mTypeListLayout;
     private int mColunas;
     private int mSpanCount;
     private boolean mReverseLayout;
@@ -76,7 +75,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createLinearListArguments(int orientation, boolean reverseLayout) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, TypeListLayout.LINEAR_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.LINEAR_LAYOUT);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putBoolean(ARG_REVERSE_LAYOUT, reverseLayout);
 
@@ -85,7 +84,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createGridListArguments(int colunas) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, TypeListLayout.GRID_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.GRID_LAYOUT);
         bundle.putInt(ARG_NUM_COLUNAS, colunas);
 
         return bundle;
@@ -93,7 +92,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createStaggeredListArguments(int spanCount, int orientation) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, TypeListLayout.STAGGERED);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.STAGGERED);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putInt(ARG_SPAN_COUNT, spanCount);
 
@@ -172,7 +171,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mTypeList = (Sort) getArguments().getSerializable(ARG_SORT);
         mParameters = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAMETERS);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
-        mTypeListLayout = (TypeListLayout) getArguments().getSerializable(ARG_TYPE_LAYOUT);
+        mTypeListLayout = (ListsDefaultActivity.TypeListLayout) getArguments().getSerializable(ARG_TYPE_LAYOUT);
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
@@ -216,10 +215,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public void setRecyclerViewVisibility(int visibilityState) {
         mMoviesRecyclerView.setVisibility(visibilityState);
-    }
-
-    public void setBackgroundNoConnectionImageVisibility(int visibilityState) {
-        mBackgroundNoConnectionImage.setVisibility(visibilityState);
     }
 
     public void setListMovies(List<MovieListDTO> listMovies, boolean hasMorePages) {

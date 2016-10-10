@@ -34,7 +34,6 @@ import butterknife.OnClick;
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaView {
     private static final String TAG = MovieDetailsMidiaFragment.class.getSimpleName();
     private static final String ARG_MOVIE = "movie";
-    private static int NUM_VIDEOS;
 
     @BindView(R.id.list_videos_recycler_view)
     RecyclerView mVideosRecyclerView;
@@ -89,8 +88,13 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
         mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
         mPresenter.setView(this);
+    }
 
-        mPresenter.getVideos(mMovieDetails.getId());
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mPresenter.getVideos(mMovieDetails.getId(), mMovieDetails.getTranslations());
         mPresenter.getImagens(mMovieDetails.getId());
     }
 
@@ -106,7 +110,13 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStart();
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     @Override
@@ -153,7 +163,11 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @OnClick(R.id.wallpapers_riple)
     public void onClickWallpapersTitle() {
         if (!mTotalImages.isEmpty())
-            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages));
+            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title, mMovieDetails.getTitle())));
     }
 
+    @Override
+    public void setProgressVisibility(int visibityState) {
+
+    }
 }

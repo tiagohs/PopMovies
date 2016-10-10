@@ -272,7 +272,7 @@
         android:orientation="vertical">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/movie_deails_item_default_riple"
+            android:id="@+id/elenco_riple"
             app:mrl_rippleColor="@color/secondary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -311,11 +311,12 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/elenco_recycler_view"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/container_elenco"
+            android:minHeight="150dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -365,10 +366,12 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/equipe_tecnica_recycler_view"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/container_equipe_tecnica"
+            android:minHeight="150dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

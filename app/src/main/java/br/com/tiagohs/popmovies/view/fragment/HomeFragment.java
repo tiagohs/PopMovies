@@ -20,11 +20,12 @@ import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
 import br.com.tiagohs.popmovies.util.enumerations.ParamSortBy;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.activity.GenresActivity;
-import br.com.tiagohs.popmovies.view.activity.ListMoviesDefaultActivity;
+import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
 import butterknife.BindView;
@@ -33,7 +34,6 @@ import butterknife.OnClick;
 public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
     private static final int ID_KEYWORD_BRAZILIAN = 983;
-    private static final int ID_KEYWORD_BRAZIL = 1161;
 
     @BindView(R.id.destaques_keywords_recycler_view)
     RecyclerView mDestaquesKeywoedsRecyclerView;
@@ -77,7 +77,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         listDTOs.add(new ItemListDTO(getString(R.string.generos), Sort.GENEROS));
 
         parameters = new HashMap<>();
-        parameters.put(Param.WITH_KEYWORDS.getParam(), String.valueOf(ID_KEYWORD_BRAZILIAN) + "|" + String.valueOf(ID_KEYWORD_BRAZIL));
+        parameters.put(Param.WITH_KEYWORDS.getParam(), String.valueOf(ID_KEYWORD_BRAZILIAN));
         parameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
         listDTOs.add(new ItemListDTO(getString(R.string.nacionais), Sort.DISCOVER, parameters));
 
@@ -156,22 +156,22 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
     @OnClick(R.id.movie_em_breve_riple)
     public void onClickEmBreve() {
-        startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.em_breve), Sort.DISCOVER, R.layout.item_list_movies), mEmBreveParameters));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.em_breve), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), mEmBreveParameters));
     }
 
     @OnClick(R.id.movie_em_cartaz_riple)
     public void onClickEmCartaz() {
-        startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.em_cartaz), Sort.DISCOVER, R.layout.item_list_movies), mEmCartazParameters));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.em_cartaz), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), mEmCartazParameters));
     }
 
     @OnClick(R.id.movie_estreias_semana_riple)
     public void onClickEstreias() {
-        startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.estreias_semana), Sort.DISCOVER, R.layout.item_list_movies), mEstreiasParameters));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.estreias_semana), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), mEstreiasParameters));
     }
 
     @OnClick(R.id.movie_populares_riple)
     public void onClickPopulares() {
-        startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.populares), Sort.DISCOVER, R.layout.item_list_movies), mPopularesParameters));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.populares), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), mPopularesParameters));
     }
 
     @Override
@@ -190,7 +190,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
         switch (item.getTypeItem()) {
             case DISCOVER:
-                startActivity(ListMoviesDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, item.getNameItem(), Sort.DISCOVER, R.layout.item_list_movies), item.getParamenters()));
+                startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, item.getNameItem(), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), item.getParamenters()));
                 break;
             case GENEROS:
                 startActivity(GenresActivity.newIntent(getActivity()));

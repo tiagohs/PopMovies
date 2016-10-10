@@ -8,6 +8,10 @@
     <color name="colorPlayTransparent">#ffffff</color>
     <color name="placeholder_background">@color/primary_light</color>
 
+    <color name="color_divider_line_gray">@color/colorAccent</color>
+    <color name="color_gray_light_content_text">@color/colorAccent</color>
+    <color name="instagram">#d79e65</color>
+
     <color name="itemBackground">@color/colorAccent</color>
     <color name="itemBackgroundRiple">#a9241b</color>
     <color name="itemBackgroundLight">#f76c62</color>

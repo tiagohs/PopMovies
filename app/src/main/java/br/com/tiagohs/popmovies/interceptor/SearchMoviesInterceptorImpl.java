@@ -12,6 +12,9 @@ public class SearchMoviesInterceptorImpl implements SearchMoviesInterceptor, Res
     private PopMovieServer mPopMovieServer;
     private onSearchMoviesListener mListener;
 
+    private GenericListResponse<Movie> mResponseFinal;
+    private Integer mYear;
+
     public SearchMoviesInterceptorImpl(onSearchMoviesListener listener) {
         mPopMovieServer = PopMovieServer.getInstance();
         mListener = listener;
@@ -19,6 +22,10 @@ public class SearchMoviesInterceptorImpl implements SearchMoviesInterceptor, Res
 
     @Override
     public void searchMovies(String query, Boolean includeAdult, Integer searchYear, Integer primaryReleaseYear, Integer currentPage) {
+        if (mYear == null)
+            mYear = searchYear;
+
+        
         mPopMovieServer.searchMovies(query, includeAdult, searchYear, primaryReleaseYear, currentPage, this);
     }
 

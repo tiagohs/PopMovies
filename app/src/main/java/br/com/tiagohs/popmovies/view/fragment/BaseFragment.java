@@ -74,9 +74,9 @@ public abstract class BaseFragment extends Fragment {
                 .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
 
         mSnackbar.setActionTextColor(Color.RED);
+        mSnackbar.show();
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
 
-        mSnackbar.show();
     }
 
     protected abstract View.OnClickListener onSnackbarClickListener();

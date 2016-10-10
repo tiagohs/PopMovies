@@ -9,11 +9,14 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 /**
  * Created by Tiago Henrique on 01/09/2016.
  */
-public interface SearchView {
+public interface SearchView extends BaseView {
 
     void onMovieSelected(int movieID, ImageView posterMovie);
-    void atualizarView(int currentPage, int totalPages, List<Movie> listMovies);
 
-    void showProgressBar();
-    void hideProgressBar();
+    void setListMovies(List<Movie> listMovies, boolean hasMorePages);
+    void addAllMovies(List<Movie> listMovies, boolean hasMorePages);
+
+    void setNenhumFilmeEncontradoVisibility(int visibility);
+    void setupRecyclerView();
+    void updateAdapter();
 }

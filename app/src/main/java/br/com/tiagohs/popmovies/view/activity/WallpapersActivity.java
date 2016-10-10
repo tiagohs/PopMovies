@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,15 +20,18 @@ import butterknife.BindView;
 
 public class WallpapersActivity extends BaseActivity implements ImagesCallbacks {
     public static final String ARG_WALLPAPERS = "br.com.tiagohs.popmovies.wallpapers";
+    public static final String ARG_TITLE_PAGE = "br.com.tiagohs.popmovies.title_page_wall";
 
     @BindView(R.id.wallpapers_recycler_view)
     RecyclerView mWallpapersRecyclerView;
 
     private List<ImageDTO> mWallpapers;
+    private String mPageTitle;
 
-    public static Intent newIntent(Context context, List<ImageDTO> wallpapers) {
+    public static Intent newIntent(Context context, List<ImageDTO> wallpapers, String pageTitle) {
         Intent intent = new Intent(context, WallpapersActivity.class);
         intent.putExtra(ARG_WALLPAPERS, (ArrayList<ImageDTO>) wallpapers);
+        intent.putExtra(ARG_TITLE_PAGE, pageTitle);
 
         return intent;
     }
@@ -38,15 +41,21 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
         super.onCreate(savedInstanceState);
 
         mWallpapers = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_WALLPAPERS);
+        mPageTitle = getIntent().getStringExtra(ARG_TITLE_PAGE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        mToolbar.setTitle(mPageTitle);
+        configurateWallpapersRecyclerView();
+    }
+
+    private void configurateWallpapersRecyclerView() {
         int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-        mWallpapersRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
-        //mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
+        //mWallpapersRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
         mWallpapersRecyclerView.setAdapter(new ImageAdapter(this, mWallpapers, this, mWallpapers));
     }
 
@@ -74,6 +83,6 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @Override
     public void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, mPageTitle));
     }
 }

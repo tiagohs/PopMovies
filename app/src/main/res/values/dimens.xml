@@ -28,4 +28,6 @@
     <dimen name="divider">1dp</dimen>
     <dimen name="leftmargin">16dp</dimen>
     <dimen name="rightmargin">16dp</dimen>
+
+    <dimen name="sp_txt_size_content">14sp</dimen>
 </resources>

@@ -186,6 +186,7 @@
         </TableLayout>
 
         <LinearLayout
+            android:id="@+id/know_for_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -239,6 +240,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/wallpapers_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -251,7 +253,6 @@
                 app:mrl_rippleOverlay="true">
 
                 <LinearLayout
-                    android:id="@+id/person_detail_images_title_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"

@@ -48,8 +48,8 @@
             android:parentActivityName=".view.activity.HomeActivity">
         </activity>
         <activity
-            android:name=".view.activity.ListMoviesDefaultActivity"
-            android:label="@string/title_activity_movies_by_genre"
+            android:name=".view.activity.ListsDefaultActivity"
+            android:label="@string/title_activity_list_movies_default"
             android:theme="@style/AppTheme">
         </activity>
 

@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.model.response.PersonMoviesResponse;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
+import br.com.tiagohs.popmovies.model.review.Review;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Method;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
@@ -69,24 +70,6 @@ public class PopMovieServer {
                             .addSubMethod(SubMethod.POPULAR)
                             .addParameters(mParameters)
                             .build();
-
-        execute(METHOD_REQUEST_POST, null, listener);
-    }
-
-    public void getTopRatedMovies(int currentPage,
-                                  ResponseListener<MovieResponse> listener) {
-        mParameters = new HashMap<>();
-
-        mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
-        mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
-
-        mTypeToken = new TypeReference<MovieResponse>(){};
-        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
-                .addMethod(Method.MOVIE)
-                .addSubMethod(SubMethod.TOP_RATED)
-                .addParameters(mParameters)
-                .build();
 
         execute(METHOD_REQUEST_POST, null, listener);
     }
@@ -161,6 +144,61 @@ public class PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener);
     }
 
+    public void getMovieImagens(int movieID,
+                                ResponseListener<ImageResponse> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.INCLUDE_IMAGE_LANGUAGE.getParam(), "en,pt,es,it");
+
+        mTypeToken = new TypeReference<ImageResponse>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.MOVIE)
+                .addIdBySubMethod(movieID)
+                .addSubMethod(SubMethod.IMAGES)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
+    public void getMovieVideos(int movieID, String language,
+                               ResponseListener<VideosResponse> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), language);
+
+        mTypeToken = new TypeReference<VideosResponse>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.MOVIE)
+                .addIdBySubMethod(movieID)
+                .addSubMethod(SubMethod.VIDEOS)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
+    public void getMovieReviews(int movieID, int currentPage, String language,
+                               ResponseListener<GenericListResponse<Review>> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
+        mParameters.put(Param.LANGUAGE.getParam(), language);
+
+        mTypeToken = new TypeReference<GenericListResponse<Review>>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.MOVIE)
+                .addIdBySubMethod(movieID)
+                .addSubMethod(SubMethod.REVIEWS)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
     public void getPersonMoviesCredits(int personID, int currentPage, ResponseListener<PersonMoviesResponse> listener) {
         mParameters = new HashMap<>();
 
@@ -191,41 +229,6 @@ public class PopMovieServer {
                 .addId(personID)
                 .addParameters(mParameters)
                 .addAppendToResponse(appendToResponse)
-                .build();
-
-        execute(METHOD_REQUEST_GET, null, listener);
-    }
-
-    public void getMovieImagens(int movieID,
-                                ResponseListener<ImageResponse> listener) {
-        mParameters = new HashMap<>();
-
-        mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.INCLUDE_IMAGE_LANGUAGE.getParam(), "en,pt,es,it");
-
-        mTypeToken = new TypeReference<ImageResponse>(){};
-        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
-                .addMethod(Method.MOVIE)
-                .addIdBySubMethod(movieID)
-                .addSubMethod(SubMethod.IMAGES)
-                .addParameters(mParameters)
-                .build();
-
-        execute(METHOD_REQUEST_GET, null, listener);
-    }
-
-    public void getMovieVideos(int movieID,
-                               ResponseListener<VideosResponse> listener) {
-        mParameters = new HashMap<>();
-
-        mParameters.put(Param.API_KEY.getParam(), KEY);
-
-        mTypeToken = new TypeReference<VideosResponse>(){};
-        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
-                .addMethod(Method.MOVIE)
-                .addIdBySubMethod(movieID)
-                .addSubMethod(SubMethod.VIDEOS)
-                .addParameters(mParameters)
                 .build();
 
         execute(METHOD_REQUEST_GET, null, listener);
@@ -319,24 +322,6 @@ public class PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener);
     }
 
-    public void getMoviesByCompanies(int companieID, int currentPage, ResponseListener<GenericListResponse<Movie>> listener) {
-        mParameters = new HashMap<>();
-
-        mParameters.put(Param.API_KEY.getParam(), KEY);
-        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
-        mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
-
-        mTypeToken = new TypeReference<GenericListResponse<Movie>>(){};
-        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
-                .addMethod(Method.COMPANY)
-                .addIdBySubMethod(companieID)
-                .addSubMethod(SubMethod.MOVIES)
-                .addParameters(mParameters)
-                .build();
-
-        execute(METHOD_REQUEST_GET, null, listener);
-    }
-    
     public void searchMovies(String query,
                              Boolean includeAdult,
                              Integer searchYear,
