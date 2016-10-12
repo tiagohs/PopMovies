@@ -6,4 +6,5 @@ public interface BaseView {
 
     boolean isInternetConnected();
     void onError(String msg);
+    boolean isAdded();
 }

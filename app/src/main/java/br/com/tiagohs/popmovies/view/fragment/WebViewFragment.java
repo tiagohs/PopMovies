@@ -57,7 +57,6 @@ public class WebViewFragment extends BaseFragment {
             onError(getString(R.string.no_internet));
         }
 
-
     }
 
 
@@ -139,7 +138,8 @@ public class WebViewFragment extends BaseFragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             mWebViewProgress.setVisibility(View.VISIBLE);
-            getWebViewActivity().setActionBarSubTitle(mWebView.getUrl());
+            if (isAdded())
+                getWebViewActivity().setActionBarSubTitle(mWebView.getUrl());
         }
 
         @Override

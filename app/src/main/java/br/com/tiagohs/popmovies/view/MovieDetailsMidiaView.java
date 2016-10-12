@@ -1,7 +1,9 @@
 package br.com.tiagohs.popmovies.view;
 
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
-import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
 /**
  * Created by Tiago Henrique on 28/08/2016.
@@ -9,6 +11,6 @@ import br.com.tiagohs.popmovies.model.response.VideosResponse;
 public interface MovieDetailsMidiaView extends BaseView {
 
     void updateImageUI(ImageResponse imageResponse);
-    void updateVideoUI(VideosResponse videosResponse);
-
+    void updateVideoUI(List<Video> videosResponse);
+    void setVideosSearched(boolean videosSearched);
 }

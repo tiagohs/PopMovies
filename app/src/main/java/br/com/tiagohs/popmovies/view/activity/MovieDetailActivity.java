@@ -351,6 +351,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
+    public boolean isAdded() {
+        return this != null;
+    }
+
+    @Override
     public void setPlayButtonVisibility(int visibilityState) {
         playButtonImageView.setVisibility(visibilityState);
     }

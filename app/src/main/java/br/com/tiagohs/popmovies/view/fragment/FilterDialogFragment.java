@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -160,10 +161,20 @@ public class FilterDialogFragment extends DialogFragment {
 
     private void configurateView() {
 
+        configureAdultCheckBox();
         configureSortBySnipper();
         configureAnoSnipper();
         configureSeekbarNota();
         configureDataLancamento();
+    }
+
+    private void configureAdultCheckBox() {
+        mAdultCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mFilterValuesDTO.setIncludeAdult(b);
+            }
+        });
     }
 
     private void configureSortBySnipper() {

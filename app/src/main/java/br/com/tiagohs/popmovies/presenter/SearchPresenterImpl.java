@@ -57,8 +57,9 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     }
 
     private void noConnectionError() {
+        if (mSearchView.isAdded())
+            mSearchView.onError("Sem Conexão");
 
-        mSearchView.onError("Sem Conexão");
         mSearchView.setProgressVisibility(View.GONE);
     }
 

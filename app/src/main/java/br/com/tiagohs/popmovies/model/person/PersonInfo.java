@@ -105,6 +105,7 @@ public class PersonInfo extends PersonBasic implements Serializable {
 
     public void setAlsoKnownAs(List<String> alsoKnownAs) {
         this.alsoKnownAs = alsoKnownAs;
+
     }
 
     public String getBiography() {
@@ -235,6 +236,22 @@ public class PersonInfo extends PersonBasic implements Serializable {
     public void setMovieCredits(PersonCreditList<CreditMovieBasic> movieCredits) {
         this.movieCredits = movieCredits;
         addMethod(PeopleMethod.MOVIE_CREDITS);
+        createAreasAtuacoesPerson(movieCredits);
+    }
+
+    public void createAreasAtuacoesPerson(PersonCreditList<CreditMovieBasic> movieCredits) {
+        List<CreditMovieBasic> movies = movieCredits.getCast();
+        movies.addAll(movieCredits.getCrew());
+
+        if (getMovieCredits().getCast().size() > 0)
+            areasAtuacao.add(getGender() == Gender.FEMALE ? "Actress" : "Actor");
+
+        for (CreditMovieBasic movie : movies) {
+            if (!areasAtuacao.contains(movie.getDepartment()) && movie.getDepartment() != null) {
+                if (!areasAtuacao.contains(movie.getDepartment()))
+                    areasAtuacao.add(movie.getDepartment());
+            }
+        }
     }
 
     @JsonSetter("tagged_images")

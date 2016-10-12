@@ -13,14 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
+import br.com.tiagohs.popmovies.util.enumerations.Param;
+import br.com.tiagohs.popmovies.util.enumerations.ParamSortBy;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,15 +32,10 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Nullable @BindView(R.id.toolbar)             Toolbar mToolbar;
-    @BindView(R.id.coordenation_layout) CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.coordenation_layout)           CoordinatorLayout coordinatorLayout;
+    @Nullable @BindView(R.id.drawer_layout)       DrawerLayout mDrawerLayout;
+    @Nullable @BindView(R.id.nav_view)            NavigationView mNavigationView;
 
-    @Nullable @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-
-    @Nullable @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
-
-    protected MaterialDialog materialDialog;
     protected Snackbar mSnackbar;
 
     @Override
@@ -59,6 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Map<String, String> parameters;
 
         switch (item.getItemId()) {
             case R.id.menu_generos:
@@ -66,6 +66,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
             case R.id.menu_atores:
                 startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO("Atores e Atrizes", R.layout.item_list_movies, Sort.PERSON_POPULAR, ListType.PERSON)));
+                return true;
+            case R.id.menu_lancamentos:
+                parameters = new HashMap<>();
+                parameters.put(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(30));
+                parameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
+                parameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
+
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.menu_lancamentos), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), parameters));
+                return true;
+            case R.id.menu_bem_avaliados:
+                parameters = new HashMap<>();
+                parameters.put(Param.VOTE_AVERAGE_GTE.getParam(), String.valueOf(6.5));
+
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.mais_bem_avaliados), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), parameters));
                 return true;
             default:
                 return false;
@@ -83,18 +97,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         ButterKnife.bind(this);
     }
 
-    protected void showDialogProgress() {
-        materialDialog = new MaterialDialog.Builder(this)
-                .content(getString(R.string.progress_wait))
-                .cancelable(false)
-                .progress(true, 0)
-                .show();
-    }
-
-    protected void hideDialogProgress() {
-        materialDialog.dismiss();
-    }
-
     protected PopMoviesComponent getApplicationComponent() {
         return ((App) getApplication()).getPopMoviesComponent();
     }
@@ -106,7 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
-
 
     }
 

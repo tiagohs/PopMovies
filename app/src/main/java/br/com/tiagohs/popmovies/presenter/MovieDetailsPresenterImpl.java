@@ -58,8 +58,11 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     }
 
     private void noConnectionError() {
-        mMovieDetailsView.onError("Sem Conexao");
-        mMovieDetailsView.setProgressVisibility(View.GONE);
+        if (mMovieDetailsView.isAdded()) {
+            mMovieDetailsView.onError("Sem Conexao");
+            mMovieDetailsView.setProgressVisibility(View.GONE);
+        }
+
     }
 
     public void getVideos() {
@@ -73,29 +76,31 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void onResponse(MovieDetails response) {
-        mMovieDetails = response;
+        if (mOriginalLanguage == null)
+            mMovieDetails = response;
 
-        if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
+        if (mMovieDetailsView.isAdded()) {
+            if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
 
-            mOriginalLanguage = response.getOriginalLanguage();
-            mPopMovieServer.getMovieDetails(mMovieID, mMovieParameters, mOriginalLanguage, this);
+                mOriginalLanguage = response.getOriginalLanguage();
+                mPopMovieServer.getMovieDetails(mMovieID, mMovieParameters, mOriginalLanguage, this);
 
-        } else {
-
-            if (mOriginalLanguage != null) {
-                if (MovieUtils.isEmptyValue(mMovieDetails.getOverview())) {
-                    mMovieDetails.setOverview(response.getOverview());
-                }
-                if (mMovieDetails.getRuntime() == 0)
-                    mMovieDetails.setRuntime(response.getRuntime());
-
-                initUpdates(mMovieDetails);
             } else {
-                initUpdates(response);
+
+                if (mOriginalLanguage != null) {
+                    if (MovieUtils.isEmptyValue(mMovieDetails.getOverview())) {
+                        mMovieDetails.setOverview(response.getOverview());
+                    }
+                    if (mMovieDetails.getRuntime() == 0)
+                        mMovieDetails.setRuntime(response.getRuntime());
+
+                    initUpdates(mMovieDetails);
+                } else {
+                    initUpdates(response);
+                }
+
             }
-
         }
-
     }
 
     private void initUpdates(MovieDetails movieDetails) {
@@ -132,5 +137,10 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     @Override
     public void onVideoRequestError(VolleyError error) {
         noConnectionError();
+    }
+
+    @Override
+    public boolean isAdded() {
+        return mMovieDetailsView.isAdded();
     }
 }

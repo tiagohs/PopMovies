@@ -48,7 +48,8 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        mPersonDetailView.onError("Houve algum erro.");
+        if (mPersonDetailView.isAdded())
+            mPersonDetailView.onError("Houve algum erro.");
     }
 
     @Override

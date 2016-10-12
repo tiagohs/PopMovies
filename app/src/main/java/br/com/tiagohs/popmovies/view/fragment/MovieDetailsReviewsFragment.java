@@ -32,6 +32,10 @@ import butterknife.OnClick;
 public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDetailsReviewsView {
     private static final String ARG_MOVIE = "movie";
 
+    private static final String ARG_REVIEWS = "reviewsSaved";
+    private static final String ARG_TOMATOES_URL = "tomatoesURLSaved";
+    private static final String ARG_MOVIE_SAVED = "movieSaved";
+
     @BindView(R.id.imdb_reviews_container)
     CardView mImdbContainer;
 
@@ -100,24 +104,56 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
         mPresenter.setView(this);
-        mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+
+        if (savedInstanceState != null) {
+            mReviews = (ArrayList<Review>) savedInstanceState.getSerializable(ARG_REVIEWS);
+            mTomatoesUrl = savedInstanceState.getString(ARG_TOMATOES_URL);
+            mMovieDetails = (MovieDetails) savedInstanceState.getSerializable(ARG_MOVIE_SAVED);
+        } else {
+            mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+        }
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (mMovieDetails.getImdbID() != null)
-            mPresenter.getRankings(mMovieDetails.getImdbID());
-        else {
+        updateView();
+        configureExternalLinks();
+        configureReviews();
+    }
+
+    private void configureExternalLinks() {
+        if (mMovieDetails.getImdbID() != null) {
+            if (mTomatoesUrl == null)
+                mPresenter.getRankings(mMovieDetails.getImdbID());
+        } else {
             setImdbRankingVisibility(View.GONE);
             setTomatoesRankingVisibility(View.GONE);
         }
+    }
 
+    private void configureReviews() {
+        if (mReviews.isEmpty())
+            mPresenter.getReviews(mMovieDetails.getId(), mMovieDetails.getTranslations());
+        else {
+            setupRecyclerView();
+            setProgressVisibility(View.GONE);
+            setReviewsVisibility(View.VISIBLE);
+        }
+    }
 
-        updateView();
-        mPresenter.getReviews(mMovieDetails.getId(), mMovieDetails.getTranslations());
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        if (!mReviews.isEmpty())
+            outState.putSerializable(ARG_REVIEWS, (ArrayList<Review>) mReviews);
+        if (mTomatoesUrl != null)
+            outState.putString(ARG_TOMATOES_URL, mTomatoesUrl);
+        if (mMovieDetails != null)
+            outState.putSerializable(ARG_MOVIE_SAVED, mMovieDetails);
     }
 
     private void updateView() {

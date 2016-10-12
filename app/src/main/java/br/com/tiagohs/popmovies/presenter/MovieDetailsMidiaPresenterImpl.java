@@ -18,7 +18,6 @@ import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresenter,
                                                        ImagemInterceptor.onImagemListener,
                                                        VideoInterceptor.onVideoListener {
-    private static final String TAG = MovieDetailsMidiaPresenterImpl.class.getSimpleName();
 
     private MovieDetailsMidiaView mView;
     private ImagemInterceptor mImagemInterceptor;
@@ -40,7 +39,9 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     }
 
     private void noConnectionError() {
-        mView.onError("Sem Conexão");
+        if (mView.isAdded())
+            mView.onError("Sem Conexão");
+
         mView.setProgressVisibility(View.GONE);
     }
 
@@ -60,7 +61,8 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onImageRequestSucess(ImageResponse imageResponse) {
-        mView.updateImageUI(imageResponse);
+        if (mView.isAdded())
+            mView.updateImageUI(imageResponse);
     }
 
     @Override
@@ -70,12 +72,20 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
-        mView.updateVideoUI(videosResponse);
+        if (mView.isAdded()) {
+            mView.setVideosSearched(true);
+            mView.updateVideoUI(videosResponse.getVideos());
+        }
     }
 
     @Override
     public void onVideoRequestError(VolleyError error) {
         mView.onError("Videos: Erro ao carregar os vídeos, tente novamente.");
+    }
+
+    @Override
+    public boolean isAdded() {
+        return mView.isAdded();
     }
 
 }

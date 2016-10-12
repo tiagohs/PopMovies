@@ -27,8 +27,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.tv.TVBasic;
 import br.com.tiagohs.popmovies.model.tv.TVEpisodeBasic;
 

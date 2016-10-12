@@ -202,5 +202,7 @@
     <string name="vote_average_menor">Nota (menor)</string>
     <string name="vote_count_maior">Número de Votos (maior)</string>
     <string name="vote_count_desc">Número de Votos (menor)</string>
+    <string name="persons_popular">Pessoas Populares</string>
+    <string name="person_directors">Diretores</string>
 
 </resources>

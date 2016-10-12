@@ -5,11 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 
 public class ViewUtils {
@@ -67,17 +65,5 @@ public class ViewUtils {
         rankingProgress.setProgressDrawable(ViewUtils.getDrawableFromResource(context, state));
     }
 
-    public static List<String> createAreasAtuacoesPerson(List<CreditMovieBasic> personsMovies) {
-        List<String> areas = new ArrayList<>();
-
-        for (CreditMovieBasic movie : personsMovies) {
-            if (!areas.contains(movie.getDepartment()) && movie.getDepartment() != null) {
-                if (!areas.contains(movie.getDepartment()))
-                    areas.add(movie.getDepartment());
-            }
-        }
-
-        return areas;
-    }
 
 }

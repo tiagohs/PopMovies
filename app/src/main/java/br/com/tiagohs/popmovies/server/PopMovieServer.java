@@ -11,6 +11,7 @@ import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.model.response.GenresResponse;
@@ -199,6 +200,23 @@ public class PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener);
     }
 
+    public void getPersons(int currentPage, ResponseListener<GenericListResponse<PersonFind>> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
+        mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
+
+        mTypeToken = new TypeReference<GenericListResponse<PersonFind>>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.PERSON)
+                .addSubMethod(SubMethod.POPULAR)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
     public void getPersonMoviesCredits(int personID, int currentPage, ResponseListener<PersonMoviesResponse> listener) {
         mParameters = new HashMap<>();
 
@@ -229,6 +247,23 @@ public class PopMovieServer {
                 .addId(personID)
                 .addParameters(mParameters)
                 .addAppendToResponse(appendToResponse)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener);
+    }
+
+    public void getPersonMovies(int personID, int currentPage, Map<String, String> parameters, ResponseListener<PersonMoviesResponse> listener) {
+
+        parameters.put(Param.API_KEY.getParam(), KEY);
+        parameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
+        parameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
+
+        mTypeToken = new TypeReference<PersonMoviesResponse>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.PERSON)
+                .addIdBySubMethod(personID)
+                .addSubMethod(SubMethod.MOVIE_CREDITS)
+                .addParameters(parameters)
                 .build();
 
         execute(METHOD_REQUEST_GET, null, listener);
@@ -266,23 +301,6 @@ public class PopMovieServer {
                 .addIdBySubMethod(genreID)
                 .addSubMethod(SubMethod.MOVIES)
                 .addParameters(mParameters)
-                .build();
-
-        execute(METHOD_REQUEST_GET, null, listener);
-    }
-
-    public void getPersonMovies(int personID, int currentPage, Map<String, String> parameters, ResponseListener<PersonMoviesResponse> listener) {
-
-        parameters.put(Param.API_KEY.getParam(), KEY);
-        parameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
-        parameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
-
-        mTypeToken = new TypeReference<PersonMoviesResponse>(){};
-        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
-                .addMethod(Method.PERSON)
-                .addIdBySubMethod(personID)
-                .addSubMethod(SubMethod.MOVIE_CREDITS)
-                .addParameters(parameters)
                 .build();
 
         execute(METHOD_REQUEST_GET, null, listener);

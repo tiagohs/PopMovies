@@ -22,6 +22,8 @@ package br.com.tiagohs.popmovies.model.person;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.tiagohs.popmovies.model.IDNameAbstract;
 
@@ -35,11 +37,25 @@ public class PersonBasic extends IDNameAbstract implements Serializable {
     @JsonProperty("profile_path")
     private String profilePath;
 
+    protected List<String> areasAtuacao;
+
+    public PersonBasic() {
+        areasAtuacao = new ArrayList<>();
+    }
+
     public String getProfilePath() {
         return profilePath;
     }
 
     public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
+    }
+
+    public List<String> getAreasAtuacao() {
+        return areasAtuacao;
+    }
+
+    public void setAreasAtuacao(List<String> areasAtuacao) {
+        this.areasAtuacao = areasAtuacao;
     }
 }

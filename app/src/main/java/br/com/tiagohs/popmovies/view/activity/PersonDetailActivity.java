@@ -334,4 +334,9 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         mPersonProgressBar.setVisibility(visibityState);
     }
 
+    @Override
+    public boolean isAdded() {
+        return this != null;
+    }
+
 }

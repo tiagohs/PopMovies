@@ -22,7 +22,6 @@ public interface MoviesDetailsOverviewView extends BaseView {
 
     void setRankingProgressVisibility(int visibility);
     void setRankingContainerVisibility(int visibility);
-    boolean isAdded();
 
 
 }

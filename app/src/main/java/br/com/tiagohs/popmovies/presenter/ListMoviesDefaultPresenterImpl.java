@@ -91,7 +91,9 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     private void noConnectionError() {
 
-        mListMoviesDefaultView.onError("Sem Conexão");
+        if (mListMoviesDefaultView.isAdded())
+            mListMoviesDefaultView.onError("Sem Conexão");
+
         mListMoviesDefaultView.setProgressVisibility(View.GONE);
 
         if (mCurrentPage == 0) {

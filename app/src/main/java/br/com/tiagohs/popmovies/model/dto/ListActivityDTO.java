@@ -36,6 +36,7 @@ public class ListActivityDTO implements Serializable {
     public ListActivityDTO(String nameActivity, int layoutID, Sort sortList, ListType listType) {
         this.nameActivity = nameActivity;
         this.layoutID = layoutID;
+        this.mSortList = sortList;
         this.listType = listType;
     }
 

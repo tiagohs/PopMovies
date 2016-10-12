@@ -102,6 +102,8 @@ public class MovieDetailsReviewsPresenterImpl implements MovieDetailsReviewsPres
     @Override
     public void onReviewsRequestError(VolleyError error) {
         mView.setProgressVisibility(View.GONE);
-        mView.onError("Reviews: Erro ao carregar as reviews, tente novamente.");
+
+        if (mView.isAdded())
+            mView.onError("Reviews: Erro ao carregar as reviews, tente novamente.");
     }
 }

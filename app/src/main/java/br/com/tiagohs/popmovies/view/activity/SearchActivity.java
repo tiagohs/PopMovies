@@ -203,6 +203,11 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         mProgress.setVisibility(visibityState);
     }
 
+    @Override
+    public boolean isAdded() {
+        return this != null;
+    }
+
     public void setNenhumFilmeEncontradoVisibility(int visibility) {
         mNenhumFilmeEncontrado.setVisibility(visibility);
     }

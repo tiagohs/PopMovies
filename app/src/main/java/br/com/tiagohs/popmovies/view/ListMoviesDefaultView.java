@@ -4,9 +4,6 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 
-/**
- * Created by Tiago Henrique on 03/09/2016.
- */
 public interface ListMoviesDefaultView extends BaseView {
 
     void hideDialogProgress();

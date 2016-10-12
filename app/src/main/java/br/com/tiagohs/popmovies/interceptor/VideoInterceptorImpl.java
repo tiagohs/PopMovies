@@ -38,14 +38,16 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     @Override
     public void onResponse(VideosResponse response) {
 
-        if (isFirstTranslation())
-            mFinalVideosReponse = response;
+        if (mListener.isAdded()) {
+            if (isFirstTranslation())
+                mFinalVideosReponse = response;
 
-        if (containsTranslations()) {
-            mFinalVideosReponse.getVideos().addAll(response.getVideos());
-            mPopMovieServer.getMovieVideos(mMovieID, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), this);
-        } else {
-            mListener.onVideoRequestSucess(mFinalVideosReponse);
+            if (containsTranslations()) {
+                mFinalVideosReponse.getVideos().addAll(response.getVideos());
+                mPopMovieServer.getMovieVideos(mMovieID, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), this);
+            } else {
+                mListener.onVideoRequestSucess(mFinalVideosReponse);
+            }
         }
 
     }

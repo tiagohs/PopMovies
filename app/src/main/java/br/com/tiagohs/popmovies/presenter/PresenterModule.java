@@ -7,11 +7,6 @@ import dagger.Provides;
 public class PresenterModule {
 
     @Provides
-    public ListMoviesPresenter providesListMoviesPresenter() {
-        return new ListMoviesPresenterImpl();
-    }
-
-    @Provides
     public MovieDetailsPresenter providesMovieDetailsPresenter() {
         return new MovieDetailsPresenterImpl();
     }

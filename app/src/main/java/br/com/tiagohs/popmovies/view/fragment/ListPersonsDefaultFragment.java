@@ -123,6 +123,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+        mPresenter.setView(this);
 
         mSort = (Sort) getArguments().getSerializable(ARG_PERSON_SORT);
         mPersonCredit = (ArrayList<PersonListDTO>) getArguments().getSerializable(ARG_PERSONS);
@@ -168,7 +169,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     private void setupAdapter() {
         if (mPersonAdapter == null) {
-            mPersonAdapter = new PersonAdapter(getActivity(), mPersonCredit, mCallbacks);
+            mPersonAdapter = new PersonAdapter(getActivity(), mPersonCredit == null ? new ArrayList<PersonListDTO>() : mPersonCredit, mCallbacks);
             mPersonsRecyclerView.setAdapter(mPersonAdapter);
         } else
             updateAdapter();

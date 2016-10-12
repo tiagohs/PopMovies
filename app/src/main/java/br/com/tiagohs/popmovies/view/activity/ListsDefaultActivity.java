@@ -20,7 +20,9 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.FilterValuesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.callbacks.FiltersMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
@@ -97,8 +99,11 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_list_defult, menu);
-        return true;
+        if (mListActivityDTO.getListType().equals(ListType.MOVIES)) {
+            getMenuInflater().inflate(R.menu.menu_list_defult, menu);
+            return true;
+        } else
+            return false;
     }
 
     private void addFragment() {
@@ -110,7 +115,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
                 fragmentList = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
             case PERSON:
-                fragmentList = ListPersonsDefaultFragment.newInstance(mPersons, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                if (mPersons == null)
+                    fragmentList = ListPersonsDefaultFragment.newInstance(mListActivityDTO.getSortList(), ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                else
+                    fragmentList = ListPersonsDefaultFragment.newInstance(mPersons, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
         }
 
@@ -172,6 +180,9 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     public void onFilterChanged(FilterValuesDTO filters) {
+        if (mParameters == null)
+            mParameters = new HashMap<>();
+
         addItemParameter(Param.SORT_BY.getParam(), filters.getSortBy());
         addItemParameter(Param.INCLUDE_ADULT.getParam(), String.valueOf(filters.isIncludeAdult()));
         addItemParameter(Param.PRIMARY_RELEASE_YEAR.getParam(), filters.getReleaseYear());
@@ -180,7 +191,23 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         addItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
         addItemParameter(Param.VOTE_AVERAGE_LTE.getParam(), filters.getVoteAverageLte());
 
+        additionalSearchConfigurations();
         addFragment();
+    }
+
+    private void additionalSearchConfigurations() {
+
+        switch (mListActivityDTO.getSortList()) {
+            case GENEROS:
+                addItemParameter(Param.WITH_GENRES.getParam(), String.valueOf(mListActivityDTO.getId()));
+                mListActivityDTO.setSortList(Sort.DISCOVER);
+                break;
+            case KEYWORDS:
+                addItemParameter(Param.WITH_KEYWORDS.getParam(), String.valueOf(mListActivityDTO.getId()));
+                mListActivityDTO.setSortList(Sort.DISCOVER);
+                break;
+        }
+
     }
 
     private void addItemParameter(String param, String value) {

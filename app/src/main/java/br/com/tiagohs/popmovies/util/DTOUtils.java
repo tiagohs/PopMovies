@@ -15,6 +15,7 @@ import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.model.keyword.Keyword;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 
 public class DTOUtils {
@@ -53,6 +54,15 @@ public class DTOUtils {
 
         for (MediaCreditCrew c : cast)
             personListDTO.add(new PersonListDTO(c.getId(), c.getArtworkPath(), c.getName(), c.getDepartment()));
+
+        return personListDTO;
+    }
+
+    public static List<PersonListDTO> createPersonListDTO(List<PersonFind> persons) {
+        List<PersonListDTO> personListDTO = new ArrayList<>();
+
+        for (PersonFind c : persons)
+            personListDTO.add(new PersonListDTO(c.getId(), c.getProfilePath(), c.getName(), ""));
 
         return personListDTO;
     }

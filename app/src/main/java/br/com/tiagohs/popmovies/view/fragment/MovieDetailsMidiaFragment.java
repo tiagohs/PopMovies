@@ -18,9 +18,9 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
-import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsMidiaPresenter;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
@@ -32,8 +32,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaView {
-    private static final String TAG = MovieDetailsMidiaFragment.class.getSimpleName();
     private static final String ARG_MOVIE = "movie";
+
+    private static final String ARG_MOVIE_SAVED = "moviesSaved";
+    private static final String ARG_IS_VIDEO_SEARCHED = "isVideoSerched";
+    private static final String ARG_IMAGES_SAVED = "imagesSaved";
 
     @BindView(R.id.list_videos_recycler_view)
     RecyclerView mVideosRecyclerView;
@@ -54,6 +57,8 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     private ImageAdapter mImageAdapter;
     private MovieDetails mMovieDetails;
     private List<ImageDTO> mTotalImages;
+
+    private boolean isVideosSearched = false;
 
     public static MovieDetailsMidiaFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -85,17 +90,47 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getPopMoviesComponent().inject(this);
-
-        mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
         mPresenter.setView(this);
+
+        if (savedInstanceState != null) {
+            isVideosSearched = savedInstanceState.getBoolean(ARG_IS_VIDEO_SEARCHED);
+            mTotalImages = (ArrayList<ImageDTO>) savedInstanceState.getSerializable(ARG_IMAGES_SAVED);
+            mMovieDetails = (MovieDetails) savedInstanceState.getSerializable(ARG_MOVIE_SAVED);
+        } else {
+            mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+        }
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        mPresenter.getVideos(mMovieDetails.getId(), mMovieDetails.getTranslations());
-        mPresenter.getImagens(mMovieDetails.getId());
+        if (isVideosSearched)
+            updateVideoUI(mMovieDetails.getVideos());
+        else
+            mPresenter.getVideos(mMovieDetails.getId(), mMovieDetails.getTranslations());
+        
+        if (mTotalImages != null)
+            setupImageAdapter();
+        else
+            mPresenter.getImagens(mMovieDetails.getId());
+    }
+
+    public void setVideosSearched(boolean videosSearched) {
+        isVideosSearched = videosSearched;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (isVideosSearched)
+            outState.putBoolean(ARG_IS_VIDEO_SEARCHED, isVideosSearched);
+        if (mTotalImages != null)
+            outState.putSerializable(ARG_IMAGES_SAVED, (ArrayList<ImageDTO>) mTotalImages);
+        if (mMovieDetails != null)
+            outState.putSerializable(ARG_MOVIE_SAVED, mMovieDetails);
     }
 
     @Override
@@ -124,20 +159,20 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         mMovieDetails.setImages(imageResponse);
         int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
         mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
+        mTotalImages = getImageDTO(mMovieDetails.getImages().size());
         setupImageAdapter();
     }
 
     @Override
-    public void updateVideoUI(VideosResponse videosResponse) {
+    public void updateVideoUI(List<Video> videosResponse) {
 
-        mMovieDetails.addMoreVideos(videosResponse.getVideos());
+        mMovieDetails.addMoreVideos(videosResponse);
         mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
         mVideosRecyclerView.setAdapter(mVideoAdapter);
     }
 
     private void setupImageAdapter() {
-        mTotalImages = getImageDTO(mMovieDetails.getImages().size());
 
         if (mMovieDetails.getImages().size() > 6)
             mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks, mTotalImages);

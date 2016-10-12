@@ -16,6 +16,7 @@ public interface VideoInterceptor {
 
         void onVideoRequestSucess(VideosResponse videosResponse);
         void onVideoRequestError(VolleyError error);
+        boolean isAdded();
     }
 
     void getVideos(int movieID, List<Translation> translations);

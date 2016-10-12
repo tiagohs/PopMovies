@@ -15,7 +15,6 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
-import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
@@ -23,7 +22,6 @@ import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
-import br.com.tiagohs.popmovies.util.enumerations.Gender;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
@@ -183,14 +181,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     private void updateAreasAtuacoes() {
-        List<CreditMovieBasic> personsMovies = mPerson.getMovieCredits().getCast();
-        personsMovies.addAll(mPerson.getMovieCredits().getCrew());
-
-        mAreasAtuacao = ViewUtils.createAreasAtuacoesPerson(personsMovies);
-        if (mPerson.getMovieCredits().getCast().size() > 0)
-            mAreasAtuacao.add(mPerson.getGender() == Gender.MALE ? "Actor" : "Actress");
-
-        mPrincipaisAreas.setText(MovieUtils.formatList(mAreasAtuacao));
+        mPrincipaisAreas.setText(MovieUtils.formatList(mPerson.getAreasAtuacao()));
     }
 
     private void updateDescricao() {

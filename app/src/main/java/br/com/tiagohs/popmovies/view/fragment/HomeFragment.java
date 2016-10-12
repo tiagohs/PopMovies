@@ -87,7 +87,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         listDTOs.add(new ItemListDTO(getString(R.string.destaques_do_ano), Sort.DISCOVER, parameters));
 
         parameters = new HashMap<>();
-        parameters.put(Param.VOTE_COUNT_GTE.getParam(), String.valueOf(6.5));
+        parameters.put(Param.VOTE_AVERAGE_GTE.getParam(), String.valueOf(6.5));
         listDTOs.add(new ItemListDTO(getString(R.string.mais_bem_avaliados), Sort.DISCOVER, parameters));
 
         parameters = new HashMap<>();

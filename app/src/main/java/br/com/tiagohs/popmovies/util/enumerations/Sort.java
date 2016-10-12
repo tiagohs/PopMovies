@@ -10,8 +10,8 @@ public enum Sort {
     DISCOVER(R.string.discover),
     PERSON_MOVIES_CARRER(R.string.person),
     PERSON_CONHECIDO_POR(R.string.conhecido_por_title),
-    PERSON_POPULAR(0),
-    PERSON_DIRECTORS(0);
+    PERSON_POPULAR(R.string.persons_popular),
+    PERSON_DIRECTORS(R.string.person_directors);
 
     private int nameID;
 
