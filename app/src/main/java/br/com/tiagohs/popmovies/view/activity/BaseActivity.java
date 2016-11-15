@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +83,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 parameters.put(Param.VOTE_AVERAGE_GTE.getParam(), String.valueOf(6.5));
 
                 startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.mais_bem_avaliados), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), parameters));
+                return true;
+            case R.id.menu_sobre:
+                new LibsBuilder()
+                        //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .withAboutIconShown(true)
+                        .withAboutVersionShown(true)
+                        .withAboutAppName(getString(R.string.app_name))
+                        .withActivityTitle(getString(R.string.sobre_title_actionbar))
+                        .withAboutDescription(getString(R.string.sobre_descricao))
+                        //start the activity
+                        .start(this);
                 return true;
             default:
                 return false;

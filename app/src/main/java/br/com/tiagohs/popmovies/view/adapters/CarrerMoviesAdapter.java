@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,12 +30,14 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
     private Context mContext;
     private ListMoviesCallbacks mCallbacks;
     private int mLayoutMovieResID;
+    private Fragment mFragment;
 
-    public CarrerMoviesAdapter(Context context, List<CarrerMoviesDTO> list, ListMoviesCallbacks callbacks, int layoutMovieResID) {
+    public CarrerMoviesAdapter(Context context, Fragment fragment, List<CarrerMoviesDTO> list, ListMoviesCallbacks callbacks, int layoutMovieResID) {
         this.list = list;
         this.mContext = context;
         this.mCallbacks = callbacks;
         this.mLayoutMovieResID = layoutMovieResID;
+        this.mFragment = fragment;
     }
 
     public void setList(List<CarrerMoviesDTO> list) {
@@ -62,51 +65,46 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
 
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)
-        ImageView mPosterMovie;
-
-        @BindView(R.id.person_carrer_movie_title)
-        TextView mTitle;
-
-        @BindView(R.id.person_carrer_movie_title_original)
-        TextView mTitleOriginal;
-
-        @BindView(R.id.person_carrer_movie_year)
-        TextView mYear;
-
-        @BindView(R.id.person_carrer_movie_character)
-        TextView mCharacter;
+        @BindView(R.id.poster_movie)                            ImageView mPosterMovie;
+        @BindView(R.id.person_carrer_movie_title)               TextView mTitle;
+        @BindView(R.id.person_carrer_movie_title_original)      TextView mTitleOriginal;
+        @BindView(R.id.person_carrer_movie_year)                TextView mYear;
+        @BindView(R.id.person_carrer_movie_character)           TextView mCharacter;
 
         private CarrerMoviesDTO mMovie;
 
         public ListMoviesViewHolder(final Context context, View itemView) {
             super(itemView);
             mContext = context;
-            itemView.setOnClickListener(this);
 
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
 
         public void bindMovie(CarrerMoviesDTO movie) {
             mMovie = movie;
-            Typeface openSans = Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf");
 
-            mTitle.setText(movie.getTitle());
-            mTitle.setTypeface(openSans);
+            if (mFragment.isAdded()) {
+                Typeface openSans = Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf");
 
-            mTitleOriginal.setText(movie.getOriginalTitle());
-            mTitle.setTypeface(openSans);
+                mTitle.setText(movie.getTitle());
+                mTitle.setTypeface(openSans);
 
-            mYear.setText(String.valueOf(movie.getYearRelease()));
-            mYear.setTypeface(openSans);
+                mTitleOriginal.setText(movie.getOriginalTitle());
+                mTitle.setTypeface(openSans);
 
-            mCharacter.setText(mMovie.getCreditType().equals(CreditType.CAST) ?
-                                mContext.getResources().getString(R.string.person_carrer_movie_character, movie.getCharacter()) :
-                                mContext.getResources().getString(R.string.person_carrer_movie_departamento, movie.getDepartment()));
+                mYear.setText(String.valueOf(movie.getYearRelease()));
+                mYear.setTypeface(openSans);
 
-            mCharacter.setTypeface(openSans);
-            ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_92);
-        }
+                mCharacter.setText(mMovie.getCreditType().equals(CreditType.CAST) ?
+                        mContext.getResources().getString(R.string.person_carrer_movie_character, movie.getCharacter()) :
+                        mContext.getResources().getString(R.string.person_carrer_movie_departamento, movie.getDepartment()));
+
+                mCharacter.setTypeface(openSans);
+                ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_92);
+            }
+         }
+
 
         @Override
         public void onClick(View view) {

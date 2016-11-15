@@ -20,5 +20,6 @@ public interface SearchMoviesInterceptor {
                       Boolean includeAdult,
                       Integer searchYear,
                       Integer primaryReleaseYear,
+                      String tag,
                       Integer currentPage);
 }

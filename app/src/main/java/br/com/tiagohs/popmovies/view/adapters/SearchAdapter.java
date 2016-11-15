@@ -60,30 +60,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
 
     class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)
-        ImageView mImageView;
-
-        @BindView(R.id.movie_raking_total)
-        TextView mRanking;
-
-        @BindView(R.id.title_movie)
-        TextView mTitleMovie;
-
-        @BindView(R.id.movie_votes)
-        TextView mMovieVotes;
-
-        @BindView(R.id.movie_ano_lancamento)
-        TextView mMovieAnoLancamento;
-
-        @BindView(R.id.geners_movie)
-        TextView mGeners;
-
-        @BindView(R.id.list_item_movies_progress)
-        ProgressWheel mProgress;
-
-        @BindView(R.id.nota_progress)
-        ProgressBar mProgRanking;
-
+        @BindView(R.id.poster_movie)                    ImageView mImageView;
+        @BindView(R.id.movie_raking_total)              TextView mRanking;
+        @BindView(R.id.title_movie)                     TextView mTitleMovie;
+        @BindView(R.id.movie_votes)                     TextView mMovieVotes;
+        @BindView(R.id.movie_ano_lancamento)            TextView mMovieAnoLancamento;
+        @BindView(R.id.geners_movie)                    TextView mGeners;
+        @BindView(R.id.list_item_movies_progress)       ProgressWheel mProgress;
+        @BindView(R.id.nota_progress)                   ProgressBar mProgRanking;
 
         private Context mContext;
         private Movie mMovie;
@@ -91,8 +75,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         public SearchViewHolder(final Context context, View itemView) {
             super(itemView);
             mContext = context;
-            itemView.setOnClickListener(this);
 
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
 

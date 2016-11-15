@@ -30,6 +30,114 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <RatingBar
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:id="@+id/ratingBar"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/btn_favorito"
+                    android:drawableRight="@drawable/ic_favorite_border"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/secondary_text"
+                    android:padding="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:textSize="12dp"
+                    android:text="Favorite! "/>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple_imdb"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/btn_imdb"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="@string/imdb"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple_wiki"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/btn_wiki"
+                        android:drawableLeft="@drawable/ic_wiki"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="@string/wiki"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/riple_pagina_inicial"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/btn_pagina_inicial"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/secondary_text"
+                        android:padding="10dp"
+                        android:textSize="12dp"
+                        android:text="Página Inicial"/>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -279,10 +387,10 @@
                 <TextView
                     android:id="@+id/sinopse_movie"
                     android:textSize="14dp"
+                    android:textIsSelectable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:text="Reuna um time dos super vilões mais perigosos já encarcerados, dê a eles o arsenal mais poderoso do qual o governo dispõe e os envie a uma missão para derrotar uma entidade enigmática e insuperável que a agente governamental Amanda Waller (Viola Davis) decidiu que só pode ser vencida por indivíduos desprezíveis e com nada a perder. No então, assim que o improvável time percebe que eles não foram escolhidos para vencerem, e sim para falharem inevitavelmente, será que o Esquadrão Suicida vai morrer tentando concluir a missão ou decidem que é cada um por si?"/>
+                    android:textColor="@color/primary_text" />
 
                 <TextView
                     android:id="@+id/adult_movie"

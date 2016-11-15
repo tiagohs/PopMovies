@@ -32,20 +32,16 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaView {
+    private static final String TAG = MovieDetailsMidiaFragment.class.getSimpleName();
     private static final String ARG_MOVIE = "movie";
 
     private static final String ARG_MOVIE_SAVED = "moviesSaved";
     private static final String ARG_IS_VIDEO_SEARCHED = "isVideoSerched";
     private static final String ARG_IMAGES_SAVED = "imagesSaved";
 
-    @BindView(R.id.list_videos_recycler_view)
-    RecyclerView mVideosRecyclerView;
-
-    @BindView(R.id.images_recycler_view)
-    RecyclerView mImagesRecyclerView;
-
-    @BindView(R.id.wallpapers_riple)
-    MaterialRippleLayout mWallpapersRiple;
+    @BindView(R.id.list_videos_recycler_view)       RecyclerView mVideosRecyclerView;
+    @BindView(R.id.images_recycler_view)            RecyclerView mImagesRecyclerView;
+    @BindView(R.id.wallpapers_riple)                MaterialRippleLayout mWallpapersRiple;
 
     @Inject
     MovieDetailsMidiaPresenter mPresenter;
@@ -90,6 +86,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getPopMoviesComponent().inject(this);
+
         mPresenter.setView(this);
 
         if (savedInstanceState != null) {
@@ -105,16 +102,27 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Override
     public void onStart() {
         super.onStart();
+        init();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(getActivity(), TAG);
+    }
+
+    private void init() {
         if (isVideosSearched)
             updateVideoUI(mMovieDetails.getVideos());
         else
-            mPresenter.getVideos(mMovieDetails.getId(), mMovieDetails.getTranslations());
-        
+            mPresenter.getVideos(mMovieDetails.getId(), TAG, mMovieDetails.getTranslations());
+
         if (mTotalImages != null)
             setupImageAdapter();
         else
-            mPresenter.getImagens(mMovieDetails.getId());
+            mPresenter.getImagens(mMovieDetails.getId(), TAG);
     }
 
     public void setVideosSearched(boolean videosSearched) {
@@ -148,7 +156,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onStart();
+                init();
                 mSnackbar.dismiss();
             }
         };

@@ -28,6 +28,8 @@ import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
 import butterknife.BindView;
 
 public class ListPersonsDefaultFragment extends BaseFragment implements ListPersonsDefaultView {
+    private static final String TAG = ListPersonsDefaultFragment.class.getSimpleName();
+
     private static final String ARG_PERSONS = "persons";
     private static final String ARG_PERSON_SORT = "person_sort";
     private static final String ARG_TYPE_LAYOUT = "layout_manager";
@@ -35,13 +37,9 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     private static final String ARG_ORIENTATION = "orientation";
     private static final String ARG_REVERSE_LAYOUT= "reverseLayout";
     private static final String ARG_SPAN_COUNT = "spanCount";
-    private static final String ARG_LAYOUT_ID = "layoutID";
 
-    @BindView(R.id.list_person_recycler_view)
-    RecyclerView mPersonsRecyclerView;
-
-    @BindView(R.id.list_person_principal_progress)
-    ProgressWheel mPersonProgress;
+    @BindView(R.id.list_person_recycler_view)       RecyclerView mPersonsRecyclerView;
+    @BindView(R.id.list_person_principal_progress)  ProgressWheel mPersonProgress;
 
     @Inject
     ListPersonsDefaultPresenter mPresenter;
@@ -137,14 +135,24 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     @Override
     public void onStart() {
         super.onStart();
+        init();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(getActivity(), TAG);
+    }
+
+    private void init() {
         if (mSort != null)
             mPresenter.getPersons(mSort);
-         else {
+        else {
             setupRecyclerView();
             setProgressVisibility(View.GONE);
         }
-
     }
 
     public void setListMovies(List<PersonListDTO> listMovies, boolean hasMorePages) {
@@ -169,7 +177,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     private void setupAdapter() {
         if (mPersonAdapter == null) {
-            mPersonAdapter = new PersonAdapter(getActivity(), mPersonCredit == null ? new ArrayList<PersonListDTO>() : mPersonCredit, mCallbacks);
+            mPersonAdapter = new PersonAdapter(getActivity(), this, mPersonCredit == null ? new ArrayList<PersonListDTO>() : mPersonCredit, mCallbacks);
             mPersonsRecyclerView.setAdapter(mPersonAdapter);
         } else
             updateAdapter();
@@ -200,7 +208,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
             @Override
             public void onLoadMore(int current_page) {
                 if(hasMorePages) {
-                    onStart();
+                    init();
                 }
 
             }

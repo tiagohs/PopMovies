@@ -16,5 +16,5 @@ public interface ReviewsInterceptor {
         void onReviewsRequestError(VolleyError error);
     }
 
-    void getReviews(int movieID, int page, List<Translation> translations);
+    void getReviews(int movieID, int page, String tag, List<Translation> translations);
 }

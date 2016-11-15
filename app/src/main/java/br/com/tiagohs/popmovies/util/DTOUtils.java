@@ -77,7 +77,7 @@ public class DTOUtils {
     }
 
     public static List<ImageDTO> createPersonImagesDTO(PersonInfo person, int numTotalImages, List<Artwork> images) {
-        numTotalImages = images.size() <= numTotalImages ? images.size(): numTotalImages;
+        numTotalImages = images.size() <= numTotalImages ? images.size() - 1: numTotalImages;
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
         for (int cont = 0; cont < numTotalImages; cont++) {
@@ -91,7 +91,7 @@ public class DTOUtils {
     public static List<ImageDTO> createPersonImagesBackgroundDTO(PersonInfo person, int numImages, List<ArtworkMedia> images) {
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
-        for (int cont = 0; cont < numImages; cont++) {
+        for (int cont = 0; cont < (numImages - 1); cont++) {
             Artwork image = images.get(cont);
             imageDTOs.add(new ImageDTO(person.getId(), image.getId(), image.getFilePath()));
         }
@@ -100,7 +100,7 @@ public class DTOUtils {
     }
 
     public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> personsMovies, int maxSize) {
-        int numMovies = personsMovies.size() < maxSize ? personsMovies.size() : maxSize;
+        int numMovies = personsMovies.size() < maxSize ? personsMovies.size() - 1 : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 
         for (int cont = 0; cont < numMovies; cont++) {

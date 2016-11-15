@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +16,20 @@ import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoViewHolder> {
     private Context mContext;
     private List<PersonListDTO> mElenco;
     private PersonCallbacks mCallbacks;
+    private Fragment mFragment;
 
-    public PersonAdapter(Context context, List<PersonListDTO> cast, PersonCallbacks callbacks) {
+    public PersonAdapter(Context context, Fragment fragment, List<PersonListDTO> cast, PersonCallbacks callbacks) {
         this.mContext = context;
         this.mElenco = cast;
         this.mCallbacks = callbacks;
+        this.mFragment = fragment;
     }
 
     public void setElenco(List<PersonListDTO> genre) {
@@ -50,27 +55,34 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     }
 
     class ElencoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.nome_profissional_movie)
+        TextView mNomeTextView;
+
+        @BindView(R.id.subtitulo_item_person_movie)
+        TextView mSubtituloTextView;
+
+        @BindView(R.id.imagem_credit_movie)
+        ImageView mImagemPerson;
+
         private PersonListDTO mPerson;
-        private TextView mNomeTextView;
-        private TextView mSubtituloTextView;
-        private ImageView mImagemPerson;
 
         public ElencoViewHolder(View itemView) {
             super(itemView);
 
-            mImagemPerson = (ImageView) itemView.findViewById(R.id.imagem_credit_movie);
-            mNomeTextView = (TextView) itemView.findViewById(R.id.nome_profissional_movie);
-            mSubtituloTextView = (TextView) itemView.findViewById(R.id.subtitulo_item_person_movie);
-
             itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bindElenco(PersonListDTO person) {
             this.mPerson = person;
 
-            ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, mPerson.getNamePerson(), ImageSize.PROFILE_185);
-            mNomeTextView.setText(mPerson.getNamePerson());
-            mSubtituloTextView.setText(mPerson.getSubtitulo());
+            if (mFragment.isAdded()) {
+                ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, mPerson.getNamePerson(), ImageSize.PROFILE_185);
+                mNomeTextView.setText(mPerson.getNamePerson());
+                mSubtituloTextView.setText(mPerson.getSubtitulo());
+            }
+
         }
 
         @Override

@@ -14,11 +14,8 @@ import butterknife.BindView;
 public class PersonDetailFragment extends BaseFragment {
     public static final String ARG_PERSON = "person";
 
-    @BindView(R.id.tabLayout)
-    TabLayout mTabCarrer;
-
-    @BindView(R.id.carrer_view_pager)
-    ViewPager mCarrerViewPager;
+    @BindView(R.id.tabLayout)               TabLayout mTabCarrer;
+    @BindView(R.id.carrer_view_pager)       ViewPager mCarrerViewPager;
 
     private PersonInfo mPersonInfo;
 

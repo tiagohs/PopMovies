@@ -4,5 +4,5 @@ import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public interface MovieDetailsOverviewPresenter extends BasePresenter<MoviesDetailsOverviewView> {
 
-    void getMoviesRankings(String imdbID);
+    void getMoviesRankings(String imdbID, String tag);
 }

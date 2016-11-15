@@ -7,9 +7,6 @@ import java.util.List;
 import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
-/**
- * Created by Tiago Henrique on 28/08/2016.
- */
 public interface VideoInterceptor {
 
     interface onVideoListener {
@@ -19,5 +16,5 @@ public interface VideoInterceptor {
         boolean isAdded();
     }
 
-    void getVideos(int movieID, List<Translation> translations);
+    void getVideos(int movieID, String tag, List<Translation> translations);
 }

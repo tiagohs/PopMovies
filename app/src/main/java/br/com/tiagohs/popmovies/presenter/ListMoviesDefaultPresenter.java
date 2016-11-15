@@ -7,5 +7,5 @@ import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
 
 public interface ListMoviesDefaultPresenter extends BasePresenter<ListMoviesDefaultView> {
 
-    void getMovies(int id, Sort typeList, Map<String, String> parameters);
+    void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters);
 }

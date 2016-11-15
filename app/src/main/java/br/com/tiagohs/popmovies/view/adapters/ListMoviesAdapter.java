@@ -40,7 +40,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(mLayoutMovieResID, parent, false);
 
-        return new ListMoviesViewHolder(mContext, view);
+        return new ListMoviesViewHolder(view);
     }
 
     @Override
@@ -55,20 +55,15 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)
-        ImageView mImageView;
+        @BindView(R.id.poster_movie)                ImageView mImageView;
+        @BindView(R.id.rodape_list_movies)          LinearLayout mRodapeListMovies;
 
-        @BindView(R.id.rodape_list_movies)
-        LinearLayout mRodapeListMovies;
-
-        private Context mContext;
         private MovieListDTO mMovie;
 
-        public ListMoviesViewHolder(final Context context, View itemView) {
+        public ListMoviesViewHolder(View itemView) {
             super(itemView);
-            mContext = context;
-            itemView.setOnClickListener(this);
 
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
 
@@ -76,7 +71,6 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             mMovie = movie;
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
-
         }
 
         @Override

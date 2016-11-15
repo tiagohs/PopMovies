@@ -1,31 +1,38 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
 
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
     private MoviesDetailsOverviewView mMoviesDetailsOverviewView;
 
     public MovieDetailsOverviewPresenterImpl() {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
     }
 
     @Override
-    public void getMoviesRankings(String imdbID) {
-        mPopMovieServer.getMovieRankings(imdbID, this);
+    public void getMoviesRankings(String imdbID, String tag) {
+        mMoviesServer.getMovieRankings(imdbID, tag, this);
     }
 
     @Override
     public void setView(MoviesDetailsOverviewView view) {
         mMoviesDetailsOverviewView = view;
+    }
+
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override

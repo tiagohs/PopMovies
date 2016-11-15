@@ -17,5 +17,6 @@ public interface SearchPersonInterceptor {
     void searchPersons(String query,
                        Boolean includeAdult,
                        SearchType searchType,
+                       String tag,
                        Integer currentPage);
 }

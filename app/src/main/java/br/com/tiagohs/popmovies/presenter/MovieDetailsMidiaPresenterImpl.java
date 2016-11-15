@@ -1,11 +1,13 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
 import java.util.List;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptor;
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
@@ -29,10 +31,10 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     }
 
     @Override
-    public void getVideos(int movieID, List<Translation> translations) {
+    public void getVideos(int movieID, String tag, List<Translation> translations) {
 
         if (mView.isInternetConnected()) {
-            mVideoInterceptor.getVideos(movieID, translations);
+            mVideoInterceptor.getVideos(movieID, tag, translations);
         } else
             noConnectionError();
 
@@ -46,10 +48,10 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     }
 
     @Override
-    public void getImagens(int movieID) {
-        if (mView.isInternetConnected()) {
-            mImagemInterceptor.getImagens(movieID);
-        } else
+    public void getImagens(int movieID, String tag) {
+        if (mView.isInternetConnected())
+            mImagemInterceptor.getImagens(movieID, tag);
+        else
             noConnectionError();
 
     }
@@ -57,6 +59,11 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     @Override
     public void setView(MovieDetailsMidiaView view) {
         this.mView = view;
+    }
+
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override

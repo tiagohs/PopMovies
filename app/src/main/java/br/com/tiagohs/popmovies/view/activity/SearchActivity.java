@@ -29,16 +29,12 @@ import br.com.tiagohs.popmovies.view.fragment.EndlessRecyclerView;
 import butterknife.BindView;
 
 public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmovies.view.SearchView, SearchView.OnQueryTextListener {
+    private static final String TAG = SearchActivity.class.getSimpleName();
     private static final String ARG_QUERY = "br.com.tiagohs.popmovies.query";
 
-    @BindView(R.id.list_movies_recycler_view)
-    RecyclerView mResultsRecyclerView;
-
-    @BindView(R.id.search_progress)
-    ProgressWheel mProgress;
-
-    @BindView(R.id.nenhum_filme_encontrado)
-    TextView mNenhumFilmeEncontrado;
+    @BindView(R.id.list_movies_recycler_view)       RecyclerView mResultsRecyclerView;
+    @BindView(R.id.search_progress)                 ProgressWheel mProgress;
+    @BindView(R.id.nenhum_filme_encontrado)         TextView mNenhumFilmeEncontrado;
 
     @Inject
     SearchPresenter mSearchPresenter;
@@ -60,6 +56,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+
         mSearchPresenter.setView(this);
 
         if (savedInstanceState != null) {
@@ -75,8 +72,14 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     @Override
     protected void onStart() {
         super.onStart();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+        if (mSearchPresenter != null)
+            mSearchPresenter.onCancellRequest(this, TAG);
     }
 
     @Override
@@ -99,7 +102,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     }
 
     private void search(String query, boolean isNewSearch) {
-        mSearchPresenter.searchMovies(query, false, null, null, isNewSearch);
+        mSearchPresenter.searchMovies(query, false, null, TAG, null, isNewSearch);
     }
 
     @Override

@@ -45,7 +45,6 @@ import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
-import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -101,7 +100,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     private ListMoviesCallbacks mListMoviesCallbacks;
     private ListWordsCallbacks mGenresCallbacks;
-    private PersonCallbacks mPersonCallbacks;
     private ListWordsCallbacks mKeyWordsCallbacks;
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
@@ -119,7 +117,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onAttach(context);
         mListMoviesCallbacks = (ListMoviesCallbacks) context;
         mGenresCallbacks = (ListWordsCallbacks) context;
-        mPersonCallbacks = (PersonCallbacks) context;
         mKeyWordsCallbacks = (ListWordsCallbacks) context;
     }
 
@@ -128,7 +125,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onDetach();
         mListMoviesCallbacks = null;
         mGenresCallbacks = null;
-        mPersonCallbacks = null;
         mKeyWordsCallbacks = null;
     }
 
@@ -138,17 +134,29 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         getApplicationComponent().inject(this);
 
         mPresenter.setView(this);
+
         mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        init();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(getActivity(), TAG);
+    }
+
+    private void init() {
         if (mMovie.getSimilarMovies().isEmpty())
             setSimilaresVisibility(View.GONE);
 
-        mPresenter.getMoviesRankings(mMovie.getImdbID());
+        mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
 
         addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
@@ -265,7 +273,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @OnClick(R.id.imdb_riple)
     public void onIMDBClick() {
         if (mMovieRankings.getImdbID() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.metacritic_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.imdb_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
     }
 
     @OnClick(R.id.metascore_riple)
@@ -326,7 +334,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onStart();
+                init();
                 mSnackbar.dismiss();
             }
         };

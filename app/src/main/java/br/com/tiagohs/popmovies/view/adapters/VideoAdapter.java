@@ -17,12 +17,13 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Tiago Henrique on 28/08/2016.
  */
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
-    private static final String TAG = VideoAdapter.class.getSimpleName();
 
     private Context mContext;
     private MovieVideosCallbacks mCallback;
@@ -58,27 +59,25 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.imagem_video)            ImageView mThumbnailVideo;
+        @BindView(R.id.title_video)            TextView mTitleVideo;
+        @BindView(R.id.video_item_card_view)    CardView mVideoCardView;
+        @BindView(R.id.videos_image_progress)   ProgressWheel mProgress;
+
         private Video mVideo;
-        private ImageView mThumbnailVideo;
-        private TextView mTitleVideo;
-        private CardView mVideoCardView;
-        private ProgressWheel mProgress;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
 
-            mThumbnailVideo = (ImageView) itemView.findViewById(R.id.imagem_video);
-            mTitleVideo = (TextView) itemView.findViewById(R.id.title_video);
-            mVideoCardView = (CardView) itemView.findViewById(R.id.video_item_card_view);
-            mProgress = (ProgressWheel) itemView.findViewById(R.id.videos_image_progress);
-
+            ButterKnife.bind(this, itemView);
             mVideoCardView.setOnClickListener(this);
         }
 
         public void bindVideo(Video video) {
             this.mVideo = video;
 
-            ImageUtils.load(mContext, "http://img.youtube.com/vi/" + mVideo.getKey() + "/0.jpg", R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mThumbnailVideo, mProgress);
+            ImageUtils.load(mContext, mContext.getString(R.string.youtube_link, mVideo.getKey()), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mThumbnailVideo, mProgress);
             mTitleVideo.setText(mVideo.getName());
         }
 

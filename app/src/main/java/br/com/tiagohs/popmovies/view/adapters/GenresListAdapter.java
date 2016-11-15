@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
-
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.GenresActivityViewHolder> {
 
@@ -54,23 +54,20 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Ge
     }
 
     class GenresActivityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.genre_background)    ImageView mGenresBackground;
+        @BindView(R.id.title_genre)         TextView mTitleGenres;
+        @BindView(R.id.card_view)           CardView mCardView;
+
         private Genre mGenero;
-        private ImageView mGenresBackground;
-        private TextView mTitleGenres;
-        private CardView mCardView;
-        private MaterialRippleLayout mMaterialRippleLayout;
 
         public GenresActivityViewHolder(View itemView) {
             super(itemView);
 
-            mGenresBackground = (ImageView) itemView.findViewById(R.id.genre_background);
-            mCardView = (CardView) itemView.findViewById(R.id.card_view);
-            mMaterialRippleLayout = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
-
-            mTitleGenres = (TextView) itemView.findViewById(R.id.title_genre);
-            mTitleGenres.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
-
             itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
+
+            mTitleGenres.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
         }
 
         public void bindGenero(Genre gene) {

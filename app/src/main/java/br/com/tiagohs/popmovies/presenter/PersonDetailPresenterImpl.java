@@ -1,34 +1,36 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.PersonsServer;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 
 public class PersonDetailPresenterImpl implements PersonDetailPresenter, ResponseListener<PersonInfo> {
 
     private PersonDetailView mPersonDetailView;
-    private PopMovieServer mPopMovieServer;
+    private PersonsServer mPersonsServer;
 
     public PersonDetailPresenterImpl() {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mPersonsServer = new PersonsServer();
     }
 
     @Override
-    public void getPersonDetails(int personID) {
+    public void getPersonDetails(int personID, String tag) {
 
         if (mPersonDetailView.isInternetConnected()) {
             mPersonDetailView.setProgressVisibility(View.VISIBLE);
-            mPopMovieServer.getPersonDetails(personID, new String[]{SubMethod.MOVIE_CREDITS.getValue(),
+            mPersonsServer.getPersonDetails(personID, new String[]{SubMethod.MOVIE_CREDITS.getValue(),
                     SubMethod.COMBINED_CREDITS.getValue(),
                     SubMethod.EXTERNAL_IDS.getValue(),
                     SubMethod.IMAGES.getValue(),
-                    SubMethod.TAGGED_IMAGES.getValue()}, this);
+                    SubMethod.TAGGED_IMAGES.getValue()}, tag, this);
         } else {
             noConnectionError();
         }
@@ -44,6 +46,11 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
     @Override
     public void setView(PersonDetailView view) {
         mPersonDetailView = view;
+    }
+
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override

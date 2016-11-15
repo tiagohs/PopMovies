@@ -55,30 +55,26 @@ public class ReviewsAdaper extends RecyclerView.Adapter<ReviewsAdaper.ReviewsVie
     }
 
     class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.imagem_author)           ImageView mAuthorReviewImage;
+        @BindView(R.id.review_author_name)      TextView mAuthorName;
+        @BindView(R.id.review_content)          TextViewExpandableAnimation mReviewContent;
+
         private Review mReview;
-
-        @BindView(R.id.imagem_author)
-        ImageView mAuthorReviewImage;
-
-        @BindView(R.id.review_author_name)
-        TextView mAuthorName;
-
-        @BindView(R.id.review_content)
-        TextViewExpandableAnimation mReviewContent;
 
         public ReviewsViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
+
+            mAuthorName.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
         }
 
         public void bindReview(Review review) {
             this.mReview = review;
 
-            mAuthorName.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mAuthorName.setText(review.getAuthor());
-
             mReviewContent.setText(review.getContent());
 
             ImageUtils.loadByCircularImage(mContext, "", mAuthorReviewImage, review.getAuthor(), ImageSize.PROFILE_185);

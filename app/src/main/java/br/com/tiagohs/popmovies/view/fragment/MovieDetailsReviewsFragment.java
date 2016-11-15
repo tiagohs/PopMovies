@@ -30,38 +30,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDetailsReviewsView {
+    private static final String TAG = MovieDetailsOverviewFragment.class.getSimpleName();
     private static final String ARG_MOVIE = "movie";
 
     private static final String ARG_REVIEWS = "reviewsSaved";
     private static final String ARG_TOMATOES_URL = "tomatoesURLSaved";
     private static final String ARG_MOVIE_SAVED = "movieSaved";
 
-    @BindView(R.id.imdb_reviews_container)
-    CardView mImdbContainer;
-
-    @BindView(R.id.tomatoes_reviews_container)
-    CardView mTomatoesContainer;
-
-    @BindView(R.id.reviews_container)
-    FrameLayout mReviewsContainer;
-
-    @BindView(R.id.label_imdb)
-    TextView mImdbLabel;
-
-    @BindView(R.id.label_imdb_extra)
-    TextView mImdbLabelExtra;
-
-    @BindView(R.id.label_tomatoes)
-    TextView mTomatoesLabel;
-
-    @BindView(R.id.label_tomatoes_extra)
-    TextView mTomatoesLabelExtra;
-
-    @BindView(R.id.reviews_progress)
-    ProgressWheel mProgress;
-
-    @BindView(R.id.reviews_recycler_view)
-    RecyclerView mReviewsRecyclerView;
+    @BindView(R.id.imdb_reviews_container)              CardView mImdbContainer;
+    @BindView(R.id.tomatoes_reviews_container)          CardView mTomatoesContainer;
+    @BindView(R.id.reviews_container)                   FrameLayout mReviewsContainer;
+    @BindView(R.id.label_imdb)                          TextView mImdbLabel;
+    @BindView(R.id.label_imdb_extra)                    TextView mImdbLabelExtra;
+    @BindView(R.id.label_tomatoes)                      TextView mTomatoesLabel;
+    @BindView(R.id.label_tomatoes_extra)                TextView mTomatoesLabelExtra;
+    @BindView(R.id.reviews_progress)                    ProgressWheel mProgress;
+    @BindView(R.id.reviews_recycler_view)               RecyclerView mReviewsRecyclerView;
 
     @Inject
     MovieDetailsReviewsPresenter mPresenter;
@@ -75,7 +59,7 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
     private ReviewCallbacks mCallbacks;
 
     public MovieDetailsReviewsFragment() {
-        mReviews = new ArrayList<>();
+
     }
 
     public static MovieDetailsReviewsFragment newInstance(MovieDetails movieDetails) {
@@ -103,6 +87,7 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+
         mPresenter.setView(this);
 
         if (savedInstanceState != null) {
@@ -118,16 +103,27 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
     @Override
     public void onStart() {
         super.onStart();
+        init();
+    }
 
+    private void init() {
         updateView();
         configureExternalLinks();
         configureReviews();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(getActivity(), TAG);
+    }
+
     private void configureExternalLinks() {
         if (mMovieDetails.getImdbID() != null) {
             if (mTomatoesUrl == null)
-                mPresenter.getRankings(mMovieDetails.getImdbID());
+                mPresenter.getRankings(mMovieDetails.getImdbID(), TAG);
         } else {
             setImdbRankingVisibility(View.GONE);
             setTomatoesRankingVisibility(View.GONE);
@@ -135,9 +131,10 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
     }
 
     private void configureReviews() {
-        if (mReviews.isEmpty())
-            mPresenter.getReviews(mMovieDetails.getId(), mMovieDetails.getTranslations());
-        else {
+        if (mReviews == null) {
+            mReviews = new ArrayList<>();
+            mPresenter.getReviews(mMovieDetails.getId(), TAG, mMovieDetails.getTranslations());
+        } else {
             setupRecyclerView();
             setProgressVisibility(View.GONE);
             setReviewsVisibility(View.VISIBLE);
@@ -207,7 +204,7 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
             @Override
             public void onLoadMore(int current_page) {
                 if(hasMorePages)
-                    mPresenter.getReviews(mMovieDetails.getId(), mMovieDetails.getTranslations());
+                    mPresenter.getReviews(mMovieDetails.getId(), TAG, mMovieDetails.getTranslations());
             }
         };
     }
@@ -217,7 +214,7 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onStart();
+                init();
                 mSnackbar.dismiss();
             }
         };

@@ -1,9 +1,11 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.interceptor.PersonInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonInterceptorImpl;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
@@ -19,6 +21,7 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
 
     private int mCurrentPage;
     private int mTotalPages;
+    private String mTag;
 
     public ListPersonsDefaultPresenterImpl() {
         mPersonInterceptor = new PersonInterceptorImpl(this);
@@ -29,9 +32,16 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
         mView = view;
     }
 
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
+    }
+
     public void getPersons(Sort personSort) {
+
+
         if (mView.isInternetConnected()) {
-            mPersonInterceptor.getPersons(++mCurrentPage, personSort);
+            mPersonInterceptor.getPersons(++mCurrentPage, mTag, personSort);
         }
 
     }

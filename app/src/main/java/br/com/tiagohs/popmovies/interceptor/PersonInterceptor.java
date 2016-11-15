@@ -14,5 +14,5 @@ public interface PersonInterceptor {
         void onPersonRequestError(VolleyError error);
     }
 
-    void getPersons(int page, Sort sort);
+    void getPersons(int page,  String tag, Sort sort);
 }

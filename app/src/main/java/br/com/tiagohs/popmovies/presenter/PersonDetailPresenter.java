@@ -7,5 +7,5 @@ import br.com.tiagohs.popmovies.view.PersonDetailView;
  */
 public interface PersonDetailPresenter extends BasePresenter<PersonDetailView> {
 
-    void getPersonDetails(int personID);
+    void getPersonDetails(int personID, String tag);
 }

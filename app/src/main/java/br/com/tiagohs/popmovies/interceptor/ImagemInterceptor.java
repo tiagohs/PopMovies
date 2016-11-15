@@ -15,5 +15,5 @@ public interface ImagemInterceptor {
         void onImageRequestError(VolleyError error);
     }
 
-    void getImagens(int movieID);
+    void getImagens(int movieID, String tag);
 }

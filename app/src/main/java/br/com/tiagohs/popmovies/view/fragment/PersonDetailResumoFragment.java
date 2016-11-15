@@ -40,32 +40,15 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private static final int NUM_MAX_KNOW_FOR_MOVIES = 10;
     private static final int NUM_MAX_IMAGES = 12;
 
-    @BindView(R.id.descricao_person)
-    TextView mDescricaoPerson;
-
-    @BindView(R.id.person_data_nascimento)
-    TextView mDataNascimento;
-
-    @BindView(R.id.person_cidade_natal)
-    TextView mCidadeNatal;
-
-    @BindView(R.id.person_genero)
-    TextView mGenero;
-
-    @BindView(R.id.person_principais_areas)
-    TextView mPrincipaisAreas;
-
-    @BindView(R.id.conhecido_por_recycler_view)
-    RecyclerView mKnowForRecyclerView;
-
-    @BindView(R.id.imagens_recycler_view)
-    RecyclerView mImagensRecyclerView;
-
-    @BindView(R.id.wallpapers_container)
-    LinearLayout mWallpapersContainer;
-
-    @BindView(R.id.know_for_container)
-    LinearLayout mKnowForContainer;
+    @BindView(R.id.descricao_person)                TextView mDescricaoPerson;
+    @BindView(R.id.person_data_nascimento)          TextView mDataNascimento;
+    @BindView(R.id.person_cidade_natal)             TextView mCidadeNatal;
+    @BindView(R.id.person_genero)                   TextView mGenero;
+    @BindView(R.id.person_principais_areas)         TextView mPrincipaisAreas;
+    @BindView(R.id.conhecido_por_recycler_view)     RecyclerView mKnowForRecyclerView;
+    @BindView(R.id.imagens_recycler_view)           RecyclerView mImagensRecyclerView;
+    @BindView(R.id.wallpapers_container)            LinearLayout mWallpapersContainer;
+    @BindView(R.id.know_for_container)              LinearLayout mKnowForContainer;
 
     private PersonInfo mPerson;
     private ListMoviesCallbacks mCallbacks;

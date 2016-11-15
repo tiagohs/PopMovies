@@ -47,7 +47,7 @@ public class MovieDetails extends Movie implements Serializable  {
     @JsonProperty("imdb_id")
     private String imdbID;
     @JsonProperty("revenue")
-    private int revenue;
+    private long revenue;
     @JsonProperty("production_companies")
     private List<ProductionCompany> productionCompanies = Collections.emptyList();
     @JsonProperty("production_countries")
@@ -139,7 +139,7 @@ public class MovieDetails extends Movie implements Serializable  {
         return status;
     }
 
-    public int getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
@@ -150,7 +150,7 @@ public class MovieDetails extends Movie implements Serializable  {
         this.belongsToCollection = belongsToCollection;
     }
 
-    public void setRevenue(int revenue) {
+    public void setRevenue(long revenue) {
         this.revenue = revenue;
     }
 

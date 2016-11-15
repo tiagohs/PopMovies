@@ -14,5 +14,5 @@ public interface DiscoverInterceptor {
         void onDiscoverRequestError(VolleyError error);
     }
 
-    void getMovies(int currentPage, Map<String, String> parameters);
+    void getMovies(int currentPage, String tag, Map<String, String> parameters);
 }

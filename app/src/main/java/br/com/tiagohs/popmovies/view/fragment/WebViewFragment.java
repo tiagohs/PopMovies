@@ -20,11 +20,8 @@ import butterknife.BindView;
 
 public class WebViewFragment extends BaseFragment {
 
-    @BindView(R.id.web_view_content)
-    WebView mWebView;
-
-    @BindView(R.id.web_view_progress)
-    ProgressBar mWebViewProgress;
+    @BindView(R.id.web_view_content)        WebView mWebView;
+    @BindView(R.id.web_view_progress)       ProgressBar mWebViewProgress;
 
     private String mUrl;
 
