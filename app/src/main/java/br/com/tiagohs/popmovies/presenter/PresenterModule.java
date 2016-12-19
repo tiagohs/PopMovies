@@ -51,4 +51,9 @@ public class PresenterModule {
         return new ListPersonsDefaultPresenterImpl();
     }
 
+    @Provides
+    public PerfilPresenter providesPerfilPresenter() {
+        return new PerfilPresenterImpl();
+    }
+
 }

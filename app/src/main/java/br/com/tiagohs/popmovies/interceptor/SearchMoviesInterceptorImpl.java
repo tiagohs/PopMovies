@@ -5,28 +5,26 @@ import com.android.volley.VolleyError;
 
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 
 public class SearchMoviesInterceptorImpl implements SearchMoviesInterceptor, ResponseListener<GenericListResponse<Movie>> {
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
     private onSearchMoviesListener mListener;
 
-    private GenericListResponse<Movie> mResponseFinal;
     private Integer mYear;
 
     public SearchMoviesInterceptorImpl(onSearchMoviesListener listener) {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
         mListener = listener;
     }
 
     @Override
-    public void searchMovies(String query, Boolean includeAdult, Integer searchYear, Integer primaryReleaseYear, Integer currentPage) {
+    public void searchMovies(String query, Boolean includeAdult, Integer searchYear, Integer primaryReleaseYear, String tag, Integer currentPage) {
         if (mYear == null)
             mYear = searchYear;
 
-        
-        mPopMovieServer.searchMovies(query, includeAdult, searchYear, primaryReleaseYear, currentPage, this);
+        mMoviesServer.searchMovies(query, includeAdult, searchYear, primaryReleaseYear, currentPage, tag, this);
     }
 
     @Override

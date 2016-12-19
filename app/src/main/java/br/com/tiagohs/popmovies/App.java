@@ -58,9 +58,13 @@ public class App extends Application {
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        req.setTag(tag);
         getRequestQueue().add(req);
+    }
+
+    public void cancelAll(String tag) {
+        mRequestQueue.cancelAll(tag);
     }
 
     private class OkHttpStack extends HurlStack {

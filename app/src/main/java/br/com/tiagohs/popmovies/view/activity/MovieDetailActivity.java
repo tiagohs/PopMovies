@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.activity;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -12,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -103,9 +105,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getApplicationComponent().inject(this);
+
         mPresenter.setView(this);
+        mPresenter.setContext(this);
         mJaAssistiButton.hide();
 
     }
@@ -120,13 +123,34 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         super.onStart();
 
         mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
-        mPresenter.getMovieDetails(mMovieID);
+        mPresenter.getMovieDetails(mMovieID, TAG);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(this, TAG);
+    }
+
+    public void setJaAssistido() {
+        mIsWatchPressed = true;
+        mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(this, R.drawable.ic_assistido));
+        mJaAssistiButton.setBackgroundTintList(ColorStateList.valueOf(ViewUtils.getColorFromResource(this, android.R.color.holo_green_dark)));
     }
 
     @OnClick(R.id.movies_btn_ja_assisti)
     public void onClickJaAssisti() {
         mIsWatchPressed = !mIsWatchPressed;
+
+        mPresenter.onClickJaAssisti(mMovie, mIsWatchPressed);
 
         if (mIsWatchPressed)
             updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark, "Marcado como Assistido.");
@@ -278,7 +302,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
-        startActivity(MovieDetailActivity.newIntent(this, movieID));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions transitionActivityOptions = ActivityOptions
+                    .makeSceneTransitionAnimation(this, posterMovie, getString(R.string.poster_movie));
+            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
+        } else {
+            startActivity(MovieDetailActivity.newIntent(this, movieID));
+        }
     }
 
     @Override
@@ -375,7 +405,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.getMovieDetails(mMovieID);
+                mPresenter.getMovieDetails(mMovieID, TAG);
                 mSnackbar.dismiss();
             }
         };

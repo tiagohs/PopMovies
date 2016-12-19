@@ -41,6 +41,7 @@
                     <ImageView
                         android:layout_width="90dp"
                         android:layout_height="90dp"
+                        android:src="@drawable/img_1"
                         android:id="@+id/poster_movie"
                         android:layout_gravity="center"/>
                 </android.support.v7.widget.CardView>

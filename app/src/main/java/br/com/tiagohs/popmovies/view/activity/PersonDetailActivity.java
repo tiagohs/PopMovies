@@ -46,45 +46,23 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PersonDetailActivity extends BaseActivity implements PersonDetailView, ListMoviesCallbacks, ImagesCallbacks {
+    private static final String TAG = PersonDetailActivity.class.getSimpleName();
 
     private static final String ARG_PERSON_ID = "br.com.tiagohs.popmovies.person_id";
     private static final String ARG_NAME_PERSON = "br.com.tiagohs.popmovies.name_person";
 
-    @BindView(R.id.progress_person_details)
-    ProgressBar mPersonProgressBar;
-
-    @BindView(R.id.total_filmes)
-    TextView mTotalFilmes;
-
-    @BindView(R.id.total_fotos)
-    TextView mTotalPhotos;
-
-    @BindView(R.id.label_total_filmes)
-    TextView mLabelTotalFilmes;
-
-    @BindView(R.id.label_total_fotos)
-    TextView mLabelTotalFotos;
-
-    @BindView(R.id.name_person)
-    TextView mPersonName;
-
-    @BindView(R.id.background_person)
-    ImageView mBackgroundPerson;
-
-    @BindView(R.id.image_person)
-    ImageView mImagePerson;
-
-    @BindView(R.id.person_app_bar)
-    AppBarLayout mAppBarLayout;
-
-    @BindView(R.id.facebook_riple)
-    MaterialRippleLayout mFacabookRiple;
-
-    @BindView(R.id.twitter_riple)
-    MaterialRippleLayout mTwitterRiple;
-
-    @BindView(R.id.instagram_riple)
-    MaterialRippleLayout mInstagramRiple;
+    @BindView(R.id.progress_person_details)     ProgressBar mPersonProgressBar;
+    @BindView(R.id.total_filmes)                TextView mTotalFilmes;
+    @BindView(R.id.total_fotos)                 TextView mTotalPhotos;
+    @BindView(R.id.label_total_filmes)          TextView mLabelTotalFilmes;
+    @BindView(R.id.label_total_fotos)           TextView mLabelTotalFotos;
+    @BindView(R.id.name_person)                 TextView mPersonName;
+    @BindView(R.id.background_person)           ImageView mBackgroundPerson;
+    @BindView(R.id.image_person)                ImageView mImagePerson;
+    @BindView(R.id.person_app_bar)              AppBarLayout mAppBarLayout;
+    @BindView(R.id.facebook_riple)              MaterialRippleLayout mFacabookRiple;
+    @BindView(R.id.twitter_riple)               MaterialRippleLayout mTwitterRiple;
+    @BindView(R.id.instagram_riple)             MaterialRippleLayout mInstagramRiple;
 
     @Inject
     PersonDetailPresenter mPersonDetailPresenter;
@@ -125,7 +103,15 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     protected void onStart() {
         super.onStart();
 
-        mPersonDetailPresenter.getPersonDetails(mPersonID);
+        mPersonDetailPresenter.getPersonDetails(mPersonID, TAG);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mPersonDetailPresenter != null)
+            mPersonDetailPresenter.onCancellRequest(this, TAG);
     }
 
     @Override
@@ -189,22 +175,24 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     public void updateImages() {
 
-        mBackgroundPerson.post(new Runnable() {
-            @Override
-            public void run() {
-                int indexImage = 0;
+            mBackgroundPerson.post(new Runnable() {
+                @Override
+                public void run() {
+                    int indexImage = 0;
 
-                if (!mPerson.getTaggedImages().isEmpty()) {
-                    indexImage = new Random().nextInt(mPerson.getTaggedImages().size());
-                    ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
-                } else if (!mPerson.getImages().isEmpty()) {
-                    indexImage = new Random().nextInt(mPerson.getImages().size());
-                    ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                    if (!isDestroyed()) {
+                        if (!mPerson.getTaggedImages().isEmpty()) {
+                            indexImage = new Random().nextInt(mPerson.getTaggedImages().size());
+                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                        } else if (!mPerson.getImages().isEmpty()) {
+                            indexImage = new Random().nextInt(mPerson.getImages().size());
+                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                        }
+                    }
                 }
-            }
-        });
+            });
 
-        ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
+            ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
     }
 
     public void setVisibilityFacebook(int visibility) {

@@ -102,8 +102,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         if (mListActivityDTO.getListType().equals(ListType.MOVIES)) {
             getMenuInflater().inflate(R.menu.menu_list_defult, menu);
             return true;
-        } else
-            return false;
+        } else {
+            getMenuInflater().inflate(R.menu.menu_principal, menu);
+            return true;
+        }
     }
 
     private void addFragment() {

@@ -1,6 +1,6 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.util.Log;
+import android.app.Activity;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptor;
@@ -18,8 +19,8 @@ import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import br.com.tiagohs.popmovies.view.SearchView;
 
-public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterceptor.onSearchPersonListener, SearchMoviesInterceptor.onSearchMoviesListener {
-    private static final String TAG = SearchPresenterImpl.class.getSimpleName();
+public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterceptor.onSearchPersonListener,
+                                            SearchMoviesInterceptor.onSearchMoviesListener {
 
     private SearchView mSearchView;
     private SearchMoviesInterceptor mSearchMoviesInterceptor;
@@ -42,16 +43,21 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
         this.mSearchView = view;
     }
 
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
+    }
+
     public void searchMovies(String query,
                              Boolean includeAdult,
-                             Integer searchYear,
+                             Integer searchYear, String tag,
                              Integer primaryReleaseYear, boolean isNewSearch) {
         mIsNewSearch = isNewSearch;
 
         if (mSearchView.isInternetConnected()) {
             mSearchMoviesInterceptor.searchMovies(query, includeAdult,
-                                                  searchYear, primaryReleaseYear,
-                    mIsNewSearch ? mCurrentPage : ++mCurrentPage);
+                                                  searchYear, primaryReleaseYear, tag,
+                                                  mIsNewSearch ? mCurrentPage : ++mCurrentPage);
         } else
             noConnectionError();
     }
@@ -64,11 +70,12 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     }
 
     public void searchPersons(String query,
-                              Boolean includeAdult,
+                              Boolean includeAdult, String tag,
                               SearchType searchType, boolean isNewSearch) {
+
         if (mSearchView.isInternetConnected()) {
             mSearchView.setProgressVisibility(View.VISIBLE);
-            mSearchPersonInterceptor.searchPersons(query, includeAdult, searchType,
+            mSearchPersonInterceptor.searchPersons(query, includeAdult, searchType, tag,
                                                    isNewSearch ? mCurrentPage : ++mCurrentPage);
         } else
             noConnectionError();
@@ -111,7 +118,6 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
         switch (error.networkResponse.statusCode) {
             case 422:
-                Log.i(TAG, "Query Inválida.");
                 setupResponseMovies(new ArrayList<Movie>());
                 break;
             default:

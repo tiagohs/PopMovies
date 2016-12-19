@@ -17,6 +17,7 @@ public interface MovieDetailsView extends BaseView {
     void updateUI(MovieDetails movie);
     void updateVideos(VideosResponse videos);
 
+    void setJaAssistido();
     void setTabsVisibility(int visibilityState);
     void setPlayButtonVisibility(int visibilityState);
 }

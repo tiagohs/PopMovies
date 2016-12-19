@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -7,20 +8,18 @@ import com.android.volley.VolleyError;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.response.GenresResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.view.GenresView;
 
-/**
- * Created by Tiago Henrique on 03/09/2016.
- */
 public class GenresPresenterImpl implements GenresPresenter, ResponseListener<GenresResponse> {
+    private static Map<Integer, Integer> mBackgroundGeners;
 
     private GenresView mGenresView;
-    private PopMovieServer mPopMovieServer;
-    private static Map<Integer, Integer> mBackgroundGeners;
+    private MoviesServer mMoviesServer;
 
     static {
         mBackgroundGeners = new HashMap<>();
@@ -48,7 +47,7 @@ public class GenresPresenterImpl implements GenresPresenter, ResponseListener<Ge
     }
 
     public GenresPresenterImpl() {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
     }
 
     @Override
@@ -56,10 +55,14 @@ public class GenresPresenterImpl implements GenresPresenter, ResponseListener<Ge
         this.mGenresView = view;
     }
 
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
+    }
 
     @Override
-    public void getGenres() {
-        mPopMovieServer.getGenres(this);
+    public void getGenres(String tag) {
+        mMoviesServer.getGenres(tag, this);
     }
 
     @Override
@@ -83,4 +86,5 @@ public class GenresPresenterImpl implements GenresPresenter, ResponseListener<Ge
         mGenresView.updateView(response.getGenres());
 
     }
+
 }

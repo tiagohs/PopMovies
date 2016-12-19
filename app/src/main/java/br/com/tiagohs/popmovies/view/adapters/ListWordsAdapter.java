@@ -15,6 +15,8 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Tiago Henrique on 27/08/2016.
@@ -58,17 +60,16 @@ public class ListWordsAdapter extends RecyclerView.Adapter<ListWordsAdapter.Gene
     }
 
     class GenerosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private MaterialRippleLayout mRippleView;
-        private TextView mGeneroNameTextView;
-        private ItemListDTO mItemListDTO;
+        @BindView(R.id.movie_deails_item_default_riple)         MaterialRippleLayout mRippleView;
+        @BindView(R.id.movie_deails_item_default_text_view)     TextView mGeneroNameTextView;
 
+        private ItemListDTO mItemListDTO;
 
         public GenerosViewHolder(View itemView) {
             super(itemView);
 
-            mRippleView = (MaterialRippleLayout) itemView.findViewById(R.id.movie_deails_item_default_riple);
+            ButterKnife.bind(this, itemView);
             mRippleView.setOnClickListener(this);
-            mGeneroNameTextView = (TextView) itemView.findViewById(R.id.movie_deails_item_default_text_view);
         }
 
         public void bindGenero(ItemListDTO item) {

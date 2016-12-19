@@ -37,6 +37,10 @@
                 android:id="@+id/menu_sobre"
                 android:icon="@drawable/ic_about"
                 android:title="@string/menu_sobre" />
+        <item
+            android:id="@+id/menu_sair"
+            android:icon="@drawable/ic_sair"
+            android:title="@string/menu_sair" />
     </group>
 
 </menu>

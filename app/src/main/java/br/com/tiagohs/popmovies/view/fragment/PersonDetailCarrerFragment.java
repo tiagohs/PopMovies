@@ -24,13 +24,11 @@ import butterknife.BindView;
 public class PersonDetailCarrerFragment extends BaseFragment {
     private static final String ARG_PERSON = "person";
 
-    @BindView(R.id.list_person_movies_recycler_view)
-    RecyclerView mPersonMoviesRecyclerView;
+    @BindView(R.id.list_person_movies_recycler_view)        RecyclerView mPersonMoviesRecyclerView;
 
     private PersonInfo mPersonInfo;
     private ListMoviesCallbacks mCallbacks;
     private CarrerMoviesAdapter mAdapter;
-    private List<CarrerMoviesDTO> mListMoviesDTO;
 
     public static PersonDetailCarrerFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
@@ -66,7 +64,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
 
         List<CarrerMoviesDTO> l = new ArrayList<>();
         mPersonMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CarrerMoviesAdapter(getActivity(), l, mCallbacks, R.layout.item_person_detail_movies);
+        mAdapter = new CarrerMoviesAdapter(getActivity(), this, l, mCallbacks, R.layout.item_person_detail_movies);
         mPersonMoviesRecyclerView.setAdapter(mAdapter);
         new CreateDTO().execute();
     }
@@ -78,7 +76,12 @@ public class PersonDetailCarrerFragment extends BaseFragment {
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     private class CreateDTO extends AsyncTask<Void, Void, List<CarrerMoviesDTO>> {

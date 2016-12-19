@@ -20,9 +20,9 @@ import br.com.tiagohs.popmovies.view.callbacks.GenresCallbacks;
 import butterknife.BindView;
 
 public class GenresFragment extends BaseFragment implements GenresView {
+    private static final String TAG = GenresFragment.class.getSimpleName();
 
-    @BindView(R.id.list_movies_recycler_view)
-    RecyclerView mGenresRecyclerView;
+    @BindView(R.id.list_movies_recycler_view)       RecyclerView mGenresRecyclerView;
 
     @Inject
     GenresPresenter mGenresPresenter;
@@ -59,7 +59,7 @@ public class GenresFragment extends BaseFragment implements GenresView {
 
         mGenresPresenter.setView(this);
 
-        mGenresPresenter.getGenres();
+        mGenresPresenter.getGenres(TAG);
     }
 
     @Override
@@ -68,6 +68,14 @@ public class GenresFragment extends BaseFragment implements GenresView {
 
         mGenresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setupAdapter();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mGenresPresenter != null)
+            mGenresPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     @Override

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white"
+    tools:openDrawer="start">
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordenation_layout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_editar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_editar"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="bottom|end"
+        app:rippleColor="@android:color/white"
+        app:borderWidth="0dp"
+        app:elevation="4dp"
+        app:pressedTranslationZ="12dp" />
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/perfil_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:clipChildren="false"
+            android:theme="@style/AppBarDetails">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:titleEnabled="false"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:expandedTitleMarginBottom="32dp"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:id="@+id/background_perfil"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@android:color/white"
+                    android:layout_gravity="bottom">
+
+                    <View
+                        android:layout_gravity="bottom"
+                        android:id="@+id/perfilHeader"
+                        android:fitsSystemWindows="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_perfil"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="6dp"
+                        android:visibility="visible"
+                        android:indeterminate="true"
+                        android:layout_alignTop="@+id/perfilHeader"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+                <include
+                    app:layout_anchor="@+id/cardViewMovieDeatail"
+                    app:layout_anchorGravity="top|left|end"
+                    layout="@layout/include_perfil_header" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+            <LinearLayout
+                android:id="@+id/dados_iniciais_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:text="Filmes Assistidos"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="12dp"/>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/filmes_total_person_riple"
+                        app:mrl_rippleColor="@color/secondary_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:mrl_rippleOverlay="true"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_filmes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/primary_text"
+                                android:textSize="35dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_filmes"
+                                android:text="Filmes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        android:text="Total de horas assistidas:"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="12dp"/>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/total_horas_riple"
+                        app:mrl_rippleColor="@color/secondary_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleOverlay="true"
+                        android:layout_marginLeft="5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:id="@+id/container_total_anos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/total_anos"
+                                    android:text="20"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="35dp"/>
+
+                                <TextView
+                                    android:id="@+id/label_total_anos"
+                                    android:text="Anos"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/secondary_text"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/container_total_meses"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/total_meses"
+                                    android:text="12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="35dp"/>
+
+                                <TextView
+                                    android:id="@+id/label_total_meses"
+                                    android:text="Meses"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/secondary_text"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/container_total_dias"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/total_dias"
+                                    android:text="31"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="35dp"/>
+
+                                <TextView
+                                    android:id="@+id/label_total_dias"
+                                    android:text="Dias"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/secondary_text"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/container_total_horas"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/total_horas"
+                                    android:text="60"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="35dp"/>
+
+                                <TextView
+                                    android:id="@+id/label_total_horas"
+                                    android:text="Horas"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/secondary_text"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/container_total_minutos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/total_minutos"
+                                    android:text="60"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="35dp"/>
+
+                                <TextView
+                                    android:id="@+id/label_total_minutos"
+                                    android:text="Minutos"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/secondary_text"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12dp"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/perfil_fragment"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigation_drawer_header"
+        app:menu="@menu/activity_navigation_drawer_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

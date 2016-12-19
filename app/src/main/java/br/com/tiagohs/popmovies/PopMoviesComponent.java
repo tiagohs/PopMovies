@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import br.com.tiagohs.popmovies.presenter.PresenterModule;
 import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
+import br.com.tiagohs.popmovies.view.activity.PerfilActivity;
 import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.SearchActivity;
 import br.com.tiagohs.popmovies.view.fragment.GenresFragment;
@@ -27,4 +28,5 @@ public interface PopMoviesComponent {
     void inject(MovieDetailsOverviewFragment movieDetailsOverviewFragment);
     void inject(MovieDetailsReviewsFragment movieDetailsReviewsFragment);
     void inject(ListPersonsDefaultFragment listPersonsDefaultFragment);
+    void inject(PerfilActivity perfilActivity);
 }

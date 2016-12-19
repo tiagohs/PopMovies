@@ -1,6 +1,4 @@
-<resources
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -15,9 +13,9 @@
     </style>
 
     <declare-styleable name="atrrPersonalizados">
-        <attr name="tabTextColor" format="color"/>
-        <attr name="tabSelectedTextColor" format="color"/>
-        <attr name="tabIndicatorColor" format="color"/>
+        <attr name="tabTextColor" format="color" />
+        <attr name="tabSelectedTextColor" format="color" />
+        <attr name="tabIndicatorColor" format="color" />
     </declare-styleable>
 
     <style name="AppTheme.TabLayout">
@@ -42,7 +40,7 @@
         <item name="android:editTextColor">@android:color/white</item>
     </style>
 
-    <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.Toolbar.PopupOverlay">
         <item name="windowActionBar">true</item>
@@ -50,12 +48,11 @@
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
 
-    <style name="CustomActionBarTheme"
-           parent="@android:style/Theme.Holo">
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo">
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

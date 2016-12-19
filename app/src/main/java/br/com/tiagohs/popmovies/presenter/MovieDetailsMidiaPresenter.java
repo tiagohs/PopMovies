@@ -7,6 +7,6 @@ import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
 
 public interface MovieDetailsMidiaPresenter  extends BasePresenter<MovieDetailsMidiaView> {
 
-    void getVideos(int movieID, List<Translation> translations);
-    void getImagens(int movieID);
+    void getVideos(int movieID, String tag, List<Translation> translations);
+    void getImagens(int movieID, String tag);
 }

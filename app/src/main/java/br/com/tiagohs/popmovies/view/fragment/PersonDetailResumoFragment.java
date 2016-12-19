@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.PopMoviesDB;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
@@ -40,32 +42,15 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private static final int NUM_MAX_KNOW_FOR_MOVIES = 10;
     private static final int NUM_MAX_IMAGES = 12;
 
-    @BindView(R.id.descricao_person)
-    TextView mDescricaoPerson;
-
-    @BindView(R.id.person_data_nascimento)
-    TextView mDataNascimento;
-
-    @BindView(R.id.person_cidade_natal)
-    TextView mCidadeNatal;
-
-    @BindView(R.id.person_genero)
-    TextView mGenero;
-
-    @BindView(R.id.person_principais_areas)
-    TextView mPrincipaisAreas;
-
-    @BindView(R.id.conhecido_por_recycler_view)
-    RecyclerView mKnowForRecyclerView;
-
-    @BindView(R.id.imagens_recycler_view)
-    RecyclerView mImagensRecyclerView;
-
-    @BindView(R.id.wallpapers_container)
-    LinearLayout mWallpapersContainer;
-
-    @BindView(R.id.know_for_container)
-    LinearLayout mKnowForContainer;
+    @BindView(R.id.descricao_person)                TextView mDescricaoPerson;
+    @BindView(R.id.person_data_nascimento)          TextView mDataNascimento;
+    @BindView(R.id.person_cidade_natal)             TextView mCidadeNatal;
+    @BindView(R.id.person_genero)                   TextView mGenero;
+    @BindView(R.id.person_principais_areas)         TextView mPrincipaisAreas;
+    @BindView(R.id.conhecido_por_recycler_view)     RecyclerView mKnowForRecyclerView;
+    @BindView(R.id.imagens_recycler_view)           RecyclerView mImagensRecyclerView;
+    @BindView(R.id.wallpapers_container)            LinearLayout mWallpapersContainer;
+    @BindView(R.id.know_for_container)              LinearLayout mKnowForContainer;
 
     private PersonInfo mPerson;
     private ListMoviesCallbacks mCallbacks;
@@ -76,7 +61,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private List<String> mAreasAtuacao;
     private List<ImageDTO> mTotalImagesDTO;
     private List<MovieListDTO> mListKnowForDTO;
-
+    private MovieRepository mMovieRepository;
 
     public PersonDetailResumoFragment() {
         mAreasAtuacao = new ArrayList<>();
@@ -127,6 +112,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     public void onStart() {
         super.onStart();
 
+        mMovieRepository = new MovieRepository(getActivity());
         updatePersonInfo();
     }
 
@@ -170,8 +156,8 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateKnowFor() {
 
         if (!mPerson.getMovieCredits().getCast().isEmpty() || !mPerson.getMovieCredits().getCrew().isEmpty()) {
-            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES);
-            mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES));
+            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository);
+            mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository));
 
             mKnowForAdapter = new ListMoviesAdapter(getActivity(), mListKnowForDTO, mCallbacks, R.layout.item_similares_movie);
             mKnowForRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));

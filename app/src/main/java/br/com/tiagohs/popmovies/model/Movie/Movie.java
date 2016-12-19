@@ -42,7 +42,9 @@ public class Movie extends MediaBasic implements Serializable {
     private boolean video;
 
     @JsonProperty("favorite")
-    private boolean favorite = false;
+    private boolean favorite;
+
+    private boolean isJaAssistido;
 
     public Movie() {
     }
@@ -59,6 +61,14 @@ public class Movie extends MediaBasic implements Serializable {
         this.backdropPath = backdropPath;
         this.video = video;
         this.favorite = favorite;
+    }
+
+    public boolean isJaAssistido() {
+        return isJaAssistido;
+    }
+
+    public void setJaAssistido(boolean jaAssistido) {
+        isJaAssistido = jaAssistido;
     }
 
     @Override

@@ -32,11 +32,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
-
     private static final int ID_KEYWORD_BRAZILIAN = 983;
 
-    @BindView(R.id.destaques_keywords_recycler_view)
-    RecyclerView mDestaquesKeywoedsRecyclerView;
+    @BindView(R.id.destaques_keywords_recycler_view)    RecyclerView mDestaquesKeywoedsRecyclerView;
 
     private Map<String, String> mEmBreveParameters;
     private Map<String, String> mEmCartazParameters;

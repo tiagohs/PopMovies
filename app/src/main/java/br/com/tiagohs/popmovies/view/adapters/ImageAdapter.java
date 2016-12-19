@@ -2,7 +2,6 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
@@ -55,23 +56,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView mImageArtwork;
-        private ProgressWheel mProgress;
+        @BindView(R.id.image_movie_poster_movie)        ImageView mImageArtwork;
+        @BindView(R.id.image_item_movie_progress)       ProgressWheel mProgress;
 
         private ImageDTO mImage;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
 
-            mImageArtwork = (ImageView) itemView.findViewById(R.id.image_movie_poster_movie);
-            mProgress = (ProgressWheel) itemView.findViewById(R.id.image_item_movie_progress);
-
             itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bindImage(ImageDTO image) {
             this.mImage = image;
-            Log.i("IMAGENS", "ID:" + mImage.getImageID());
+
             ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
         }
 

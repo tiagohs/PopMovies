@@ -6,6 +6,7 @@ import android.icu.text.NumberFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,11 +19,28 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 
 public class MovieUtils {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     private static Calendar c = Calendar.getInstance();
+
+    public static List<Movie> convertMovieDBToMovie(List<MovieDB> moviesDB) {
+        List<Movie> movies = new ArrayList<>();
+
+        for (MovieDB movieDB : moviesDB) {
+            Movie movie = new Movie();
+            movie.setId(movieDB.getIdServer());
+            movie.setTitle(movieDB.getTitle());
+            movie.setPosterPath(movieDB.getPosterPath());
+
+            movies.add(movie);
+        }
+
+        return movies;
+    }
 
     public static void sortMoviesByDate(List<CarrerMoviesDTO> movieListDTO) {
         Collections.sort(movieListDTO, new Comparator<CarrerMoviesDTO>() {

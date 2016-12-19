@@ -1,6 +1,8 @@
 package br.com.tiagohs.popmovies.view.activity;
 
 import android.app.ActivityOptions;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,10 +13,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.HomeFragment;
 
 public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

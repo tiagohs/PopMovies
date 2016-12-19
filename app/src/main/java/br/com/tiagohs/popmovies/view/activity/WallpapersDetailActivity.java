@@ -27,14 +27,9 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     private static final String ARG_IMAGE_CURRENT = "br.com.tiagohs.popmovies.imageCurrent";
     private static final String ARG_WALLPAPERS_PAGE_TITLE = "br.com.tiagohs.popmovies.page_Wallpapers_title";
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
-    @BindView(R.id.coordenation_layout)
-    CoordinatorLayout coordinatorLayout;
-
-    @BindView(R.id.wallpaper_view_pager)
-    ViewPager mWallpaperViewPager;
+    @BindView(R.id.toolbar)                 Toolbar mToolbar;
+    @BindView(R.id.coordenation_layout)     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.wallpaper_view_pager)    ViewPager mWallpaperViewPager;
 
     private List<ImageDTO> mImagens;
     private ImageDTO mImageCurrent;

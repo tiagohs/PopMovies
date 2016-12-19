@@ -22,8 +22,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
     public static final String ARG_WALLPAPERS = "br.com.tiagohs.popmovies.wallpapers";
     public static final String ARG_TITLE_PAGE = "br.com.tiagohs.popmovies.title_page_wall";
 
-    @BindView(R.id.wallpapers_recycler_view)
-    RecyclerView mWallpapersRecyclerView;
+    @BindView(R.id.wallpapers_recycler_view)        RecyclerView mWallpapersRecyclerView;
 
     private List<ImageDTO> mWallpapers;
     private String mPageTitle;

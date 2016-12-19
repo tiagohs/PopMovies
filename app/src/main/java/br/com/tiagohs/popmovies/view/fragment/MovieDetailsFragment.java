@@ -15,11 +15,8 @@ import butterknife.BindView;
 public class MovieDetailsFragment extends BaseFragment {
     private static final String ARG_MOVIE = "movie";
 
-    @BindView(R.id.movie_view_pager)
-    ViewPager mViewPager;
-
-    @BindView(R.id.tabLayout)
-    TabLayout mTabLayout;
+    @BindView(R.id.movie_view_pager)        ViewPager mViewPager;
+    @BindView(R.id.tabLayout)               TabLayout mTabLayout;
 
     private MovieDetails mMovie;
 

@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
@@ -40,7 +42,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(mLayoutMovieResID, parent, false);
 
-        return new ListMoviesViewHolder(mContext, view);
+        return new ListMoviesViewHolder(view);
     }
 
     @Override
@@ -55,20 +57,16 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)
-        ImageView mImageView;
+        @BindView(R.id.poster_movie)                ImageView mImageView;
+        @BindView(R.id.rodape_list_movies)          LinearLayout mRodapeListMovies;
+        @BindView(R.id.movie_ja_assistido)          View view;
 
-        @BindView(R.id.rodape_list_movies)
-        LinearLayout mRodapeListMovies;
-
-        private Context mContext;
         private MovieListDTO mMovie;
 
-        public ListMoviesViewHolder(final Context context, View itemView) {
+        public ListMoviesViewHolder(View itemView) {
             super(itemView);
-            mContext = context;
-            itemView.setOnClickListener(this);
 
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
 
@@ -77,6 +75,10 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
 
+            if (mMovie.isJaAssistido())
+                view.setBackgroundColor(ViewUtils.getColorFromResource(mContext, android.R.color.holo_green_dark));
+            else
+                view.setVisibility(View.GONE);
         }
 
         @Override

@@ -220,7 +220,11 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     private void configureSeekbarNota() {
-        mNotaComunidade.setMaxValue(10);
+        mNotaComunidade.setDataType(CrystalRangeSeekbar.DataType.INTEGER)
+                .setMinValue(0)
+                .setMaxValue(10)
+                .setSteps(1)
+                .apply();
 
         mNotaComunidade.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override

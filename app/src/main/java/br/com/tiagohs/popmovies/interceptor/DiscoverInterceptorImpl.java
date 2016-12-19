@@ -5,21 +5,21 @@ import com.android.volley.VolleyError;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.model.response.MovieResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 
 public class DiscoverInterceptorImpl implements DiscoverInterceptor, ResponseListener<MovieResponse> {
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
     private DiscoverInterceptor.onDiscoverListener mOnDiscoverListener;
 
     public DiscoverInterceptorImpl(DiscoverInterceptor.onDiscoverListener onEmBreveListener) {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
         this.mOnDiscoverListener = onEmBreveListener;
     }
 
     @Override
-    public void getMovies(int currentPage, Map<String, String> parameters) {
-        mPopMovieServer.getMoviesDiscover(currentPage, parameters, this);
+    public void getMovies(int currentPage, String tag, Map<String, String> parameters) {
+        mMoviesServer.getMoviesDiscover(currentPage, parameters, tag, this);
     }
 
     @Override

@@ -1,31 +1,56 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import java.util.Calendar;
+import java.util.List;
+
+import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.data.PopMoviesDB;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
 
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
     private MoviesDetailsOverviewView mMoviesDetailsOverviewView;
+    private MovieRepository mMovieRepository;
+    private Context mContext;
 
     public MovieDetailsOverviewPresenterImpl() {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
     }
 
     @Override
-    public void getMoviesRankings(String imdbID) {
-        mPopMovieServer.getMovieRankings(imdbID, this);
+    public void getMoviesRankings(String imdbID, String tag) {
+        mMoviesServer.getMovieRankings(imdbID, tag, this);
     }
 
     @Override
     public void setView(MoviesDetailsOverviewView view) {
         mMoviesDetailsOverviewView = view;
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
+        mMovieRepository = new MovieRepository(mContext);
+    }
+
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override
@@ -36,6 +61,10 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
             mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
         }
+    }
+
+    public void setMovieFavorite(MovieDetails movie) {
+        mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
     }
 
     @Override
@@ -69,5 +98,9 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());
         }
 
+    }
+
+    public List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies) {
+        return DTOUtils.createMovieDetailsListDTO(mContext, movies, mMovieRepository);
     }
 }

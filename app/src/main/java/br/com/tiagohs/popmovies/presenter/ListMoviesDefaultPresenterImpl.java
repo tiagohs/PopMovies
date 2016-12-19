@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -9,18 +11,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.data.PopMoviesDB;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptor;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.model.response.PersonMoviesResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
 
@@ -30,7 +39,9 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         DiscoverInterceptor.onDiscoverListener {
 
     private ListMoviesDefaultView mListMoviesDefaultView;
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
+    private MovieRepository mMovieRepository;
+    private Context mContext;
 
     private PersonMoviesInterceptor mPersonMoviesInterceptor;
     private DiscoverInterceptor mDiscoverInterceptor;
@@ -45,49 +56,80 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     @Override
     public void setView(ListMoviesDefaultView view) {
         mListMoviesDefaultView = view;
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
 
         mPersonMoviesInterceptor = new PersonMoviesInterceptorImpl(this);
         mDiscoverInterceptor = new DiscoverInterceptorImpl(this);
     }
 
+    public void setContext(Context context) {
+        mContext = context;
+        mMovieRepository = new MovieRepository(mContext);
+    }
+
     @Override
-    public void getMovies(int id, Sort typeList, Map<String, String> parameters) {
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
+    }
+
+    @Override
+    public void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters) {
         mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
 
         if (mListMoviesDefaultView.isInternetConnected()) {
-            choiceTypeList(id, typeList, parameters);
+            choiceTypeList(id, typeList, tag, parameters);
             mListMoviesDefaultView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
         } else {
             noConnectionError();
         }
     }
 
-    private void choiceTypeList(int id, Sort typeList, Map<String, String> parameters) {
+    private void choiceTypeList(int id, Sort typeList, String tag, Map<String, String> parameters) {
 
         switch (typeList) {
+            case FAVORITE:
+                getFavitesMovies();
+            case ASSISTIDOS:
+                getMoviesAssistidos();
             case GENEROS:
-                mPopMovieServer.getMoviesByGenres(id, ++mCurrentPage, this);
+                mMoviesServer.getMoviesByGenres(id, ++mCurrentPage, tag, this);
                 break;
             case COMPANY:
 
                 break;
             case DISCOVER:
-                mDiscoverInterceptor.getMovies(++mCurrentPage, parameters);
+                mDiscoverInterceptor.getMovies(++mCurrentPage, tag, parameters);
                 break;
             case KEYWORDS:
-                mPopMovieServer.getMoviesByKeywords(id, ++mCurrentPage, parameters, this);
+                mMoviesServer.getMoviesByKeywords(id, ++mCurrentPage, tag, parameters, this);
                 break;
             case SIMILARS:
-                mPopMovieServer.getMovieSimilars(id, ++mCurrentPage, this);
+                mMoviesServer.getMovieSimilars(id, ++mCurrentPage, tag, this);
                 break;
             case PERSON_MOVIES_CARRER:
             case PERSON_CONHECIDO_POR:
-                mPersonMoviesInterceptor.getPersonMovies(typeList, id, ++mCurrentPage, new HashMap<String, String>());
+                mPersonMoviesInterceptor.getPersonMovies(typeList, id, ++mCurrentPage, tag, new HashMap<String, String>());
                 break;
         }
     }
 
+    private void getMoviesAssistidos() {
+        GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
+        genericListResponse.setPage(1);
+        genericListResponse.setTotalPage(1);
+        genericListResponse.setResults(mMovieRepository.findAllMovies(PrefsUtils.getCurrentUser(mContext).getProfileID()));
+
+        onResponse(genericListResponse);
+    }
+
+    private void getFavitesMovies() {
+        GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
+        genericListResponse.setPage(1);
+        genericListResponse.setTotalPage(1);
+        genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentUser(mContext).getProfileID())));
+
+        onResponse(genericListResponse);
+    }
 
     private void noConnectionError() {
 
@@ -112,10 +154,10 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         mTotalPages = response.getTotalPage();
 
         if (isFirstPage()) {
-            mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+            mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(mContext, response.getResults(), mMovieRepository), hasMorePages());
             mListMoviesDefaultView.setupRecyclerView();
         } else {
-            mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+            mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(mContext, response.getResults(), mMovieRepository), hasMorePages());
             mListMoviesDefaultView.updateAdapter();
         }
 
@@ -157,6 +199,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
         return list;
     }
+
 
     @Override
     public void onPersonMoviesRequestError(VolleyError error) {

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.model.response.PersonMoviesResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.PersonsServer;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 
 /**
@@ -15,23 +15,23 @@ import br.com.tiagohs.popmovies.util.enumerations.Sort;
  */
 public class PersonMoviesInterceptorImpl implements PersonMoviesInterceptor, ResponseListener<PersonMoviesResponse> {
 
-    private PopMovieServer mPopMovieServer;
+    private PersonsServer mPersonsServer;
     private onPersonMoviesListener mOnPersonMoviesListener;
 
     public PersonMoviesInterceptorImpl(onPersonMoviesListener onPersonMoviesListener) {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mPersonsServer = new PersonsServer();
         mOnPersonMoviesListener = onPersonMoviesListener;
     }
 
     @Override
-    public void getPersonMovies(Sort type, int personID, int currentPage, Map<String, String> parameters) {
+    public void getPersonMovies(Sort type, int personID, int currentPage, String tag, Map<String, String> parameters) {
 
         switch(type) {
             case PERSON_MOVIES_CARRER:
-                mPopMovieServer.getPersonMovies(personID, ++currentPage, new HashMap<String, String>(), this);
+                mPersonsServer.getPersonMovies(personID, ++currentPage, new HashMap<String, String>(), tag, this);
                 break;
             case PERSON_CONHECIDO_POR:
-                mPopMovieServer.getPersonMoviesCredits(personID, ++currentPage, this);
+                mPersonsServer.getPersonMoviesCredits(personID, ++currentPage, tag, this);
                 break;
         }
 

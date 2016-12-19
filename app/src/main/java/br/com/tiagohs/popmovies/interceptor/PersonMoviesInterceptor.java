@@ -15,5 +15,5 @@ public interface PersonMoviesInterceptor {
         void onPersonMoviesRequestError(VolleyError error);
     }
 
-    void getPersonMovies(Sort type, int personID, int currentPage, Map<String, String> parameters);
+    void getPersonMovies(Sort type, int personID, int currentPage, String tag, Map<String, String> parameters);
 }

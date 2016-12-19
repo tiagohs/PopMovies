@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ListMoviesDefaultFragment extends BaseFragment implements ListMoviesDefaultView {
+    private static final String TAG = ListMoviesDefaultFragment.class.getSimpleName();
 
     private static final String ARG_ID = "id";
     private static final String ARG_SORT = "sort";
@@ -43,14 +45,9 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private static final String ARG_LAYOUT_ID = "layoutID";
     private static final String ARG_PARAMETERS = "paramenters";
 
-    @BindView(R.id.list_movies_recycler_view)
-    RecyclerView mMoviesRecyclerView;
-
-    @BindView(R.id.list_movies_principal_progress)
-    ProgressWheel mPrincipalProgress;
-
-    @BindView(R.id.img_background_no_connection)
-    ImageView mBackgroundNoConnectionImage;
+    @BindView(R.id.list_movies_recycler_view)           RecyclerView mMoviesRecyclerView;
+    @BindView(R.id.list_movies_principal_progress)      ProgressWheel mPrincipalProgress;
+    @BindView(R.id.img_background_no_connection)        ImageView mBackgroundNoConnectionImage;
 
     @Inject
     ListMoviesDefaultPresenter mPresenter;
@@ -177,7 +174,16 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
         mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
 
+        mPresenter.setContext(getActivity());
         searchMovies();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     @Override
@@ -192,7 +198,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     private void searchMovies() {
-        mPresenter.getMovies(mID, mTypeList, mParameters);
+        mPresenter.getMovies(mID, mTypeList, TAG, mParameters);
     }
 
     @Override
@@ -234,11 +240,15 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     public void updateAdapter() {
-       mListMoviesAdapter.notifyDataSetChanged();
+        if (mListMoviesAdapter != null)
+            mListMoviesAdapter.notifyDataSetChanged();
     }
 
     private void setupAdapter() {
+
+
         if (mListMoviesAdapter == null) {
+            Log.i(TAG, "Total Filmes: " + mListMovies.size());
             mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, mLayoutID);
             mMoviesRecyclerView.setAdapter(mListMoviesAdapter);
         } else

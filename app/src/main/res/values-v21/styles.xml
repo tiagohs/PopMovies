@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/apk/res-auto">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -48,9 +46,9 @@
     </style>
 
     <declare-styleable name="atrrPersonalizados">
-        <attr name="tabTextColor" format="color"/>
-        <attr name="tabSelectedTextColor" format="color"/>
-        <attr name="tabIndicatorColor" format="color"/>
+        <attr name="tabTextColor" format="color" />
+        <attr name="tabSelectedTextColor" format="color" />
+        <attr name="tabIndicatorColor" format="color" />
     </declare-styleable>
 
     <style name="AppTheme.TabLayout">
@@ -63,7 +61,7 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.Toolbar.PopupOverlay">
         <item name="android:background">@drawable/background_action_bar_transparent</item>

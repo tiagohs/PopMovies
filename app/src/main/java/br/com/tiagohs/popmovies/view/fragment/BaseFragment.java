@@ -76,7 +76,6 @@ public abstract class BaseFragment extends Fragment {
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
-
     }
 
     protected abstract View.OnClickListener onSnackbarClickListener();
@@ -91,5 +90,7 @@ public abstract class BaseFragment extends Fragment {
         if (materialDialog != null) {
             hideDialogProgress();
         }
+        if (mSnackbar != null)
+            mSnackbar.dismiss();
     }
 }

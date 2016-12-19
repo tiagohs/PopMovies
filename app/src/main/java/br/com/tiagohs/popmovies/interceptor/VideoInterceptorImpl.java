@@ -6,14 +6,11 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
-import br.com.tiagohs.popmovies.server.PopMovieServer;
 import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 
-/**
- * Created by Tiago Henrique on 28/08/2016.
- */
 public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, VideoInterceptor  {
-    private PopMovieServer mPopMovieServer;
+    private MoviesServer mMoviesServer;
     private onVideoListener mListener;
 
     private VideosResponse mFinalVideosReponse;
@@ -23,9 +20,10 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     private int mCurrentTranslation;
     private int mTotalTranslation;
     private int mMovieID;
+    private String mTag;
 
     public VideoInterceptorImpl(onVideoListener listener) {
-        mPopMovieServer = PopMovieServer.getInstance();
+        mMoviesServer = new MoviesServer();
         this.mListener = listener;
 
     }
@@ -44,7 +42,7 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
 
             if (containsTranslations()) {
                 mFinalVideosReponse.getVideos().addAll(response.getVideos());
-                mPopMovieServer.getMovieVideos(mMovieID, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), this);
+                mMoviesServer.getMovieVideos(mMovieID, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), mTag, this);
             } else {
                 mListener.onVideoRequestSucess(mFinalVideosReponse);
             }
@@ -61,11 +59,12 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     }
 
     @Override
-    public void getVideos(int movieID, List<Translation> translations) {
+    public void getVideos(int movieID, String tag, List<Translation> translations) {
         mTranslations = translations;
         mTotalTranslation = translations.size() - 1;
         mMovieID = movieID;
+        mTag = tag;
 
-        mPopMovieServer.getMovieVideos(mMovieID, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), this);
+        mMoviesServer.getMovieVideos(mMovieID, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), tag, this);
     }
 }
