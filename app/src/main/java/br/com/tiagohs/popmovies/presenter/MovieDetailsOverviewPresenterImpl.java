@@ -1,11 +1,15 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
+<<<<<<< HEAD
 import android.content.Context;
+=======
+>>>>>>> origin/master
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+<<<<<<< HEAD
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +24,12 @@ import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
+=======
+import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.model.response.RankingResponse;
+import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+>>>>>>> origin/master
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
@@ -46,6 +56,11 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     public void setContext(Context context) {
         mContext = context;
         mMovieRepository = new MovieRepository(mContext);
+    }
+
+    @Override
+    public void onCancellRequest(Activity activity, String tag) {
+        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override

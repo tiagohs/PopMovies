@@ -56,11 +56,19 @@ public class PersonsServer extends PopMovieServer {
         execute(METHOD_REQUEST_GET, null, listener, tag);
     }
 
+<<<<<<< HEAD
     public void getPersonDetails(int personID, String[] appendToResponse, String tag, String language, ResponseListener<PersonInfo> listener) {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
         mParameters.put(Param.LANGUAGE.getParam(), language);
+=======
+    public void getPersonDetails(int personID, String[] appendToResponse, String tag, ResponseListener<PersonInfo> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
+>>>>>>> origin/master
 
         mTypeToken = new TypeReference<PersonInfo>(){};
         mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)

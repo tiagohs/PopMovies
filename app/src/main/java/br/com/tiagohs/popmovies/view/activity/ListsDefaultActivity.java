@@ -104,7 +104,11 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
             return true;
         } else {
             getMenuInflater().inflate(R.menu.menu_principal, menu);
+<<<<<<< HEAD
             return true;
+=======
+            return false;
+>>>>>>> origin/master
         }
     }
 
