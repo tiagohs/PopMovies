@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         injectViews();
     }
-
+ 
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
