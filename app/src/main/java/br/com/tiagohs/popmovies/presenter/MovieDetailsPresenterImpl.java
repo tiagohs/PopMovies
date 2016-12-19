@@ -2,10 +2,8 @@ package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-<<<<<<< HEAD
 import android.util.Log;
-=======
->>>>>>> origin/master
+
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -16,10 +14,7 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
-<<<<<<< HEAD
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
-=======
->>>>>>> origin/master
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
@@ -40,11 +35,8 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     private MovieDetailsView mMovieDetailsView;
 
     private MoviesServer mMoviesServer;
-<<<<<<< HEAD
+
     private MovieRepository mMovieRepository;
-=======
-    private PopMoviesDB mPopMoviesDB;
->>>>>>> origin/master
     private VideoInterceptor mVideoInterceptor;
 
     private String mOriginalLanguage;
@@ -61,7 +53,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public MovieDetailsPresenterImpl() {
         mMoviesServer = new MoviesServer();
         mVideoInterceptor = new VideoInterceptorImpl(this);
-        mPopMoviesDB = new PopMoviesDB(mContext);
     }
 
     @Override
@@ -94,24 +85,16 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public void onClickJaAssisti(MovieDetails movie, boolean buttonStage) {
 
         if (buttonStage)
-<<<<<<< HEAD
             mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
         else
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
-=======
-            mPopMoviesDB.deleteMovieByID(movie.getId());
-        else
-            mPopMoviesDB.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), false, movie.getVoteCount()));
->>>>>>> origin/master
+
     }
 
     @Override
     public void setContext(Context context) {
         mContext = context;
-<<<<<<< HEAD
         mMovieRepository = new MovieRepository(mContext);
-=======
->>>>>>> origin/master
     }
 
     private void noConnectionError() {
@@ -165,7 +148,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     private void initUpdates(MovieDetails movieDetails) {
         if (movieDetails.getVideos().isEmpty())
             getVideos(mTag);
-<<<<<<< HEAD
 
         Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentUser(mContext).getProfileID());
 
@@ -174,9 +156,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
             movieDetails.setFavorite(movieAssistido.isFavorite());
             mMovieDetailsView.setJaAssistido();
         }
-
-=======
->>>>>>> origin/master
 
         mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
         mMovieDetailsView.updateUI(movieDetails);

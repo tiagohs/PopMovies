@@ -48,33 +48,7 @@
                     android:stepSize="1.0"
                     android:id="@+id/ratingBar"/>
 
-<<<<<<< HEAD
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_favorito"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/btn_favorito"
-                        android:drawableRight="@drawable/ic_favorite_border"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/secondary_text"
-                        android:padding="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:textSize="12dp"
-                        android:text="Favorite! "/>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_pagina_inicial"
-=======
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -91,7 +65,6 @@
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/riple_imdb"
->>>>>>> origin/master
                     app:mrl_rippleColor="@color/secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,21 +75,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-<<<<<<< HEAD
-                        android:id="@+id/btn_pagina_inicial"
-=======
                         android:id="@+id/btn_imdb"
->>>>>>> origin/master
                         android:background="@android:color/transparent"
                         android:textColor="@color/secondary_text"
                         android:padding="10dp"
                         android:textSize="12dp"
-<<<<<<< HEAD
-                        android:text="Página"/>
-
-=======
                         android:text="@string/imdb"/>
->>>>>>> origin/master
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -153,11 +117,7 @@
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <com.balysv.materialripple.MaterialRippleLayout
-<<<<<<< HEAD
-                    android:id="@+id/riple_imdb"
-=======
                     android:id="@+id/riple_pagina_inicial"
->>>>>>> origin/master
                     app:mrl_rippleColor="@color/secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,20 +128,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-<<<<<<< HEAD
-                        android:id="@+id/btn_imdb"
-=======
                         android:id="@+id/btn_pagina_inicial"
->>>>>>> origin/master
                         android:background="@android:color/transparent"
                         android:textColor="@color/secondary_text"
                         android:padding="10dp"
                         android:textSize="12dp"
-<<<<<<< HEAD
-                        android:text="@string/imdb"/>
-=======
                         android:text="Página Inicial"/>
->>>>>>> origin/master
+
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 

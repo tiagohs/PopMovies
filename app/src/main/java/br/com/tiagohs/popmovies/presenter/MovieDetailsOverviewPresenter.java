@@ -11,10 +11,8 @@ import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 public interface MovieDetailsOverviewPresenter extends BasePresenter<MoviesDetailsOverviewView> {
 
     void getMoviesRankings(String imdbID, String tag);
-<<<<<<< HEAD
     List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies);
     void setContext(Context context);
     void setMovieFavorite(MovieDetails movie);
-=======
->>>>>>> origin/master
+
 }

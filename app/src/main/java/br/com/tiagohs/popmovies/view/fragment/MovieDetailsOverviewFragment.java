@@ -159,25 +159,19 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);
     }
-<<<<<<< HEAD
-
-    private void init() {
-=======
->>>>>>> origin/master
 
     private void init() {
         if (mMovie.getSimilarMovies().isEmpty())
             setSimilaresVisibility(View.GONE);
 
         mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
-<<<<<<< HEAD
+
 
         if (mMovie.isFavorite()) {
             updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
             mIsFavorito = true;
         }
-=======
->>>>>>> origin/master
+
 
         addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));

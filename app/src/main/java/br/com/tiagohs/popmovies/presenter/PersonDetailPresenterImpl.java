@@ -9,11 +9,9 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.PersonsServer;
-<<<<<<< HEAD
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
-=======
->>>>>>> origin/master
+
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 
@@ -21,12 +19,9 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
     private PersonDetailView mPersonDetailView;
     private PersonsServer mPersonsServer;
-<<<<<<< HEAD
 
     private int mPersonID;
     private String mTag;
-=======
->>>>>>> origin/master
 
     public PersonDetailPresenterImpl() {
         mPersonsServer = new PersonsServer();
@@ -34,11 +29,9 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
     @Override
     public void getPersonDetails(int personID, String tag) {
-<<<<<<< HEAD
+
         mPersonID = personID;
         mTag = tag;
-=======
->>>>>>> origin/master
 
         if (mPersonDetailView.isInternetConnected()) {
             mPersonDetailView.setProgressVisibility(View.VISIBLE);
@@ -46,11 +39,9 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
                     SubMethod.COMBINED_CREDITS.getValue(),
                     SubMethod.EXTERNAL_IDS.getValue(),
                     SubMethod.IMAGES.getValue(),
-<<<<<<< HEAD
                     SubMethod.TAGGED_IMAGES.getValue()}, tag, LocaleUtils.getLocaleLanguageAndCountry(), this);
-=======
-                    SubMethod.TAGGED_IMAGES.getValue()}, tag, this);
->>>>>>> origin/master
+
+
         } else {
             noConnectionError();
         }

@@ -1,10 +1,9 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
-<<<<<<< HEAD
+
 import android.content.Context;
-=======
->>>>>>> origin/master
+
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -15,11 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
-<<<<<<< HEAD
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
-=======
->>>>>>> origin/master
+
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptor;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptor;
@@ -46,11 +43,10 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     private ListMoviesDefaultView mListMoviesDefaultView;
     private MoviesServer mMoviesServer;
-<<<<<<< HEAD
+
     private MovieRepository mMovieRepository;
     private Context mContext;
-=======
->>>>>>> origin/master
+
 
     private PersonMoviesInterceptor mPersonMoviesInterceptor;
     private DiscoverInterceptor mDiscoverInterceptor;
@@ -76,20 +72,11 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         mMovieRepository = new MovieRepository(mContext);
     }
 
-    @Override
     public void onCancellRequest(Activity activity, String tag) {
         ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override
-<<<<<<< HEAD
-=======
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
-    }
-
-    @Override
->>>>>>> origin/master
     public void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters) {
         mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
 

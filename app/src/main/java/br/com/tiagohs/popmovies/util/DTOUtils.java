@@ -129,11 +129,8 @@ public class DTOUtils {
         return imageDTOs;
     }
 
-<<<<<<< HEAD
     public static List<MovieListDTO> createPersonKnowForMoviesDTO(Context context, List<CreditMovieBasic> personsMovies, int maxSize, MovieRepository movieRepository) {
-=======
-    public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> personsMovies, int maxSize) {
->>>>>>> origin/master
+
         int numMovies = personsMovies.size() < maxSize ? personsMovies.size() - 1 : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 

@@ -1,6 +1,6 @@
 package br.com.tiagohs.popmovies.model.db;
 
-<<<<<<< HEAD
+
 import java.util.Calendar;
 
 public class MovieDB {
@@ -13,36 +13,23 @@ public class MovieDB {
     private double vote;
     private Calendar dateSaved;
     private long profileID;
-=======
-/**
- * Created by Tiago Henrique on 29/10/2016.
- */
-
-public class MovieDB {
-    private long id;
-    private long idServer;
-    private String posterPath;
-    private boolean favorite;
-    private double vote;
->>>>>>> origin/master
 
     public MovieDB() {
     }
 
-<<<<<<< HEAD
     public MovieDB(int idServer, String posterPath, boolean favorite, double vote, String title, Calendar dateSaved, long profileID, int duracao) {
-=======
-    public MovieDB(long idServer, String posterPath, boolean favorite, double vote) {
->>>>>>> origin/master
         this.idServer = idServer;
         this.posterPath = posterPath;
         this.favorite = favorite;
         this.vote = vote;
-<<<<<<< HEAD
         this.title = title;
         this.dateSaved = dateSaved;
         this.duracao = duracao;
         this.profileID = profileID;
+    }
+
+    public MovieDB(long aLong, long aLong1, String string, boolean b, double aDouble) {
+
     }
 
     public String getTitle() {
@@ -51,16 +38,6 @@ public class MovieDB {
 
     public void setTitle(String title) {
         this.title = title;
-=======
-    }
-
-    public MovieDB(long id, long idServer, String posterPath, boolean favorite, double vote) {
-        this.id = id;
-        this.idServer = idServer;
-        this.posterPath = posterPath;
-        this.favorite = favorite;
-        this.vote = vote;
->>>>>>> origin/master
     }
 
     public long getId() {
@@ -71,20 +48,20 @@ public class MovieDB {
         this.id = id;
     }
 
-<<<<<<< HEAD
     public int getIdServer() {
         return idServer;
     }
 
     public void setIdServer(int idServer) {
-=======
-    public long getIdServer() {
-        return idServer;
+        this.idServer = idServer;
     }
 
-    public void setIdServer(long idServer) {
->>>>>>> origin/master
-        this.idServer = idServer;
+    public int getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(int duracao) {
+        this.duracao = duracao;
     }
 
     public String getPosterPath() {
@@ -110,7 +87,6 @@ public class MovieDB {
     public void setVote(double vote) {
         this.vote = vote;
     }
-<<<<<<< HEAD
 
     public Calendar getDateSaved() {
         return dateSaved;
@@ -120,14 +96,6 @@ public class MovieDB {
         this.dateSaved = dateSaved;
     }
 
-    public int getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
     public long getProfileID() {
         return profileID;
     }
@@ -135,6 +103,4 @@ public class MovieDB {
     public void setProfileID(long profileID) {
         this.profileID = profileID;
     }
-=======
->>>>>>> origin/master
 }

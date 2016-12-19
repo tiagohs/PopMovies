@@ -137,15 +137,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         //start the activity
                         .start(this);
                 return true;
-<<<<<<< HEAD
             case R.id.menu_sair:
                 PrefsUtils.clearCurrentUser(this);
                 PrefsUtils.clearCurrentProfile(this);
                 LoginManager.getInstance().logOut();
                 startActivity(LoginActivity.newIntent(this));
                 return true;
-=======
->>>>>>> origin/master
+
             default:
                 return false;
         }
