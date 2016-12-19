@@ -127,6 +127,20 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mPresenter != null)
+            mPresenter.onCancellRequest(this, TAG);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();

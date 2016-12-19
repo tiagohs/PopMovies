@@ -41,7 +41,7 @@
     <string name="discover">Discovers</string>
     <string name="popular">Populares</string>
     <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
-    "https://graph.facebook.com/" + userID + "/picture?type=large"
+
     <string name="facebook_link" translatable="false">https://www.facebook.com/%1$s</string>
     <string name="facebook_photo" translatable="false">https://graph.facebook.com/%1$s/picture?type=large</string>
     <string name="twitter_link_uri" translatable="false">twitter://user?screen_name=%1$s</string>
@@ -55,7 +55,9 @@
     <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
     <string name="youtube_link" translatable="false">"http://img.youtube.com/vi/%1$s/0.jpg"</string>
+
     <string name="movie_imdb" translatable="false">http://www.imdb.com/title/%1$s</string>
+
 
     <!-- Arrays -->
     <string-array name="movie_detail_tab_array">
@@ -234,6 +236,7 @@
     <string name="persons_popular">Pessoas Populares</string>
     <string name="person_directors">Diretores</string>
     <string name="sobre_title_actionbar">Sobre</string>
+
     <string name="title_activity_perfil">PerfilActivity</string>
     <string name="title_activity_testen">TestenActivity</string>
     <string name="assistidos">Assistidos</string>
