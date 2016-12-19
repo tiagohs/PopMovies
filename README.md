@@ -4,8 +4,8 @@
 <ul>
 <li>Marcar quais filmes você já assistiu;</li>
 <li>Marcar seus filmes favoritos;</li>
-<li>Obter Rankings no IMDB, Rottatoes e Metascore;</li>
-<li>Obter reviews do IMDB, Rottatoes e da Comunidade TMDB;</li>
+<li>Obter Rankings no IMDB, Rotten Tomatoes e Metascore;</li>
+<li>Obter reviews do IMDB, Rotten Tomatoes e da Comunidade TMDB;</li>
 <li>Obter informações sobre os atores, diretores e produtores de cada filme;</li>
 <li>Assistir trailers originais, legendados ou dublados;</li>
 <li>Visualizar e baixar Walpapers de vários filmes;</li>
