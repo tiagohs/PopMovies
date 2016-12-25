@@ -2,7 +2,13 @@ package br.com.tiagohs.popmovies.util;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -15,9 +21,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import jp.wasabeef.picasso.transformations.BlurTransformation;
 
 public class ImageUtils {
-
 
     public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
         ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -111,6 +117,23 @@ public class ImageUtils {
                 .into(imageView);
     }
 
+    public static void loadWithBlur(final Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+
+        TextDrawable drawable1 = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(4)
+                .endConfig()
+                .buildRoundRect(String.valueOf(name.charAt(0)), generator.getRandomColor(), 10);
+
+        Picasso.with(context)
+                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
+                .placeholder(drawable1)
+                .transform(new BlurTransformation(context))
+                .error(drawable1)
+                .into(imageView);
+    }
+
     public static void load(Context context, String path, final ImageView imageView, String name, ImageSize imageSize, final ViewGroup rodapeImage) {
         ColorGenerator generator = ColorGenerator.MATERIAL;
         rodapeImage.setVisibility(View.GONE);
@@ -165,6 +188,31 @@ public class ImageUtils {
                         imageView.setVisibility(View.VISIBLE);
                     }
                 });
+    }
+
+    private static final float BITMAP_SCALE = 0.4f;
+    private static final float BLUR_RADIUS = 7.5f;
+
+    public static Bitmap blur(Context context, ImageView imageView) {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap image = bitmapDrawable.getBitmap();
+
+        int width = Math.round(image.getWidth() * BITMAP_SCALE);
+        int height = Math.round(image.getHeight() * BITMAP_SCALE);
+
+        Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+
+        RenderScript rs = RenderScript.create(context);
+        ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+        theIntrinsic.setRadius(BLUR_RADIUS);
+        theIntrinsic.setInput(tmpIn);
+        theIntrinsic.forEach(tmpOut);
+        tmpOut.copyTo(outputBitmap);
+
+        return outputBitmap;
     }
 
 }

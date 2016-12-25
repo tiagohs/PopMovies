@@ -95,39 +95,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         injectViews();
     }
- 
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Map<String, String> parameters;
 
         switch (item.getItemId()) {
-            case R.id.menu_favoritos:
-                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, "Favoritos", Sort.FAVORITE, R.layout.item_list_movies, ListType.MOVIES)));
+            case R.id.menu_assistidos:
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.assistidos), Sort.ASSISTIDOS, R.layout.item_list_movies, ListType.MOVIES)));
                 return true;
             case R.id.menu_generos:
                 startActivity(GenresActivity.newIntent(this));
                 return true;
             case R.id.menu_atores:
-                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO("Atores e Atrizes", R.layout.item_list_movies, Sort.PERSON_POPULAR, ListType.PERSON)));
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(getString(R.string.atores_atrizes), R.layout.item_list_movies, Sort.PERSON_POPULAR, ListType.PERSON)));
                 return true;
-            case R.id.menu_lancamentos:
-                parameters = new HashMap<>();
-                parameters.put(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(30));
-                parameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
-                parameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
-
-                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.menu_lancamentos), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), parameters));
+            case R.id.menu_inicio:
+                startActivity(HomeActivity.newIntent(this));
                 return true;
-            case R.id.menu_bem_avaliados:
-                parameters = new HashMap<>();
-                parameters.put(Param.VOTE_AVERAGE_GTE.getParam(), String.valueOf(6.5));
-
-                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.mais_bem_avaliados), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), parameters));
+            case R.id.menu_buscar:
+                startActivity(SearchActivity.newIntent(this));
                 return true;
             case R.id.menu_sobre:
                 new LibsBuilder()
-                        //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
                         .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)

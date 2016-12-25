@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'android-apt'
 android {
@@ -22,6 +37,8 @@ android {
 
         buildConfigField "String", "MOVIEDB_API", "${MOVIEDB_API}"
         buildConfigField "String", "GOOGLE_KEY", "${GOOGLE_KEY}"
+        buildConfigField "String", "TWITTER_KEY", "${TWITTER_KEY}"
+        buildConfigField "String", "TWITTER_SECRET", "${TWITTER_SECRET}"
     }
     buildTypes {
         release {
@@ -86,12 +103,15 @@ dependencies {
 
     compile 'com.crystal:crystalrangeseekbar:1.1.1'
 
-    compile 'com.mikepenz:fastadapter:1.8.2@aar'
-
-    compile 'com.mikepenz:iconics-core:2.8.0@aar'
-
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
 
     compile 'com.google.code.gson:gson:2.8.0'
+    compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 
+    compile 'jp.wasabeef:picasso-transformations:2.1.0'
 }

@@ -3,21 +3,32 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +40,12 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.presenter.PersonDetailPresenter;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -63,6 +76,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     @BindView(R.id.facebook_riple)              MaterialRippleLayout mFacabookRiple;
     @BindView(R.id.twitter_riple)               MaterialRippleLayout mTwitterRiple;
     @BindView(R.id.instagram_riple)             MaterialRippleLayout mInstagramRiple;
+    @BindView(R.id.share_progress)              ProgressWheel mProgressShare;
 
     @Inject
     PersonDetailPresenter mPersonDetailPresenter;
@@ -70,6 +84,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     private int mPersonID;
     private PersonInfo mPerson;
     private String mArgPersonName;
+    private String mDescricao;
+    private Bitmap mImageToShare;
 
     public static Intent newIntent(Context context, int personID) {
         Intent intent = new Intent(context, PersonDetailActivity.class);
@@ -92,6 +108,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         setVisibilityFacebook(View.GONE);
         setVisibilityTwitter(View.GONE);
         setVisibilityInstagram(View.GONE);
+    }
+
+    public void setDescricao(String mDescricao) {
+        this.mDescricao = mDescricao;
     }
 
     @Override
@@ -159,7 +179,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
         switch (item.getItemId()) {
             case R.id.menu_share:
-
+                mProgressShare.setVisibility(View.VISIBLE);
+                sharePersonDetails();
                 return true;
             case android.R.id.home:
                 finish();
@@ -167,6 +188,90 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
             default:
                 return false;
         }
+    }
+
+    private void sharePersonDetails() {
+        View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
+        ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
+        TextView personName = (TextView) view.findViewById(R.id.person_name);
+        TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
+        TextView personDescricao = (TextView) view.findViewById(R.id.person_descricao);
+
+        ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
+        personName.setText(mPerson.getName());
+
+        if (mPerson.getBirthday() != null) {
+            int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
+            personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(this, mPerson.getBirthday()), age));
+        } else {
+            personSubtitle.setVisibility(View.GONE);
+        }
+
+        if (MovieUtils.isEmptyValue(mPerson.getBiography()))
+            personDescricao.setText(mDescricao);
+        else
+            personDescricao.setText(mPerson.getBiography());
+
+
+        final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                if (ContextCompat.checkSelfPermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        new MaterialDialog.Builder(PersonDetailActivity.this)
+                                .title("Importante")
+                                .content("Precisamos da sua permissão de escrita para realizar essa ação.")
+                                .positiveText("Ok")
+                                .negativeText("Não, Obrigado.")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                    }
+                                })
+                                .show();
+                    } else {
+                        ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    }
+                } else {
+                    createShareIntent(mImageToShare);
+                }
+            }
+        }, 3000);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 0:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    createShareIntent(mImageToShare);
+                break;
+        }
+    }
+
+    public void createShareIntent(Bitmap imageToShare) {
+        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mPerson.getName() , null);
+
+        Uri imageUri = Uri.parse(pathofBmp);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+        if (mPerson.getImdbId() != null)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.person_imdb, mPerson.getImdbId()));
+
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "send"));
+        mProgressShare.setVisibility(View.GONE);
     }
 
     public void setPerson(PersonInfo person) {

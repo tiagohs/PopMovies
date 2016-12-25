@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:layout_margin="16dp"
+    android:id="@+id/share_movie_container">
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/movie_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_gener_comedy"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/movie_poster"
+                    android:layout_width="118dp"
+                    android:layout_height="155dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:id="@+id/movie_title"
+                    android:text="Se Beber não Case"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:textColor="@android:color/white"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/movie_year"
+                        android:text="2016" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/movie_sinopse"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="6"
+                    android:lines="6"
+                    android:maxLength="200"
+                    android:ellipsize="end"
+                    android:textSize="12dp"
+                    android:textColor="@android:color/white"
+                    android:text="Reúna um time com os mais perigosos Supervilões já encarcerados, forneça a eles o mais poderoso arsenal à disposição do governo e os envie em uma missão para derrotar uma entidade enigmática insuperável. Amanda Waller, Oficial de Inteligência dos EUA, está convencida de que apenas um grupo de indivíduos díspares, desprezíveis, com quase nada a perder e convocado secretamente vai funcionar. No entanto, quando eles percebem que não foram escolhidos apenas para ter sucesso mas também por sua óbvia culpa quando inevitavelmente falharem, o Esquadrão Suicida resolverá morrer tentando ou decidirá que é cada um por si?"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/ic_launcher"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_android_icon"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

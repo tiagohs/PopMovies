@@ -11,12 +11,20 @@ import com.squareup.okhttp.OkUrlFactory;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
 public class App extends Application {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = " jdkgQcLjuDjupwwKRbtUoIAwE";
+    private static final String TWITTER_SECRET = "XaXjpdRIQTybYvGYH8p9FesYKwNcJ8glGxo02XT96FwgNNtgNI";
+
     public static final String TAG = App.class.getSimpleName();
     private static App instance;
 
@@ -26,6 +34,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         mPopMoviesComponent = DaggerPopMoviesComponent.builder().build();
 
         instance = this;
@@ -40,7 +50,7 @@ public class App extends Application {
         built.setIndicatorsEnabled(false);
         built.setLoggingEnabled(true);
 
-        Picasso.setSingletonInstance(built);
+        //Picasso.setSingletonInstance(built);
     }
 
     public PopMoviesComponent getPopMoviesComponent() {

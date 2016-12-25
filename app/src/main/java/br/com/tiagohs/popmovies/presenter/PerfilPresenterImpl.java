@@ -23,6 +23,7 @@ import br.com.tiagohs.popmovies.view.MovieDetailsView;
 import br.com.tiagohs.popmovies.view.PerfilView;
 
 public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<ImageResponse> {
+    private static final String TAG = PerfilPresenterImpl.class.getSimpleName();
 
     private PerfilView mPerfilView;
 
@@ -91,12 +92,21 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
 
     @Override
     public void onResponse(ImageResponse response) {
-        if (!response.getBackdrops().isEmpty()) {
-            int index = new Random().nextInt(response.getBackdrops().size());
-            mPerfilView.setBackground(response.getBackdrops().get(index).getFilePath());
-        } else {
-            int index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
+
+        int index = 0;
+        if (response.getBackdrops().isEmpty() && response.getPosters().isEmpty()) {
+            index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
             getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), mTag);
+        } else {
+
+            if (!response.getBackdrops().isEmpty()) {
+                index = new Random().nextInt(response.getBackdrops().size());
+                mPerfilView.setBackground(response.getBackdrops().get(index).getFilePath());
+            } else {
+                index = new Random().nextInt(response.getPosters().size());
+                mPerfilView.setBackground(response.getPosters().get(index).getFilePath());
+            }
+
         }
 
     }

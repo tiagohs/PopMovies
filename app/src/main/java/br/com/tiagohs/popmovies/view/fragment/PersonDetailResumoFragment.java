@@ -27,6 +27,7 @@ import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
@@ -58,13 +59,13 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private ListMoviesAdapter mKnowForAdapter;
     private ImageAdapter mImageAdapter;
 
-    private List<String> mAreasAtuacao;
+    private String mAreasAtuacao;
     private List<ImageDTO> mTotalImagesDTO;
     private List<MovieListDTO> mListKnowForDTO;
     private MovieRepository mMovieRepository;
 
     public PersonDetailResumoFragment() {
-        mAreasAtuacao = new ArrayList<>();
+
     }
 
     @Override
@@ -167,14 +168,17 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     private void updateAreasAtuacoes() {
-        mPrincipaisAreas.setText(MovieUtils.formatList(mPerson.getAreasAtuacao()));
+        mAreasAtuacao = MovieUtils.formatList(mPerson.getAreasAtuacao());
+        mPrincipaisAreas.setText(mAreasAtuacao);
     }
 
     private void updateDescricao() {
-        mDescricaoPerson.setText(MovieUtils.isEmptyValue(mPerson.getBiography())
-                                            ? ViewUtils.createDefaultPersonBiography(mPerson.getName(), MovieUtils.formatList(mAreasAtuacao),
-                                                                                     mListKnowForDTO.isEmpty() ? new ArrayList<MovieListDTO>() : mListKnowForDTO)
-                                                                                     : mPerson.getBiography());
+        String descricao = MovieUtils.isEmptyValue(mPerson.getBiography())
+                ? ViewUtils.createDefaultPersonBiography(mPerson.getName(), mAreasAtuacao,
+                mListKnowForDTO.isEmpty() ? new ArrayList<MovieListDTO>() : mListKnowForDTO)
+                : mPerson.getBiography();
+        mDescricaoPerson.setText(descricao);
+        ((PersonDetailActivity) getActivity()).setDescricao(descricao);
     }
 
     private void setupImagesRecyclerView() {

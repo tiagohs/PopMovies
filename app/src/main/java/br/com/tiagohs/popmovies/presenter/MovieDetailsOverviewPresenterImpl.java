@@ -92,6 +92,9 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             else
                 mMoviesDetailsOverviewView.updateTomatoesConsensus(response.getTomatoConsensus());
 
+            if (response.getTomatoURL() == null)
+                mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
+
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
             mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());

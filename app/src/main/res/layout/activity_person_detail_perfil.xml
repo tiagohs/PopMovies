@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/person_app_bar"
             android:layout_width="match_parent"
@@ -179,36 +180,26 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical"-->
-                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-                <!--<android.support.design.widget.TabLayout-->
-                    <!--android:id="@+id/tabLayout"-->
-                    <!--app:tabTextColor="@color/colorPrimary"-->
-                    <!--app:tabSelectedTextColor="@color/colorPrimaryDark"-->
-                    <!--android:background="@android:color/transparent"-->
-                    <!--app:tabIndicatorColor="@color/colorAccent"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="?attr/actionBarSize"-->
-                    <!--android:fontFamily="sans-serif-condensed" />-->
-
-                <!--<android.support.v4.view.ViewPager-->
-                    <!--android:id="@+id/carrer_view_pager"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content" />-->
-
-            <!--</LinearLayout>-->
-
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <com.pnikosis.materialishprogress.ProgressWheel
+                android:id="@+id/share_progress"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:matProg_barColor="@color/colorAccent"
+                app:matProg_progressIndeterminate="true" />
+
+        </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
-
-
 
     <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"

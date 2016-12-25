@@ -63,7 +63,6 @@
     <string-array name="movie_detail_tab_array">
         <item>Resumo</item>
         <item>Mídia</item>
-        <item>Reviews</item>
     </string-array>
     <string-array name="person_carrer_tab_array">
         <item>Resumo</item>
@@ -156,11 +155,11 @@
     <string name="menu_sobre">Sobre</string>
     <string name="menu_sair">Sair</string>
     <string name="menu_configuracoes">Configurações</string>
-    <string name="menu_favoritos">Favoritos</string>
+    <string name="menu_assistidos">Assistidos</string>
     <string name="menu_generos">Gêneros</string>
+    <string name="menu_search">Procurar</string>
     <string name="menu_atores">Atores</string>
-    <string name="menu_lancamentos">Lançamentos</string>
-    <string name="menu_bem_avaliados">Mais bem avaliados</string>
+    <string name="menu_home">Home</string>
     <string name="menu_compartilhar">Compartilhar</string>
 
     <!-- Activitys -->
@@ -240,5 +239,7 @@
     <string name="title_activity_perfil">PerfilActivity</string>
     <string name="title_activity_testen">TestenActivity</string>
     <string name="assistidos">Assistidos</string>
+    <string name="atores_atrizes">Atores e Atrizes</string>
+    <string name="favoritos">Favoritos</string>
 
 </resources>

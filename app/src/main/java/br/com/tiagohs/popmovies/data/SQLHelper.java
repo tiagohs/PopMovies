@@ -5,7 +5,7 @@ public class SQLHelper {
     public static final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE IF NOT EXISTS " + PopMoviesContract.MoviesEntry.TABLE_NAME + " (" +
             PopMoviesContract.MoviesEntry.COLUMN_PROFILE_FORER_ID + " INTEGER NOT NULL, " +
             PopMoviesContract.MoviesEntry._ID + " INTEGER PRIMARY KEY," +
-            PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER + " INTEGER UNIQUE NOT NULL, " +
+            PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER + " INTEGER NOT NULL, " +
             PopMoviesContract.MoviesEntry.COLUMN_TITLE + " TEXT, " +
             PopMoviesContract.MoviesEntry.COLUMN_FAVORITE + " TEXT, " +
             PopMoviesContract.MoviesEntry.COLUMN_DURATION + " INTEGER, " +

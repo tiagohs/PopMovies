@@ -14,6 +14,7 @@ import java.lang.ref.WeakReference;
 
 public class BitmatCreator {
     private Context mContext;
+    private Bitmap mBitmap;
 
     public BitmatCreator(Context context) {
         mContext = context;
@@ -27,6 +28,10 @@ public class BitmatCreator {
             imageView.setImageDrawable(asyncDrawable);
             task.execute(resId);
         }
+    }
+
+    public void setBitmap(Bitmap mBitmap) {
+        this.mBitmap = mBitmap;
     }
 
     private boolean cancelPotentialWork(int data, ImageView imageView) {
@@ -129,6 +134,7 @@ public class BitmatCreator {
                 final ImageView imageView = imageViewReference.get();
                 final BitmapWorkerTask bitmapWorkerTask =
                         getBitmapWorkerTask(imageView);
+                setBitmap(bitmap);
                 if (this == bitmapWorkerTask && imageView != null) {
                     imageView.setImageBitmap(bitmap);
                 }

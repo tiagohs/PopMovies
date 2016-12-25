@@ -16,5 +16,5 @@ public interface VideoInterceptor {
         boolean isAdded();
     }
 
-    void getVideos(int movieID, String tag, List<Translation> translations);
+    void getVideos(int movieID, String tag, String language);
 }

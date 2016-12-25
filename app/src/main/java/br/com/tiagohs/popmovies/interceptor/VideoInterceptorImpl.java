@@ -35,19 +35,7 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
 
     @Override
     public void onResponse(VideosResponse response) {
-
-        if (mListener.isAdded()) {
-            if (isFirstTranslation())
-                mFinalVideosReponse = response;
-
-            if (containsTranslations()) {
-                mFinalVideosReponse.getVideos().addAll(response.getVideos());
-                mMoviesServer.getMovieVideos(mMovieID, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), mTag, this);
-            } else {
-                mListener.onVideoRequestSucess(mFinalVideosReponse);
-            }
-        }
-
+        mListener.onVideoRequestSucess(response);
     }
 
     private boolean containsTranslations() {
@@ -59,12 +47,7 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     }
 
     @Override
-    public void getVideos(int movieID, String tag, List<Translation> translations) {
-        mTranslations = translations;
-        mTotalTranslation = translations.size() - 1;
-        mMovieID = movieID;
-        mTag = tag;
-
-        mMoviesServer.getMovieVideos(mMovieID, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry(), tag, this);
+    public void getVideos(int movieID, String tag, String language) {
+        mMoviesServer.getMovieVideos(movieID, language, tag, this);
     }
 }

@@ -117,7 +117,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         if (isVideosSearched)
             updateVideoUI(mMovieDetails.getVideos());
         else
-            mPresenter.getVideos(mMovieDetails.getId(), TAG, mMovieDetails.getTranslations());
+            mPresenter.getVideos(mMovieDetails.getId(), TAG, mMovieDetails.getOriginalLanguage());
 
         if (mTotalImages != null)
             setupImageAdapter();

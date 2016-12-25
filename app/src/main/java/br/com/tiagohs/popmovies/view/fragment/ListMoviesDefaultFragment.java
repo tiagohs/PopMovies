@@ -246,7 +246,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     private void setupAdapter() {
 
-
         if (mListMoviesAdapter == null) {
             Log.i(TAG, "Total Filmes: " + mListMovies.size());
             mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, mLayoutID);

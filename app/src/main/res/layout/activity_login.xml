@@ -40,11 +40,18 @@
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_facebook_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="230dp"
+            android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
             />
+
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:id="@+id/login_twitter_button"
+            android:layout_width="230dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"/>
 
     </LinearLayout>
 

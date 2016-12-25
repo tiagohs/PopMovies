@@ -27,6 +27,7 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
 
     private Context mContext;
     private List<ImageDTO> mImageDTOs;
+    private ImageDTO mCurrentImage;
     private ActionBar mToolbar;
     private boolean mIsVisible;
 
@@ -44,10 +45,24 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         ButterKnife.bind(this, view);
         view.setOnClickListener(this);
 
-        ImageUtils.load(mContext, mImageDTOs.get(position).getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);
+        mCurrentImage = mImageDTOs.get(position);
+        ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);
         container.addView(view);
 
         return view;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return super.getItemPosition(object);
+    }
+
+    public PhotoView getCurrentImageView() {
+        return mWallpaperImage;
+    }
+
+    public ImageDTO getCurrentImage() {
+        return mCurrentImage;
     }
 
     @Override

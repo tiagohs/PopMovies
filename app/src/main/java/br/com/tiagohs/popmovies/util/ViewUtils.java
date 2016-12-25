@@ -1,8 +1,12 @@
 package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.util.List;
@@ -24,6 +28,28 @@ public class ViewUtils {
             return context.getDrawable(drawableID);
         else
             return context.getResources().getDrawable(drawableID);
+    }
+
+    public static Bitmap getBitmapFromView(LinearLayout view) {
+        try {
+
+            view.setDrawingCacheEnabled(true);
+
+            view.measure(View.MeasureSpec.makeMeasureSpec(800, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.UNSPECIFIED));
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+            view.buildDrawingCache(true);
+            Bitmap returnedBitmap = Bitmap.createBitmap(view.getDrawingCache());
+
+            //Define a bitmap with the same size as the view
+            view.setDrawingCacheEnabled(false);
+
+            return returnedBitmap;
+        }catch (Exception e){
+            Log.e("Error", "Erro na Conversão da View to Image");
+        }
+        return null;
     }
 
     public static void createRatingGadget(Context context, float rating, ProgressBar rankingProgress, int max) {

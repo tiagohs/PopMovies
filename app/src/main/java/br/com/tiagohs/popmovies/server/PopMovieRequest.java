@@ -46,8 +46,6 @@ public class PopMovieRequest<T> extends Request<T> {
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            Log.i(TAG, "JSON Criado: " + json);
-
             mObjectMapper = new ObjectMapper();
             T dataResponse = mObjectMapper.readValue(json, typeReference);
 

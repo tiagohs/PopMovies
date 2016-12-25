@@ -25,16 +25,26 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     private ImagemInterceptor mImagemInterceptor;
     private VideoInterceptor mVideoInterceptor;
 
+    private VideosResponse mFinalVideosReponse;
+    private int mCurrentTranslation;
+    private int mTotalTranslation;
+    private int mMovieID;
+    private String mTag;
+    private boolean isLastSearch;
+
     public MovieDetailsMidiaPresenterImpl() {
         this.mImagemInterceptor = new ImagemInterceptorImpl(this);
         this.mVideoInterceptor = new VideoInterceptorImpl(this);
+
     }
 
     @Override
-    public void getVideos(int movieID, String tag, List<Translation> translations) {
+    public void getVideos(int movieID, String tag, String language) {
+        mMovieID = movieID;
+        mTag = tag;
 
         if (mView.isInternetConnected()) {
-            mVideoInterceptor.getVideos(movieID, tag, translations);
+            mVideoInterceptor.getVideos(movieID, tag, language);
         } else
             noConnectionError();
 
@@ -80,8 +90,17 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
         if (mView.isAdded()) {
-            mView.setVideosSearched(true);
-            mView.updateVideoUI(videosResponse.getVideos());
+
+            if(!isLastSearch) {
+                isLastSearch = true;
+                mFinalVideosReponse = videosResponse;
+                mVideoInterceptor.getVideos(mMovieID, mTag, "en-US");
+            } else {
+                mFinalVideosReponse.getVideos().addAll(videosResponse.getVideos());
+                mView.setVideosSearched(true);
+                mView.updateVideoUI(mFinalVideosReponse.getVideos());
+            }
+
         }
     }
 

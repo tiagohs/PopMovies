@@ -10,6 +10,7 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
+        app:tabGravity="fill"
         app:tabTextColor="@color/colorPrimary"
         app:tabSelectedTextColor="@color/colorPrimaryDark"
         android:background="@android:color/transparent"

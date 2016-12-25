@@ -404,6 +404,110 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
+            <android.support.v7.widget.CardView
+                android:id="@+id/imdb_reviews_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="0dp">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/imdb_ranking_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_imdb_icon"
+                            android:layout_weight="0.2"/>
+
+                        <TextView
+                            android:id="@+id/label_imdb"
+                            android:textSize="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IMDB Reviews"
+                            android:layout_weight="0.7"/>
+
+                        <TextView
+                            android:id="@+id/label_imdb_extra"
+                            android:textSize="22dp"
+                            android:gravity="left"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text=">"/>
+
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/tomatoes_reviews_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="0dp">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/tomatoes_ranking_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_tomatoes"
+                            android:layout_weight="0.2"/>
+
+                        <TextView
+                            android:id="@+id/label_tomatoes"
+                            android:textSize="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tomatoes Reviews"
+                            android:layout_weight="0.7"/>
+
+                        <TextView
+                            android:id="@+id/label_tomatoes_extra"
+                            android:textSize="22dp"
+                            android:gravity="left"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text=">"/>
+
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </android.support.v7.widget.CardView>
+
             <include layout="@layout/include_movie_detail_overview_tec"/>
 
         </LinearLayout>
@@ -463,12 +567,19 @@
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/similares_recycler_view"
-                    android:layout_gravity="center|center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="40dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_similares"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/similares_recycler_view"-->
+                    <!--android:layout_gravity="center|center_horizontal"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:minHeight="40dp"/>-->
 
             </LinearLayout>
 

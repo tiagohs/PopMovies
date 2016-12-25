@@ -194,8 +194,11 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
             public void onExpanded(AppBarLayout appBarLayout) {
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
-
                 mDadosIniciaisContainer.setVisibility(View.VISIBLE);
+                mDadosIniciaisContainer.setVisibility(View.VISIBLE);
+                mNamePerfil.setVisibility(View.VISIBLE);
+                mEmailPerfil.setVisibility(View.VISIBLE);
+
             }
 
             @Override
@@ -211,9 +214,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
             public void onIdle(AppBarLayout appBarLayout) {
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
-                mNamePerfil.setVisibility(View.VISIBLE);
-                mEmailPerfil.setVisibility(View.VISIBLE);
-                mDadosIniciaisContainer.setVisibility(View.VISIBLE);
+
             }
         };
     }

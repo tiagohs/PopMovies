@@ -12,7 +12,7 @@ public enum Sort {
     PERSON_CONHECIDO_POR(R.string.conhecido_por_title),
     PERSON_POPULAR(R.string.persons_popular),
     PERSON_DIRECTORS(R.string.person_directors),
-    FAVORITE(R.string.menu_favoritos),
+    FAVORITE(R.string.favoritos),
     ASSISTIDOS(R.string.assistidos);
 
     private int nameID;

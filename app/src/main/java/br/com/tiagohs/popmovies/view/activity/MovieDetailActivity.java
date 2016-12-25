@@ -4,16 +4,26 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +33,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import javax.inject.Inject;
 
@@ -44,6 +60,7 @@ import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsPresenter;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
@@ -87,6 +104,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @BindView(R.id.movies_btn_ja_assisti)         FloatingActionButton mJaAssistiButton;
     @BindView(R.id.progress_movies_details)       ProgressBar mProgressMovieDetails;
     @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
+    @BindView(R.id.share_progress)                ProgressWheel mProgressShare;
 
     @Inject MovieDetailsPresenter mPresenter;
 
@@ -95,6 +113,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private MovieDetails mMovie;
     private ListWordsAdapter mDiretoresAdapter;
     private boolean isStarted;
+    private Bitmap mImageToShare;
 
     public static Intent newIntent(Context context, int movieID) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
@@ -190,6 +209,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             mDuracao.setText(mMovie.getRuntime() != 0 ? getResources().getString(R.string.movie_duracao, mMovie.getRuntime()) : "--");
             mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
         }
+
     }
 
     public void setupTabs() {
@@ -302,13 +322,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions transitionActivityOptions = ActivityOptions
-                    .makeSceneTransitionAnimation(this, posterMovie, getString(R.string.poster_movie));
-            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
-        } else {
-            startActivity(MovieDetailActivity.newIntent(this, movieID));
-        }
+        startActivity(MovieDetailActivity.newIntent(this, movieID));
     }
 
     @Override
@@ -344,17 +358,97 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         switch (item.getItemId()) {
             case R.id.menu_share:
-
+                mProgressShare.setVisibility(View.VISIBLE);
+                shareMovie();
                 return true;
             default:
                 return false;
         }
     }
 
+    private void shareMovie() {
+        final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
+        ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
+        ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
+        TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
+        TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
+        TextView sinopseMovie = (TextView) view.findViewById(R.id.movie_sinopse);
+
+        ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
+        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, mMovie.getTitle(), ImageSize.BACKDROP_780);
+        titleMovie.setText(mMovie.getTitle());
+        yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
+        sinopseMovie.setText(mMovie.getOverview());
+
+        final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                if (ContextCompat.checkSelfPermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        new MaterialDialog.Builder(MovieDetailActivity.this)
+                                .title("Importante")
+                                .content("Precisamos da sua permissão de escrita para realizar essa ação.")
+                                .positiveText("Ok")
+                                .negativeText("Não, Obrigado.")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                    }
+                                })
+                                .show();
+                    } else {
+                        ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    }
+                } else {
+                    createShareIntent(mImageToShare);
+                }
+            }
+        }, 4000);
+
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 0:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    createShareIntent(mImageToShare);
+                break;
+        }
+    }
+
+    public void createShareIntent(Bitmap imageToShare) {
+        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mMovie.getTitle() , null);
+
+        Uri imageUri = Uri.parse(pathofBmp);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+        if (mMovie.getImdbID() != null)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.movie_imdb, mMovie.getImdbID()));
+
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "send"));
+        mProgressShare.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.poster_movie)
     public void onClickPosterMovie() {
-        if (!mMovie.getImages().isEmpty())
-            onClickImage(getImageDTO(mMovie.getImages().size()), new ImageDTO(mMovie.getId(), null, mMovie.getPosterPath()));
+        if (mMovie != null) {
+            if (!mMovie.getImages().isEmpty())
+                onClickImage(getImageDTO(mMovie.getImages().size()), new ImageDTO(mMovie.getId(), null, mMovie.getPosterPath()));
+        }
+
     }
 
     private List<ImageDTO> getImageDTO(int numImages) {

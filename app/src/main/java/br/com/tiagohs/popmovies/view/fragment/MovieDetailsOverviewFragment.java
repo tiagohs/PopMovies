@@ -22,6 +22,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,7 +59,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.sinopse_movie)                           TextView mSinopseMovie;
     @BindView(R.id.adult_movie)                             TextView mAdultMovie;
     @BindView(R.id.generos_recycler_view)                   RecyclerView mGenerosRecyclerView;
-    @BindView(R.id.similares_recycler_view)                 RecyclerView mSimilaresRecyclerView;
     @BindView(R.id.imdb_raking_progress)                    ProgressBar mImdbRankingProgress;
     @BindView(R.id.imdb_raking)                             TextView mImdbRanking;
     @BindView(R.id.imdb_num_votos)                          TextView mImdbVotes;
@@ -94,6 +94,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.btn_favorito)                            Button mFavoritoButton;
     @BindView(R.id.riple_pagina_inicial)                    MaterialRippleLayout mPaginaInicialContainer;
     @BindView(R.id.riple_imdb)                              MaterialRippleLayout mImdbContainer;
+    @BindView(R.id.imdb_reviews_container)                  CardView mImdbReviewContainer;
+    @BindView(R.id.tomatoes_reviews_container)              CardView mTomatoesReviewContainer;
 
     @Inject
     MovieDetailsOverviewPresenter mPresenter;
@@ -164,14 +166,21 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         if (mMovie.getSimilarMovies().isEmpty())
             setSimilaresVisibility(View.GONE);
 
-        mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
-
+        if (mMovie.getImdbID() != null) {
+            mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
+        } else {
+            setImdbRakingContainerVisibility(View.GONE);
+            setTomatoesRakingContainerVisibility(View.GONE);
+            setMetascoreRakingContainerVisibility(View.GONE);
+            setTomatoesConsensusContainerVisibility(View.GONE);
+            setTomatoesRakingContainerVisibility(View.GONE);
+            setImdbRakingContainerVisibility(View.GONE);
+        }
 
         if (mMovie.isFavorite()) {
             updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
             mIsFavorito = true;
         }
-
 
         addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
@@ -199,6 +208,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         setPaginaInicialVisibility(mMovie.getHomepage() == null || mMovie.getHomepage().equals(" ") ? View.VISIBLE : View.GONE);
 
         configuraRecyclersViews();
+        configurarSimilares();
         updateUI();
     }
 
@@ -212,8 +222,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     private void configuraRecyclersViews() {
         mGenerosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mSimilaresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mSimilaresRecyclerView.setAdapter(new ListMoviesAdapter(getActivity(), mPresenter.getSimilaresMovies(mMovie.getSimilarMovies()), mListMoviesCallbacks, R.layout.item_similares_movie));
+    }
+
+    public void configurarSimilares() {
+        addFragment(R.id.container_similares, ListMoviesDefaultFragment.newInstance(mMovie.getId(), Sort.SIMILARS, R.layout.item_similares_movie, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
     }
 
     public void updateIMDB(String ranking, String votes) {
@@ -379,6 +391,26 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     public void setImdbVisibility(int visibilityState) {
         mImdbContainer.setVisibility(visibilityState);
+    }
+
+    @OnClick(R.id.imdb_ranking_riple)
+    public void onClickIMDBReviews() {
+        if (mMovie.getImdbID() != null)
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.imdb_reviews_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
+    }
+
+    @OnClick(R.id.tomatoes_ranking_riple)
+    public void onClickTomatoesReviews() {
+        if (mMovieRankings.getTomatoURL() != null)
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()), mMovie.getTitle()), 0);
+    }
+
+    public void setImdbRankingVisibility(int visibility) {
+        mImdbReviewContainer.setVisibility(visibility);
+    }
+
+    public void setTomatoesRankingVisibility(int visibility) {
+        mTomatoesReviewContainer.setVisibility(visibility);
     }
 
 

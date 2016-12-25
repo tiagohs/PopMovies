@@ -125,6 +125,23 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/share_progress"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:matProg_barColor="@color/colorAccent"
+                    app:matProg_progressIndeterminate="true" />
+
+            </FrameLayout>
+
         </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

@@ -5,9 +5,13 @@
         android:id="@+id/menu_group_basico"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_favoritos"
-            android:icon="@drawable/ic_favorite_clicked"
-            android:title="@string/menu_favoritos" />
+            android:id="@+id/menu_inicio"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/menu_assistidos"
+            android:icon="@drawable/ic_assistidos"
+            android:title="@string/menu_assistidos" />
         <item
             android:id="@+id/menu_generos"
             android:icon="@drawable/ic_genre"
@@ -17,13 +21,10 @@
             android:icon="@drawable/ic_actor"
             android:title="@string/menu_atores" />
         <item
-            android:id="@+id/menu_lancamentos"
-            android:icon="@drawable/ic_lancamento"
-            android:title="@string/menu_lancamentos" />
-        <item
-            android:id="@+id/menu_bem_avaliados"
-            android:icon="@drawable/ic_favorite_clicked"
-            android:title="@string/menu_bem_avaliados" />
+            android:id="@+id/menu_buscar"
+            android:icon="@drawable/ic_search_menu"
+            android:title="@string/menu_search" />
+
     </group>
 
     <group

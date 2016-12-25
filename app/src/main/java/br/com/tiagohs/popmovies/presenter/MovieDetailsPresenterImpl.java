@@ -108,7 +108,7 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public void getVideos(String tag) {
         mTag = tag;
 
-        mVideoInterceptor.getVideos(mMovieDetails.getId(), tag, mMovieDetails.getTranslations());
+        mVideoInterceptor.getVideos(mMovieDetails.getId(), tag, mMovieDetails.getOriginalLanguage());
     }
 
     @Override
@@ -143,9 +143,12 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
             }
         }
+
+        Log.i(TAG, "Add: " + mMovieDetailsView.isAdded());
     }
 
     private void initUpdates(MovieDetails movieDetails) {
+        Log.i(TAG, "Chegou em initUpdates");
         if (movieDetails.getVideos().isEmpty())
             getVideos(mTag);
 

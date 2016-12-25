@@ -19,13 +19,7 @@ import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * Created by Tiago on 18/12/2016.
- */
-
 public class PerfilFilmesFragment extends BaseFragment {
-
-
 
     public static PerfilFilmesFragment newInstance() {
         PerfilFilmesFragment perfilFilmesFragment = new PerfilFilmesFragment();
@@ -69,6 +63,6 @@ public class PerfilFilmesFragment extends BaseFragment {
 
     @OnClick(R.id.perfil_favoritos_riple)
     public void onClickFavoritos() {
-        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.menu_favoritos), Sort.FAVORITE, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.favoritos), Sort.FAVORITE, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
     }
 }
