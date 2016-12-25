@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,7 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.presenter.PerfilPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
@@ -39,6 +42,7 @@ import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.PerfilView;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
@@ -129,6 +133,9 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     @BindView(R.id.dados_iniciais_container)
     LinearLayout mDadosIniciaisContainer;
 
+    @BindView(R.id.perfil_descricao)
+    TextView mPerfilDescricao;
+
     @BindView(R.id.perfil_app_bar)
     AppBarLayout mAppBarLayout;
 
@@ -136,6 +143,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     PerfilPresenter mPerfilPresenter;
 
     private String mBackgrounPath;
+    private ProfileDB mProfile;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, PerfilActivity.class);
@@ -149,6 +157,10 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
         mPerfilPresenter.setContext(this);
         mPerfilPresenter.setView(this);
+    }
+
+    public void setProfile(ProfileDB mProfile) {
+        this.mProfile = mProfile;
     }
 
     @Override
@@ -177,14 +189,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     public void setBackground(String backgroundPath) {
         mBackgrounPath = backgroundPath;
 
-        if (!isDestroyed()) {
-            mBackgroundPerfil.post(new Runnable() {
-                @Override
-                public void run() {
-                    ImageUtils.loadWithRevealAnimation(PerfilActivity.this, mBackgrounPath, mBackgroundPerfil, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
-                }
-            });
-        }
+        ImageUtils.loadWithBlur(this, mBackgrounPath, mBackgroundPerfil, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
+
         }
 
     private AppBarMovieListener onOffsetChangedListener() {
@@ -198,7 +204,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mDadosIniciaisContainer.setVisibility(View.VISIBLE);
                 mNamePerfil.setVisibility(View.VISIBLE);
                 mEmailPerfil.setVisibility(View.VISIBLE);
-
+                mPerfilDescricao.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -207,6 +213,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mToolbar.setTitle(PrefsUtils.getCurrentUser(PerfilActivity.this).getNome());
                 mNamePerfil.setVisibility(View.GONE);
                 mEmailPerfil.setVisibility(View.GONE);
+                mPerfilDescricao.setVisibility(View.GONE);
                 mDadosIniciaisContainer.setVisibility(View.GONE);
             }
 
@@ -221,7 +228,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     public void setNamePerfil(String nameUser) {
         mNamePerfil.setText(nameUser);
-        mNamePerfil.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+        mNamePerfil.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
     }
 
     public void setEmailPerfil(String emailUser) {
@@ -231,6 +238,15 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     public void setImagePerfil(String imagePath) {
         ImageUtils.load(this, imagePath, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mImagePerfil, mProgressFotoPerfil);
+    }
+
+    public void setPerfilDescricao(String descricao) {
+        if (descricao == null)
+            mPerfilDescricao.setText(getString(R.string.nao_ha_descicao));
+        else
+            mPerfilDescricao.setText(descricao);
+
+        mPerfilDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
     }
 
     public void setTotalHorasAssistidas(int duracaoTotal) {
@@ -296,6 +312,15 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     @OnClick({R.id.filmes_total_person_riple, R.id.total_horas_riple})
     public void onClickTotalFilmesAssistidos() {
         startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(0, getString(R.string.assistidos), Sort.ASSISTIDOS, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
+    }
+
+    @OnClick(R.id.perfil_image)
+    public void onClickPerfilImage() {
+        ImageDTO perfilImage = new ImageDTO(mProfile.getFotoPath());
+        List<ImageDTO> imagens = new ArrayList<>();
+        imagens.add(perfilImage);
+
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, perfilImage, getString(R.string.wallpapers_title, mProfile.getUser().getNome()), TypeShowImage.SIMPLE_IMAGE));
     }
 
     @Override

@@ -4,15 +4,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
+import br.com.tiagohs.popmovies.view.activity.WallpapersDetailActivity;
 
 public class ViewUtils {
 
@@ -91,5 +97,36 @@ public class ViewUtils {
         rankingProgress.setProgressDrawable(ViewUtils.getDrawableFromResource(context, state));
     }
 
+
+    public static void createAlertDialogWithPositive(Context context, String title, String content, MaterialDialog.SingleButtonCallback positiveCallback) {
+        new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .positiveText("Ok")
+                .negativeText("Cancelar.")
+                .onPositive(positiveCallback)
+                .show();
+    }
+
+    public static void createAlertDialog(Context context, String title, String content, MaterialDialog.SingleButtonCallback positiveCallback, MaterialDialog.SingleButtonCallback negativeCallback) {
+        new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .positiveText("Ok")
+                .negativeText("Cancelar.")
+                .onPositive(positiveCallback)
+                .onNegative(negativeCallback)
+                .show();
+    }
+
+    public static void createAlertDialogWithNegative(Context context, String title, String content, MaterialDialog.SingleButtonCallback negativeCallback) {
+        new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .positiveText("Ok")
+                .negativeText("Cancelar.")
+                .onNegative(negativeCallback)
+                .show();
+    }
 
 }

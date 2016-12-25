@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
@@ -375,10 +377,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         TextView sinopseMovie = (TextView) view.findViewById(R.id.movie_sinopse);
 
         ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
-        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, mMovie.getTitle(), ImageSize.BACKDROP_780);
+        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, mMovie.getTitle(), ImageSize.BACKDROP_300);
         titleMovie.setText(mMovie.getTitle());
+        titleMovie.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
         yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
+        yearMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
         sinopseMovie.setText(mMovie.getOverview());
+        sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
         final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
         new Handler().postDelayed(new Runnable() {
@@ -466,7 +471,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onClickImage(List<ImageDTO> imagens,  ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mMovie.getTitle())));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mMovie.getTitle()), TypeShowImage.WALLPAPER_IMAGES));
     }
 
     @Override

@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,5 +50,12 @@ public class ServerUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        return mWifi.isConnected();
     }
 }

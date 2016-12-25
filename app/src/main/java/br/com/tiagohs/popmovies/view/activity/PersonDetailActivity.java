@@ -50,6 +50,7 @@ import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
@@ -199,10 +200,12 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
         ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
         personName.setText(mPerson.getName());
+        personName.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
 
         if (mPerson.getBirthday() != null) {
             int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
             personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(this, mPerson.getBirthday()), age));
+            personSubtitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
         } else {
             personSubtitle.setVisibility(View.GONE);
         }
@@ -211,7 +214,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
             personDescricao.setText(mDescricao);
         else
             personDescricao.setText(mPerson.getBiography());
-
+        personDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
         final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
 
@@ -419,7 +422,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @Override
     public void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mPerson.getName())));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mPerson.getName()), TypeShowImage.WALLPAPER_IMAGES));
     }
 
     @Override

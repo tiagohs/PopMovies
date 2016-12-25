@@ -16,7 +16,12 @@ public class ImageDTO implements Serializable {
         this.imagePath = imagePath;
     }
 
+    public ImageDTO() {
+    }
 
+    public ImageDTO(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public int getMovieID() {
         return movieID;

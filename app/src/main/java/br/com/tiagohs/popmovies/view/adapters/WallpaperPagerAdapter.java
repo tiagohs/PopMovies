@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
@@ -30,12 +32,14 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
     private ImageDTO mCurrentImage;
     private ActionBar mToolbar;
     private boolean mIsVisible;
+    private TypeShowImage mTypeShowImage;
 
-    public WallpaperPagerAdapter(Activity context, List<ImageDTO> imageDTOs, ActionBar toolbar) {
+    public WallpaperPagerAdapter(Activity context, List<ImageDTO> imageDTOs, ActionBar toolbar, TypeShowImage typeShowImage) {
         mContext = context;
         mImageDTOs = imageDTOs;
         this.mToolbar = toolbar;
         mIsVisible = true;
+        this.mTypeShowImage = typeShowImage;
     }
 
     @Override
@@ -46,7 +50,13 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         view.setOnClickListener(this);
 
         mCurrentImage = mImageDTOs.get(position);
-        ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);
+        Log.i("Walll", "Path: " + mCurrentImage.getImagePath());
+
+        if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES))
+            ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);
+        else
+            ImageUtils.load(mContext, mCurrentImage.getImagePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mWallpaperImage, mProgress);
+
         container.addView(view);
 
         return view;

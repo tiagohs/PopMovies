@@ -3,36 +3,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_gravity="bottom|center">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
+        android:gravity="bottom|center"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp">
+            android:layout_gravity="center_horizontal">
 
             <android.support.v7.widget.CardView
                 android:layout_gravity="center"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:elevation="12dp"
-                android:id="@+id/view2"
-                app:cardCornerRadius="60dp"
+                android:id="@+id/perfil_image"
+                app:cardCornerRadius="50dp"
                 android:innerRadius="0dp"
                 android:shape="ring"
                 android:thicknessRatio="1.9">
 
                 <ImageView
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:id="@+id/image_perfil"
                     android:layout_gravity="center"/>
 
@@ -50,23 +51,17 @@
         </FrameLayout>
 
         <TextView
-            android:layout_gravity="center"
-            android:textColor="@color/primary_text"
-            android:id="@+id/name_perfil"
-            android:text="Tiago Henrique"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17dp"/>
-
-        <TextView
+            android:id="@+id/perfil_descricao"
+            android:text="Você não possui uma Descrição ainda!"
             android:textColor="@color/secondary_text"
+            android:maxLines="3"
             android:layout_gravity="center"
-            android:id="@+id/email_perfil"
-            android:text="tiago.silva.93@hotmail.com"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"/>
-
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:lines="3"/>
     </LinearLayout>
 
 </LinearLayout>

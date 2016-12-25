@@ -241,5 +241,6 @@
     <string name="assistidos">Assistidos</string>
     <string name="atores_atrizes">Atores e Atrizes</string>
     <string name="favoritos">Favoritos</string>
+    <string name="nao_ha_descicao">Você não possui uma Descrição ainda!</string>
 
 </resources>

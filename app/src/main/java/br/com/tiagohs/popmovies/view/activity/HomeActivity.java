@@ -3,7 +3,10 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,8 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.util.PermissionUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.HomeFragment;
 
@@ -27,6 +38,7 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PermissionUtils.validate(this, 0);
 
         configurarDrawerLayout();
 
@@ -90,5 +102,11 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
         } else {
             startActivity(MovieDetailActivity.newIntent(this, movieID));
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 }

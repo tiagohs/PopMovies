@@ -15,4 +15,6 @@ public interface PerfilView extends BaseView {
     void setTotalFilmesAssistidos(int totalFilmesAssistidos);
     void setBackground(String backgroundPath);
     void setupTabs();
+    void setProfile(ProfileDB mProfile);
+    void setPerfilDescricao(String descricao);
 }

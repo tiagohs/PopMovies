@@ -1,12 +1,12 @@
 package br.com.tiagohs.popmovies.view.activity;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -32,10 +32,10 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
-import br.com.tiagohs.popmovies.util.BasicImageDownloader;
-import br.com.tiagohs.popmovies.util.BitmatCreator;
-import br.com.tiagohs.popmovies.util.ImageSaver;
+import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.adapters.WallpaperPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +46,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     private static final String ARG_IMAGES = "br.com.tiagohs.popmovies.images";
     private static final String ARG_IMAGE_CURRENT = "br.com.tiagohs.popmovies.imageCurrent";
     private static final String ARG_WALLPAPERS_PAGE_TITLE = "br.com.tiagohs.popmovies.page_Wallpapers_title";
+    public static final String ARG_TYPE_SHOW_IMAGE = "br.com.tiagohs.popmovies.type_show_image";
 
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
     @BindView(R.id.coordenation_layout)     CoordinatorLayout coordinatorLayout;
@@ -55,12 +56,14 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     private ImageDTO mImageCurrent;
     private String mPageTitle;
     private WallpaperPagerAdapter mWallpaperPagerAdapter;
+    private TypeShowImage mTypeShowImage;
 
-    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle) {
+    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle, TypeShowImage typeShowImage) {
         Intent intent = new Intent(context, WallpapersDetailActivity.class);
         intent.putExtra(ARG_IMAGES, (ArrayList<ImageDTO>) mImagens);
         intent.putExtra(ARG_IMAGE_CURRENT, positioImage);
         intent.putExtra(ARG_WALLPAPERS_PAGE_TITLE, pageTitle);
+        intent.putExtra(ARG_TYPE_SHOW_IMAGE, typeShowImage);
 
         return intent;
     }
@@ -79,13 +82,14 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         mImagens = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_IMAGES);
         mImageCurrent = (ImageDTO) getIntent().getSerializableExtra(ARG_IMAGE_CURRENT);
         mPageTitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_TITLE);
+        mTypeShowImage = (TypeShowImage) getIntent().getSerializableExtra(ARG_TYPE_SHOW_IMAGE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, getSupportActionBar());
+        mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, getSupportActionBar(), mTypeShowImage);
         mWallpaperViewPager.setAdapter(mWallpaperPagerAdapter);
         setCurrentImage();
     }
@@ -110,21 +114,36 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    public void onCheckPermissionsToSave() {
+    public void onSaveImageClicked() {
+
+        if (!ServerUtils.isWifiConnected(this)) {
+            new MaterialDialog.Builder(this)
+                    .title("Importante")
+                    .content("Você irá realizar um Download sem estar conectado ao Wi-fi, deseja continuar?")
+                    .positiveText("Sim")
+                    .negativeText("Não")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            onCheckPermissionsToSave();
+                        }
+                    })
+                    .show();
+        } else
+            onCheckPermissionsToSave();
+    }
+
+    private void onCheckPermissionsToSave() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                new MaterialDialog.Builder(this)
-                        .title("Importante")
-                        .content("Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso.")
-                        .positiveText("Ok")
-                        .negativeText("Não, Obrigado.")
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                ActivityCompat.requestPermissions(WallpapersDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                            }
-                        })
-                        .show();
+                ViewUtils.createAlertDialogWithPositive(this, "Importante",
+                        "Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso.",
+                        new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            ActivityCompat.requestPermissions(WallpapersDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                        }
+                });
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
@@ -135,50 +154,33 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     }
 
     private void salvarImagem() {
-        //BitmapDrawable drawable = (BitmapDrawable) mWallpaperPagerAdapter.getCurrentImageView().getDrawable();
+        DownloadManager mgr = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        String nameImage = mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg";
 
-        BasicImageDownloader downloader = new BasicImageDownloader(new BasicImageDownloader.OnImageLoaderListener() {
-            @Override
-            public void onError(BasicImageDownloader.ImageError error) {
-                Log.i(TAG, "Error");
+        Uri downloadUri = Uri.parse("http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath());
+        DownloadManager.Request request = new DownloadManager.Request(
+                downloadUri);
+
+        request.setAllowedNetworkTypes(
+                DownloadManager.Request.NETWORK_WIFI
+                        | DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedOverRoaming(false).setTitle("PopMovies")
+                .setDescription("Baixando Wallpaper.")
+                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setDestinationInExternalPublicDir(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/PopMovies Images", nameImage);
+
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                Toast.makeText(WallpapersDetailActivity.this, "Imagem salva com sucesso", Toast.LENGTH_SHORT).show();
             }
+        };
 
-            @Override
-            public void onProgressChange(int percent) {
+        registerReceiver(onComplete, new
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-            }
-
-            @Override
-            public void onComplete(Bitmap result) {
-                final Bitmap.CompressFormat mFormat = Bitmap.CompressFormat.JPEG;
-                ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                File directory = cw.getDir("PopMovies Images", Context.MODE_PRIVATE);
-                final File myImageFile = new File(directory, "image_" + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImageID() + ".jpg");
-                BasicImageDownloader.writeToDisk(myImageFile, result, new BasicImageDownloader.OnBitmapSaveListener() {
-                    @Override
-                    public void onBitmapSaved() {
-                        Log.i(TAG, "Image saved as: " + myImageFile.getAbsolutePath());
-                    }
-
-                    @Override
-                    public void onBitmapSaveError(BasicImageDownloader.ImageError error) {
-                        Log.i(TAG, "Error code " + error.getErrorCode() + ": " +
-                                error.getMessage());
-                        error.printStackTrace();
-                    }
-
-                }, mFormat, false);
-
-            }
-        });
-
-        downloader.download("http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + "/" + mWallpaperPagerAdapter.getCurrentImage().getImagePath(), true);
-
-//         new ImageSaver(this).
-//                    setFileName(mWallpaperPagerAdapter.getCurrentImage().getImageID() + "_image.png").
-//                    setDirectoryName("images").
-//                    setExternal(false).
-//                    save(drawable.getBitmap());
+        mgr.enqueue(request);
 
     }
 
@@ -196,7 +198,13 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_wallpapers, menu);
+
+        if (mTypeShowImage.equals(TypeShowImage.SIMPLE_IMAGE)) {
+            getMenuInflater().inflate(R.menu.menu_wallpapers_simple, menu);
+        } else if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES)) {
+            getMenuInflater().inflate(R.menu.menu_wallpapers, menu);
+        }
+
         return true;
     }
 
@@ -211,11 +219,12 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                 startActivity(WallpapersActivity.newIntent(this, mImagens, mPageTitle));
                 return true;
             case R.id.action_save:
-                onCheckPermissionsToSave();
+                onSaveImageClicked();
                 return true;
             default:
                 return false;
         }
     }
+
 
 }

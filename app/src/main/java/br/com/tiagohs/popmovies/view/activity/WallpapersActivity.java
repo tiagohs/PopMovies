@@ -14,6 +14,7 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import butterknife.BindView;
@@ -82,6 +83,6 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @Override
     public void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, mPageTitle));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, mPageTitle, TypeShowImage.WALLPAPER_IMAGES));
     }
 }

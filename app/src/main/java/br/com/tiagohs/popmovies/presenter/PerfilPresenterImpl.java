@@ -12,6 +12,7 @@ import java.util.Random;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -28,6 +29,7 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
     private PerfilView mPerfilView;
 
     private MovieRepository mMovieRepository;
+    private ProfileRepository mProfileRepository;
     private Context mContext;
 
     private ProfileDB mProfile;
@@ -36,19 +38,22 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
 
     public PerfilPresenterImpl() {
         mMoviesServer = new MoviesServer();
+
     }
 
     public void setContext(Context context) {
         mContext = context;
 
         mMovieRepository = new MovieRepository(mContext);
+        mProfileRepository = new ProfileRepository(mContext);
     }
 
     public void initUpdates(String tag) {
         int duaracaoTotalAssistidas = 0;
         mTag = tag;
 
-        mProfile = PrefsUtils.getCurrentProfile(mContext);
+        mProfile = mProfileRepository.findProfileByUserEmail(PrefsUtils.getCurrentUser(mContext).getEmail());
+        mPerfilView.setProfile(mProfile);
         mProfile.setFilmesAssistidos(mMovieRepository.findAllMoviesDB(mProfile.getProfileID()));
         mProfile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(mProfile.getProfileID()));
 
@@ -60,6 +65,7 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
         mPerfilView.setEmailPerfil(mProfile.getUser().getEmail());
         mPerfilView.setNamePerfil(mProfile.getUser().getNome());
         mPerfilView.setImagePerfil(mProfile.getFotoPath());
+        mPerfilView.setPerfilDescricao(mProfile.getDescricao());
 
         for (MovieDB movieDB : mProfile.getFilmesAssistidos()) {
             duaracaoTotalAssistidas += movieDB.getDuracao();

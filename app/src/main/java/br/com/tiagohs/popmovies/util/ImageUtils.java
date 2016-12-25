@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.util;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -66,7 +67,7 @@ public class ImageUtils {
 
     }
 
-    public static void loadWithRevealAnimation(Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
+    public static void loadWithRevealAnimation(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
 
         Picasso.with(context)
                 .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
@@ -74,14 +75,15 @@ public class ImageUtils {
                 .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
+                        if (!((Activity) context).isDestroyed()) {
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                int cx = (imageView.getLeft() + imageView.getRight()) / 2;
+                                int cy = (imageView.getTop() + imageView.getBottom()) / 2;
+                                int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight());
 
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                            int cx = (imageView.getLeft() + imageView.getRight()) / 2;
-                            int cy = (imageView.getTop() + imageView.getBottom()) / 2;
-                            int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight());
-
-                            Animator anim = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
-                            anim.start();
+                                Animator anim = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
+                                anim.start();
+                            }
                         }
 
                     }
@@ -131,6 +133,15 @@ public class ImageUtils {
                 .placeholder(drawable1)
                 .transform(new BlurTransformation(context))
                 .error(drawable1)
+                .into(imageView);
+    }
+
+    public static void loadWithBlur(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
+
+        Picasso.with(context)
+                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
+                .transform(new BlurTransformation(context))
+                .error(imageError)
                 .into(imageView);
     }
 
