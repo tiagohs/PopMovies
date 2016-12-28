@@ -48,6 +48,18 @@
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
 
+    <style name="ButtonFacebook" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">15dp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:background">@drawable/button_facebook</item>
+    </style>
+
+    <style name="ButtonTwitter" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">15dp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:background">@drawable/button_twitter</item>
+    </style>
+
     <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo">
         <item name="android:windowActionBarOverlay">true</item>
     </style>

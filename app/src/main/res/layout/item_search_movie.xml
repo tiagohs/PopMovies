@@ -51,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_gravity="top"
                 android:layout_weight="0.75">
 
@@ -59,7 +60,6 @@
                     android:textColor="@color/primary_text"
                     android:id="@+id/title_movie"
                     android:layout_width="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
                     android:layout_height="30dip"
                     android:maxLines="1"
                     android:text="Deadpool"
@@ -68,12 +68,6 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:scrollHorizontally="true" />
-
-                <View
-                    android:layout_width="40dp"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/primary_light"/>
 
                 <TextView
                     android:textSize="14dp"
@@ -108,35 +102,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/movie_ano_lancamento"
-                        android:fontFamily="sans-serif-medium"
                         android:textSize="14dp"
                         android:text="2016"
                         android:layout_gravity="center|center_vertical"
                         android:textColor="@color/colorPrimary"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_votes"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/movie_votes"
-                            android:layout_marginLeft="5dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textSize="14dp"
-                            android:text="3K"
-                            android:layout_gravity="center|center_vertical"
-                            android:textColor="@color/colorPrimary"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -146,38 +115,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="top"
                 android:orientation="vertical"
+                android:gravity="center"
                 android:layout_margin="5dp">
 
-                <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="right|bottom">
-
-                    <ProgressBar
-                        android:id="@+id/nota_progress"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:indeterminate="false"
-                        android:max="10"
-                        android:layout_gravity="right|bottom"
-                        android:progressDrawable="@drawable/progress_circle_green" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/movie_raking_total"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="14dp"
-                        android:text="5.1"
-                        android:layout_gravity="center"
-                        android:textColor="@android:color/holo_green_dark"
-                        android:textStyle="bold"/>
-
-                </FrameLayout>
-
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/movies_btn_ja_assisti"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_assitir_eye"
+                    app:backgroundTint="@color/yellow"
+                    app:rippleColor="@android:color/white"
+                    app:elevation="4dp"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -11,7 +11,6 @@ public interface ListMoviesDefaultView extends BaseView {
 
     void setProgressVisibility(int visibityState);
     void setRecyclerViewVisibility(int visibilityState);
-
     void setupRecyclerView();
     void setListMovies(List<MovieListDTO> listMovies, boolean hasMorePages);
     void addAllMovies(List<MovieListDTO> listMovies, boolean hasMorePages);

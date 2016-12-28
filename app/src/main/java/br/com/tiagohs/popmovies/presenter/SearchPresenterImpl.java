@@ -1,39 +1,53 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
+import br.com.tiagohs.popmovies.server.ResponseListener;
+import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import br.com.tiagohs.popmovies.view.SearchView;
 
 public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterceptor.onSearchPersonListener,
-                                            SearchMoviesInterceptor.onSearchMoviesListener {
+                                            SearchMoviesInterceptor.onSearchMoviesListener, ResponseListener<MovieDetails> {
 
     private SearchView mSearchView;
     private SearchMoviesInterceptor mSearchMoviesInterceptor;
     private SearchPersonInterceptor mSearchPersonInterceptor;
+    private MovieRepository mMovieRepository;
+    private MoviesServer mMoviesServer;
 
     private int mCurrentPage;
     private int mTotalPages;
+    private Context mContext;
 
     private boolean mIsNewSearch;
+
+    private boolean mButtonStage;
 
     public SearchPresenterImpl() {
         mCurrentPage = 1;
 
+        mMoviesServer = new MoviesServer();
         mSearchMoviesInterceptor = new SearchMoviesInterceptorImpl(this);
         mSearchPersonInterceptor = new SearchPersonInterceptorImpl(this);
     }
@@ -41,6 +55,12 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     @Override
     public void setView(SearchView view) {
         this.mSearchView = view;
+    }
+
+    @Override
+    public void setContext(Context context) {
+        mContext = context;
+        mMovieRepository = new MovieRepository(mContext);
     }
 
     @Override
@@ -103,6 +123,20 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
         mSearchView.setProgressVisibility(View.GONE);
     }
 
+    public void getMovieDetails(int movieID, boolean buttonStage, String tag) {
+        this.mButtonStage = buttonStage;
+
+        if (mSearchView.isInternetConnected()) {
+            mMoviesServer.getMovieDetails(movieID, new String[]{}, tag, this);
+        } else {
+            noConnectionError();
+        }
+    }
+
+    public boolean isJaAssistido(int movieID) {
+        return mMovieRepository.findMovieByServerID(movieID, PrefsUtils.getCurrentUser(mContext).getProfileID()) != null;
+    }
+
     private void setupResponseMovies(List<Movie> movies) {
         mSearchView.setListMovies(movies, hasMorePages());
         mSearchView.setupRecyclerView();
@@ -133,5 +167,18 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     @Override
     public void onSearchPersonRequestError(VolleyError error) {
 
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(MovieDetails movie) {
+        if (mButtonStage)
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+        else
+            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
     }
 }

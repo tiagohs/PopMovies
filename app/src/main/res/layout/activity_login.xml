@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical" 
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -38,19 +38,46 @@
 
         </LinearLayout>
 
-        <com.facebook.login.widget.LoginButton
+        <Button
             android:id="@+id/login_facebook_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_facebook"
+            android:textColor="@android:color/white"
+            android:text="Logar com o Facebook"
+            android:drawableLeft="@drawable/ic_facebook"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="5dp"/>
+
+        <Button
+            android:id="@+id/login_twitter_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_twitter"
+            android:textColor="@android:color/white"
+            android:text="Logar com o Twitter"
+            android:drawableLeft="@drawable/ic_twitter_logo"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="5dp" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_facebook_button_original"
             android:layout_width="230dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:layout_marginBottom="5dp"
+            android:text=""
             />
 
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
-            android:id="@+id/login_twitter_button"
+            android:id="@+id/login_twitter_button_original"
             android:layout_width="230dp"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:layout_centerInParent="true"/>
 
     </LinearLayout>

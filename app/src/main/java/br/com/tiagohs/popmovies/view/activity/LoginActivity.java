@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +51,16 @@ import retrofit2.Retrofit;
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.login_facebook_button)
-    LoginButton mLoginFacebookButton;
+    Button mLoginFacebookButton;
 
     @BindView(R.id.login_twitter_button)
-    TwitterLoginButton mLoginTwitterButton;
+    Button mLoginTwitterButton;
+
+    @BindView(R.id.login_facebook_button_original)
+    LoginButton mLoginFacebookOriginalButton;
+
+    @BindView(R.id.login_twitter_button_original)
+    TwitterLoginButton mLoginTwitterOriginalButton;
 
     @BindView(R.id.title_app)
     TextView mTitle;
@@ -103,11 +110,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initFacebook() {
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        mLoginFacebookButton.registerCallback(mFacebookCallbackManager, facebookCallback());
-        mLoginFacebookButton.setReadPermissions(Arrays.asList("user_photos", "email"));
+        mLoginFacebookOriginalButton.registerCallback(mFacebookCallbackManager, facebookCallback());
+        mLoginFacebookOriginalButton.setReadPermissions(Arrays.asList("user_photos", "email"));
         mLoginFacebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoginFacebookOriginalButton.performClick();
                 mLoginFacebookButton.setVisibility(View.GONE);
                 mLoginTwitterButton.setVisibility(View.GONE);
             }
@@ -115,10 +123,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initTwitter() {
-        mLoginTwitterButton.setCallback(twitterCallback());
+        mLoginTwitterOriginalButton.setCallback(twitterCallback());
         mLoginTwitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoginTwitterOriginalButton.performClick();
                 mLoginTwitterButton.setVisibility(View.GONE);
                 mLoginFacebookButton.setVisibility(View.GONE);
             }
@@ -259,6 +268,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        mLoginTwitterButton.onActivityResult(requestCode, resultCode, data);
+        mLoginTwitterOriginalButton.onActivityResult(requestCode, resultCode, data);
     }
 }

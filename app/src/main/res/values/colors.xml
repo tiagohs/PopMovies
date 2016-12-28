@@ -12,6 +12,11 @@
     <color name="color_gray_light_content_text">@color/colorAccent</color>
     <color name="instagram">#d79e65</color>
 
+    <color name="button_facebook_normal">#3b5998</color>
+    <color name="button_facebook_pressed">#8b9dc3</color>
+    <color name="button_twitter_normal">#00aced</color>
+    <color name="button_twitter_pressed">#c0deed</color>
+
     <color name="itemBackground">@color/colorAccent</color>
     <color name="itemBackgroundRiple">#a9241b</color>
     <color name="itemBackgroundLight">#f76c62</color>

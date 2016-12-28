@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     @BindView(R.id.list_movies_recycler_view)           RecyclerView mMoviesRecyclerView;
     @BindView(R.id.list_movies_principal_progress)      ProgressWheel mPrincipalProgress;
-    @BindView(R.id.img_background_no_connection)        ImageView mBackgroundNoConnectionImage;
 
     @Inject
     ListMoviesDefaultPresenter mPresenter;
@@ -176,6 +176,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
         mPresenter.setContext(getActivity());
         searchMovies();
+
     }
 
     @Override
@@ -282,12 +283,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
                     searchMovies();
             }
         };
-    }
-
-    @OnClick(R.id.img_background_no_connection)
-    public void onClickImageNoConnection() {
-        searchMovies();
-        mSnackbar.dismiss();
     }
 
 }

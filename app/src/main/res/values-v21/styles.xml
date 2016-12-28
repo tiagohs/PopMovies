@@ -72,7 +72,7 @@
     <style name="AppTheme.PersonButton">
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:background">@android:color/white</item>
-        <item name="android:foreground">@drawable/button_keyboard</item>
+        <item name="android:foreground">@drawable/button_facebook_pressed</item>
     </style>
 
     <style name="ThemeGenres" parent="Theme.AppCompat.Light.NoActionBar">

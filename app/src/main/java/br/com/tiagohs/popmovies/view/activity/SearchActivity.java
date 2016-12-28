@@ -58,6 +58,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         getApplicationComponent().inject(this);
 
         mSearchPresenter.setView(this);
+        mSearchPresenter.setContext(this);
 
         if (savedInstanceState != null) {
             mQuery = savedInstanceState.getString(ARG_QUERY);
@@ -156,7 +157,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     }
 
     private void setupAdapter() {
-        mSearchAdapter = new SearchAdapter(this, mListMovies, this);
+        mSearchAdapter = new SearchAdapter(this, mListMovies, this, mSearchPresenter);
         mResultsRecyclerView.setAdapter(mSearchAdapter);
     }
 
