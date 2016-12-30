@@ -264,6 +264,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:minHeight="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -311,12 +316,27 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/container_elenco"
-            android:minHeight="150dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_elenco"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/elenco_nao_encontrado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="Sem informações sobre o elenco no momento."
+                />
+
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -366,12 +386,29 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/container_equipe_tecnica"
-            android:minHeight="150dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_equipe_tecnica"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/equipe_tecnica_nao_encontrada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="Sem informações sobre a equipe no momento."
+                />
+
+        </FrameLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

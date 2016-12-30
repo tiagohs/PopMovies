@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import br.com.tiagohs.popmovies.model.credits.MediaCredit;
 import br.com.tiagohs.popmovies.util.enumerations.CreditType;
 
 /**
@@ -21,6 +22,10 @@ public class CarrerMoviesDTO {
     private CreditType mCreditType;
 
     public CarrerMoviesDTO() {
+    }
+
+    public CarrerMoviesDTO(int id) {
+        this.id = id;
     }
 
     public CarrerMoviesDTO(int id, String title, String originalTitle, String posterPath, String releaseDate, String character, String department, CreditType creditType) {
@@ -115,5 +120,15 @@ public class CarrerMoviesDTO {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(getDate());
         return calendar.get(Calendar.YEAR);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CarrerMoviesDTO) {
+            CarrerMoviesDTO carrerMoviesDTO = (CarrerMoviesDTO) obj;
+            return getId() == carrerMoviesDTO.getId();
+        }
+
+        return false;
     }
 }

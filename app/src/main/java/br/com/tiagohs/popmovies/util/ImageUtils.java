@@ -136,6 +136,14 @@ public class ImageUtils {
                 .into(imageView);
     }
 
+    public static void loadWithBlur(final Context context, String path, final ImageView imageView, ImageSize imageSize) {
+
+        Picasso.with(context)
+                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
+                .transform(new BlurTransformation(context))
+                .into(imageView);
+    }
+
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
 
         Picasso.with(context)
@@ -177,6 +185,13 @@ public class ImageUtils {
     public static void load(Context context, int pathImg, int placeholder, ImageView imageView) {
         new BitmatCreator(context).loadBitmap(pathImg, imageView, BitmapFactory.decodeResource(context.getResources(),
                 placeholder));
+    }
+
+    public static void loadWithBlur(Context context, int pathImg, ImageView imageView) {
+        Picasso.with(context)
+                .load(pathImg)
+                .transform(new BlurTransformation(context))
+                .into(imageView);
     }
 
     public static void load(Context context, String url, int placeholder, int imageError, final ImageView imageView, final ProgressWheel progressbar) {

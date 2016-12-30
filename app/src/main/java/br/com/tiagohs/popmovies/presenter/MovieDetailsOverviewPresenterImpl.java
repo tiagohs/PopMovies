@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -22,6 +23,7 @@ import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
+    private static final String TAG = MovieDetailsOverviewPresenterImpl.class.getSimpleName();
 
     private MoviesServer mMoviesServer;
     private MoviesDetailsOverviewView mMoviesDetailsOverviewView;
@@ -55,10 +57,13 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     @Override
     public void onErrorResponse(VolleyError error) {
 
+        Log.i(TAG, "onError");
+
         if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.setProgressVisibility(View.GONE);
+            mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
             mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
+            mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.GONE);
         }
     }
 
@@ -77,9 +82,10 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             else
                 mMoviesDetailsOverviewView.updateIMDB(response.getImdbRanting(), response.getImdbVotes());
 
-            if (response.getTomatoRating() == null || response.getTomatoRating().equals("N/A"))
+            if (response.getTomatoRating() == null || response.getTomatoRating().equals("N/A")) {
                 mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
-            else
+                mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.GONE);
+            } else
                 mMoviesDetailsOverviewView.updateTomatoes(response.getTomatoRating(), response.getTomatoReviews());
 
             if (response.getMetascoreRating() == null || response.getMetascoreRating().equals("N/A"))

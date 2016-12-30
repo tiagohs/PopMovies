@@ -52,6 +52,7 @@ import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
+import br.com.tiagohs.popmovies.view.EllipsizingTextView;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
@@ -196,7 +197,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
         TextView personName = (TextView) view.findViewById(R.id.person_name);
         TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
-        TextView personDescricao = (TextView) view.findViewById(R.id.person_descricao);
+        EllipsizingTextView personDescricao = (EllipsizingTextView) view.findViewById(R.id.person_descricao);
 
         ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
         personName.setText(mPerson.getName());
@@ -204,7 +205,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
         if (mPerson.getBirthday() != null) {
             int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
-            personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(this, mPerson.getBirthday()), age));
+            personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(this, mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
             personSubtitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
         } else {
             personSubtitle.setVisibility(View.GONE);
@@ -412,7 +413,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
         List<Artwork> list = getTotalPersonImages();
 
         if (!getTotalPersonImages().isEmpty())
-            startActivity(WallpapersActivity.newIntent(this, DTOUtils.createPersonImagesDTO(mPerson, list.size(), list), getString(R.string.wallpapers_title, mPerson.getName())));
+            startActivity(WallpapersActivity.newIntent(this, DTOUtils.createPersonImagesDTO(mPerson, list.size(), list), getString(R.string.wallpapers_title), mPerson.getName()));
     }
 
     @Override
@@ -422,7 +423,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @Override
     public void onClickImage(List<ImageDTO> imagens, ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mPerson.getName()), TypeShowImage.WALLPAPER_IMAGES));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title), mPerson.getName(), TypeShowImage.WALLPAPER_IMAGES));
     }
 
     @Override

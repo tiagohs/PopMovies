@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -69,6 +70,7 @@ import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
+import br.com.tiagohs.popmovies.view.EllipsizingTextView;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
@@ -198,12 +200,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mJaAssistiButton.show();
 
         if (!isDestroyed()) {
-            mBackgroundMovie.post(new Runnable() {
-                @Override
-                public void run() {
-                    ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
-                }
-            });
+            if (mMovie.getBackdropPath() != null)
+                ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+            else {
+                ImageUtils.loadWithBlur(this, R.drawable.background_image, mBackgroundMovie);
+            }
 
             ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
 
@@ -374,10 +375,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
         TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
         TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
-        TextView sinopseMovie = (TextView) view.findViewById(R.id.movie_sinopse);
+        EllipsizingTextView sinopseMovie = (EllipsizingTextView) view.findViewById(R.id.movie_sinopse);
 
         ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
-        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, mMovie.getTitle(), ImageSize.BACKDROP_300);
+        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
         titleMovie.setText(mMovie.getTitle());
         titleMovie.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
         yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
@@ -471,7 +472,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onClickImage(List<ImageDTO> imagens,  ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title, mMovie.getTitle()), TypeShowImage.WALLPAPER_IMAGES));
+        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title), mMovie.getTitle(), TypeShowImage.WALLPAPER_IMAGES));
     }
 
     @Override

@@ -398,6 +398,7 @@
                     android:id="@+id/adult_movie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="@string/adult_movie"
                     android:textColor="@color/primary_text"
                     android:layout_marginTop="5dp"
@@ -573,13 +574,6 @@
                 android:minHeight="150dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/similares_recycler_view"-->
-                    <!--android:layout_gravity="center|center_horizontal"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:minHeight="40dp"/>-->
 
             </LinearLayout>
 

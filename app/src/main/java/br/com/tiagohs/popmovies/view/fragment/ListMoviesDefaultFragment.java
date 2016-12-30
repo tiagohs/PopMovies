@@ -23,8 +23,10 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.ListMoviesDefaultPresenter;
+import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
@@ -45,6 +47,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private static final String ARG_SPAN_COUNT = "spanCount";
     private static final String ARG_LAYOUT_ID = "layoutID";
     private static final String ARG_PARAMETERS = "paramenters";
+    private static final String ARG_LIST_MOVIES = "List_movies";
 
     @BindView(R.id.list_movies_recycler_view)           RecyclerView mMoviesRecyclerView;
     @BindView(R.id.list_movies_principal_progress)      ProgressWheel mPrincipalProgress;
@@ -67,6 +70,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private boolean mReverseLayout;
 
     private List<MovieListDTO> mListMovies;
+    private List<MovieListDTO> mListMoviesPararmeter;
     private Map<String, String> mParameters;
     private ListMoviesAdapter mListMoviesAdapter;
 
@@ -96,10 +100,22 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         return bundle;
     }
 
-    public static ListMoviesDefaultFragment newInstance(int id, Sort typeList, int layoutID, Bundle arguments) {
+    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, List<MovieListDTO> listMovies, Bundle arguments) {
 
         if (arguments != null) {
-            arguments.putInt(ARG_ID, id);
+            arguments.putSerializable(ARG_LIST_MOVIES, (ArrayList<MovieListDTO>) listMovies);
+            arguments.putInt(ARG_LAYOUT_ID, layoutID);
+            arguments.putSerializable(ARG_SORT, typeList);
+        }
+
+        ListMoviesDefaultFragment listMoviesDefaultFragment = new ListMoviesDefaultFragment();
+        listMoviesDefaultFragment.setArguments(arguments);
+        return listMoviesDefaultFragment;
+    }
+
+    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, Bundle arguments) {
+
+        if (arguments != null) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putSerializable(ARG_SORT, typeList);
         }
@@ -173,6 +189,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
         mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
+        mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
 
         mPresenter.setContext(getActivity());
         searchMovies();
@@ -199,7 +216,22 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     private void searchMovies() {
-        mPresenter.getMovies(mID, mTypeList, TAG, mParameters);
+
+        if (mTypeList.equals(Sort.LIST_DEFAULT)) {
+            updateUI();
+        } else {
+            mPresenter.getMovies(mID, mTypeList, TAG, mParameters);
+        }
+
+    }
+
+    private void updateUI() {
+        setProgressVisibility(View.VISIBLE);
+        setRecyclerViewVisibility(View.GONE);
+        setListMovies(mListMoviesPararmeter, false);
+        setupRecyclerView();
+        setProgressVisibility(View.GONE);
+        setRecyclerViewVisibility(View.VISIBLE);
     }
 
     @Override
@@ -237,6 +269,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     public void setupRecyclerView() {
         setupLayoutManager();
         mMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
+        mMoviesRecyclerView.setNestedScrollingEnabled(false);
         setupAdapter();
     }
 
@@ -249,7 +282,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
         if (mListMoviesAdapter == null) {
             Log.i(TAG, "Total Filmes: " + mListMovies.size());
-            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, mLayoutID);
+            mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, mLayoutID, mPresenter);
             mMoviesRecyclerView.setAdapter(mListMoviesAdapter);
         } else
             updateAdapter();

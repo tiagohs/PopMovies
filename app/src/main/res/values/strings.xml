@@ -37,7 +37,7 @@
     <string name="tomatoes_num_reviews">%1$s reviews</string>
     <string name="conhecido_por_title_activity">Conhecido por..</string>
     <string name="similares_title_activity">Similares</string>
-    <string name="wallpapers_title">Wallpapers - %1$s</string>
+    <string name="wallpapers_title">Wallpapers</string>
     <string name="discover">Discovers</string>
     <string name="popular">Populares</string>
     <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
@@ -68,6 +68,8 @@
         <item>Resumo</item>
         <item>Carreira</item>
     </string-array>
+
+
 
     <string-array name="sort_by_array">
         <item>Mercury</item>
@@ -242,5 +244,6 @@
     <string name="atores_atrizes">Atores e Atrizes</string>
     <string name="favoritos">Favoritos</string>
     <string name="nao_ha_descicao">Você não possui uma Descrição ainda!</string>
+    <string name="list_default">Lista Default</string>
 
 </resources>

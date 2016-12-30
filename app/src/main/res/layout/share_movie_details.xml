@@ -69,15 +69,15 @@
 
                 </LinearLayout>
 
-                <TextView
+                <br.com.tiagohs.popmovies.view.EllipsizingTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/movie_sinopse"
                     android:layout_marginTop="10dp"
                     android:maxLines="6"
                     android:lines="6"
-                    android:maxLength="200"
                     android:ellipsize="end"
+                    android:marqueeRepeatLimit ="marquee_forever"
                     android:textSize="12dp"
                     android:textColor="@android:color/white"
                     android:text="Reúna um time com os mais perigosos Supervilões já encarcerados, forneça a eles o mais poderoso arsenal à disposição do governo e os envie em uma missão para derrotar uma entidade enigmática insuperável. Amanda Waller, Oficial de Inteligência dos EUA, está convencida de que apenas um grupo de indivíduos díspares, desprezíveis, com quase nada a perder e convocado secretamente vai funcionar. No entanto, quando eles percebem que não foram escolhidos apenas para ter sucesso mas também por sua óbvia culpa quando inevitavelmente falharem, o Esquadrão Suicida resolverá morrer tentando ou decidirá que é cada um por si?"

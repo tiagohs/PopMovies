@@ -46,6 +46,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     private static final String ARG_IMAGES = "br.com.tiagohs.popmovies.images";
     private static final String ARG_IMAGE_CURRENT = "br.com.tiagohs.popmovies.imageCurrent";
     private static final String ARG_WALLPAPERS_PAGE_TITLE = "br.com.tiagohs.popmovies.page_Wallpapers_title";
+    private static final String ARG_WALLPAPERS_PAGE_SUBTITLE = "br.com.tiagohs.popmovies.page_Wallpapers_subtitle";
     public static final String ARG_TYPE_SHOW_IMAGE = "br.com.tiagohs.popmovies.type_show_image";
 
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
@@ -55,14 +56,16 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     private List<ImageDTO> mImagens;
     private ImageDTO mImageCurrent;
     private String mPageTitle;
+    private String mPageSubtitle;
     private WallpaperPagerAdapter mWallpaperPagerAdapter;
     private TypeShowImage mTypeShowImage;
 
-    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle, TypeShowImage typeShowImage) {
+    public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle, String pageSubtitle, TypeShowImage typeShowImage) {
         Intent intent = new Intent(context, WallpapersDetailActivity.class);
         intent.putExtra(ARG_IMAGES, (ArrayList<ImageDTO>) mImagens);
         intent.putExtra(ARG_IMAGE_CURRENT, positioImage);
         intent.putExtra(ARG_WALLPAPERS_PAGE_TITLE, pageTitle);
+        intent.putExtra(ARG_WALLPAPERS_PAGE_SUBTITLE, pageSubtitle);
         intent.putExtra(ARG_TYPE_SHOW_IMAGE, typeShowImage);
 
         return intent;
@@ -82,6 +85,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         mImagens = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_IMAGES);
         mImageCurrent = (ImageDTO) getIntent().getSerializableExtra(ARG_IMAGE_CURRENT);
         mPageTitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_TITLE);
+        mPageSubtitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_SUBTITLE);
         mTypeShowImage = (TypeShowImage) getIntent().getSerializableExtra(ARG_TYPE_SHOW_IMAGE);
     }
 
@@ -216,7 +220,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_go_gallery:
-                startActivity(WallpapersActivity.newIntent(this, mImagens, mPageTitle));
+                startActivity(WallpapersActivity.newIntent(this, mImagens, mPageTitle, mPageSubtitle));
                 return true;
             case R.id.action_save:
                 onSaveImageClicked();

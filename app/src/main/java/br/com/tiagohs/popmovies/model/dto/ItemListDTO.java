@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.model.dto;
 
 import java.util.Map;
 
+import br.com.tiagohs.popmovies.model.credits.MediaCredit;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 
 /**
@@ -12,6 +13,10 @@ public class ItemListDTO {
     private String nameItem;
     private Sort typeItem;
     private Map<String, String> mParamenters;
+
+    public ItemListDTO(int itemID) {
+        this.itemID = itemID;
+    }
 
     public ItemListDTO(int itemID, String nameItem) {
         this.itemID = itemID;
@@ -69,5 +74,15 @@ public class ItemListDTO {
 
     public void setParamenters(Map<String, String> paramenters) {
         mParamenters = paramenters;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ItemListDTO) {
+            ItemListDTO item = (ItemListDTO) obj;
+            return getItemID() == item.getItemID();
+        }
+
+        return false;
     }
 }

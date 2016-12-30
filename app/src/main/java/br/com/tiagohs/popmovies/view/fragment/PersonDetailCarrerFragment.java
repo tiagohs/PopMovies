@@ -16,6 +16,7 @@ import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.enumerations.CreditType;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 import br.com.tiagohs.popmovies.view.adapters.CarrerMoviesAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
@@ -66,6 +67,8 @@ public class PersonDetailCarrerFragment extends BaseFragment {
         mPersonMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CarrerMoviesAdapter(getActivity(), this, l, mCallbacks, R.layout.item_person_detail_movies);
         mPersonMoviesRecyclerView.setAdapter(mAdapter);
+        mPersonMoviesRecyclerView.setNestedScrollingEnabled(false);
+
         new CreateDTO().execute();
     }
 
@@ -99,8 +102,10 @@ public class PersonDetailCarrerFragment extends BaseFragment {
 
         private void createDTO(List<CreditMovieBasic> dto, List<CarrerMoviesDTO> list) {
             for (CreditMovieBasic g : dto)
-                if (g.getMediaType().equals(MediaType.MOVIE))
-                    list.add(new CarrerMoviesDTO(g.getId(), g.getTitle(), g.getOriginalTitle(), g.getArtworkPath(), g.getReleaseDate(), g.getCharacter(), g.getDepartment(), g.getCreditType()));
+                if (g.getMediaType().equals(MediaType.MOVIE)) {
+                        list.add(new CarrerMoviesDTO(g.getId(), g.getTitle(), g.getOriginalTitle(), g.getArtworkPath(), g.getReleaseDate(), g.getCharacter(), g.getDepartment(), g.getCreditType()));
+                }
+
         }
 
         @Override

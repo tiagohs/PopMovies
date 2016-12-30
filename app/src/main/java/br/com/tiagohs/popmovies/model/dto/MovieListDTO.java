@@ -1,6 +1,8 @@
 package br.com.tiagohs.popmovies.model.dto;
 
-public class MovieListDTO {
+import java.io.Serializable;
+
+public class MovieListDTO implements Serializable {
     private int mMovieID;
     private String movieName;
     private String mPosterPath;

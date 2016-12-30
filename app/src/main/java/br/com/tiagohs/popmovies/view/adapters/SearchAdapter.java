@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -94,8 +95,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
 
             mTitleMovie.setText(mMovie.getTitle());
+            mTitleMovie.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mGeners.setText(MovieUtils.formatGeneres(mContext, mMovie.getGenreIDs()));
+            mGeners.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "openSansItalic.ttf"));
             mMovieAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
+            mMovieAnoLancamento.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
 
             if (mPresenter.isJaAssistido(movie.getId())) {
                 mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, R.drawable.ic_assistido));

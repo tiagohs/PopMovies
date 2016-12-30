@@ -230,12 +230,12 @@
                 </LinearLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/conhecido_por_recycler_view"
-                android:layout_gravity="center|center_horizontal"
+            <LinearLayout
+                android:id="@+id/container_conhecido_por"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="40dp"/>
+                android:orientation="vertical"
+                android:minHeight="40dp" />
 
         </LinearLayout>
 

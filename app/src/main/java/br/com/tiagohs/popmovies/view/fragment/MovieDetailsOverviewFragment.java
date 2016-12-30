@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -96,6 +97,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.riple_imdb)                              MaterialRippleLayout mImdbContainer;
     @BindView(R.id.imdb_reviews_container)                  CardView mImdbReviewContainer;
     @BindView(R.id.tomatoes_reviews_container)              CardView mTomatoesReviewContainer;
+    @BindView(R.id.elenco_nao_encontrado)                   TextView mElencoNaoEncontrado;
+    @BindView(R.id.equipe_tecnica_nao_encontrada)           TextView mEquipeNaoEncontrada;
 
     @Inject
     MovieDetailsOverviewPresenter mPresenter;
@@ -105,7 +108,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     private ListWordsAdapter mGenerosAdapter;
 
-    private ListMoviesCallbacks mListMoviesCallbacks;
     private ListWordsCallbacks mGenresCallbacks;
     private ListWordsCallbacks mKeyWordsCallbacks;
 
@@ -124,7 +126,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListMoviesCallbacks = (ListMoviesCallbacks) context;
         mGenresCallbacks = (ListWordsCallbacks) context;
         mKeyWordsCallbacks = (ListWordsCallbacks) context;
     }
@@ -132,7 +133,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @Override
     public void onDetach() {
         super.onDetach();
-        mListMoviesCallbacks = null;
         mGenresCallbacks = null;
         mKeyWordsCallbacks = null;
     }
@@ -166,24 +166,40 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         if (mMovie.getSimilarMovies().isEmpty())
             setSimilaresVisibility(View.GONE);
 
-        if (mMovie.getImdbID() != null) {
-            mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
-        } else {
+        if (MovieUtils.isEmptyValue(mMovie.getImdbID())) {
             setImdbRakingContainerVisibility(View.GONE);
             setTomatoesRakingContainerVisibility(View.GONE);
             setMetascoreRakingContainerVisibility(View.GONE);
             setTomatoesConsensusContainerVisibility(View.GONE);
             setTomatoesRakingContainerVisibility(View.GONE);
             setImdbRakingContainerVisibility(View.GONE);
-        }
+            setImdbVisibility(View.GONE);
+            setImdbReviewsVisibility(View.GONE);
+            setRankingProgressVisibility(View.GONE);
+            setTomatoesReviewsVisibility(View.GONE);
+        } else
+            mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
 
         if (mMovie.isFavorite()) {
             updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
             mIsFavorito = true;
         }
 
-        addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
-        addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+        setPaginaInicialVisibility(MovieUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
+
+        configuraRecyclersViews();
+        configurarSimilares();
+        updateUI();
+
+        if (mMovie.getCast().isEmpty())
+            mElencoNaoEncontrado.setVisibility(View.VISIBLE);
+        else
+           addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+
+        if (mMovie.getCrew().isEmpty())
+            mEquipeNaoEncontrada.setVisibility(View.VISIBLE);
+        else
+            addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
     }
 
     private void addFragment(int id, Fragment fragment) {
@@ -196,20 +212,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
                     .commit();
         }
 
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        mAdultMovie.setVisibility(View.INVISIBLE);
-        setImdbVisibility(mMovie.getImdbID() != null ? View.VISIBLE : View.GONE);
-        System.out.println(mMovie.getHomepage());
-        setPaginaInicialVisibility(mMovie.getHomepage() == null || mMovie.getHomepage().equals(" ") ? View.VISIBLE : View.GONE);
-
-        configuraRecyclersViews();
-        configurarSimilares();
-        updateUI();
     }
 
     public void setMovie(MovieDetails movie) {
@@ -283,9 +285,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
         mKeywordsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
         mKeywordsRecyclerView.setAdapter(new ListWordsAdapter(getActivity(), DTOUtils.createKeywordsItemsListDTO(mMovie.getKeywords()), mKeyWordsCallbacks, ItemType.KEYWORD, R.layout.item_list_words_default));
+        mKeywordsRecyclerView.setNestedScrollingEnabled(false);
 
         mGenerosAdapter = new ListWordsAdapter(getActivity(), DTOUtils.createGenresItemsListDTO(mMovie.getGenres()), mGenresCallbacks, ItemType.GENRE, R.layout.item_list_words_default);
         mGenerosRecyclerView.setAdapter(mGenerosAdapter);
+        mGenerosRecyclerView.setNestedScrollingEnabled(false);
     }
 
     @OnClick(R.id.btn_favorito)
@@ -296,8 +300,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
         if (mIsFavorito) {
             updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
+            Toast.makeText(getContext(), "Marcado como Favorito.", Toast.LENGTH_SHORT).show();
         } else {
             updateFavoriteButton("Favorite!", R.drawable.ic_favorite_border);
+            Toast.makeText(getContext(), "Desmarcado como Favorito.", Toast.LENGTH_SHORT).show();
         }
 
         mPresenter.setMovieFavorite(mMovie);
@@ -405,11 +411,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()), mMovie.getTitle()), 0);
     }
 
-    public void setImdbRankingVisibility(int visibility) {
+    public void setImdbReviewsVisibility(int visibility) {
         mImdbReviewContainer.setVisibility(visibility);
     }
 
-    public void setTomatoesRankingVisibility(int visibility) {
+    public void setTomatoesReviewsVisibility(int visibility) {
         mTomatoesReviewContainer.setVisibility(visibility);
     }
 

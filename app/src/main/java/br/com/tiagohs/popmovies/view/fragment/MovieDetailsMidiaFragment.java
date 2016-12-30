@@ -167,6 +167,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         mMovieDetails.setImages(imageResponse);
         int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
         mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
+        mImagesRecyclerView.setNestedScrollingEnabled(false);
         mTotalImages = getImageDTO(mMovieDetails.getImages().size());
         setupImageAdapter();
     }
@@ -176,6 +177,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
         mMovieDetails.addMoreVideos(videosResponse);
         mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mVideosRecyclerView.setNestedScrollingEnabled(false);
         mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
         mVideosRecyclerView.setAdapter(mVideoAdapter);
     }
@@ -206,7 +208,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @OnClick(R.id.wallpapers_riple)
     public void onClickWallpapersTitle() {
         if (!mTotalImages.isEmpty())
-            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title, mMovieDetails.getTitle())));
+            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title), mMovieDetails.getTitle()));
     }
 
     @Override

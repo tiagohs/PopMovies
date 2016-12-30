@@ -3,6 +3,8 @@ package br.com.tiagohs.popmovies.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,15 +50,12 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     @BindView(R.id.person_cidade_natal)             TextView mCidadeNatal;
     @BindView(R.id.person_genero)                   TextView mGenero;
     @BindView(R.id.person_principais_areas)         TextView mPrincipaisAreas;
-    @BindView(R.id.conhecido_por_recycler_view)     RecyclerView mKnowForRecyclerView;
     @BindView(R.id.imagens_recycler_view)           RecyclerView mImagensRecyclerView;
     @BindView(R.id.wallpapers_container)            LinearLayout mWallpapersContainer;
     @BindView(R.id.know_for_container)              LinearLayout mKnowForContainer;
 
     private PersonInfo mPerson;
-    private ListMoviesCallbacks mCallbacks;
     private ImagesCallbacks mImagesCallbacks;
-    private ListMoviesAdapter mKnowForAdapter;
     private ImageAdapter mImageAdapter;
 
     private String mAreasAtuacao;
@@ -71,14 +70,12 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (ListMoviesCallbacks) context;
         mImagesCallbacks = (ImagesCallbacks) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
         mImagesCallbacks = null;
     }
 
@@ -160,11 +157,21 @@ public class PersonDetailResumoFragment extends BaseFragment  {
             mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository);
             mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository));
 
-            mKnowForAdapter = new ListMoviesAdapter(getActivity(), mListKnowForDTO, mCallbacks, R.layout.item_similares_movie);
-            mKnowForRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-            mKnowForRecyclerView.setAdapter(mKnowForAdapter);
+            addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         } else
             mKnowForContainer.setVisibility(View.GONE);
+    }
+
+    private void addFragment(int id, Fragment fragment) {
+        FragmentManager fm = getChildFragmentManager();
+        Fragment f = fm.findFragmentById(id);
+
+        if (f == null) {
+            fm.beginTransaction()
+                    .add(id, fragment)
+                    .commit();
+        }
+
     }
 
     private void updateAreasAtuacoes() {
@@ -207,7 +214,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
 
     @OnClick(R.id.wallpapers_riple)
     public void onClickPersonWallpapers() {
-        startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImagesDTO, getString(R.string.wallpapers_title, mPerson.getName())));
+        startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImagesDTO, getString(R.string.wallpapers_title), mPerson.getName()));
     }
 
     @OnClick(R.id.conhecido_por_riple)

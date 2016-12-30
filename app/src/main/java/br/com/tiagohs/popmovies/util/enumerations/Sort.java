@@ -13,7 +13,8 @@ public enum Sort {
     PERSON_POPULAR(R.string.persons_popular),
     PERSON_DIRECTORS(R.string.person_directors),
     FAVORITE(R.string.favoritos),
-    ASSISTIDOS(R.string.assistidos);
+    ASSISTIDOS(R.string.assistidos),
+    LIST_DEFAULT(R.string.list_default);
 
     private int nameID;
 

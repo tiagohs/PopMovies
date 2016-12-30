@@ -4,11 +4,13 @@ import android.app.Activity;
 
 import android.content.Context;
 
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +21,12 @@ import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptor;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptorImpl;
+import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
+import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -35,11 +40,13 @@ import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
+import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 
 public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresenter,
         ResponseListener<GenericListResponse<Movie>>,
         PersonMoviesInterceptor.onPersonMoviesListener,
-        DiscoverInterceptor.onDiscoverListener {
+        DiscoverInterceptor.onDiscoverListener, MovieDetailsInterceptor.onMovieDetailsListener  {
+    private static final String TAG = ListMoviesDefaultPresenterImpl.class.getSimpleName();
 
     private ListMoviesDefaultView mListMoviesDefaultView;
     private MoviesServer mMoviesServer;
@@ -47,15 +54,19 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private MovieRepository mMovieRepository;
     private Context mContext;
 
-
     private PersonMoviesInterceptor mPersonMoviesInterceptor;
     private DiscoverInterceptor mDiscoverInterceptor;
+    private MovieDetailsInterceptor mMovieDetailsInterceptor;
 
     private int mCurrentPage;
     private int mTotalPages;
 
+    private boolean isSaved;
+    private boolean isFavorite;
+
     public ListMoviesDefaultPresenterImpl() {
         mCurrentPage = 0;
+        mMovieDetailsInterceptor = new MovieDetailsInterceptorImpl(this);
     }
 
     @Override
@@ -114,6 +125,17 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             case PERSON_CONHECIDO_POR:
                 mPersonMoviesInterceptor.getPersonMovies(typeList, id, ++mCurrentPage, tag, new HashMap<String, String>());
                 break;
+        }
+    }
+
+    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, String tag) {
+        this.isSaved = isSaved;
+        this.isFavorite = isFavorite;
+
+        if (mListMoviesDefaultView.isInternetConnected()) {
+            mMovieDetailsInterceptor.getMovieDetails(movieID, new String[]{}, tag);
+        } else {
+            noConnectionError();
         }
     }
 
@@ -224,5 +246,23 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     @Override
     public void onDiscoverRequestError(VolleyError error) {
         onErrorResponse(error);
+    }
+
+    @Override
+    public void onMovieDetailsRequestSucess(MovieDetails movie) {
+
+        if (isSaved)
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), isFavorite, movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+        else if (!isSaved && isFavorite)
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), isFavorite, movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+        else
+            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+
+        mListMoviesDefaultView.updateAdapter();
+    }
+
+    @Override
+    public void onMovieDetailsRequestError(VolleyError error) {
+
     }
 }

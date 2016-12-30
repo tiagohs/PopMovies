@@ -15,6 +15,8 @@ import java.util.List;
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
+import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
@@ -29,30 +31,26 @@ import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 
-public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoInterceptor.onVideoListener {
+public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoInterceptor.onVideoListener, MovieDetailsInterceptor.onMovieDetailsListener {
     private static final String TAG = MovieDetailsPresenterImpl.class.getSimpleName();
 
     private MovieDetailsView mMovieDetailsView;
 
-    private MoviesServer mMoviesServer;
-
     private MovieRepository mMovieRepository;
     private VideoInterceptor mVideoInterceptor;
 
-    private String mOriginalLanguage;
-
-    private MovieDetails mMovieDetails;
-    private int mMovieID;
     private String mTag;
     private Context mContext;
+
+    private MovieDetailsInterceptor mMovieDetailsInterceptor;
 
     private String[] mMovieParameters = new String[]{SubMethod.CREDITS.getValue(), SubMethod.RELEASE_DATES.getValue(),
             SubMethod.SIMILAR.getValue(), SubMethod.KEYWORDS.getValue(),
             SubMethod.VIDEOS.getValue(), SubMethod.TRANSLATIONS.getValue()};
 
     public MovieDetailsPresenterImpl() {
-        mMoviesServer = new MoviesServer();
         mVideoInterceptor = new VideoInterceptorImpl(this);
+        mMovieDetailsInterceptor = new MovieDetailsInterceptorImpl(this);
     }
 
     @Override
@@ -67,13 +65,12 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void getMovieDetails(int movieID, String tag) {
-        mMovieID = movieID;
         mTag = tag;
 
         mMovieDetailsView.setProgressVisibility(View.VISIBLE);
 
         if (mMovieDetailsView.isInternetConnected()) {
-            mMoviesServer.getMovieDetails(movieID, mMovieParameters, tag, this);
+            mMovieDetailsInterceptor.getMovieDetails(movieID, mMovieParameters, tag);
             mMovieDetailsView.setTabsVisibility(View.GONE);
         } else {
             noConnectionError();
@@ -105,73 +102,19 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     }
 
-    public void getVideos(String tag) {
-        mTag = tag;
+    public void getVideos(MovieDetails movie) {
+        if (mMovieDetailsView.isInternetConnected())
+            mVideoInterceptor.getVideos(movie.getId(), mTag, movie.getOriginalLanguage());
+        else
+            noConnectionError();
 
-        mVideoInterceptor.getVideos(mMovieDetails.getId(), tag, mMovieDetails.getOriginalLanguage());
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        noConnectionError();
-    }
-
-    @Override
-    public void onResponse(MovieDetails response) {
-        if (mOriginalLanguage == null)
-            mMovieDetails = response;
-
-        if (mMovieDetailsView.isAdded()) {
-            if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
-
-                mOriginalLanguage = response.getOriginalLanguage();
-                mMoviesServer.getMovieDetails(mMovieID, mMovieParameters, mTag, mOriginalLanguage, this);
-
-            } else {
-
-                if (mOriginalLanguage != null) {
-                    if (MovieUtils.isEmptyValue(mMovieDetails.getOverview())) {
-                        mMovieDetails.setOverview(response.getOverview());
-                    }
-                    if (mMovieDetails.getRuntime() == 0)
-                        mMovieDetails.setRuntime(response.getRuntime());
-
-                    initUpdates(mMovieDetails);
-                } else {
-                    initUpdates(response);
-                }
-
-            }
-        }
-
-        Log.i(TAG, "Add: " + mMovieDetailsView.isAdded());
-    }
-
-    private void initUpdates(MovieDetails movieDetails) {
-        Log.i(TAG, "Chegou em initUpdates");
-        if (movieDetails.getVideos().isEmpty())
-            getVideos(mTag);
-
-        Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentUser(mContext).getProfileID());
-
-        if (movieAssistido != null) {
-            movieDetails.setJaAssistido(true);
-            movieDetails.setFavorite(movieAssistido.isFavorite());
-            mMovieDetailsView.setJaAssistido();
-        }
-
-        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
-        mMovieDetailsView.updateUI(movieDetails);
-        mMovieDetailsView.setupTabs();
-        mMovieDetailsView.setProgressVisibility(View.GONE);
-        mMovieDetailsView.setTabsVisibility(View.VISIBLE);
     }
 
     private List<ItemListDTO> getDirectorsDTO(List<MediaCreditCrew> crews) {
         List<ItemListDTO> list = new ArrayList<>();
 
         for (MediaCreditCrew crew : crews) {
-            if (crew.getDepartment().equals("Directing") && !list.contains(crew))
+            if (crew.getDepartment().equals("Directing") && !list.contains(new ItemListDTO(crew.getId())))
                 list.add(new ItemListDTO(crew.getId(), crew.getName()));
         }
 
@@ -195,5 +138,30 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     @Override
     public boolean isAdded() {
         return mMovieDetailsView.isAdded();
+    }
+
+    @Override
+    public void onMovieDetailsRequestSucess(MovieDetails movieDetails) {
+        if (movieDetails.getVideos().isEmpty())
+            getVideos(movieDetails);
+
+        Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentUser(mContext).getProfileID());
+
+        if (movieAssistido != null) {
+            movieDetails.setJaAssistido(true);
+            movieDetails.setFavorite(movieAssistido.isFavorite());
+            mMovieDetailsView.setJaAssistido();
+        }
+
+        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
+        mMovieDetailsView.updateUI(movieDetails);
+        mMovieDetailsView.setupTabs();
+        mMovieDetailsView.setProgressVisibility(View.GONE);
+        mMovieDetailsView.setTabsVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onMovieDetailsRequestError(VolleyError error) {
+        noConnectionError();
     }
 }

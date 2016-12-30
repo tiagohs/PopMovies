@@ -22,8 +22,10 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
     private int mPersonID;
     private String mTag;
+    private boolean isFirstSearch;
 
     public PersonDetailPresenterImpl() {
+        isFirstSearch = true;
         mPersonsServer = new PersonsServer();
     }
 
@@ -75,7 +77,9 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
         if (!mPersonDetailView.isDestroyed()) {
 
-            if (MovieUtils.isEmptyValue(personInfo.getBiography())) {
+            if (MovieUtils.isEmptyValue(personInfo.getBiography()) && isFirstSearch) {
+                isFirstSearch = false;
+
                 mPersonsServer.getPersonDetails(mPersonID, new String[]{SubMethod.MOVIE_CREDITS.getValue(),
                         SubMethod.COMBINED_CREDITS.getValue(),
                         SubMethod.EXTERNAL_IDS.getValue(),
