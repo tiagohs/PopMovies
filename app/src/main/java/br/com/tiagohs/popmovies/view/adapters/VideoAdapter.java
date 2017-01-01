@@ -16,6 +16,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +78,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         public void bindVideo(Video video) {
             this.mVideo = video;
 
-            ImageUtils.load(mContext, mContext.getString(R.string.youtube_link, mVideo.getKey()), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mThumbnailVideo, mProgress);
+            ImageUtils.load(mContext, mContext.getString(R.string.youtube_link, mVideo.getKey()), R.drawable.placeholder_images_default, R.drawable.video_error,  mThumbnailVideo, mProgress);
             mTitleVideo.setText(mVideo.getName());
         }
 

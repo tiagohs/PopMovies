@@ -45,6 +45,10 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
         Log.i("Carrer", this.list.size() + "");
     }
 
+    public void setAllList(List<CarrerMoviesDTO> list) {
+        list.addAll(list);
+    }
+
     @Override
     public ListMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());

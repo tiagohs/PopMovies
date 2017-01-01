@@ -61,7 +61,6 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private String mAreasAtuacao;
     private List<ImageDTO> mTotalImagesDTO;
     private List<MovieListDTO> mListKnowForDTO;
-    private MovieRepository mMovieRepository;
 
     public PersonDetailResumoFragment() {
 
@@ -110,7 +109,6 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     public void onStart() {
         super.onStart();
 
-        mMovieRepository = new MovieRepository(getActivity());
         updatePersonInfo();
     }
 
@@ -154,8 +152,8 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateKnowFor() {
 
         if (!mPerson.getMovieCredits().getCast().isEmpty() || !mPerson.getMovieCredits().getCrew().isEmpty()) {
-            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository);
-            mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(getActivity(), mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES, mMovieRepository));
+            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES);
+            mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES));
 
             addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         } else
@@ -197,6 +195,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
             mTotalImagesDTO = DTOUtils.createPersonImagesDTO(mPerson, totalImages.size(), totalImages);
             int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
             mImagensRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
+            mImagensRecyclerView.setNestedScrollingEnabled(false);
             mImageAdapter = new ImageAdapter(getActivity(), imageDTOs, mImagesCallbacks, mTotalImagesDTO);
             mImagensRecyclerView.setAdapter(mImageAdapter);
         } else

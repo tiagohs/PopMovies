@@ -32,6 +32,8 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.movie.ReleaseDate;
+import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsOverviewPresenter;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
@@ -41,6 +43,7 @@ import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
+import br.com.tiagohs.popmovies.util.enumerations.ReleaseType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
@@ -99,6 +102,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.tomatoes_reviews_container)              CardView mTomatoesReviewContainer;
     @BindView(R.id.elenco_nao_encontrado)                   TextView mElencoNaoEncontrado;
     @BindView(R.id.equipe_tecnica_nao_encontrada)           TextView mEquipeNaoEncontrada;
+    @BindView(R.id.label_movie_details_date_mundial)        TextView mReleaseDateMundial;
+    @BindView(R.id.label_movie_details_date_pais_atual)     TextView mReleaseDatePaisAtual;
 
     @Inject
     MovieDetailsOverviewPresenter mPresenter;
@@ -155,8 +160,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);
@@ -177,6 +182,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             setImdbReviewsVisibility(View.GONE);
             setRankingProgressVisibility(View.GONE);
             setTomatoesReviewsVisibility(View.GONE);
+            updateNomeacoes(getString(R.string.nao_disponivel));
         } else
             mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
 
@@ -185,20 +191,24 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             mIsFavorito = true;
         }
 
+
+
         setPaginaInicialVisibility(MovieUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
 
         configuraRecyclersViews();
         configurarSimilares();
         updateUI();
 
-        if (mMovie.getCast().isEmpty())
+        if (mMovie.getCast().isEmpty()) {
             mElencoNaoEncontrado.setVisibility(View.VISIBLE);
-        else
+            mElencoNaoEncontrado.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        } else
            addFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
 
-        if (mMovie.getCrew().isEmpty())
+        if (mMovie.getCrew().isEmpty()) {
             mEquipeNaoEncontrada.setVisibility(View.VISIBLE);
-        else
+            mEquipeNaoEncontrada.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        } else
             addFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
     }
 
@@ -254,14 +264,15 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     public void updateNomeacoes(String nomeacoes) {
-        mMovieNomeacoes.setText(nomeacoes != null ? nomeacoes : getString(R.string.nao_disponivel));
-        mMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        mMovieNomeacoes.setText(nomeacoes);
     }
 
     private void updateUI() {
 
-        mSinopseMovie.setText(mMovie.getOverview() != null ? mMovie.getOverview() : getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()));
+        mMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        mLabelMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+
+        mSinopseMovie.setText(MovieUtils.isEmptyValue(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
         mSinopseMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
@@ -271,25 +282,55 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mIdiomaOriginal.setText(MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
+        mIdiomaOriginal.setText(MovieUtils.isEmptyValue(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
         mIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mOcamento.setText(mMovie.getBudget() != 0 ? MovieUtils.formatCurrency(mMovie.getBudget()) : "--");
+        mOcamento.setText(mMovie.getBudget() != 0 ? MovieUtils.formatCurrency(mMovie.getBudget()) : getString(R.string.nao_disponivel));
         mOcamento.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelOcamento.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mReceita.setText(mMovie.getRevenue() != 0 ? MovieUtils.formatCurrency(mMovie.getRevenue()) : "--");
+        mReceita.setText(mMovie.getRevenue() != 0 ? MovieUtils.formatCurrency(mMovie.getRevenue()) : getString(R.string.nao_disponivel));
         mReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mKeywordsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-        mKeywordsRecyclerView.setAdapter(new ListWordsAdapter(getActivity(), DTOUtils.createKeywordsItemsListDTO(mMovie.getKeywords()), mKeyWordsCallbacks, ItemType.KEYWORD, R.layout.item_list_words_default));
-        mKeywordsRecyclerView.setNestedScrollingEnabled(false);
+        mReleaseDateMundial.setText(MovieUtils.isEmptyValue(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, MovieUtils.formateDate(getActivity(), mMovie.getReleaseDate())));
+        mReleaseDateMundial.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mGenerosAdapter = new ListWordsAdapter(getActivity(), DTOUtils.createGenresItemsListDTO(mMovie.getGenres()), mGenresCallbacks, ItemType.GENRE, R.layout.item_list_words_default);
-        mGenerosRecyclerView.setAdapter(mGenerosAdapter);
-        mGenerosRecyclerView.setNestedScrollingEnabled(false);
+        mReleaseDatePaisAtual.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+
+        ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleLanguageISO().toUpperCase());
+        if (mMovie.getReleases().contains(releaseTemp)) {
+            List<ReleaseDate> releaseDate = mMovie.getReleases().get(mMovie.getReleases().indexOf(releaseTemp)).getReleaseDates();
+            boolean possuiData = false;
+
+            for (ReleaseDate r : releaseDate) {
+                if (r.getType().equals(ReleaseType.THEATRICAL)) {
+                    mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), MovieUtils.formateDate(getActivity(), r.getReleaseDate())));
+                    possuiData = true;
+                    break;
+                }
+            }
+
+            if (!possuiData)
+                mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), getString(R.string.nao_disponivel)));
+        } else
+            mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), getString(R.string.nao_disponivel)));
+
+        if (!mMovie.getKeywords().isEmpty()) {
+            mKeywordsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+            mKeywordsRecyclerView.setAdapter(new ListWordsAdapter(getActivity(), DTOUtils.createKeywordsItemsListDTO(mMovie.getKeywords()), mKeyWordsCallbacks, ItemType.KEYWORD, R.layout.item_list_words_default));
+            mKeywordsRecyclerView.setNestedScrollingEnabled(false);
+        } else
+            mKeywordsRecyclerView.setVisibility(View.GONE);
+
+        if (!mMovie.getGenres().isEmpty()) {
+            mGenerosAdapter = new ListWordsAdapter(getActivity(), DTOUtils.createGenresItemsListDTO(mMovie.getGenres()), mGenresCallbacks, ItemType.GENRE, R.layout.item_list_words_default);
+            mGenerosRecyclerView.setAdapter(mGenerosAdapter);
+            mGenerosRecyclerView.setNestedScrollingEnabled(false);
+        } else
+            mGenerosRecyclerView.setVisibility(View.GONE);
+
     }
 
     @OnClick(R.id.btn_favorito)
@@ -299,10 +340,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mMovie.setFavorite(mIsFavorito);
 
         if (mIsFavorito) {
-            updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
+            updateFavoriteButton("Favorito   ", R.drawable.ic_favorite_clicked);
             Toast.makeText(getContext(), "Marcado como Favorito.", Toast.LENGTH_SHORT).show();
         } else {
-            updateFavoriteButton("Favorite!", R.drawable.ic_favorite_border);
+            updateFavoriteButton("Favorite!   ", R.drawable.ic_favorite_border);
             Toast.makeText(getContext(), "Desmarcado como Favorito.", Toast.LENGTH_SHORT).show();
         }
 

@@ -13,15 +13,6 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     private MoviesServer mMoviesServer;
     private onVideoListener mListener;
 
-    private VideosResponse mFinalVideosReponse;
-
-    private List<Translation> mTranslations;
-
-    private int mCurrentTranslation;
-    private int mTotalTranslation;
-    private int mMovieID;
-    private String mTag;
-
     public VideoInterceptorImpl(onVideoListener listener) {
         mMoviesServer = new MoviesServer();
         this.mListener = listener;
@@ -36,14 +27,6 @@ public class VideoInterceptorImpl implements ResponseListener<VideosResponse>, V
     @Override
     public void onResponse(VideosResponse response) {
         mListener.onVideoRequestSucess(response);
-    }
-
-    private boolean containsTranslations() {
-        return mCurrentTranslation < mTotalTranslation;
-    }
-
-    private boolean isFirstTranslation() {
-        return mCurrentTranslation == 0;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @BindView(R.id.progress_movies_details)       ProgressBar mProgressMovieDetails;
     @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
     @BindView(R.id.share_progress)                ProgressWheel mProgressShare;
-
+    @BindView(R.id.duracao_movie_container)       LinearLayout mDuracaoMovieContainer;
     @Inject MovieDetailsPresenter mPresenter;
 
     private int mMovieID;
@@ -118,6 +118,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private ListWordsAdapter mDiretoresAdapter;
     private boolean isStarted;
     private Bitmap mImageToShare;
+
+    private boolean mIsNewMovie = false;
 
     public static Intent newIntent(Context context, int movieID) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
@@ -148,11 +150,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
         mPresenter.getMovieDetails(mMovieID, TAG);
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -324,8 +321,19 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mIsNewMovie)
+            finish();
+    }
+
+    @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
-        startActivity(MovieDetailActivity.newIntent(this, movieID));
+        Intent intent = MovieDetailActivity.newIntent(this, movieID);
+        mIsNewMovie = true;
+        recreate();
+        startActivity(intent);
     }
 
     @Override
@@ -414,8 +422,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             }
         }, 4000);
 
-
-
     }
 
     @Override
@@ -488,6 +494,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     public void setPlayButtonVisibility(int visibilityState) {
         playButtonImageView.setVisibility(visibilityState);
+    }
+
+    public void setDuracaoMovieVisibility(int visibility) {
+        mDuracaoMovieContainer.setVisibility(visibility);
     }
 
     @Override

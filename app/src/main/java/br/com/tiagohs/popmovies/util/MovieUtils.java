@@ -144,7 +144,7 @@ public class MovieUtils {
             return dateString;
         }
 
-        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         return dateFormat.format(date);
     }

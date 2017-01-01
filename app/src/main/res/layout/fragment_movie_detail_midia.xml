@@ -17,42 +17,79 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/videos_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/primary_text"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/titles_movie_detail_midia_videos"/>
+                app:mrl_rippleOverlay="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_videos_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal"
-                android:clipToPadding="false"
-                android:scrollbars="vertical" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_detail_midia_videos"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_videos_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:layout_gravity="center|center_horizontal"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical" />
+
+                <TextView
+                    android:id="@+id/videos_nao_encontrado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:text="Sem Vídeos disponíveis."
+                    />
+            </FrameLayout>
 
          </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/wallpapers_riple"
@@ -94,12 +131,28 @@
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/images_recycler_view"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/images_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
+
+                <TextView
+                    android:id="@+id/wallpaper_nao_encontrado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:text="Sem Wallpapers disponíveis."
+                    />
+
+            </FrameLayout>
         </LinearLayout>
      </LinearLayout>
 

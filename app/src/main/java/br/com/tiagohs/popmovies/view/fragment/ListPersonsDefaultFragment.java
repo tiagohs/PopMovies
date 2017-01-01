@@ -139,8 +139,8 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);

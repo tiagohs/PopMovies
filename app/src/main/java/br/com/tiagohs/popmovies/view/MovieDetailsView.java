@@ -20,4 +20,5 @@ public interface MovieDetailsView extends BaseView {
     void setJaAssistido();
     void setTabsVisibility(int visibilityState);
     void setPlayButtonVisibility(int visibilityState);
+    void setDuracaoMovieVisibility(int visibility);
 }

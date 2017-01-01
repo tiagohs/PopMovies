@@ -80,7 +80,6 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, LongClickCallbacks {
         @BindView(R.id.poster_movie)                ImageView mImageView;
         @BindView(R.id.rodape_list_movies)          LinearLayout mRodapeListMovies;
-        @BindView(R.id.movie_ja_assistido)          View view;
 
         private MovieListDTO mMovie;
         private boolean isMovieAssistidoMarked;
@@ -99,12 +98,6 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             mMovie = movie;
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
-
-            if (mMovie.isJaAssistido())
-                view.setBackgroundColor(ViewUtils.getColorFromResource(mContext, android.R.color.holo_green_dark));
-            else
-                view.setVisibility(View.GONE);
-
         }
 
         @Override

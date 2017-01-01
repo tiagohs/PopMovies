@@ -187,6 +187,8 @@
     <string name="nao_disponivel">Não disponível.</string>
     <string name="loading">Carregando...</string>
     <string name="action_recarregar">Atualizar</string>
+    <string name="movie_data_lancamento_mundial">Mundial: %1$s</string>
+    <string name="movie_data_lancamento_pais_origem">%1$s: %2$s</string>
     <string name="action_save">Salvar</string>
     <string name="action_go_gallery">Ir para a Galeria</string>
     <string name="title_activity_wallpapers_details">Wallpapers Activity</string>
@@ -245,5 +247,8 @@
     <string name="favoritos">Favoritos</string>
     <string name="nao_ha_descicao">Você não possui uma Descrição ainda!</string>
     <string name="list_default">Lista Default</string>
+    <string name="title_activity_videos_details">Videos Activity</string>
+    <string name="videos">Vídeos e Trailers</string>
+    <string name="title_activity_home">Home Activity</string>
 
 </resources>

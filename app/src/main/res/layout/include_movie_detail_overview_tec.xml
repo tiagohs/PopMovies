@@ -41,9 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textSize="14dp"
-                    android:textStyle="bold"
                     android:maxLines="1"
-                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/primary_text"
                     android:text="Título Original"/>
 
@@ -55,6 +53,69 @@
                     android:textSize="14dp"
                     android:fontFamily="sans-serif-light"
                     android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="72dp"
+                android:layout_height="70dp"
+                android:orientation="vertical"
+                android:gravity="top">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_data"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:layout_weight="0.7">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="right"
+                        android:gravity="left">
+
+                        <TextView
+                            android:id="@+id/label_movie_details_date_mundial"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textSize="14dp"
+                            android:maxLines="1"
+                            android:textColor="@color/primary_text"
+                            android:text="Mundial:"/>
+
+                        <TextView
+                            android:id="@+id/label_movie_details_date_pais_atual"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textSize="14dp"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:textColor="@color/primary_text"
+                            android:text="Brasil:"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
         </TableRow>
@@ -88,9 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textSize="14dp"
-                    android:textStyle="bold"
                     android:maxLines="1"
-                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/primary_text"
                     android:text="Prêmios e Nomeações"/>
 
@@ -147,9 +206,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:textSize="14dp"
-                            android:textStyle="bold"
                             android:maxLines="1"
-                            android:fontFamily="sans-serif-light"
                             android:textColor="@color/primary_text"
                             android:text="Orçamento:"/>
 
@@ -158,10 +215,8 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:textSize="14dp"
-                            android:textStyle="bold"
                             android:layout_marginTop="5dp"
                             android:maxLines="1"
-                            android:fontFamily="sans-serif-light"
                             android:textColor="@color/primary_text"
                             android:text="Receita:"/>
 
@@ -231,9 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textSize="16dp"
-                    android:textStyle="bold"
                     android:maxLines="1"
-                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/primary_text"
                     android:text="Idioma Original"/>
 

@@ -56,4 +56,8 @@ public class PresenterModule {
         return new PerfilPresenterImpl();
     }
 
+    @Provides
+    public VideosPresenter providesVideosPresenter() {
+        return new VideosPresenterImpl();
+    }
 }

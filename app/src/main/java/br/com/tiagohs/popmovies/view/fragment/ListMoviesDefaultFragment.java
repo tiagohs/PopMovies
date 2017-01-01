@@ -9,7 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -161,8 +163,8 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mPresenter.setView(this);
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -193,12 +195,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
         mPresenter.setContext(getActivity());
         searchMovies();
-
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);
@@ -237,8 +238,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getApplicationComponent().inject(this);
-
         mPresenter.setView(this);
     }
 
@@ -246,7 +245,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     protected int getViewID() {
         return R.layout.fragment_list_movies_default;
     }
-
 
     public void setProgressVisibility(int visibityState) {
         mPrincipalProgress.setVisibility(visibityState);

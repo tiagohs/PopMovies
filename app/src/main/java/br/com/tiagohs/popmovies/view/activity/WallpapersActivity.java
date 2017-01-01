@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -28,6 +29,8 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @BindView(R.id.wallpapers_recycler_view)        RecyclerView mWallpapersRecyclerView;
     @BindView(R.id.wallpapers_principal_progress)   ProgressWheel mProgress;
+    @BindView(R.id.wallpaper_nao_encontrado)
+    TextView mWallpapersNaoEncontrados;
 
     private List<ImageDTO> mWallpapers;
     private String mPageTitle;
@@ -64,10 +67,17 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
     }
 
     private void configurateWallpapersRecyclerView() {
-        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-        mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
-        mWallpapersRecyclerView.setAdapter(new ImageAdapter(this, mWallpapers, this, mWallpapers));
-        mProgress.setVisibility(View.GONE);
+
+        if (mWallpapers.isEmpty()) {
+            mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
+            mProgress.setVisibility(View.GONE);
+        } else {
+            int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
+            mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
+            mWallpapersRecyclerView.setAdapter(new ImageAdapter(this, mWallpapers, this, mWallpapers));
+            mProgress.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -84,7 +94,13 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                configurateWallpapersRecyclerView();
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     @Override

@@ -36,23 +36,6 @@
             android:background="@drawable/background_image_bottom_transparent"
             android:layout_gravity="bottom|right">
 
-            <FrameLayout
-                android:layout_gravity="bottom|right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:id="@+id/movie_ja_assistido"
-                    android:background="@color/yellow"
-                    android:fitsSystemWindows="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dip"
-                    android:layout_below="@+id/progress_movies_details"
-                    android:layout_gravity="bottom"
-                    />
-
-            </FrameLayout>
-
         </LinearLayout>
         </FrameLayout>
     </LinearLayout>

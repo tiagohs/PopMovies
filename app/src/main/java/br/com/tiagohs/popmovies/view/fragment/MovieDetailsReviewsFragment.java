@@ -113,8 +113,8 @@ public class MovieDetailsReviewsFragment extends BaseFragment implements MovieDe
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);

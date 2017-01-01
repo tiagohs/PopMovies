@@ -25,41 +25,28 @@ import br.com.tiagohs.popmovies.model.person.PersonInfo;
 
 public class DTOUtils {
 
-    public static List<MovieListDTO> createMovieListDTO(Context context, List<Movie> movies, MovieRepository movieRepository) {
+    public static List<MovieListDTO> createMovieListDTO(List<Movie> movies) {
         List<MovieListDTO> moviesDTO = new ArrayList<>();
 
         for (Movie movie : movies) {
             if (movie.getPosterPath() != null)
-                moviesDTO.add(checkIsMovieWasSaved(context, movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage(), movieRepository));
+                moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
         }
 
         return moviesDTO;
     }
 
-    public static List<MovieListDTO> createMovieDetailsListDTO(Context context, List<MovieDetails> movies, MovieRepository movieRepository) {
+    public static List<MovieListDTO> createMovieDetailsListDTO(List<MovieDetails> movies) {
         List<MovieListDTO> moviesDTO = new ArrayList<>();
 
         for (Movie movie : movies) {
             if (movie.getPosterPath() != null)
-                moviesDTO.add(checkIsMovieWasSaved(context, movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage(), movieRepository));
+                moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
         }
 
         return moviesDTO;
     }
 
-    private static MovieListDTO checkIsMovieWasSaved(Context context, int id, String title, String posterPath, String votes, MovieRepository movieRepository) {
-        boolean jaAssistido = false;
-        boolean favorito = false;
-        Movie movieAssistido = movieRepository.findMovieByServerID(id, PrefsUtils.getCurrentUser(context).getProfileID());
-
-        if (movieAssistido != null) {
-            jaAssistido = true;
-            favorito = movieAssistido.isFavorite();
-        }
-
-        return new MovieListDTO(id, title, posterPath, votes, jaAssistido, favorito);
-
-    }
 
     public static List<ItemListDTO> createKeywordsItemsListDTO(List<Keyword> keywords) {
         List<ItemListDTO> list = new ArrayList<>();
@@ -129,14 +116,14 @@ public class DTOUtils {
         return imageDTOs;
     }
 
-    public static List<MovieListDTO> createPersonKnowForMoviesDTO(Context context, List<CreditMovieBasic> personsMovies, int maxSize, MovieRepository movieRepository) {
+    public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> personsMovies, int maxSize) {
 
         int numMovies = personsMovies.size() < maxSize ? personsMovies.size() - 1 : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 
         for (int cont = 0; cont < numMovies; cont++) {
             CreditMovieBasic person = personsMovies.get(cont);
-            moviesMovieListDTO.add(checkIsMovieWasSaved(context, person.getId(), person.getTitle(), person.getArtworkPath(), null, movieRepository));
+            moviesMovieListDTO.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
         }
 
         return moviesMovieListDTO;

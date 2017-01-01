@@ -86,7 +86,6 @@
                     </RelativeLayout>
 
                     <include
-                        app:layout_anchor="@+id/cardViewMovieDeatail"
                         app:layout_anchorGravity="top|left|end"
                         layout="@layout/include_movie_detail_header" />
 

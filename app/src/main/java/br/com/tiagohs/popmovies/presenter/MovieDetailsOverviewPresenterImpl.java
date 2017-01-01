@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
@@ -19,7 +20,9 @@ import br.com.tiagohs.popmovies.model.response.RankingResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
@@ -36,7 +39,22 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     @Override
     public void getMoviesRankings(String imdbID, String tag) {
-        mMoviesServer.getMovieRankings(imdbID, tag, this);
+        mMoviesDetailsOverviewView.setRankingProgressVisibility(View.VISIBLE);
+
+        if (mMoviesDetailsOverviewView.isInternetConnected()) {
+            mMoviesServer.getMovieRankings(imdbID, tag, this);
+        } else {
+            noConnectionError();
+        }
+
+    }
+
+    private void noConnectionError() {
+        if (mMoviesDetailsOverviewView.isAdded()) {
+            mMoviesDetailsOverviewView.onError("Sem Conexao");
+            mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -103,12 +121,12 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
-            mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());
+            mMoviesDetailsOverviewView.updateNomeacoes(MovieUtils.isEmptyValue(response.getAwards()) ? mContext.getString(R.string.nao_disponivel) : response.getAwards());
         }
 
     }
 
     public List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies) {
-        return DTOUtils.createMovieDetailsListDTO(mContext, movies, mMovieRepository);
+        return DTOUtils.createMovieDetailsListDTO(movies);
     }
 }

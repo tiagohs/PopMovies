@@ -39,6 +39,13 @@ public class ReleaseInfo implements Serializable {
     @JsonProperty("release_dates")
     private List<ReleaseDate> releaseDates;
 
+    public ReleaseInfo() {
+    }
+
+    public ReleaseInfo(String country) {
+        this.country = country;
+    }
+
     public String getCountry() {
         return country;
     }

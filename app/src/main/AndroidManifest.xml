@@ -31,7 +31,11 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".view.activity.HomeActivity" />
+
+        <activity android:name=".view.activity.HomeActivity"
+                  android:label="@string/title_activity_home"
+                  android:theme="@style/AppTheme"/>
+
         <activity
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
@@ -67,6 +71,9 @@
         <activity
             android:name=".view.activity.WebViewActivity"
             android:label="@string/title_activity_actor_details" />
+        <activity
+            android:name=".view.activity.VideosActivity"
+            android:label="@string/title_activity_videos_details" />
         <activity
             android:name=".view.activity.WallpapersDetailActivity"
             android:label="@string/title_activity_wallpapers_details" />

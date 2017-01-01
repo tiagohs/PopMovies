@@ -11,15 +11,22 @@ public class MovieListDTO implements Serializable {
     private boolean favorito;
 
     public MovieListDTO(int movieID, String movieName, String posterPath, String voteAverage, boolean jaAssistido, boolean favorito) {
-        mMovieID = movieID;
+        this.mMovieID = movieID;
         this.movieName = movieName;
-        mPosterPath = posterPath;
+        this.mPosterPath = posterPath;
         this.voteAverage = voteAverage;
         this.jaAssistido = jaAssistido;
         this.favorito = favorito;
     }
 
     public MovieListDTO() {
+    }
+
+    public MovieListDTO(int id, String title, String posterPath, String voteAverage) {
+        this.mMovieID = id;
+        this.movieName = title;
+        this.mPosterPath = posterPath;
+        this.voteAverage = voteAverage;
     }
 
     public int getmMovieID() {

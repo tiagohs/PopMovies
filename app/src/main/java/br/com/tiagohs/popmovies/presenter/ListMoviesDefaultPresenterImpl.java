@@ -180,10 +180,10 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         mTotalPages = response.getTotalPage();
 
         if (isFirstPage()) {
-            mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(mContext, response.getResults(), mMovieRepository), hasMorePages());
+            mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
             mListMoviesDefaultView.setupRecyclerView();
         } else {
-            mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(mContext, response.getResults(), mMovieRepository), hasMorePages());
+            mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
             mListMoviesDefaultView.updateAdapter();
         }
 
@@ -202,6 +202,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     @Override
     public void onPersonMoviesRequestSucess(PersonMoviesResponse moviesResponse) {
         moviesResponse.getMoviesByCast().addAll(moviesResponse.getMoviesByCrew());
+
         GenericListResponse<Movie> response = new GenericListResponse<>();
         response.setId(moviesResponse.getId());
         response.setResults(createMovies(moviesResponse.getMoviesByCast()));
@@ -218,9 +219,14 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         for (CreditMovieBasic m : listMovies) {
             Movie movie = new Movie();
             movie.setId(m.getId());
-            movie.setTitle(m.getTitle());
-            movie.setPosterPath(m.getArtworkPath());
-            list.add(movie);
+            if (list.contains(movie))
+                continue;
+            else {
+                movie.setTitle(m.getTitle());
+                movie.setPosterPath(m.getArtworkPath());
+                list.add(movie);
+            }
+
         }
 
         return list;

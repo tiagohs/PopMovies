@@ -69,7 +69,7 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch(item.getItemId()) {
-            case R.id.action_procurar:
+            case R.id.menu_buscar:
                 startActivity(SearchActivity.newIntent(this));
                 return true;
             default:

@@ -1,11 +1,13 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
@@ -23,6 +25,7 @@ import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsMidiaPresenter;
 import br.com.tiagohs.popmovies.view.MovieDetailsMidiaView;
+import br.com.tiagohs.popmovies.view.activity.VideosActivity;
 import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.adapters.VideoAdapter;
@@ -42,6 +45,9 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @BindView(R.id.list_videos_recycler_view)       RecyclerView mVideosRecyclerView;
     @BindView(R.id.images_recycler_view)            RecyclerView mImagesRecyclerView;
     @BindView(R.id.wallpapers_riple)                MaterialRippleLayout mWallpapersRiple;
+    @BindView(R.id.videos_riple)                    MaterialRippleLayout mVideosRiple;
+    @BindView(R.id.videos_nao_encontrado)           TextView mVideosNaoEncontrados;
+    @BindView(R.id.wallpaper_nao_encontrado)        TextView mWallpapersNaoEncontrados;
 
     @Inject
     MovieDetailsMidiaPresenter mPresenter;
@@ -106,8 +112,8 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (mPresenter != null)
             mPresenter.onCancellRequest(getActivity(), TAG);
@@ -165,21 +171,33 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Override
     public void updateImageUI(ImageResponse imageResponse) {
         mMovieDetails.setImages(imageResponse);
-        int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-        mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
-        mImagesRecyclerView.setNestedScrollingEnabled(false);
-        mTotalImages = getImageDTO(mMovieDetails.getImages().size());
-        setupImageAdapter();
+
+        if (!mMovieDetails.getImages().isEmpty()) {
+            int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
+            mImagesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
+            mImagesRecyclerView.setNestedScrollingEnabled(false);
+            mTotalImages = getImageDTO(mMovieDetails.getImages().size());
+            setupImageAdapter();
+        } else {
+            mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
+            mWallpapersNaoEncontrados.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        }
     }
 
     @Override
     public void updateVideoUI(List<Video> videosResponse) {
 
         mMovieDetails.addMoreVideos(videosResponse);
-        mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mVideosRecyclerView.setNestedScrollingEnabled(false);
-        mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
-        mVideosRecyclerView.setAdapter(mVideoAdapter);
+
+        if (!mMovieDetails.getVideos().isEmpty()) {
+            mVideosRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            mVideosRecyclerView.setNestedScrollingEnabled(false);
+            mVideoAdapter = new VideoAdapter(getActivity(), mMovieDetails.getVideos(), mVideosCallbacks);
+            mVideosRecyclerView.setAdapter(mVideoAdapter);
+        } else {
+            mVideosNaoEncontrados.setVisibility(View.VISIBLE);
+            mVideosNaoEncontrados.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        }
     }
 
     private void setupImageAdapter() {
@@ -209,6 +227,12 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     public void onClickWallpapersTitle() {
         if (!mTotalImages.isEmpty())
             startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title), mMovieDetails.getTitle()));
+    }
+
+    @OnClick(R.id.videos_riple)
+    public void onClickVideosTitle() {
+        if (!mTotalImages.isEmpty())
+            startActivity(VideosActivity.newIntent(getActivity(), mMovieDetails.getId(), mMovieDetails.getTranslations(), getString(R.string.videos), mMovieDetails.getTitle()));
     }
 
     @Override

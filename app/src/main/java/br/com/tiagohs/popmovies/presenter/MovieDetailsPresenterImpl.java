@@ -153,6 +153,9 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
             mMovieDetailsView.setJaAssistido();
         }
 
+        if (movieDetails.getRuntime() == 0)
+            mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);
+
         mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
         mMovieDetailsView.updateUI(movieDetails);
         mMovieDetailsView.setupTabs();

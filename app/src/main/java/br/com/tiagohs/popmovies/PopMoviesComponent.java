@@ -7,6 +7,7 @@ import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.PerfilActivity;
 import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.SearchActivity;
+import br.com.tiagohs.popmovies.view.activity.VideosActivity;
 import br.com.tiagohs.popmovies.view.fragment.GenresFragment;
 import br.com.tiagohs.popmovies.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.ListPersonsDefaultFragment;
@@ -29,4 +30,5 @@ public interface PopMoviesComponent {
     void inject(MovieDetailsReviewsFragment movieDetailsReviewsFragment);
     void inject(ListPersonsDefaultFragment listPersonsDefaultFragment);
     void inject(PerfilActivity perfilActivity);
+    void inject(VideosActivity videosActivity);
 }

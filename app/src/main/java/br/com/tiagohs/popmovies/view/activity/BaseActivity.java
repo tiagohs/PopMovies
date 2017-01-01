@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
@@ -36,6 +37,7 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
@@ -72,6 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private void initNavigationDrawer() {
         View view = mNavigationView.getHeaderView(0);
         ImageView fotoPerfil = (ImageView) view.findViewById(R.id.image_perfil);
+        ImageView background = (ImageView) view.findViewById(R.id.background);
         TextView nomeUsuario = (TextView) view.findViewById(R.id.nome_usuario);
         TextView emailUsuario = (TextView) view.findViewById(R.id.email_usuario);
         ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress);
@@ -80,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         ImageUtils.load(this, profileDB.getFotoPath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  fotoPerfil, progress);
         nomeUsuario.setText(profileDB.getUser().getNome());
         emailUsuario.setText(profileDB.getUser().getEmail());
+        ImageUtils.loadWithBlur(this, R.drawable.background_image, background);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

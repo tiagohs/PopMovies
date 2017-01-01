@@ -129,8 +129,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if (mPersonDetailPresenter != null)
             mPersonDetailPresenter.onCancellRequest(this, TAG);

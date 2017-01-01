@@ -4,16 +4,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_procurar"
+        android:id="@+id/menu_buscar"
         android:orderInCategory="100"
         android:title="@string/action_procurar"
         android:icon="@drawable/ic_search"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_opcoes"
+        android:id="@+id/menu_opcoes"
         android:orderInCategory="100"
         android:title="@string/action_opcoes"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_sobre"
+        android:orderInCategory="100"
+        android:title="Sobre"
         app:showAsAction="never"/>
 
 </menu>

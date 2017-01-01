@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,8 @@ import br.com.tiagohs.popmovies.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.ListPersonsDefaultFragment;
 
 public class ListsDefaultActivity extends BaseActivity implements ListMoviesCallbacks, PersonCallbacks, FiltersMoviesCallbacks {
+    private static final String TAG = ListsDefaultActivity.class.getSimpleName();
+
     private static final String ARG_FTO = "br.com.tiagohs.popmovies.dto";
     private static final String ARG_PARAMETERS = "br.com.tiagohs.popmovies.parameters";
     private static final String ARG_PERSON_LIST = "br.com.tiagohs.popmovies.person_list";
@@ -72,6 +75,8 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         mListActivityDTO = (ListActivityDTO) getIntent().getSerializableExtra(ARG_FTO);
         mParameters = (HashMap<String, String>) getIntent().getSerializableExtra(ARG_PARAMETERS);
         mPersons = (ArrayList<PersonListDTO>) getIntent().getSerializableExtra(ARG_PERSON_LIST);
+
+
     }
 
     @Override
@@ -151,6 +156,9 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.menu_buscar:
+                startActivity(SearchActivity.newIntent(this));
+                return true;
             case R.id.menu_filter:
                 FilterDialogFragment filter = FilterDialogFragment.newInstance(mListActivityDTO.getListType());
                 filter.show(getSupportFragmentManager().beginTransaction(), "Filtrar");
@@ -221,4 +229,6 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
                 mParameters.remove(param);
         }
     }
+
+
 }

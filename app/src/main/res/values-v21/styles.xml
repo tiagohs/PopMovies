@@ -53,6 +53,9 @@
 
     <style name="AppTheme.TabLayout">
         <item name="tabTextColor">@android:color/white</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="tabIndicatorColor">@color/colorAccent</item>
