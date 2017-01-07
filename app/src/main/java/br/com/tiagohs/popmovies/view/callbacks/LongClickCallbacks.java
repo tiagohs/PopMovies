@@ -6,5 +6,5 @@ package br.com.tiagohs.popmovies.view.callbacks;
 
 public interface LongClickCallbacks {
 
-    void onLongClick(boolean isFavorite, boolean isAssistido);
+    void onLongClick(boolean isFavorite, boolean isAssistido, int status);
 }

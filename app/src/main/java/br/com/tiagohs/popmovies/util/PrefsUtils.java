@@ -5,44 +5,43 @@ import android.content.Context;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 
-/**
- * Created by Tiago on 17/12/2016.
- */
-
 public class PrefsUtils {
+    public static final String USER_PREFS_ID = "user_prefs";
+    public static final String PROFILE_PREFS_ID = "profile_prefs";
+
+    public static final String USER_PREFS_VALUE_ID = "current_user_value";
+    public static final String PROFILE_PREFS_VALUE_ID = "current_profile_value";
 
     public static void setCurrentUser(UserDB currentUser, Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "user_prefs", 0);
-        complexPreferences.putObject("current_user_value", currentUser);
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS_ID, 0);
+        complexPreferences.putObject(USER_PREFS_VALUE_ID, currentUser);
         complexPreferences.commit();
     }
 
     public static UserDB getCurrentUser(Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "user_prefs", 0);
-        UserDB currentUser = complexPreferences.getObject("current_user_value", UserDB.class);
-        return currentUser;
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS_ID, 0);
+        return complexPreferences.getObject(USER_PREFS_VALUE_ID, UserDB.class);
     }
 
     public static void clearCurrentUser( Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "user_prefs", 0);
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS_ID, 0);
         complexPreferences.clearObject();
         complexPreferences.commit();
     }
 
     public static void setCurrentProfile(ProfileDB currentProfile, Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "profile_prefs", 0);
-        complexPreferences.putObject("current_profile_value", currentProfile);
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, PROFILE_PREFS_ID, 0);
+        complexPreferences.putObject(PROFILE_PREFS_VALUE_ID, currentProfile);
         complexPreferences.commit();
     }
 
     public static ProfileDB getCurrentProfile(Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "profile_prefs", 0);
-        ProfileDB currentProfile = complexPreferences.getObject("current_profile_value", ProfileDB.class);
-        return currentProfile;
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, PROFILE_PREFS_ID, 0);
+        return complexPreferences.getObject(PROFILE_PREFS_VALUE_ID, ProfileDB.class);
     }
 
     public static void clearCurrentProfile(Context ctx){
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "profile_prefs", 0);
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, PROFILE_PREFS_ID, 0);
         complexPreferences.clearObject();
         complexPreferences.commit();
     }

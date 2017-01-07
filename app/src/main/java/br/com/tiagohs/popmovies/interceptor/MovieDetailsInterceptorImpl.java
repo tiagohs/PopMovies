@@ -7,6 +7,7 @@ import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 
 /**
  * Created by Tiago on 29/12/2016.
@@ -47,7 +48,7 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
         if (mOriginalLanguage == null)
             mMovieDetails = response;
 
-        if ((MovieUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
+        if ((ViewUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
 
             mOriginalLanguage = response.getOriginalLanguage();
             mMoviesServer.getMovieDetails(mMovieID, mMovieParameters, mTag, mOriginalLanguage, this);
@@ -55,7 +56,7 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
         } else {
 
             if (mOriginalLanguage != null) {
-                if (MovieUtils.isEmptyValue(mMovieDetails.getOverview())) {
+                if (ViewUtils.isEmptyValue(mMovieDetails.getOverview())) {
                     mMovieDetails.setOverview(response.getOverview());
                 }
                 if (mMovieDetails.getRuntime() == 0)

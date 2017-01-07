@@ -122,6 +122,11 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     @Override
+    protected int getMenuLayoutID() {
+        return R.menu.menu_detail_default;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -171,80 +176,75 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail_default, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.menu_share:
-                mProgressShare.setVisibility(View.VISIBLE);
+
                 sharePersonDetails();
                 return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return false;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void sharePersonDetails() {
-        View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
-        ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
-        TextView personName = (TextView) view.findViewById(R.id.person_name);
-        TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
-        EllipsizingTextView personDescricao = (EllipsizingTextView) view.findViewById(R.id.person_descricao);
+        mProgressShare.setVisibility(View.VISIBLE);
 
-        ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
-        personName.setText(mPerson.getName());
-        personName.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
+        if (isInternetConnected()) {
+            View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
+            ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
+            TextView personName = (TextView) view.findViewById(R.id.person_name);
+            TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
+            EllipsizingTextView personDescricao = (EllipsizingTextView) view.findViewById(R.id.person_descricao);
 
-        if (mPerson.getBirthday() != null) {
-            int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
-            personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(this, mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
-            personSubtitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
-        } else {
-            personSubtitle.setVisibility(View.GONE);
-        }
+            ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
+            personName.setText(mPerson.getName());
+            personName.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
 
-        if (MovieUtils.isEmptyValue(mPerson.getBiography()))
-            personDescricao.setText(mDescricao);
-        else
-            personDescricao.setText(mPerson.getBiography());
-        personDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
-
-        final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
-
-                if (ContextCompat.checkSelfPermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        new MaterialDialog.Builder(PersonDetailActivity.this)
-                                .title("Importante")
-                                .content("Precisamos da sua permissão de escrita para realizar essa ação.")
-                                .positiveText("Ok")
-                                .negativeText("Não, Obrigado.")
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                    }
-                                })
-                                .show();
-                    } else {
-                        ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                    }
-                } else {
-                    createShareIntent(mImageToShare);
-                }
+            if (mPerson.getBirthday() != null) {
+                int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
+                personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
+                personSubtitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+            } else {
+                personSubtitle.setVisibility(View.GONE);
             }
-        }, 3000);
+
+            if (ViewUtils.isEmptyValue(mPerson.getBiography()))
+                personDescricao.setText(mDescricao);
+            else
+                personDescricao.setText(mPerson.getBiography());
+            personDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+
+            final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
+
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                    if (ContextCompat.checkSelfPermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            new MaterialDialog.Builder(PersonDetailActivity.this)
+                                    .title("Importante")
+                                    .content("Precisamos da sua permissão de escrita para realizar essa ação.")
+                                    .positiveText("Ok")
+                                    .negativeText("Não, Obrigado.")
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                        }
+                    } else {
+                        createShareIntent(mImageToShare);
+                    }
+                }
+            }, 3000);
+        }
 
     }
 

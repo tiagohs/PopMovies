@@ -6,13 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.data.PopMoviesContract;
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
+import br.com.tiagohs.popmovies.data.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 
 import static android.R.attr.id;
 
@@ -29,34 +34,38 @@ public class ProfileRepository {
         this.mUserRepository = new UserRepository(context);
     }
 
-    public long saveProfile(ProfileDB profile) {
+    public long saveProfile(ProfileDB profile, Context context) {
         SQLiteDatabase db = null;
+        long id = 0;
 
         try {
             ContentValues values = getProfileContentValues(profile);
 
-            boolean userJaExistente = findProfileByUserEmail(profile.getUser().getEmail()) != null;
+            boolean userJaExistente = findProfileByUserUsername(profile.getUser().getUsername()) != null;
             db = mPopMoviesDB.getWritableDatabase();
 
             if (userJaExistente)
-                return db.update(PopMoviesContract.ProfileEntry.TABLE_NAME, values, PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_EMAIL + "=?", new String[]{profile.getUser().getEmail()});
+                id = db.update(PopMoviesContract.ProfileEntry.TABLE_NAME, values, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, new String[]{profile.getUser().getUsername()});
             else
-                return db.insert(PopMoviesContract.ProfileEntry.TABLE_NAME, "", values);
+                id = db.insert(PopMoviesContract.ProfileEntry.TABLE_NAME, "", values);
+
+            mUserRepository.saveUser(profile.getUser(), context);
+            PrefsUtils.setCurrentProfile(profile, context);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             db.close();
         }
 
-        return 0;
+        return id;
     }
 
-    private void deleteProfile(long id, String where) {
+    private void deleteProfile(String value, String where) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Delete Profile Chamado.");
 
         try {
-            db.delete(PopMoviesContract.ProfileEntry.TABLE_NAME, where, new String[]{String.valueOf(id)});
+            db.delete(PopMoviesContract.ProfileEntry.TABLE_NAME, where, new String[]{value});
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -65,32 +74,22 @@ public class ProfileRepository {
     }
 
     public void deleteProfileByID(long id) {
-        deleteProfile(id, PopMoviesContract.ProfileEntry._ID + "=?");
+        deleteProfile(String.valueOf(id), SQLHelper.ProfileSQL.WHERE_PROFILE_BY_ID);
     }
 
-    public void deleteProfileByEmail(String email) {
-        deleteProfile(id, PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_EMAIL + "=?");
+    public void deleteProfileByUsername(String username) {
+        deleteProfile(username, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME);
     }
 
-    public ProfileDB findProfileByUserEmail(String email) {
+    public ProfileDB findProfileByUserUsername(String username) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find Profile Chamado.");
 
         try {
-            Cursor c = db.query(PopMoviesContract.ProfileEntry.TABLE_NAME, null, PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_EMAIL + " = '" + email + "'", null, null, null, null);
+            Cursor c = db.query(PopMoviesContract.ProfileEntry.TABLE_NAME, null, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, new String[]{username}, null, null, null);
             if (c.moveToFirst()) {
-                ProfileDB profile = new ProfileDB();
-                profile.setProfileID(c.getInt(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
-                profile.setDescricao(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION)));
-                profile.setFotoPath(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_FOTO_PATH)));
 
-                List<MovieDB> filmesAssistidos = mMovieRepository.findAllMoviesDB(c.getInt(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
-
-                profile.setFilmesAssistidos(filmesAssistidos);
-                profile.setFilmesFavoritos(findFavoritesMovies(filmesAssistidos));
-                profile.setUser(mUserRepository.findUserByEmail(email));
-
-                return profile;
+                return getProfileByCursor(c, username);
             } else {
                 return null;
             }
@@ -114,12 +113,61 @@ public class ProfileRepository {
         return filmesFavoritos;
     }
 
+    public long getTotal(String sql, String[] values) {
+        SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
+        Log.i(TAG, "Total Hour Chamado.");
+        long total = 0;
+
+        try {
+            Cursor c = db.rawQuery(sql, values);
+
+            if(c.moveToFirst())
+                total = c.getInt(0);
+            else
+                total = 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        return total;
+    }
+
+    public long getTotalHoursWatched(long profileID) {
+        return getTotal(SQLHelper.ProfileSQL.SQL_TOTAL_HOURS_WATCHED, new String[]{String.valueOf(profileID)});
+    }
+
+    public long getTotalMoviesWached(long profileID) {
+        return getTotal(SQLHelper.ProfileSQL.SQL_TOTAL_MOVIES_WATCHED, new String[]{String.valueOf(profileID)});
+    }
+
+    public long getTotalMoviesByGenrer(int genreID, String username) {
+        return getTotal(SQLHelper.ProfileSQL.SQL_TOTAL_MOVIES_BY_GENRER, new String[]{String.valueOf(genreID), username});
+    }
+
+    public ProfileDB getProfileByCursor(Cursor c, String username) {
+        ProfileDB profile = new ProfileDB();
+
+        profile.setProfileID(c.getLong(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
+        profile.setDescricao(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION)));
+        profile.setProfileID(c.getInt(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
+
+        profile.setFilmesAssistidos(mMovieRepository.findAllMoviesWatched(profile.getProfileID()));
+        profile.setFilmesQueroVer(mMovieRepository.findAllMoviesWantSee(profile.getProfileID()));
+        profile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(profile.getProfileID()));
+
+        profile.setTotalHorasAssistidas(getTotalHoursWatched(profile.getProfileID()));
+        profile.setUser(mUserRepository.findUserByUsername(username));
+
+        return profile;
+    }
+
     private ContentValues getProfileContentValues(ProfileDB profile) {
         ContentValues values = new ContentValues();
 
         values.put(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION, profile.getDescricao());
-        values.put(PopMoviesContract.ProfileEntry.COLUMN_FOTO_PATH, profile.getFotoPath());
-        values.put(PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_EMAIL, profile.getUser().getEmail());
+        values.put(PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_USERNAME, profile.getUser().getUsername());
 
         return values;
     }

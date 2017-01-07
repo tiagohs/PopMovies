@@ -198,7 +198,7 @@ public class FilterDialogFragment extends DialogFragment {
         List<String> years = new ArrayList<>();
 
         years.add("Nenhum");
-        for (int cont = Calendar.getInstance().get(Calendar.YEAR) + 5; cont >= 1990; cont--)
+        for (int cont = Calendar.getInstance().get(Calendar.YEAR) + 5; cont >= 1890; cont--)
             years.add(String.valueOf(cont));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);

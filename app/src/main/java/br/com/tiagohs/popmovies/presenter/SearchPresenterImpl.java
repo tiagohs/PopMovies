@@ -23,6 +23,7 @@ import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import br.com.tiagohs.popmovies.view.SearchView;
@@ -134,7 +135,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     }
 
     public boolean isJaAssistido(int movieID) {
-        return mMovieRepository.findMovieByServerID(movieID, PrefsUtils.getCurrentUser(mContext).getProfileID()) != null;
+        return mMovieRepository.findMovieByServerID(movieID, PrefsUtils.getCurrentProfile(mContext).getProfileID()) != null;
     }
 
     private void setupResponseMovies(List<Movie> movies) {
@@ -150,13 +151,17 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     public void onSearchMoviesRequestError(VolleyError error) {
         mSearchView.setNenhumFilmeEncontradoVisibility(View.GONE);
 
-        switch (error.networkResponse.statusCode) {
-            case 422:
-                setupResponseMovies(new ArrayList<Movie>());
-                break;
-            default:
-                noConnectionError();
+        if (error != null) {
+            switch (error.networkResponse.statusCode) {
+                case 422:
+                    setupResponseMovies(new ArrayList<Movie>());
+                    break;
+                default:
+                    noConnectionError();
+            }
         }
+
+
     }
 
     @Override
@@ -177,7 +182,10 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     @Override
     public void onResponse(MovieDetails movie) {
         if (mButtonStage)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
     }

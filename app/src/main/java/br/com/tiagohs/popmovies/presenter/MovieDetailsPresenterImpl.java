@@ -82,7 +82,10 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public void onClickJaAssisti(MovieDetails movie, boolean buttonStage) {
 
         if (buttonStage)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
 
@@ -145,7 +148,7 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
         if (movieDetails.getVideos().isEmpty())
             getVideos(movieDetails);
 
-        Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentUser(mContext).getProfileID());
+        Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
 
         if (movieAssistido != null) {
             movieDetails.setJaAssistido(true);

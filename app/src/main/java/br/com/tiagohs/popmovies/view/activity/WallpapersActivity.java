@@ -68,9 +68,10 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     private void configurateWallpapersRecyclerView() {
 
-        if (mWallpapers.isEmpty()) {
-            mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
-            mProgress.setVisibility(View.GONE);
+        if (mWallpapers == null) {
+            noImages();
+        } else if (mWallpapers.isEmpty()) {
+            noImages();
         } else {
             int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
             mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
@@ -80,16 +81,9 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return false;
-        }
+    private void noImages() {
+        mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
+        mProgress.setVisibility(View.GONE);
     }
 
     @Override
@@ -101,6 +95,11 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
                 mSnackbar.dismiss();
             }
         };
+    }
+
+    @Override
+    protected int getMenuLayoutID() {
+        return 0;
     }
 
     @Override

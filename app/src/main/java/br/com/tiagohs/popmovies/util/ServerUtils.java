@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 
 import java.io.ByteArrayOutputStream;
@@ -11,33 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ServerUtils {
-
-    public static byte[] getUrlBytes(String urlSpec) throws IOException {
-        URL url = new URL(urlSpec);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new IOException(connection.getResponseMessage() +
-                        ": with " +
-                        urlSpec);
-            }
-            int bytesRead = 0;
-            byte[] buffer = new byte[1024];
-            while ((bytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, bytesRead);
-            }
-            out.close();
-            return out.toByteArray();
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public static String getUrlString(String urlSpec) throws IOException {
-        return new String(getUrlBytes(urlSpec));
-    }
 
     public static boolean isNetworkConnected(Context context){
         try{
@@ -54,8 +28,23 @@ public class ServerUtils {
 
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        return mWifi.isConnected();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Network[] network = connManager.getAllNetworks();
+            if (network != null && network.length > 0) {
+                for (int i = 0; i < network.length; i++) {
+                    NetworkInfo networkInfo = connManager.getNetworkInfo(network[i]);
+                    int networkType = networkInfo.getType();
+
+                    if (ConnectivityManager.TYPE_WIFI == networkType)
+                        return true;
+                }
+            }
+        } else {
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            return mWifi.isConnected();
+        }
+
+        return false;
     }
 }

@@ -131,6 +131,11 @@ public class VideosActivity extends BaseActivity implements VideosView, MovieVid
     }
 
     @Override
+    protected int getMenuLayoutID() {
+        return 0;
+    }
+
+    @Override
     protected int getActivityBaseViewID() {
         return R.layout.activity_videos;
     }

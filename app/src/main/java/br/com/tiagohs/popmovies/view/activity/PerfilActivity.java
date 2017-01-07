@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -139,6 +141,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     @BindView(R.id.perfil_app_bar)
     AppBarLayout mAppBarLayout;
 
+
+
     @Inject()
     PerfilPresenter mPerfilPresenter;
 
@@ -249,14 +253,14 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         mPerfilDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
     }
 
-    public void setTotalHorasAssistidas(int duracaoTotal) {
+    public void setTotalHorasAssistidas(long duracaoTotal) {
 
         if (duracaoTotal > 0) {
-            int years = duracaoTotal/(365*24*60);
-            int months = (duracaoTotal%(365*24*60))/(12*24*60);
-            int days = (duracaoTotal%(365*24*60))/(24*60);
-            int hours= (duracaoTotal%(365*24*60)) / 60;
-            int minutes = (duracaoTotal%(365*24*60)) % 60;
+            int years = (int) duracaoTotal/(365*24*60);
+            int months = (int) (duracaoTotal%(365*24*60))/(12*24*60);
+            int days = (int) (duracaoTotal%(365*24*60))/(24*60);
+            int hours= (int) (duracaoTotal%(365*24*60)) / 60;
+            int minutes = (int) (duracaoTotal%(365*24*60)) % 60;
 
             setTotalHorasVisibility(mTotalAnosAssistidosContainer, mTotalAnosAssistidos, mTotalAnosAssistidosLabel, R.plurals.number_of_year, years);
             setTotalHorasVisibility(mTotalMesesAssistidosContainer, mTotalMesesAssistidos, mTotalMesesAssistidosLabel, R.plurals.number_of_month, months);
@@ -295,6 +299,11 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     }
 
     @Override
+    protected int getMenuLayoutID() {
+        return 0;
+    }
+
+    @Override
     protected int getActivityBaseViewID() {
         return R.layout.activity_perfil;
     }
@@ -316,7 +325,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     @OnClick(R.id.perfil_image)
     public void onClickPerfilImage() {
-        ImageDTO perfilImage = new ImageDTO(mProfile.getFotoPath());
+        ImageDTO perfilImage = new ImageDTO(mProfile.getUser().getPicturePath());
         List<ImageDTO> imagens = new ArrayList<>();
         imagens.add(perfilImage);
 

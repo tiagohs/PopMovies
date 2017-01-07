@@ -84,10 +84,10 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         private MovieListDTO mMovie;
         private boolean isMovieAssistidoMarked;
         private boolean isMovieFavoritoMarked;
+        private int status;
 
         public ListMoviesViewHolder(View itemView) {
             super(itemView);
-
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -126,7 +126,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                             Log.i(TAG, "Situação " + isMovieAssistidoMarked + " " + isMovieFavoritoMarked);
-                                            mPresenter.getMovieDetails(mMovie.getMovieID(), isMovieAssistidoMarked, isMovieFavoritoMarked, TAG);
+                                            mPresenter.getMovieDetails(mMovie.getMovieID(), isMovieAssistidoMarked, isMovieFavoritoMarked, status, TAG);
                                         }
                                     })
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -148,7 +148,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         }
 
         @Override
-        public void onLongClick(boolean isFavorite, boolean isAssistido) {
+        public void onLongClick(boolean isFavorite, boolean isAssistido, int status) {
             isMovieAssistidoMarked = isAssistido;
             isMovieFavoritoMarked = isFavorite;
         }

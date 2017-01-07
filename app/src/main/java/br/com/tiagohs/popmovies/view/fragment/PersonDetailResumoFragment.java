@@ -145,7 +145,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateDataNascimento() {
         int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
         mDataNascimento.setText(mPerson.getBirthday() != null && mPerson.getBirthday() != "" ?
-                getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(getActivity(), mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age) :
+                getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age) :
                 "--");
     }
 
@@ -178,7 +178,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     private void updateDescricao() {
-        String descricao = MovieUtils.isEmptyValue(mPerson.getBiography())
+        String descricao = ViewUtils.isEmptyValue(mPerson.getBiography())
                 ? ViewUtils.createDefaultPersonBiography(mPerson.getName(), mAreasAtuacao,
                 mListKnowForDTO.isEmpty() ? new ArrayList<MovieListDTO>() : mListKnowForDTO)
                 : mPerson.getBiography();

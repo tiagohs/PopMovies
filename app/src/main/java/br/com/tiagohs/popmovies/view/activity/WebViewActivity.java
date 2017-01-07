@@ -66,19 +66,13 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
+    protected int getMenuLayoutID() {
+        return 0;
+    }
+
+    @Override
     protected int getActivityBaseViewID() {
         return R.layout.activity_web_view;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return false;
-        }
-    }
 }

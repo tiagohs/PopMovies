@@ -25,7 +25,6 @@ public class GenresActivity extends BaseActivity implements GenresCallbacks {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         mToolbar.setTitle("Gêneros");
 
         FragmentManager fm = getSupportFragmentManager();
@@ -41,6 +40,11 @@ public class GenresActivity extends BaseActivity implements GenresCallbacks {
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
         return null;
+    }
+
+    @Override
+    protected int getMenuLayoutID() {
+        return 0;
     }
 
     @Override

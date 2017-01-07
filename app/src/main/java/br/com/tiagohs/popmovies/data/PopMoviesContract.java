@@ -25,17 +25,38 @@ public class PopMoviesContract {
 
         public static final String TABLE_NAME = "Filme";
 
-        public static final String COLUMN_ID_SERVER = "idServer";
-        public static final String COLUMN_POSTER_PATH = "posterPath";
-        public static final String COLUMN_TITLE = "titulo";
-        public static final String COLUMN_FAVORITE = "favorito";
-        public static final String COLUMN_DURATION = "duracao";
-        public static final String COLUMN_VOTES = "numVotos";
-        public static final String COLUMN_DATE_SAVED = "dataSalvamento";
+        public static final String COLUMN_ID_SERVER = "id_server";
+        public static final String COLUMN_POSTER_PATH = "poster_path";
+        public static final String COLUMN_STATUS = "status";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_FAVORITE = "favorite";
+        public static final String COLUMN_RELEASE_DATE = "release_date";
+        public static final String COLUMN_RELEASE_YEAR = "release_year";
+        public static final String COLUMN_RUNTIME = "runtime";
+        public static final String COLUMN_VOTES = "num_votes";
+        public static final String COLUMN_DATE_SAVED = "date_saved";
         public static final String COLUMN_PROFILE_FORER_ID = "profile_ID";
 
-
         public static Uri buildMovieUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
+
+    public final static class GenreEntry implements BaseColumns {
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+
+        public static final String TABLE_NAME = "Genrer";
+
+        public static final String COLUMN_GENRER_ID = "genrer_id";
+        public static final String COLUMN_GENRER_NAME = "genrer_name";
+        public static final String COLUMN_MOVIE_FORER_ID_SERVER = "movie_id_server";
+
+        public static Uri buildGenrerUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
@@ -51,8 +72,12 @@ public class PopMoviesContract {
         public static final String TABLE_NAME = "Usuario";
 
         public static final String COLUMN_NAME = "nome";
+        public static final String COLUMN_PICTURE_PATH = "fotoPath";
+        public static final String COLUMN_TOKEN = "userToken";
+        public static final String COLUMN_TYPE_LOGIN = "typeLogin";
+        public static final String COLUMN_USERNAME = "username";
         public static final String COLUMN_EMAIL = "email";
-        public static final String COLUMN_PASSWORD = "senha";
+        public static final String COLUMN_PASSWORD = "password";
 
         public static Uri buildUserUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -69,9 +94,8 @@ public class PopMoviesContract {
 
         public static final String TABLE_NAME = "Profile";
 
-        public static final String COLUMN_DESCRIPTION = "descricao";
-        public static final String COLUMN_FOTO_PATH = "fotoPath";
-        public static final String COLUMN_USER_FORER_EMAIL = "user_email";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_USER_FORER_USERNAME = "user_username";
 
         public static Uri buildProfileUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

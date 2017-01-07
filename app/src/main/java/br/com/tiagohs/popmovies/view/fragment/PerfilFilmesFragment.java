@@ -6,13 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.HashMap;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
@@ -24,6 +27,10 @@ public class PerfilFilmesFragment extends BaseFragment {
     public static PerfilFilmesFragment newInstance() {
         PerfilFilmesFragment perfilFilmesFragment = new PerfilFilmesFragment();
         return perfilFilmesFragment;
+    }
+
+    public PerfilFilmesFragment() {
+
     }
 
     @Override

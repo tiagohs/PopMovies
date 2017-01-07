@@ -52,27 +52,25 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
         int duaracaoTotalAssistidas = 0;
         mTag = tag;
 
-        mProfile = mProfileRepository.findProfileByUserEmail(PrefsUtils.getCurrentUser(mContext).getEmail());
+        mProfile = PrefsUtils.getCurrentProfile(mContext);
         mPerfilView.setProfile(mProfile);
-        mProfile.setFilmesAssistidos(mMovieRepository.findAllMoviesDB(mProfile.getProfileID()));
-        mProfile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(mProfile.getProfileID()));
+        mProfile.setFilmesAssistidos(mProfile.getFilmesAssistidos());
+        mProfile.setFilmesFavoritos(mProfile.getFilmesFavoritos());
 
-        if (!mProfile.getFilmesAssistidos().isEmpty()) {
-            int index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
-            getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), tag);
+        if (mProfile.getFilmesAssistidos() != null) {
+            if (!mProfile.getFilmesAssistidos().isEmpty()) {
+                int index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
+                getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), tag);
+            }
         }
 
         mPerfilView.setEmailPerfil(mProfile.getUser().getEmail());
         mPerfilView.setNamePerfil(mProfile.getUser().getNome());
-        mPerfilView.setImagePerfil(mProfile.getFotoPath());
+        mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
         mPerfilView.setPerfilDescricao(mProfile.getDescricao());
 
-        for (MovieDB movieDB : mProfile.getFilmesAssistidos()) {
-            duaracaoTotalAssistidas += movieDB.getDuracao();
-        }
-
-        mPerfilView.setTotalHorasAssistidas(duaracaoTotalAssistidas);
-        mPerfilView.setTotalFilmesAssistidos(mProfile.getFilmesAssistidos().size());
+        mPerfilView.setTotalHorasAssistidas(mProfileRepository.getTotalHoursWatched(mProfile.getProfileID()));
+        mPerfilView.setTotalFilmesAssistidos((int) mProfileRepository.getTotalMoviesWached(mProfile.getProfileID()));
         mPerfilView.setupTabs();
         mPerfilView.setProgressVisibility(View.GONE);
     }

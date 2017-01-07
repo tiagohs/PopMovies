@@ -19,8 +19,10 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.db.GenreDB;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
+import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 
 public class MovieUtils {
@@ -42,16 +44,42 @@ public class MovieUtils {
         return movies;
     }
 
+    public static List<GenreDB> genreToGenreDB(List<Genre> genres) {
+        GenreDB genreDB = null;
+        List<GenreDB> genreDBs = new ArrayList<>();
+
+        for (Genre genre : genres) {
+            genreDB = new GenreDB();
+
+            genreDB.setGenrerID(genre.getId());
+            genreDB.setGenrerName(genre.getName());
+
+            genreDBs.add(genreDB);
+        }
+
+        return genreDBs;
+    }
+
+    public static int getYearByDate(String dateString) {
+        Date date = null;
+
+        try {
+            date = formatter.parse(dateString);
+        } catch (ParseException e) {
+            return 0;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
+
     public static void sortMoviesByDate(List<CarrerMoviesDTO> movieListDTO) {
         Collections.sort(movieListDTO, new Comparator<CarrerMoviesDTO>() {
             public int compare(CarrerMoviesDTO movie1, CarrerMoviesDTO movie2) {
                 return movie2.getDate().compareTo(movie1.getDate());
             }
         });
-    }
-
-    public static boolean isEmptyValue(String value) {
-        return value == null || value.equals("") || value.equals(" ");
     }
 
     public static String getDateDayWeek(int dayWeek) {
@@ -82,13 +110,13 @@ public class MovieUtils {
     }
 
 
-    public static String formatCurrency(long orcamento) {
+    public static String formatCurrency(long currency) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-            return format.format(orcamento);
+            return format.format(currency);
         } else {
             java.text.NumberFormat formatter = java.text.NumberFormat.getCurrencyInstance(Locale.getDefault());
-            return formatter.format(orcamento);
+            return formatter.format(currency);
         }
     }
 
@@ -112,41 +140,31 @@ public class MovieUtils {
         return a;
     }
 
-    public static String formatAbrev(long value) {
-        NavigableMap<Long, String> suffixes = new TreeMap<>();
-
-        suffixes.put(1_000L, "k");
-        suffixes.put(1_000_000L, "M");
-        suffixes.put(1_000_000_000L, "G");
-        suffixes.put(1_000_000_000_000L, "T");
-        suffixes.put(1_000_000_000_000_000L, "P");
-        suffixes.put(1_000_000_000_000_000_000L, "E");
-
-        if (value == Long.MIN_VALUE) return formatAbrev(Long.MIN_VALUE + 1);
-        if (value < 0) return "-" + formatAbrev(-value);
-        if (value < 1000) return Long.toString(value); //deal with easy case
-
-        Map.Entry<Long, String> e = suffixes.floorEntry(value);
-        Long divideBy = e.getKey();
-        String suffix = e.getValue();
-
-        long truncated = value / (divideBy / 10);
-        boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
-        return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
-    }
-
-    public static String formateDate(Context context, String dateString) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static String formateDate(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
-            date = sdf.parse(dateString);
+            date = dateFormat.parse(dateString);
         } catch (ParseException e) {
             return dateString;
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         return dateFormat.format(date);
+    }
+
+    public static Calendar formateStringToCalendar(String dateString) {
+        Calendar cal = Calendar.getInstance();
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            cal.setTime(sdf.parse(dateString));
+        } catch (ParseException e) {
+            return Calendar.getInstance();
+        }
+
+        return cal;
     }
 
     public static String formatGeneres(Context context, List<Integer> ids) {

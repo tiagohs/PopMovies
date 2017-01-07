@@ -86,7 +86,10 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     }
 
     public void setMovieFavorite(MovieDetails movie) {
-        mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), movie.isFavorite(), movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+        mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
+                movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
     }
 
     @Override
@@ -121,7 +124,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
-            mMoviesDetailsOverviewView.updateNomeacoes(MovieUtils.isEmptyValue(response.getAwards()) ? mContext.getString(R.string.nao_disponivel) : response.getAwards());
+            mMoviesDetailsOverviewView.updateNomeacoes(ViewUtils.isEmptyValue(response.getAwards()) ? mContext.getString(R.string.nao_disponivel) : response.getAwards());
         }
 
     }

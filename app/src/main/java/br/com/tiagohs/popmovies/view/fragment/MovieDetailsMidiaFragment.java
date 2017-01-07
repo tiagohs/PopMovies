@@ -225,14 +225,12 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     @OnClick(R.id.wallpapers_riple)
     public void onClickWallpapersTitle() {
-        if (!mTotalImages.isEmpty())
-            startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title), mMovieDetails.getTitle()));
+        startActivity(WallpapersActivity.newIntent(getActivity(), mTotalImages, getString(R.string.wallpapers_title), mMovieDetails.getTitle()));
     }
 
     @OnClick(R.id.videos_riple)
     public void onClickVideosTitle() {
-        if (!mTotalImages.isEmpty())
-            startActivity(VideosActivity.newIntent(getActivity(), mMovieDetails.getId(), mMovieDetails.getTranslations(), getString(R.string.videos), mMovieDetails.getTitle()));
+         startActivity(VideosActivity.newIntent(getActivity(), mMovieDetails.getId(), mMovieDetails.getTranslations(), getString(R.string.videos), mMovieDetails.getTitle()));
     }
 
     @Override

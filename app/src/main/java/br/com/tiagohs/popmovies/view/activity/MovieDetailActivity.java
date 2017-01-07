@@ -110,6 +110,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
     @BindView(R.id.share_progress)                ProgressWheel mProgressShare;
     @BindView(R.id.duracao_movie_container)       LinearLayout mDuracaoMovieContainer;
+
     @Inject MovieDetailsPresenter mPresenter;
 
     private int mMovieID;
@@ -144,6 +145,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
+    protected int getMenuLayoutID() {
+        return R.menu.menu_detail_default;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -173,16 +179,16 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mPresenter.onClickJaAssisti(mMovie, mIsWatchPressed);
 
         if (mIsWatchPressed)
-            updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark, "Marcado como Assistido.");
+            updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark, getString(R.string.marked_watched));
         else
-            updateState(R.drawable.ic_assitir_eye, R.color.yellow, "Desmarcado como Assistido.");
+            updateState(R.drawable.ic_assitir_eye, R.color.yellow, getString(R.string.desmarked_watched));
     }
 
     private void updateState(int iconID, int iconColor, String msg) {
         mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(this, iconID));
         mJaAssistiButton.setBackgroundTintList(ColorStateList.valueOf(ViewUtils.getColorFromResource(this, iconColor)));
 
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ViewUtils.createToastMessage(this, msg);
     }
 
     public void setupDirectorsRecyclerView(List<ItemListDTO> directors) {
@@ -206,7 +212,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
 
             mTitleMovie.setText(mMovie.getTitle());
-            mDuracao.setText(mMovie.getRuntime() != 0 ? getResources().getString(R.string.movie_duracao, mMovie.getRuntime()) : "--");
+            mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
             mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
         }
 
@@ -214,16 +220,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     public void setupTabs() {
 
-        if (!isDestroyed()) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = fm.findFragmentById(R.id.movie_details_fragment);
-
-            if (fragment == null) {
-                fm.beginTransaction()
-                        .add(R.id.movie_details_fragment, MovieDetailsFragment.newInstance(mMovie))
-                        .commit();
-            }
-        }
+        if (!isDestroyed())
+            startFragment(R.id.movie_details_fragment, MovieDetailsFragment.newInstance(mMovie));
 
         mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
     }
@@ -260,11 +258,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @OnClick({R.id.play_image_movie_principal, R.id.background_movie})
     public void onClickBackgroundMovie() {
-        try {
-            if (isInternetConnected() && !mMovie.getVideos().isEmpty())
+        if (isInternetConnected() && null != mMovie.getVideos()) {
+            if (!mMovie.getVideos().isEmpty())
                 inflateVideoPlayer(mMovie.getVideos().get(0).getKey());
-        } catch (Exception e) {
-
         }
 
     }
@@ -272,7 +268,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     public void updateVideos(VideosResponse videos) {
         mMovie.setVideos(videos);
     }
-
 
     @Override
     public void onClickVideo(Video video) {
@@ -359,68 +354,65 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail_default, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.menu_share:
-                mProgressShare.setVisibility(View.VISIBLE);
                 shareMovie();
                 return true;
-            default:
-                return false;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void shareMovie() {
-        final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
-        ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
-        ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
-        TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
-        TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
-        EllipsizingTextView sinopseMovie = (EllipsizingTextView) view.findViewById(R.id.movie_sinopse);
+        mProgressShare.setVisibility(View.VISIBLE);
 
-        ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
-        ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
-        titleMovie.setText(mMovie.getTitle());
-        titleMovie.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
-        yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
-        yearMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
-        sinopseMovie.setText(mMovie.getOverview());
-        sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+        if (isInternetConnected()) {
+            final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
+            ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
+            ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
+            TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
+            TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
+            EllipsizingTextView sinopseMovie = (EllipsizingTextView) view.findViewById(R.id.movie_sinopse);
 
-        final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+            ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
+            ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
+            titleMovie.setText(mMovie.getTitle());
+            titleMovie.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
+            yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
+            yearMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+            sinopseMovie.setText(mMovie.getOverview());
+            sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
-                if (ContextCompat.checkSelfPermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        new MaterialDialog.Builder(MovieDetailActivity.this)
-                                .title("Importante")
-                                .content("Precisamos da sua permissão de escrita para realizar essa ação.")
-                                .positiveText("Ok")
-                                .negativeText("Não, Obrigado.")
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                    }
-                                })
-                                .show();
+            final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                    if (ContextCompat.checkSelfPermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            new MaterialDialog.Builder(MovieDetailActivity.this)
+                                    .title("Importante")
+                                    .content("Precisamos da sua permissão de escrita para realizar essa ação.")
+                                    .positiveText("Ok")
+                                    .negativeText("Não, Obrigado.")
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                        }
                     } else {
-                        ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                        createShareIntent(mImageToShare);
                     }
-                } else {
-                    createShareIntent(mImageToShare);
                 }
-            }
-        }, 4000);
+            }, 4000);
+        }
 
     }
 
@@ -520,6 +512,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             }
         };
     }
+
 
     @Override
     public void onClickReviewLink(String url) {

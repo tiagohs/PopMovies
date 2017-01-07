@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.util;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -8,8 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -18,9 +22,30 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
+import br.com.tiagohs.popmovies.view.activity.HomeActivity;
+import br.com.tiagohs.popmovies.view.activity.LoginActivity;
+import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.WallpapersDetailActivity;
 
 public class ViewUtils {
+
+    public static void createToastMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void startMovieActivityWithTranslation(Activity context, int movieID, ImageView imageView, String posterTranslationID) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions transitionActivityOptions = ActivityOptions
+                    .makeSceneTransitionAnimation(context, imageView, posterTranslationID);
+            context.startActivity(MovieDetailActivity.newIntent(context, movieID), transitionActivityOptions.toBundle());
+        } else {
+            context.startActivity(MovieDetailActivity.newIntent(context, movieID));
+        }
+    }
+
+    public static boolean isEmptyValue(String value) {
+        return value == null || value.equals("") || value.equals(" ");
+    }
 
     public static int getColorFromResource(Context context, int resourceID) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -96,7 +121,6 @@ public class ViewUtils {
     private static void setRankingState(Context context, int state, ProgressBar rankingProgress) {
         rankingProgress.setProgressDrawable(ViewUtils.getDrawableFromResource(context, state));
     }
-
 
     public static void createAlertDialogWithPositive(Context context, String title, String content, MaterialDialog.SingleButtonCallback positiveCallback) {
         new MaterialDialog.Builder(context)

@@ -17,6 +17,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.Item;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
@@ -77,6 +78,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         private int mPosition;
         private boolean mIsFavorite;
         private boolean mIsAssistido;
+        private int status;
 
         public LongClickOptionsViewHolder(View itemView) {
             super(itemView);
@@ -134,10 +136,11 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
                 updateFavorite();
             } else if (mPosition == 1) {
                 mIsAssistido = !mIsAssistido;
+                status = MovieDB.STATUS_WATCHED;
                 updateAsstidos();
             }
 
-            mCallback.onLongClick(mIsFavorite, mIsAssistido);
+            mCallback.onLongClick(mIsFavorite, mIsAssistido, status);
         }
 
     }

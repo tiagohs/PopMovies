@@ -171,7 +171,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         if (mMovie.getSimilarMovies().isEmpty())
             setSimilaresVisibility(View.GONE);
 
-        if (MovieUtils.isEmptyValue(mMovie.getImdbID())) {
+        if (ViewUtils.isEmptyValue(mMovie.getImdbID())) {
             setImdbRakingContainerVisibility(View.GONE);
             setTomatoesRakingContainerVisibility(View.GONE);
             setMetascoreRakingContainerVisibility(View.GONE);
@@ -193,7 +193,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
 
 
-        setPaginaInicialVisibility(MovieUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
+        setPaginaInicialVisibility(ViewUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
 
         configuraRecyclersViews();
         configurarSimilares();
@@ -272,7 +272,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mSinopseMovie.setText(MovieUtils.isEmptyValue(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
+        mSinopseMovie.setText(ViewUtils.isEmptyValue(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
         mSinopseMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
@@ -282,7 +282,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mIdiomaOriginal.setText(MovieUtils.isEmptyValue(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
+        mIdiomaOriginal.setText(ViewUtils.isEmptyValue(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
         mIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
@@ -294,7 +294,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         mLabelReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        mReleaseDateMundial.setText(MovieUtils.isEmptyValue(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, MovieUtils.formateDate(getActivity(), mMovie.getReleaseDate())));
+        mReleaseDateMundial.setText(ViewUtils.isEmptyValue(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, MovieUtils.formateDate(mMovie.getReleaseDate())));
         mReleaseDateMundial.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mReleaseDatePaisAtual.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
@@ -306,7 +306,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
             for (ReleaseDate r : releaseDate) {
                 if (r.getType().equals(ReleaseType.THEATRICAL)) {
-                    mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), MovieUtils.formateDate(getActivity(), r.getReleaseDate())));
+                    mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), MovieUtils.formateDate(r.getReleaseDate())));
                     possuiData = true;
                     break;
                 }

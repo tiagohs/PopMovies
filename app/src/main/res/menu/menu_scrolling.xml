@@ -2,9 +2,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="br.com.tiagohs.popmovies.view.activity.ScrollingActivity">
-
     <item
-        android:id="@+id/menu_opcoes"
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>

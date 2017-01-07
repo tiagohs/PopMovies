@@ -9,13 +9,17 @@
             android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
         <item
+            android:id="@+id/menu_perfil"
+            android:icon="@drawable/ic_perfil"
+            android:title="@string/menu_perfil" />
+        <item
             android:id="@+id/menu_assistidos"
             android:icon="@drawable/ic_assistidos"
             android:title="@string/menu_assistidos" />
         <item
             android:id="@+id/menu_generos"
             android:icon="@drawable/ic_genre"
-            android:title="@string/menu_generos" />
+            android:title="@string/genres_title" />
         <item
             android:id="@+id/menu_atores"
             android:icon="@drawable/ic_actor"

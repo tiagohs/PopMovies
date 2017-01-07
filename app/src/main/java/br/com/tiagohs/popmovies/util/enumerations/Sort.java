@@ -3,7 +3,7 @@ package br.com.tiagohs.popmovies.util.enumerations;
 import br.com.tiagohs.popmovies.R;
 
 public enum Sort {
-    GENEROS(R.string.generos),
+    GENEROS(R.string.genres_title),
     KEYWORDS(R.string.keywords),
     SIMILARS(R.string.similares),
     COMPANY(R.string.company),

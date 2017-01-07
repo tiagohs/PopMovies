@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 
 
 public class Movie extends MediaBasic implements Serializable {
@@ -158,17 +159,7 @@ public class Movie extends MediaBasic implements Serializable {
     }
 
     public int getYearRelease() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdf.parse(releaseDate);
-        } catch (ParseException e) {
-            return 0;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.YEAR);
+        return MovieUtils.getYearByDate(releaseDate);
     }
 
     @Override

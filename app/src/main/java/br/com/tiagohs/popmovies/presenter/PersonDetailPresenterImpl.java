@@ -12,6 +12,7 @@ import br.com.tiagohs.popmovies.server.methods.PersonsServer;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 
@@ -77,7 +78,7 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
         if (!mPersonDetailView.isDestroyed()) {
 
-            if (MovieUtils.isEmptyValue(personInfo.getBiography()) && isFirstSearch) {
+            if (ViewUtils.isEmptyValue(personInfo.getBiography()) && isFirstSearch) {
                 isFirstSearch = false;
 
                 mPersonsServer.getPersonDetails(mPersonID, new String[]{SubMethod.MOVIE_CREDITS.getValue(),

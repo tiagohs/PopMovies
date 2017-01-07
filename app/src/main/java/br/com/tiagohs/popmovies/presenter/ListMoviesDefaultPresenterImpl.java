@@ -61,6 +61,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private int mCurrentPage;
     private int mTotalPages;
 
+    private int mStatus;
     private boolean isSaved;
     private boolean isFavorite;
 
@@ -128,7 +129,8 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
     }
 
-    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, String tag) {
+    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag) {
+        this.mStatus = status;
         this.isSaved = isSaved;
         this.isFavorite = isFavorite;
 
@@ -143,7 +145,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
         genericListResponse.setPage(1);
         genericListResponse.setTotalPage(1);
-        genericListResponse.setResults(mMovieRepository.findAllMovies(PrefsUtils.getCurrentUser(mContext).getProfileID()));
+        genericListResponse.setResults(mMovieRepository.findAllMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID()));
 
         onResponse(genericListResponse);
     }
@@ -152,7 +154,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
         genericListResponse.setPage(1);
         genericListResponse.setTotalPage(1);
-        genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentUser(mContext).getProfileID())));
+        genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID())));
 
         onResponse(genericListResponse);
     }
@@ -256,11 +258,17 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     @Override
     public void onMovieDetailsRequestSucess(MovieDetails movie) {
-
         if (isSaved)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), isFavorite, movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else if (!isSaved && isFavorite)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), movie.getPosterPath(), isFavorite, movie.getVoteCount(), movie.getTitle(), Calendar.getInstance(), PrefsUtils.getCurrentUser(mContext).getProfileID(), movie.getRuntime()));
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
+                                        movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                                        Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                        MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+
         else
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
 

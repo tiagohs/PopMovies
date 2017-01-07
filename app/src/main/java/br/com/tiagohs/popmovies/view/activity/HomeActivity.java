@@ -3,26 +3,15 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
@@ -40,19 +29,11 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
         super.onCreate(savedInstanceState);
         PermissionUtils.validate(this, 0);
 
-        configurarDrawerLayout();
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.content_fragment);
-
-        if (fragment == null) {
-            fm.beginTransaction()
-                    .add(R.id.content_fragment, HomeFragment.newInstance())
-                    .commit();
-        }
+        onSetupDrawerLayout();
+        startFragment(R.id.content_fragment, HomeFragment.newInstance());
     }
 
-    private void configurarDrawerLayout() {
+    private void onSetupDrawerLayout() {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -60,31 +41,18 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_principal, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()) {
-            case R.id.menu_buscar:
-                startActivity(SearchActivity.newIntent(this));
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return  new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSnackbar.dismiss();
+            }
+        };
+    }
+
+    @Override
+    protected int getMenuLayoutID() {
+        return R.menu.menu_principal;
     }
 
     @Override
@@ -94,19 +62,7 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
 
     @Override
     public void onMovieSelected(int movieID, ImageView imageView) {
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions transitionActivityOptions = ActivityOptions
-                    .makeSceneTransitionAnimation(HomeActivity.this, imageView, getString(R.string.poster_movie));
-            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
-        } else {
-            startActivity(MovieDetailActivity.newIntent(this, movieID));
-        }
+        ViewUtils.startMovieActivityWithTranslation(this, movieID, imageView, getString(R.string.poster_movie));
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    }
 }

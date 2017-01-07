@@ -2,42 +2,42 @@ package br.com.tiagohs.popmovies.model.db;
 
 
 import java.util.Calendar;
+import java.util.List;
 
 public class MovieDB {
+    public static final int STATUS_WATCHED = 0;
+    public static final int STATUS_WANT_SEE = 1;
+
     private long id;
     private int idServer;
-    private int duracao;
+    private int status;
+    private int runtime;
     private String posterPath;
     private String title;
     private boolean favorite;
     private double vote;
-    private Calendar dateSaved;
     private long profileID;
+    private Calendar dateSaved;
+    private Calendar releaseDate;
+    private int releaseYear;
+    private List<GenreDB> genres;
 
     public MovieDB() {
     }
 
-    public MovieDB(int idServer, String posterPath, boolean favorite, double vote, String title, Calendar dateSaved, long profileID, int duracao) {
+    public MovieDB(int idServer, int status, int runtime, String posterPath, String title, boolean favorite, double vote, long profileID, Calendar dateSaved, Calendar releaseDate, int releaseYear, List<GenreDB> genres) {
         this.idServer = idServer;
+        this.status = status;
+        this.runtime = runtime;
         this.posterPath = posterPath;
+        this.title = title;
         this.favorite = favorite;
         this.vote = vote;
-        this.title = title;
-        this.dateSaved = dateSaved;
-        this.duracao = duracao;
         this.profileID = profileID;
-    }
-
-    public MovieDB(long aLong, long aLong1, String string, boolean b, double aDouble) {
-
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        this.dateSaved = dateSaved;
+        this.releaseDate = releaseDate;
+        this.releaseYear = releaseYear;
+        this.genres = genres;
     }
 
     public long getId() {
@@ -56,12 +56,20 @@ public class MovieDB {
         this.idServer = idServer;
     }
 
-    public int getDuracao() {
-        return duracao;
+    public int getStatus() {
+        return status;
     }
 
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
     public String getPosterPath() {
@@ -70,6 +78,14 @@ public class MovieDB {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isFavorite() {
@@ -88,6 +104,14 @@ public class MovieDB {
         this.vote = vote;
     }
 
+    public long getProfileID() {
+        return profileID;
+    }
+
+    public void setProfileID(long profileID) {
+        this.profileID = profileID;
+    }
+
     public Calendar getDateSaved() {
         return dateSaved;
     }
@@ -96,11 +120,29 @@ public class MovieDB {
         this.dateSaved = dateSaved;
     }
 
-    public long getProfileID() {
-        return profileID;
+    public Calendar getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setProfileID(long profileID) {
-        this.profileID = profileID;
+    public void setReleaseDate(Calendar releaseDate) {
+        this.releaseDate = releaseDate;
     }
+
+    public List<GenreDB> getGenres() {
+        return genres;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setGenres(List<GenreDB> genres) {
+        this.genres = genres;
+    }
+
+
 }

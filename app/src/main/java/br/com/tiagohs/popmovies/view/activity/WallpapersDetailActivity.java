@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,8 +28,13 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +44,7 @@ import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
+import br.com.tiagohs.popmovies.view.ViewPagerWallpapers;
 import br.com.tiagohs.popmovies.view.adapters.WallpaperPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +60,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
     @BindView(R.id.coordenation_layout)     CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.wallpaper_view_pager)    ViewPager mWallpaperViewPager;
+    @BindView(R.id.wallpaper_view_pager)    ViewPagerWallpapers mWallpaperViewPager;
 
     private List<ImageDTO> mImagens;
     private ImageDTO mImageCurrent;
@@ -219,16 +228,73 @@ public class WallpapersDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_go_gallery:
+            case R.id.menu_go_gallery:
                 startActivity(WallpapersActivity.newIntent(this, mImagens, mPageTitle, mPageSubtitle));
                 return true;
-            case R.id.action_save:
+            case R.id.menu_save:
                 onSaveImageClicked();
+                return true;
+            case R.id.menu_share:
+                share();
                 return true;
             default:
                 return false;
         }
     }
 
+    private void share() {
+
+        if (ServerUtils.isNetworkConnected(this)) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    new MaterialDialog.Builder(this)
+                            .title("Importante")
+                            .content("Precisamos da sua permissão de escrita para realizar essa ação.")
+                            .positiveText("Ok")
+                            .negativeText("Não, Obrigado.")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    ActivityCompat.requestPermissions(WallpapersDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                }
+                            })
+                            .show();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+            } else {
+                createShareIntent();
+            }
+        }
+
+    }
+
+    public void createShareIntent() {
+        Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath()).into(new Target() {
+            @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("image/*");
+                i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap));
+                startActivity(Intent.createChooser(i, "PopMovies - Compartilhar"));
+            }
+
+            @Override public void onBitmapFailed(Drawable errorDrawable) { }
+            @Override public void onPrepareLoad(Drawable placeHolderDrawable) { }
+        });
+    }
+
+    public Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
 }

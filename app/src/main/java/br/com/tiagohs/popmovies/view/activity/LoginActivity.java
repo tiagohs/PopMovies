@@ -3,14 +3,13 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
@@ -42,28 +41,24 @@ import br.com.tiagohs.popmovies.data.repository.UserRepository;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.login_facebook_button)
-    Button mLoginFacebookButton;
+    private static final String USER_ID_KEY = "id";
+    private static final String USER_NAME_KEY = "name";
+    private static final String USER_EMAIL_KEY = "email";
+    private static final String USER_PHOTO_KEY = "user_photos";
 
-    @BindView(R.id.login_twitter_button)
-    Button mLoginTwitterButton;
-
-    @BindView(R.id.login_facebook_button_original)
-    LoginButton mLoginFacebookOriginalButton;
-
-    @BindView(R.id.login_twitter_button_original)
-    TwitterLoginButton mLoginTwitterOriginalButton;
-
-    @BindView(R.id.title_app)
-    TextView mTitle;
+    @BindView(R.id.login_facebook_button)               Button mLoginFacebookButton;
+    @BindView(R.id.login_twitter_button)                Button mLoginTwitterButton;
+    @BindView(R.id.login_facebook_button_original)      LoginButton mLoginFacebookOriginalButton;
+    @BindView(R.id.login_twitter_button_original)       TwitterLoginButton mLoginTwitterOriginalButton;
+    @BindView(R.id.title_app)                           TextView mTitle;
 
     private CallbackManager mFacebookCallbackManager;
 
@@ -72,9 +67,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private TwitterSession mSession;
     private TwitterAuthClient mAuthClient;
+    private String mUsername;
     private String mEmail;
-    private String mNome;
+    private String mName;
     private String mPathFoto;
+    private String mToken;
+
+    private int mTypeLogin;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -90,64 +89,68 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
-        mAuthClient = new TwitterAuthClient();
+        onStartConfigurateLoginSDKs();
 
-        setContentView(R.layout.activity_login);
-
-        if( PrefsUtils.getCurrentUser(LoginActivity.this) != null ) {
+        if (PrefsUtils.getCurrentUser(LoginActivity.this) != null) {
             startActivity(HomeActivity.newIntent(LoginActivity.this));
             finish();
         }
 
-        ButterKnife.bind(this);
-
-        initFacebook();
-        initTwitter();
+        setContentView(R.layout.activity_login);
+        onSetupFacebook();
+        onSetupTwitter();
     }
 
-    private void initFacebook() {
+    public void onStartConfigurateLoginSDKs() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
+        mAuthClient = new TwitterAuthClient();
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
+
+        mTitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+    }
+
+    private void onSetupFacebook() {
         mFacebookCallbackManager = CallbackManager.Factory.create();
         mLoginFacebookOriginalButton.registerCallback(mFacebookCallbackManager, facebookCallback());
-        mLoginFacebookOriginalButton.setReadPermissions(Arrays.asList("user_photos", "email"));
+        mLoginFacebookOriginalButton.setReadPermissions(Arrays.asList(USER_EMAIL_KEY, USER_PHOTO_KEY));
+
         mLoginFacebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLoginFacebookOriginalButton.performClick();
-                mLoginFacebookButton.setVisibility(View.GONE);
-                mLoginTwitterButton.setVisibility(View.GONE);
+                setFacebookButtonVisibility(View.GONE);
+                setTwitterButtonVisibility(View.GONE);
             }
         });
     }
 
-    private void initTwitter() {
+    private void onSetupTwitter() {
         mLoginTwitterOriginalButton.setCallback(twitterCallback());
         mLoginTwitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLoginTwitterOriginalButton.performClick();
-                mLoginTwitterButton.setVisibility(View.GONE);
-                mLoginFacebookButton.setVisibility(View.GONE);
+                setTwitterButtonVisibility(View.GONE);
+                setFacebookButtonVisibility(View.GONE);
             }
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        mTitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
-    }
-
     private FacebookCallback<LoginResult> facebookCallback() {
-
+        mTypeLogin = UserDB.LOGIN_FACEBOOK;
 
         return new FacebookCallback<LoginResult>() {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
+                mToken = loginResult.getAccessToken().getToken();
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
@@ -157,7 +160,12 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 try {
-                                    setUserData(object.getString("name").toString(), object.getString("email").toString(), getString(R.string.facebook_photo, object.getString("id").toString()));
+                                    mName = object.getString(USER_NAME_KEY).toString();
+                                    mUsername = object.getString(USER_EMAIL_KEY).toString();
+                                    mEmail = object.getString(USER_EMAIL_KEY).toString();
+                                    mPathFoto = getString(R.string.facebook_photo, object.getString(USER_ID_KEY).toString());
+
+                                    setUserData();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -169,105 +177,96 @@ public class LoginActivity extends AppCompatActivity {
                         });
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email");
+                parameters.putString("fields", USER_ID_KEY + "," + USER_NAME_KEY + "," + USER_EMAIL_KEY);
                 request.setParameters(parameters);
                 request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(LoginActivity.this, "Login pelo Facebook Cancelado.", Toast.LENGTH_SHORT).show();
-                mLoginFacebookButton.setVisibility(View.VISIBLE);
-                mLoginTwitterButton.setVisibility(View.VISIBLE);
+                ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_cancelled));
+                setFacebookButtonVisibility(View.VISIBLE);
+                setTwitterButtonVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(FacebookException e) {
-                Toast.makeText(LoginActivity.this, "Erro ao realizar o Login pelo Facebook.", Toast.LENGTH_SHORT).show();
-                mLoginFacebookButton.setVisibility(View.VISIBLE);
-                mLoginTwitterButton.setVisibility(View.VISIBLE);
+                ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
+                setFacebookButtonVisibility(View.VISIBLE);
+                setTwitterButtonVisibility(View.VISIBLE);
             }
-
 
         };
     }
 
     private Callback<TwitterSession> twitterCallback() {
+        mTypeLogin = UserDB.LOGIN_TWITTER;
+
         return new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 mSession = result.data;
+                mToken = mSession.getAuthToken().token;
 
                 Call<User> call = Twitter.getApiClient(mSession).getAccountService()
                         .verifyCredentials(true, false);
                 call.enqueue(new Callback<User>() {
+
                     @Override
                     public void failure(TwitterException e) {
-                        Toast.makeText(LoginActivity.this, "Erro ao realizar o Login pelo Twitter.", Toast.LENGTH_SHORT).show();
-                        mLoginTwitterButton.setVisibility(View.VISIBLE);
+                        ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                        setTwitterButtonVisibility(View.VISIBLE);
+                        setFacebookButtonVisibility(View.VISIBLE);
                     }
                     @Override
                     public void success(Result<User> userResult) {
-
-
-                        User user = userResult.data;
-                        mNome = user.name;
+                        final User user = userResult.data;
+                        mUsername = user.name;
+                        mName = user.screenName;
                         mPathFoto = user.profileImageUrl;
-
-
-                        mAuthClient.requestEmail(mSession, new Callback<String>() {
-                            @Override
-                            public void success(Result<String> result) {
-                                Toast.makeText(LoginActivity.this, "Sucesso.", Toast.LENGTH_SHORT).show();
-                                mEmail = result.data;
-                                setUserData(mNome, mEmail, mPathFoto);
-                                startActivity(HomeActivity.newIntent(LoginActivity.this));
-                                finish();
-                            }
-
-                            @Override
-                            public void failure(TwitterException exception) {
-                                Toast.makeText(LoginActivity.this, "IH.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
                     }
+
                 });
 
             }
 
             @Override
             public void failure(TwitterException exception) {
-                Toast.makeText(LoginActivity.this, "Erro ao realizar o Login pelo Twitter.", Toast.LENGTH_SHORT).show();
-                mLoginTwitterButton.setVisibility(View.VISIBLE);
-                mLoginFacebookButton.setVisibility(View.VISIBLE);
+                ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                setTwitterButtonVisibility(View.VISIBLE);
+                setFacebookButtonVisibility(View.VISIBLE);
             }
         };
     }
 
 
-    private void setUserData(String name, String email, String profileImage) {
+    private void setUserData() {
         UserDB user = new UserDB();
-        user.setEmail(email);
-        user.setNome(name);
+        user.setUsername(mUsername);
+        user.setEmail(mEmail);
+        user.setNome(mName);
+        user.setTypeLogin(mTypeLogin);
+        user.setToken(mToken);
+        user.setPicturePath(mPathFoto);
         user.setLogged(true);
-
-        mUserRepository.saveUser(user);
 
         ProfileDB profile = new ProfileDB();
         profile.setUser(user);
-        profile.setFotoPath(profileImage);
 
-        long id = mProfileRepository.saveProfile(profile);
-        user.setProfileID(id);
-        profile.setProfileID(id);
-        PrefsUtils.setCurrentUser(user, LoginActivity.this);
-        PrefsUtils.setCurrentProfile(profile, LoginActivity.this);
+        mProfileRepository.saveProfile(profile, this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         mLoginTwitterOriginalButton.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setFacebookButtonVisibility(int visibility) {
+        mLoginFacebookButton.setVisibility(visibility);
+    }
+
+    private void setTwitterButtonVisibility(int visibility) {
+        mLoginTwitterButton.setVisibility(visibility);
     }
 }

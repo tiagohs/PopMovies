@@ -135,6 +135,11 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         };
     }
 
+    @Override
+    protected int getMenuLayoutID() {
+        return 0;
+    }
+
     public void setListMovies(List<Movie> listMovies, boolean hasMorePages) {
         mListMovies = listMovies;
         this.hasMorePages = hasMorePages;

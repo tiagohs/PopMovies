@@ -8,8 +8,8 @@
     <string name="pop_movie_title_principal">PopMovies</string>
     <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
     <string name="title_original">Original:</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fechar navigation drawer</string>
     <string name="tab_populares">Populares</string>
     <string name="tab_favoritos">Favoritos</string>
     <string name="action_opcoes">Opções</string>
@@ -121,6 +121,9 @@
         <item quantity="other">Filmes</item>
     </plurals>
 
+    <string name="genres_title">Gêneros</string>
+    <string name="genre_title">Gênero</string>
+
     <string name="genere_action">Ação</string>
     <string name="genere_adventure">Aventura</string>
     <string name="genere_animation">Animação</string>
@@ -158,7 +161,6 @@
     <string name="menu_sair">Sair</string>
     <string name="menu_configuracoes">Configurações</string>
     <string name="menu_assistidos">Assistidos</string>
-    <string name="menu_generos">Gêneros</string>
     <string name="menu_search">Procurar</string>
     <string name="menu_atores">Atores</string>
     <string name="menu_home">Home</string>
@@ -173,7 +175,6 @@
     <string name="title_activity_actor_details">ActorDetailActivity</string>
     <string name="titles_movie_detail_midia_videos">VIDEOS E TRAILERS</string>
     <string name="titles_movie_detail_midia_imagens">POSTER E WALLPAPERS</string>
-    <string name="person_genero">Gênero</string>
     <string name="person_nascimento">Data de Nascimento</string>
     <string name="cidade_natal">Cidade Natal</string>
     <string name="principais_areas">Principais áreas</string>
@@ -181,7 +182,6 @@
     <string name="genero_masculino">Masculino</string>
     <string name="genero_indefinido">Indefinido</string>
     <string name="aspas">\"</string>
-    <string name="generos">Gêneros</string>
     <string name="keywords">Keywords</string>
     <string name="company">Companies</string>
     <string name="nao_disponivel">Não disponível.</string>
@@ -221,7 +221,6 @@
     <string name="title_activity_list_persons_default">ListPersonsDefaultActivity</string>
     <string name="elenco_title_activity">Elenco</string>
     <string name="equipe_tecnica_title">Equipe Técnica</string>
-    <string name="menu_filter">Filtrar</string>
     <string name="popularidade_maior">Popularidade (maior)</string>
     <string name="popularidade_menor">Popularidade (menor)</string>
     <string name="release_date_maior">Data de Lançamento (maior)</string>
@@ -250,5 +249,12 @@
     <string name="title_activity_videos_details">Videos Activity</string>
     <string name="videos">Vídeos e Trailers</string>
     <string name="title_activity_home">Home Activity</string>
+    <string name="filter_title">Filtrar</string>
+    <string name="login_facebook_cancelled">Login pelo facebook cancelado</string>
+    <string name="login_facebook_error">Erro ao realizar o login pelo facebook</string>
+    <string name="login_twitter_error">Erro ao realizar o login pelo twitter</string>
+    <string name="marked_watched">Marcado como assistido</string>
+    <string name="desmarked_watched">Desmarcado como assistido</string>
+    <string name="menu_perfil">Perfil</string>
 
 </resources>

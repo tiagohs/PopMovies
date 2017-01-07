@@ -194,6 +194,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
 
         mPresenter.setContext(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         searchMovies();
     }
 
@@ -265,15 +270,21 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     public void setupRecyclerView() {
-        setupLayoutManager();
-        mMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
-        mMoviesRecyclerView.setNestedScrollingEnabled(false);
-        setupAdapter();
+        if (mListMoviesAdapter == null) {
+            setupLayoutManager();
+            mMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
+            mMoviesRecyclerView.setNestedScrollingEnabled(false);
+            setupAdapter();
+        } else
+            updateAdapter();
+
     }
 
     public void updateAdapter() {
         if (mListMoviesAdapter != null)
             mListMoviesAdapter.notifyDataSetChanged();
+        else
+            setupRecyclerView();
     }
 
     private void setupAdapter() {

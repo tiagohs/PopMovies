@@ -25,7 +25,7 @@
             android:background="@color/generesActionBarBackground"/>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <br.com.tiagohs.popmovies.view.ViewPagerWallpapers
         android:id="@+id/wallpaper_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

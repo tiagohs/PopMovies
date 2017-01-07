@@ -31,7 +31,7 @@
                     <TextView
                         android:id="@+id/label_movie_details_titulo_original"
                         android:textSize="14sp"
-                        android:text="@string/person_genero"
+                        android:text="@string/genre_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondary_text" />

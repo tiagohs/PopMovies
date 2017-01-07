@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         List<ItemListDTO> listDTOs = new ArrayList<>();
         Map<String, String> parameters;
 
-        listDTOs.add(new ItemListDTO(getString(R.string.generos), Sort.GENEROS));
+        listDTOs.add(new ItemListDTO(getString(R.string.genres_title), Sort.GENEROS));
 
         parameters = new HashMap<>();
         parameters.put(Param.WITH_KEYWORDS.getParam(), String.valueOf(ID_KEYWORD_BRAZILIAN));

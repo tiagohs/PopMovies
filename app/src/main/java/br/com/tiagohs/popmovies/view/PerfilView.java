@@ -11,7 +11,7 @@ public interface PerfilView extends BaseView {
     void setNamePerfil(String nameUser);
     void setEmailPerfil(String emailUser);
     void setImagePerfil(String imagePath);
-    void setTotalHorasAssistidas(int duracaoTotal);
+    void setTotalHorasAssistidas(long duracaoTotal);
     void setTotalFilmesAssistidos(int totalFilmesAssistidos);
     void setBackground(String backgroundPath);
     void setupTabs();

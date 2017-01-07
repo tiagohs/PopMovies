@@ -27,13 +27,18 @@ public class PopMoviesDB extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_MOVIE_TABLE);
         Log.i(TAG, "Tabela Movie Criada com Sucesso.");
 
+        sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_GENRER_TABLE);
+        Log.i(TAG, "Tabela Genre Criada com Sucesso.");
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PopMoviesContract.UserEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PopMoviesContract.ProfileEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PopMoviesContract.MoviesEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL(SQLHelper.SQL_DELETE_USER_TABLE);
+        sqLiteDatabase.execSQL(SQLHelper.SQL_DELETE_PROFILE_TABLE);
+        sqLiteDatabase.execSQL(SQLHelper.SQL_DELETE_MOVIE_TABLE);
+        sqLiteDatabase.execSQL(SQLHelper.SQL_DELETE_GENRE_TABLE);
 
         onCreate(sqLiteDatabase);
 
