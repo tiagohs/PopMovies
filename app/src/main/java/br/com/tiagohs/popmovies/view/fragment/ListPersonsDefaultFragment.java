@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     @BindView(R.id.list_person_recycler_view)       RecyclerView mPersonsRecyclerView;
     @BindView(R.id.list_person_principal_progress)  ProgressWheel mPersonProgress;
+    @Nullable @BindView(R.id.swipeRefreshLayout)    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Inject
     ListPersonsDefaultPresenter mPresenter;
@@ -130,6 +132,16 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    init();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -142,8 +154,6 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     public void onStop() {
         super.onStop();
 
-        if (mPresenter != null)
-            mPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     private void init() {
@@ -153,6 +163,9 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
             setupRecyclerView();
             setProgressVisibility(View.GONE);
         }
+
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     public void setListMovies(List<PersonListDTO> listMovies, boolean hasMorePages) {
@@ -218,7 +231,10 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     @Override
     protected int getViewID() {
-        return R.layout.fragment_list_persons_default;
+        if (mOrientation == LinearLayout.HORIZONTAL)
+            return R.layout.fragment_list_persons_default_no_pull;
+        else
+            return R.layout.fragment_list_persons_default;
     }
 
     @Override

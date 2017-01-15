@@ -3,12 +3,13 @@ package br.com.tiagohs.popmovies.interceptor;
 import com.android.volley.VolleyError;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.PersonsServer;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 
-public class SearchPersonInterceptorImpl implements SearchPersonInterceptor, ResponseListener<GenericListResponse<MediaBasic>> {
+public class SearchPersonInterceptorImpl implements SearchPersonInterceptor, ResponseListener<GenericListResponse<PersonFind>> {
     private PersonsServer mPersonsServer;
     private onSearchPersonListener mListener;
 
@@ -28,7 +29,7 @@ public class SearchPersonInterceptorImpl implements SearchPersonInterceptor, Res
     }
 
     @Override
-    public void onResponse(GenericListResponse<MediaBasic> response) {
+    public void onResponse(GenericListResponse<PersonFind> response) {
         mListener.onSearchPersonRequestSucess(response);
     }
 }

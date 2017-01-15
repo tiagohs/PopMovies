@@ -5,11 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="10dp">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:shrinkColumns="1">
 
         <TableRow>
@@ -307,6 +309,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:gravity="center">
 
         <android.support.v7.widget.RecyclerView
@@ -341,6 +345,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -397,7 +403,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="16dp">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/equipe_tecnica_riple"
@@ -411,6 +417,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:orientation="horizontal">
 
                 <TextView

@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
         mPopularesParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
-        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, mPopularesParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
+        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mPopularesParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
     }
 
     private Fragment createEmCartazFragment() {
@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         mEmCartazParameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
         mEmCartazParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
-        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, mEmCartazParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
+        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEmCartazParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
     }
 
     private Fragment createEmBreveFragment() {
@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         mEmBreveParameters.put(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), MovieUtils.getDateAfter(7));
         mEmBreveParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
-        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, mEmBreveParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
+        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEmBreveParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
     }
 
     private Fragment createEstreiasFragment() {
@@ -141,7 +141,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         mEstreiasParameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateDayWeek(Calendar.SATURDAY));
         mEstreiasParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
-        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, mEstreiasParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
+        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEstreiasParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
     }
 
 

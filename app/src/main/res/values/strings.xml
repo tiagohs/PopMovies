@@ -45,18 +45,18 @@
     <string name="facebook_link" translatable="false">https://www.facebook.com/%1$s</string>
     <string name="facebook_photo" translatable="false">https://graph.facebook.com/%1$s/picture?type=large</string>
     <string name="twitter_link_uri" translatable="false">twitter://user?screen_name=%1$s</string>
-    <string name="instagram_link_uri" translatable="false">http://instagram.com/_u/%1$s</string>
+    <string name="instagram_link_uri" translatable="false">https://instagram.com/_u/%1$s</string>
     <string name="twitter_link" translatable="false">https://twitter.com/#!/%1$s</string>
-    <string name="instagram_link" translatable="false">http://instagram.com/%1$s</string>
-    <string name="person_wiki" translatable="false">http://en.wikipedia.org/w/index.php?search=%1$s</string>
-    <string name="person_imdb" translatable="false">http://www.imdb.com/name/%1$s</string>
-    <string name="imdb_link" translatable="false">http://www.imdb.com/title/%1$s</string>
-    <string name="imdb_reviews_link" translatable="false">http://www.imdb.com/title/%1$s/reviews</string>
+    <string name="instagram_link" translatable="false">https://instagram.com/%1$s</string>
+    <string name="person_wiki" translatable="false">https://en.wikipedia.org/w/index.php?search=%1$s</string>
+    <string name="person_imdb" translatable="false">https://www.imdb.com/name/%1$s</string>
+    <string name="imdb_link" translatable="false">https://www.imdb.com/title/%1$s</string>
+    <string name="imdb_reviews_link" translatable="false">https://www.imdb.com/title/%1$s/reviews</string>
     <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
-    <string name="youtube_link" translatable="false">"http://img.youtube.com/vi/%1$s/0.jpg"</string>
+    <string name="youtube_link" translatable="false">"https://img.youtube.com/vi/%1$s/0.jpg"</string>
 
-    <string name="movie_imdb" translatable="false">http://www.imdb.com/title/%1$s</string>
+    <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
 
 
     <!-- Arrays -->
@@ -68,7 +68,10 @@
         <item>Resumo</item>
         <item>Carreira</item>
     </string-array>
-
+    <string-array name="search_tab_array">
+        <item>Filmes</item>
+        <item>Pessoas</item>
+    </string-array>
 
 
     <string-array name="sort_by_array">
@@ -256,5 +259,6 @@
     <string name="marked_watched">Marcado como assistido</string>
     <string name="desmarked_watched">Desmarcado como assistido</string>
     <string name="menu_perfil">Perfil</string>
+    <string name="no_person_find">Nenhuma pessoa encontrada!</string>
 
 </resources>

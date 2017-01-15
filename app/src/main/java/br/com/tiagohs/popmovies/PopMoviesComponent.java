@@ -14,6 +14,9 @@ import br.com.tiagohs.popmovies.view.fragment.ListPersonsDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsReviewsFragment;
+import br.com.tiagohs.popmovies.view.fragment.PerfilEstatisticasFragment;
+import br.com.tiagohs.popmovies.view.fragment.SearchMoviesFragment;
+import br.com.tiagohs.popmovies.view.fragment.SearchPersonsFragment;
 import dagger.Component;
 
 @Singleton
@@ -31,4 +34,7 @@ public interface PopMoviesComponent {
     void inject(ListPersonsDefaultFragment listPersonsDefaultFragment);
     void inject(PerfilActivity perfilActivity);
     void inject(VideosActivity videosActivity);
+    void inject(SearchMoviesFragment searchMoviesFragment);
+    void inject(SearchPersonsFragment searchMoviesFragment);
+    void inject(PerfilEstatisticasFragment perfilEstatisticasFragment);
 }

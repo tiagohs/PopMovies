@@ -73,6 +73,19 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     }
 
     @Override
+    public void onClickWantSee(MovieDetails movie, boolean buttonStage) {
+
+        if (buttonStage)
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+        else
+            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+
+    }
+
+    @Override
     public void onErrorResponse(VolleyError error) {
 
         Log.i(TAG, "onError");

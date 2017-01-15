@@ -119,4 +119,6 @@ dependencies {
 
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
 
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+
 }

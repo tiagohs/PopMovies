@@ -147,14 +147,14 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public void onMovieDetailsRequestSucess(MovieDetails movieDetails) {
         if (movieDetails.getVideos().isEmpty())
             getVideos(movieDetails);
+        long profileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
 
-        Movie movieAssistido = mMovieRepository.findMovieByServerID(movieDetails.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+        movieDetails.setFavorite(mMovieRepository.isFavoriteMovie(profileID, movieDetails.getId()));
 
-        if (movieAssistido != null) {
-            movieDetails.setJaAssistido(true);
-            movieDetails.setFavorite(movieAssistido.isFavorite());
+        if (mMovieRepository.isWachedMovie(profileID, movieDetails.getId()))
             mMovieDetailsView.setJaAssistido();
-        }
+        else if (mMovieRepository.isWantSeeMovie(profileID, movieDetails.getId()))
+            movieDetails.setStatusDB(MovieDB.STATUS_WANT_SEE);
 
         if (movieDetails.getRuntime() == 0)
             mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);

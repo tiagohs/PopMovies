@@ -20,33 +20,41 @@ import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
+import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
+import br.com.tiagohs.popmovies.view.SearchMoviesView;
+import br.com.tiagohs.popmovies.view.SearchPersonsView;
 import br.com.tiagohs.popmovies.view.SearchView;
 
 public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterceptor.onSearchPersonListener,
                                             SearchMoviesInterceptor.onSearchMoviesListener, ResponseListener<MovieDetails> {
 
-    private SearchView mSearchView;
     private SearchMoviesInterceptor mSearchMoviesInterceptor;
     private SearchPersonInterceptor mSearchPersonInterceptor;
     private MovieRepository mMovieRepository;
     private MoviesServer mMoviesServer;
 
-    private int mCurrentPage;
-    private int mTotalPages;
+    private int mMovieCurrentPage;
+    private int mMovieTotalPages;
+    private int mPersonCurrentPage;
+    private int mPersonTotalPages;
     private Context mContext;
 
-    private boolean mIsNewSearch;
+    private SearchMoviesView mSearchMoviesView;
+    private SearchPersonsView mSearchPersonsView;
+
+    private boolean mIsNewMovieSearch;
+    private boolean mIsNewPersonSearch;
 
     private boolean mButtonStage;
 
     public SearchPresenterImpl() {
-        mCurrentPage = 1;
+        mMovieCurrentPage = mPersonCurrentPage =1;
 
         mMoviesServer = new MoviesServer();
         mSearchMoviesInterceptor = new SearchMoviesInterceptorImpl(this);
@@ -55,7 +63,15 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     @Override
     public void setView(SearchView view) {
-        this.mSearchView = view;
+
+    }
+
+    public void setMovieView(SearchMoviesView searchMoviesView) {
+        mSearchMoviesView = searchMoviesView;
+    }
+
+    public void setPersonView(SearchPersonsView searchPersonsView) {
+        mSearchPersonsView = searchPersonsView;
     }
 
     @Override
@@ -73,64 +89,71 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                              Boolean includeAdult,
                              Integer searchYear, String tag,
                              Integer primaryReleaseYear, boolean isNewSearch) {
-        mIsNewSearch = isNewSearch;
+        mIsNewMovieSearch = isNewSearch;
 
-        if (mSearchView.isInternetConnected()) {
+        if (mSearchMoviesView.isInternetConnected()) {
             mSearchMoviesInterceptor.searchMovies(query, includeAdult,
                                                   searchYear, primaryReleaseYear, tag,
-                                                  mIsNewSearch ? mCurrentPage : ++mCurrentPage);
-        } else
-            noConnectionError();
-    }
+                    mIsNewMovieSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
+        } else {
+            if (mSearchMoviesView.isAdded())
+                mSearchMoviesView.onError("Sem Conexão");
 
-    private void noConnectionError() {
-        if (mSearchView.isAdded())
-            mSearchView.onError("Sem Conexão");
+            mSearchMoviesView.setProgressVisibility(View.GONE);
+        }
 
-        mSearchView.setProgressVisibility(View.GONE);
     }
 
     public void searchPersons(String query,
                               Boolean includeAdult, String tag,
                               SearchType searchType, boolean isNewSearch) {
+        mIsNewPersonSearch = isNewSearch;
 
-        if (mSearchView.isInternetConnected()) {
-            mSearchView.setProgressVisibility(View.VISIBLE);
+        if (mSearchPersonsView.isInternetConnected()) {
+            mSearchPersonsView.setProgressVisibility(View.VISIBLE);
             mSearchPersonInterceptor.searchPersons(query, includeAdult, searchType, tag,
-                                                   isNewSearch ? mCurrentPage : ++mCurrentPage);
-        } else
-            noConnectionError();
+                                                   mIsNewPersonSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
+        } else {
+            if (mSearchPersonsView.isAdded())
+                mSearchPersonsView.onError("Sem Conexão");
+
+            mSearchPersonsView.setProgressVisibility(View.GONE);
+        }
+
     }
 
 
     @Override
     public void onSearchMoviesRequestSucess(GenericListResponse<Movie> response) {
-        mCurrentPage = response.getPage();
-        mTotalPages = response.getTotalPage();
-        mSearchView.setNenhumFilmeEncontradoVisibility(View.GONE);
+        mMovieCurrentPage = response.getPage();
+        mMovieTotalPages = response.getTotalPage();
+        mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.GONE);
 
-        if (mIsNewSearch) {
+        if (mIsNewMovieSearch) {
             if (response.getResults().isEmpty()) {
-                mSearchView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
+                mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
                 setupResponseMovies(new ArrayList<Movie>());
             } else {
                 setupResponseMovies(response.getResults());
             }
         } else {
-            mSearchView.addAllMovies(response.getResults(), hasMorePages());
-            mSearchView.updateAdapter();
+            mSearchMoviesView.addAllMovies(response.getResults(), hasMoreMoviePages());
+            mSearchMoviesView.updateAdapter();
         }
 
-        mSearchView.setProgressVisibility(View.GONE);
+        mSearchMoviesView.setProgressVisibility(View.GONE);
     }
 
     public void getMovieDetails(int movieID, boolean buttonStage, String tag) {
         this.mButtonStage = buttonStage;
 
-        if (mSearchView.isInternetConnected()) {
+        if (mSearchMoviesView.isInternetConnected()) {
             mMoviesServer.getMovieDetails(movieID, new String[]{}, tag, this);
         } else {
-            noConnectionError();
+            if (mSearchMoviesView.isAdded())
+                mSearchMoviesView.onError("Sem Conexão");
+
+            mSearchMoviesView.setProgressVisibility(View.GONE);
         }
     }
 
@@ -139,25 +162,27 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     }
 
     private void setupResponseMovies(List<Movie> movies) {
-        mSearchView.setListMovies(movies, hasMorePages());
-        mSearchView.setupRecyclerView();
+        mSearchMoviesView.setListMovies(movies, hasMoreMoviePages());
+        mSearchMoviesView.setupRecyclerView();
     }
 
-    private boolean hasMorePages() {
-        return mCurrentPage < mTotalPages;
+    private boolean hasMoreMoviePages() {
+        return mMovieCurrentPage < mMovieTotalPages;
     }
 
     @Override
     public void onSearchMoviesRequestError(VolleyError error) {
-        mSearchView.setNenhumFilmeEncontradoVisibility(View.GONE);
+        mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
+        mSearchMoviesView.setProgressVisibility(View.GONE);
 
-        if (error != null) {
+        if (error.networkResponse != null) {
             switch (error.networkResponse.statusCode) {
                 case 422:
                     setupResponseMovies(new ArrayList<Movie>());
                     break;
                 default:
-                    noConnectionError();
+                    if (mSearchMoviesView.isAdded())
+                        mSearchMoviesView.onError("Sem Conexão");
             }
         }
 
@@ -165,13 +190,50 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     }
 
     @Override
-    public void onSearchPersonRequestSucess(GenericListResponse<MediaBasic> imageResponse) {
+    public void onSearchPersonRequestSucess(GenericListResponse<PersonFind> personFind) {
+        mPersonCurrentPage = personFind.getPage();
+        mPersonTotalPages = personFind.getTotalPage();
+        mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.GONE);
 
+        if (mIsNewPersonSearch) {
+            if (personFind.getResults().isEmpty()) {
+                mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
+                setupResponsePerson(new ArrayList<PersonFind>());
+            } else {
+                setupResponsePerson(personFind.getResults());
+            }
+        } else {
+            mSearchPersonsView.addAllPersons(personFind.getResults(), hasMorePersonPages());
+            mSearchPersonsView.updateAdapter();
+        }
+
+        mSearchPersonsView.setProgressVisibility(View.GONE);
+    }
+
+    private boolean hasMorePersonPages() {
+        return mPersonCurrentPage < mPersonTotalPages;
+    }
+
+    private void setupResponsePerson(List<PersonFind> movies) {
+        mSearchPersonsView.setListPersons(movies, hasMorePersonPages());
+        mSearchPersonsView.setupRecyclerView();
     }
 
     @Override
     public void onSearchPersonRequestError(VolleyError error) {
+        mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
+        mSearchPersonsView.setProgressVisibility(View.GONE);
 
+        if (error.networkResponse != null) {
+            switch (error.networkResponse.statusCode) {
+                case 422:
+                    setupResponsePerson(new ArrayList<PersonFind>());
+                    break;
+                default:
+                    if (mSearchPersonsView.isAdded())
+                        mSearchPersonsView.onError("Sem Conexão");
+            }
+        }
     }
 
     @Override

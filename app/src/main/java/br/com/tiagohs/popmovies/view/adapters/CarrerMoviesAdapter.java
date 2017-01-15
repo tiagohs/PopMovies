@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
@@ -38,15 +42,11 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
         this.mCallbacks = callbacks;
         this.mLayoutMovieResID = layoutMovieResID;
         this.mFragment = fragment;
+
     }
 
     public void setList(List<CarrerMoviesDTO> list) {
         this.list = list;
-        Log.i("Carrer", this.list.size() + "");
-    }
-
-    public void setAllList(List<CarrerMoviesDTO> list) {
-        list.addAll(list);
     }
 
     @Override
@@ -108,7 +108,6 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
                 ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_92);
             }
          }
-
 
         @Override
         public void onClick(View view) {

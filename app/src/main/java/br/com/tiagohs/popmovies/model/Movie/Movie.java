@@ -46,6 +46,7 @@ public class Movie extends MediaBasic implements Serializable {
     private boolean favorite;
 
     private boolean isJaAssistido;
+    private int statusDB;
 
     public Movie() {
     }
@@ -66,6 +67,14 @@ public class Movie extends MediaBasic implements Serializable {
 
     public boolean isJaAssistido() {
         return isJaAssistido;
+    }
+
+    public int getStatusDB() {
+        return statusDB;
+    }
+
+    public void setStatusDB(int statusDB) {
+        this.statusDB = statusDB;
     }
 
     public void setJaAssistido(boolean jaAssistido) {

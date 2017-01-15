@@ -108,9 +108,8 @@ public class DTOUtils {
     public static List<ImageDTO> createPersonImagesBackgroundDTO(PersonInfo person, int numImages, List<ArtworkMedia> images) {
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
-        for (int cont = 0; cont < (numImages - 1); cont++) {
-            Artwork image = images.get(cont);
-            imageDTOs.add(new ImageDTO(person.getId(), image.getId(), image.getFilePath()));
+        for (Artwork ar : images) {
+            imageDTOs.add(new ImageDTO(person.getId(), ar.getId(), ar.getFilePath()));
         }
 
         return imageDTOs;

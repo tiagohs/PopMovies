@@ -14,6 +14,276 @@
         android:layout_margin="16dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/dados_iniciais_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.8">
+
+                <TextView
+                    android:text="Filmes Assistidos"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="12dp"/>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/filmes_total_person_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:mrl_rippleOverlay="true"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/total_filmes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:text="20"
+                            android:textColor="@color/primary_text"
+                            android:textSize="30dp"/>
+
+                        <TextView
+                            android:id="@+id/label_total_filmes"
+                            android:text="Filmes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="center"
+                            android:textColor="@color/secondary_text"
+                            android:layout_marginTop="5dp"
+                            android:textSize="12dp"/>
+
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.3">
+
+                <TextView
+                    android:text="Total de horas assistidas:"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="12dp"/>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/total_horas_riple"
+                    app:mrl_rippleColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_marginLeft="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:id="@+id/container_total_anos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_anos"
+                                android:text="20"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textColor="@color/primary_text"
+                                android:textSize="30dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_anos"
+                                android:text="Anos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/container_total_meses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_meses"
+                                android:text="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textColor="@color/primary_text"
+                                android:textSize="30dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_meses"
+                                android:text="Meses"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/container_total_dias"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_dias"
+                                android:text="31"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textColor="@color/primary_text"
+                                android:textSize="30dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_dias"
+                                android:text="Dias"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/container_total_horas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_horas"
+                                android:text="60"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textColor="@color/primary_text"
+                                android:textSize="30dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_horas"
+                                android:text="Horas"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/container_total_minutos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/total_minutos"
+                                android:text="60"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textColor="@color/primary_text"
+                                android:textSize="30dp"/>
+
+                            <TextView
+                                android:id="@+id/label_total_minutos"
+                                android:text="Minutos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/secondary_text"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

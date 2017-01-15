@@ -1,15 +1,12 @@
 package br.com.tiagohs.popmovies.view.adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,26 +16,25 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Movie;
-import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.view.SearchView;
+import br.com.tiagohs.popmovies.view.SearchMoviesView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Tiago Henrique on 01/09/2016.
  */
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
+public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.SearchViewHolder> {
     private List<Movie> list;
     private Context mContext;
-    private SearchView mView;
+    private SearchMoviesView mView;
     private SearchPresenter mPresenter;
 
-    public SearchAdapter(Context context, List<Movie> list, SearchView view, SearchPresenter presenter) {
+    public SearchMovieAdapter(Context context, List<Movie> list, SearchMoviesView view, SearchPresenter presenter) {
         this.list = list;
         this.mContext = context;
         this.mView = view;
@@ -74,7 +70,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         @BindView(R.id.movie_ano_lancamento)            TextView mMovieAnoLancamento;
         @BindView(R.id.geners_movie)                    TextView mGeners;
         @BindView(R.id.list_item_movies_progress)       ProgressWheel mProgress;
-        @BindView(R.id.movies_btn_ja_assisti)           FloatingActionButton mJaAssistiButton;
+        @BindView(R.id.movies_ja_assisti)               ImageView mJaAssistiButton;
 
         private Context mContext;
         private Movie mMovie;
@@ -102,8 +98,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             mMovieAnoLancamento.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
 
             if (mPresenter.isJaAssistido(movie.getId())) {
-                mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, R.drawable.ic_assistido));
-                mJaAssistiButton.setBackgroundTintList(ColorStateList.valueOf(ViewUtils.getColorFromResource(mContext, android.R.color.holo_green_dark)));
+                mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, R.drawable.ic_assistido_green));
             }
 
             mJaAssistiButton.setOnClickListener(new View.OnClickListener() {
@@ -111,19 +106,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 public void onClick(View v) {
                     mIsWatchPressed = !mIsWatchPressed;
 
-                    mPresenter.getMovieDetails(mMovie.getId(), mIsWatchPressed, SearchAdapter.class.getSimpleName());
+                    mPresenter.getMovieDetails(mMovie.getId(), mIsWatchPressed, SearchMovieAdapter.class.getSimpleName());
 
                     if (mIsWatchPressed)
-                        updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark, "Marcado como Assistido.");
+                        updateState(R.drawable.ic_assistido_green, "Marcado como Assistido.");
                     else
-                        updateState(R.drawable.ic_assitir_eye, R.color.yellow, "Desmarcado como Assistido.");
+                        updateState(R.drawable.ic_assitir_eye_yellow, "Desmarcado como Assistido.");
                 }
             });
         }
 
-        private void updateState(int iconID, int iconColor, String msg) {
+        private void updateState(int iconID, String msg) {
             mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, iconID));
-            mJaAssistiButton.setBackgroundTintList(ColorStateList.valueOf(ViewUtils.getColorFromResource(mContext, iconColor)));
 
             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
         }

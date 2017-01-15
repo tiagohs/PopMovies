@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.interceptor;
 
+import android.util.Log;
+
 import com.android.volley.VolleyError;
 
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -14,6 +16,7 @@ import br.com.tiagohs.popmovies.util.ViewUtils;
  */
 
 public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, ResponseListener<MovieDetails> {
+    private static final String TAG = MovieDetailsInterceptorImpl.class.getSimpleName();
 
     private String mOriginalLanguage;
 
@@ -45,6 +48,7 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
 
     @Override
     public void onResponse(MovieDetails response) {
+        Log.i(TAG, "OnResponse!");
         if (mOriginalLanguage == null)
             mMovieDetails = response;
 

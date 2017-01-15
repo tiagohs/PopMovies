@@ -174,7 +174,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
                 android:id="@+id/nota_comunidade_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,9 +183,7 @@
                 app:bar_color="@color/secondary_text"
                 app:bar_highlight_color="@color/primary_text"
                 app:left_thumb_color="@color/colorAccent"
-                app:right_thumb_color="@color/colorAccent"
                 app:left_thumb_color_pressed="@color/itemBackgroundLight"
-                app:right_thumb_color_pressed="@color/itemBackgroundLight"
                 app:data_type="_integer"/>
 
             <LinearLayout

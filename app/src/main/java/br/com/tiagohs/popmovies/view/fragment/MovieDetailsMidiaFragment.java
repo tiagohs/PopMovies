@@ -115,8 +115,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     public void onPause() {
         super.onPause();
 
-        if (mPresenter != null)
-            mPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     private void init() {

@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.view.fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 /**
  * Created by HP-HP on 22-04-2016.

@@ -60,4 +60,9 @@ public class PresenterModule {
     public VideosPresenter providesVideosPresenter() {
         return new VideosPresenterImpl();
     }
+
+    @Provides
+    public PerfilEstatisticasPresenter providesPerfilEstatisticasPresenter() {
+        return new PerfilEstatisticasPresenterImpl();
+    }
 }

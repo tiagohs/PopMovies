@@ -14,5 +14,5 @@ public interface MovieDetailsOverviewPresenter extends BasePresenter<MoviesDetai
     List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies);
     void setContext(Context context);
     void setMovieFavorite(MovieDetails movie);
-
+    void onClickWantSee(MovieDetails movie, boolean buttonStage);
 }

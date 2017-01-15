@@ -37,42 +37,24 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <RelativeLayout
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <android.support.v7.widget.RecyclerView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/list_movies_recycler_view"
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/AppTheme.TabLayout"/>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/search_view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:scrollbars="vertical" />
+                    android:layout_height="wrap_content" />
 
-                <com.pnikosis.materialishprogress.ProgressWheel
-                    android:visibility="gone"
-                    android:id="@+id/search_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    app:matProg_barColor="@color/colorAccent"
-                    app:matProg_progressIndeterminate="true" />
-
-                <TextView
-                    android:id="@+id/nenhum_filme_encontrado"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/no_movies_find"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical|center_horizontal"/>
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

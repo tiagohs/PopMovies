@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -47,15 +49,19 @@ import br.com.tiagohs.popmovies.util.enumerations.ReleaseType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieFavoriteCallback;
+import br.com.tiagohs.popmovies.view.callbacks.MovieWantSeeCallback;
+import br.com.tiagohs.popmovies.view.callbacks.MovieWatchedCallback;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MovieDetailsOverviewFragment extends BaseFragment implements MoviesDetailsOverviewView {
+public class MovieDetailsOverviewFragment extends BaseFragment implements MoviesDetailsOverviewView, MovieWatchedCallback {
     private static final String TAG = MovieDetailsOverviewFragment.class.getSimpleName();
 
     private static final String ARG_MOVIE = "movie";
@@ -94,12 +100,13 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.tomatoes_consensus_container)            RelativeLayout mTomatoesConsensusContainer;
     @BindView(R.id.rankings_progress)                       ProgressWheel mRankingProgress;
     @BindView(R.id.rankings_container)                      LinearLayout mRankingContainer;
-    @BindView(R.id.similares_container)                     CardView mSimilaresTitleContainer;
+    @BindView(R.id.container_similares)                     LinearLayout mSimilaresTitleContainer;
     @BindView(R.id.btn_favorito)                            Button mFavoritoButton;
+    @BindView(R.id.btn_quero_ver)                           Button mWantSeeButton;
     @BindView(R.id.riple_pagina_inicial)                    MaterialRippleLayout mPaginaInicialContainer;
     @BindView(R.id.riple_imdb)                              MaterialRippleLayout mImdbContainer;
-    @BindView(R.id.imdb_reviews_container)                  CardView mImdbReviewContainer;
-    @BindView(R.id.tomatoes_reviews_container)              CardView mTomatoesReviewContainer;
+    @BindView(R.id.imdb_reviews_riple)                      MaterialRippleLayout mImdbReviewContainer;
+    @BindView(R.id.tomatoes_reviews_riple)                  MaterialRippleLayout mTomatoesReviewContainer;
     @BindView(R.id.elenco_nao_encontrado)                   TextView mElencoNaoEncontrado;
     @BindView(R.id.equipe_tecnica_nao_encontrada)           TextView mEquipeNaoEncontrada;
     @BindView(R.id.label_movie_details_date_mundial)        TextView mReleaseDateMundial;
@@ -117,6 +124,9 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     private ListWordsCallbacks mKeyWordsCallbacks;
 
     private boolean mIsFavorito;
+    private boolean mIsWantSeePressed;
+    private MovieWantSeeCallback mMovieWantSeeCallback;
+    private MovieFavoriteCallback mMovieFavoriteCallback;
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -133,6 +143,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onAttach(context);
         mGenresCallbacks = (ListWordsCallbacks) context;
         mKeyWordsCallbacks = (ListWordsCallbacks) context;
+        mMovieWantSeeCallback = (MovieWantSeeCallback) context;
+        mMovieFavoriteCallback = (MovieFavoriteCallback) context;
+
+        ((MovieDetailActivity) getActivity()).setCallback(this);
     }
 
     @Override
@@ -140,6 +154,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onDetach();
         mGenresCallbacks = null;
         mKeyWordsCallbacks = null;
+        mMovieWantSeeCallback = null;
     }
 
     @Override
@@ -163,8 +178,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     public void onPause() {
         super.onPause();
 
-        if (mPresenter != null)
-            mPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     private void init() {
@@ -191,7 +204,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             mIsFavorito = true;
         }
 
-
+        if (mMovie.getStatusDB() == MovieDB.STATUS_WANT_SEE) {
+            updateWantSeeState(R.drawable.ic_quero_ver_white, R.drawable.background_want_see, android.R.color.white);
+            mIsWantSeePressed = true;
+        }
 
         setPaginaInicialVisibility(ViewUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
 
@@ -237,7 +253,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     public void configurarSimilares() {
-        addFragment(R.id.container_similares, ListMoviesDefaultFragment.newInstance(mMovie.getId(), Sort.SIMILARS, R.layout.item_similares_movie, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+        addFragment(R.id.container_similares, ListMoviesDefaultFragment.newInstance(mMovie.getId(), Sort.SIMILARS, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
     }
 
     public void updateIMDB(String ranking, String votes) {
@@ -299,21 +315,17 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
         mReleaseDatePaisAtual.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
-        ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleLanguageISO().toUpperCase());
+        ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleCountryISO().toUpperCase());
         if (mMovie.getReleases().contains(releaseTemp)) {
             List<ReleaseDate> releaseDate = mMovie.getReleases().get(mMovie.getReleases().indexOf(releaseTemp)).getReleaseDates();
-            boolean possuiData = false;
 
             for (ReleaseDate r : releaseDate) {
                 if (r.getType().equals(ReleaseType.THEATRICAL)) {
                     mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), MovieUtils.formateDate(r.getReleaseDate())));
-                    possuiData = true;
                     break;
                 }
             }
 
-            if (!possuiData)
-                mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), getString(R.string.nao_disponivel)));
         } else
             mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), getString(R.string.nao_disponivel)));
 
@@ -341,6 +353,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
         if (mIsFavorito) {
             updateFavoriteButton("Favorito   ", R.drawable.ic_favorite_clicked);
+            mMovieFavoriteCallback.onFavoritePressed();
             Toast.makeText(getContext(), "Marcado como Favorito.", Toast.LENGTH_SHORT).show();
         } else {
             updateFavoriteButton("Favorite!   ", R.drawable.ic_favorite_border);
@@ -348,6 +361,43 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         }
 
         mPresenter.setMovieFavorite(mMovie);
+    }
+
+    @OnClick(R.id.btn_quero_ver)
+    public void onClickWantSee() {
+        mIsWantSeePressed = !mIsWantSeePressed;
+
+        mPresenter.onClickWantSee(mMovie, mIsWantSeePressed);
+
+        if (mIsWantSeePressed) {
+            updateWantSeeState(R.drawable.ic_quero_ver_white, R.drawable.background_want_see, android.R.color.white);
+            ViewUtils.createToastMessage(getContext(), "Marcado como 'Quero ver'");
+            mMovieWantSeeCallback.onWantSeePressed();
+            if (mIsFavorito) {
+                mIsFavorito = false;
+                updateFavoriteButton("Favorite!   ", R.drawable.ic_favorite_border);
+            }
+        } else {
+            updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            ViewUtils.createToastMessage(getContext(), "Desmarcado como 'Quero ver'");
+        }
+
+    }
+
+
+    @Override
+    public void onWatchedPressed() {
+        if (mIsWantSeePressed) {
+            mIsWantSeePressed = false;
+            updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
+        }
+
+    }
+
+    private void updateWantSeeState(int iconID, int backgroundColor, int textColor) {
+        mWantSeeButton.setTextColor(ViewUtils.getColorFromResource(getContext(), textColor));
+        mWantSeeButton.setCompoundDrawablesWithIntrinsicBounds(iconID, 0, 0, 0);
+        mWantSeeButton.setBackground(ViewUtils.getDrawableFromResource(getContext(), backgroundColor));
     }
 
     private void updateFavoriteButton(String text, int drawable) {
@@ -440,13 +490,13 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mImdbContainer.setVisibility(visibilityState);
     }
 
-    @OnClick(R.id.imdb_ranking_riple)
+    @OnClick(R.id.imdb_reviews_riple)
     public void onClickIMDBReviews() {
         if (mMovie.getImdbID() != null)
             startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.imdb_reviews_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
     }
 
-    @OnClick(R.id.tomatoes_ranking_riple)
+    @OnClick(R.id.tomatoes_reviews_riple)
     public void onClickTomatoesReviews() {
         if (mMovieRankings.getTomatoURL() != null)
             startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()), mMovie.getTitle()), 0);
@@ -459,7 +509,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     public void setTomatoesReviewsVisibility(int visibility) {
         mTomatoesReviewContainer.setVisibility(visibility);
     }
-
 
     @Override
     protected int getViewID() {

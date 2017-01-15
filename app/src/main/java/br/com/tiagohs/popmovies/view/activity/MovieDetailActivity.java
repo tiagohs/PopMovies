@@ -53,6 +53,7 @@ import javax.inject.Inject;
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
+import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
@@ -76,7 +77,10 @@ import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieFavoriteCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieWantSeeCallback;
+import br.com.tiagohs.popmovies.view.callbacks.MovieWatchedCallback;
 import br.com.tiagohs.popmovies.view.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ReviewCallbacks;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsFragment;
@@ -85,8 +89,8 @@ import butterknife.OnClick;
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailsView,
         MovieVideosCallbacks, ImagesCallbacks,
-        PersonCallbacks, ReviewCallbacks,
-        ListMoviesCallbacks, ListWordsCallbacks {
+        PersonCallbacks, ReviewCallbacks, MovieFavoriteCallback,
+        ListMoviesCallbacks, ListWordsCallbacks, MovieWantSeeCallback {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
@@ -119,6 +123,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private ListWordsAdapter mDiretoresAdapter;
     private boolean isStarted;
     private Bitmap mImageToShare;
+    private MovieWatchedCallback mCallback;
 
     private boolean mIsNewMovie = false;
 
@@ -137,6 +142,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mPresenter.setContext(this);
         mJaAssistiButton.hide();
 
+    }
+
+    public void setCallback(MovieWatchedCallback fragment) {
+        mCallback = fragment;
     }
 
     @Override
@@ -162,8 +171,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     protected void onStop() {
         super.onStop();
 
-        if (mPresenter != null)
-            mPresenter.onCancellRequest(this, TAG);
+//        if (mPresenter != null)
+//            mPresenter.onCancellRequest(this, TAG);
     }
 
     public void setJaAssistido() {
@@ -178,17 +187,36 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         mPresenter.onClickJaAssisti(mMovie, mIsWatchPressed);
 
-        if (mIsWatchPressed)
-            updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark, getString(R.string.marked_watched));
-        else
-            updateState(R.drawable.ic_assitir_eye, R.color.yellow, getString(R.string.desmarked_watched));
+        if (mIsWatchPressed) {
+            updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark);
+            mCallback.onWatchedPressed();
+            ViewUtils.createToastMessage(this, getString(R.string.marked_watched));
+        } else {
+            updateState(R.drawable.ic_assitir_eye, R.color.yellow);
+            ViewUtils.createToastMessage(this, getString(R.string.desmarked_watched));
+        }
     }
 
-    private void updateState(int iconID, int iconColor, String msg) {
+    private void updateState(int iconID, int iconColor) {
         mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(this, iconID));
         mJaAssistiButton.setBackgroundTintList(ColorStateList.valueOf(ViewUtils.getColorFromResource(this, iconColor)));
+    }
 
-        ViewUtils.createToastMessage(this, msg);
+    @Override
+    public void onWantSeePressed() {
+        if (mIsWatchPressed) {
+            mIsWatchPressed = false;
+            updateState(R.drawable.ic_assitir_eye, R.color.yellow);
+        }
+
+    }
+
+    @Override
+    public void onFavoritePressed() {
+        if (!mIsWatchPressed) {
+            mIsWatchPressed = true;
+            updateState(R.drawable.ic_assistido, android.R.color.holo_green_dark);
+        }
     }
 
     public void setupDirectorsRecyclerView(List<ItemListDTO> directors) {
@@ -202,19 +230,18 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         this.mMovie = movie;
         mJaAssistiButton.show();
 
-        if (!isDestroyed()) {
-            if (mMovie.getBackdropPath() != null)
-                ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
-            else {
-                ImageUtils.loadWithBlur(this, R.drawable.background_image, mBackgroundMovie);
-            }
-
-            ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
-
-            mTitleMovie.setText(mMovie.getTitle());
-            mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
-            mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
+        if (mMovie.getBackdropPath() != null)
+            ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+        else {
+            ImageUtils.loadWithBlur(this, R.drawable.background_image, mBackgroundMovie);
         }
+
+        ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
+
+        mTitleMovie.setText(mMovie.getTitle());
+        mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
+        mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
+
 
     }
 
@@ -319,16 +346,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     protected void onPause() {
         super.onPause();
 
-        if (mIsNewMovie)
-            finish();
     }
 
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
-        Intent intent = MovieDetailActivity.newIntent(this, movieID);
-        mIsNewMovie = true;
-        recreate();
-        startActivity(intent);
+        ViewUtils.startMovieActivityWithTranslation(this, movieID, posterMovie, getString(R.string.poster_movie));
     }
 
     @Override
@@ -523,4 +545,5 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     public void onClickReview(String reviewID) {
 
     }
+
 }

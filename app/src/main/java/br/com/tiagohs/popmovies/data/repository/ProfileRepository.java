@@ -102,17 +102,6 @@ public class ProfileRepository {
         return null;
     }
 
-    private List<MovieDB> findFavoritesMovies(List<MovieDB> filmesAssistidos) {
-        List<MovieDB> filmesFavoritos = new ArrayList<>();
-
-        for (MovieDB filme : filmesAssistidos) {
-            if (filme.isFavorite())
-                filmesFavoritos.add(filme);
-        }
-
-        return filmesFavoritos;
-    }
-
     public long getTotal(String sql, String[] values) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Total Hour Chamado.");

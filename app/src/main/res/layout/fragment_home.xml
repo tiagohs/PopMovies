@@ -13,93 +13,22 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/destaques_keywords_recycler_view"
             android:layout_width="wrap_content"
             android:layout_gravity="center|center_horizontal"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:minHeight="30dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/movie_populares_riple"
-                app:mrl_rippleColor="@color/secondary_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mrl_rippleOverlay="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.85">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/populares"
-                            android:textStyle="bold"
-                            android:textSize="16dp"
-                            android:fontFamily="sans-serif-light"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/populares_subtitle"
-                            android:fontFamily="sans-serif-light"
-                            android:textSize="12dp"
-                            android:layout_weight="0.85"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
-
-                </LinearLayout>
-
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/container_popular_movies"
-                android:minHeight="150dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="1dp"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -113,6 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
                     android:paddingBottom="15dp"
                     android:orientation="horizontal">
 
@@ -172,6 +103,83 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/primary_light"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/movie_populares_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@android:color/white"
+                            android:text="@string/populares"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/subtitle_white"
+                            android:text="@string/populares_subtitle"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/subtitle_white"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/container_popular_movies"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="vertical">
 
@@ -187,6 +195,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -261,6 +271,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
                     android:orientation="horizontal">
 
                     <LinearLayout

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/card_movie_margin"
-    android:elevation="3dp"
-    card_view:cardCornerRadius="@dimen/card_movie_radius">
 
     <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -56,7 +51,16 @@
                 android:layout_weight="0.75">
 
                 <TextView
-                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/movie_ano_lancamento"
+                    android:textSize="12dp"
+                    android:layout_marginTop="5dp"
+                    android:text="2016"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:textSize="16dp"
                     android:textColor="@color/primary_text"
                     android:id="@+id/title_movie"
                     android:layout_width="wrap_content"
@@ -70,7 +74,7 @@
                     android:scrollHorizontally="true" />
 
                 <TextView
-                    android:textSize="14dp"
+                    android:textSize="12dp"
                     android:textColor="@color/secondary_text"
                     android:id="@+id/geners_movie"
                     android:fontFamily="sans-serif"
@@ -85,29 +89,6 @@
                     android:focusableInTouchMode="true"
                     android:scrollHorizontally="true" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="left"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_data"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/movie_ano_lancamento"
-                        android:textSize="14dp"
-                        android:text="2016"
-                        android:layout_gravity="center|center_vertical"
-                        android:textColor="@color/colorPrimary"/>
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -117,20 +98,18 @@
                 android:layout_gravity="center"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_margin="5dp">
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/movies_btn_ja_assisti"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_assitir_eye"
-                    app:backgroundTint="@color/yellow"
-                    app:rippleColor="@android:color/white"
-                    app:elevation="4dp"/>
+                <ImageView
+                    android:id="@+id/movies_ja_assisti"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_assitir_eye_yellow"
+                    android:background="@android:color/transparent"/>
+
 
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-
-</android.support.v7.widget.CardView>

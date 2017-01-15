@@ -209,13 +209,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             fm.beginTransaction()
                     .add(fragmentID, fragment)
                     .commit();
-        }
+        } else
+            replaceFragment(fragmentID, fragment);
     }
     protected void replaceFragment(int fragmentID, Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(fragmentID);
 
-        if (f == null) {
+        if (f != null) {
             fm.beginTransaction()
                     .replace(fragmentID, fragment)
                     .commit();

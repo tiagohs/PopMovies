@@ -14,6 +14,9 @@ public class SearchMoviesInterceptorImpl implements SearchMoviesInterceptor, Res
 
     private Integer mYear;
 
+    private int mCurrentPage;
+    private int mTotalPages;
+
     public SearchMoviesInterceptorImpl(onSearchMoviesListener listener) {
         mMoviesServer = new MoviesServer();
         mListener = listener;

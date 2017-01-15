@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,6 +75,7 @@ public class App extends Application {
     }
 
     public void cancelAll(String tag) {
+        Log.i(TAG, "Cancell!" + tag);
         mRequestQueue.cancelAll(tag);
     }
 

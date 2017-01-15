@@ -84,13 +84,7 @@ public class UserRepository {
         try {
             Cursor c = db.query(PopMoviesContract.UserEntry.TABLE_NAME, null, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username}, null, null, null);
             if (c.moveToFirst()) {
-                UserDB user = new UserDB();
-                user.setUserID(c.getInt(c.getColumnIndex(PopMoviesContract.UserEntry._ID)));
-                user.setNome(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_NAME)));
-                user.setEmail(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_EMAIL)));
-                user.setSenha(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PASSWORD)));
-
-                return user;
+                return getUserByCursor(c);
             } else {
                 return null;
             }

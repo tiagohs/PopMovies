@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+
+import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,8 @@ import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 
 public class PersonDetailCarrerFragment extends BaseFragment {
+    private static final String TAG = PersonDetailCarrerFragment.class.getSimpleName();
+
     private static final String ARG_PERSON = "person";
 
     @BindView(R.id.list_person_movies_recycler_view)        RecyclerView mPersonMoviesRecyclerView;
@@ -30,6 +36,13 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     private PersonInfo mPersonInfo;
     private ListMoviesCallbacks mCallbacks;
     private CarrerMoviesAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<CarrerMoviesDTO> mCarrerList;
+
+    private List<List<CarrerMoviesDTO>> mMoviesSubList;
+    private int mIndexList = 0;
+    private boolean hasMorePages;
+    private int totalPage;
 
     public static PersonDetailCarrerFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
@@ -63,11 +76,12 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<CarrerMoviesDTO> l = new ArrayList<>();
-        mPersonMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CarrerMoviesAdapter(getActivity(), this, l, mCallbacks, R.layout.item_person_detail_movies);
+        mCarrerList = new ArrayList<>();
+        mLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        mPersonMoviesRecyclerView.setLayoutManager(mLayoutManager);
+        mPersonMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
+        mAdapter = new CarrerMoviesAdapter(getActivity(), this, mCarrerList, mCallbacks, R.layout.item_person_detail_movies);
         mPersonMoviesRecyclerView.setAdapter(mAdapter);
-        mPersonMoviesRecyclerView.setNestedScrollingEnabled(false);
 
         new CreateDTO().execute();
     }
@@ -85,6 +99,22 @@ public class PersonDetailCarrerFragment extends BaseFragment {
                 mSnackbar.dismiss();
             }
         };
+    }
+
+    private RecyclerView.OnScrollListener createOnScrollListener() {
+        return new EndlessRecyclerView(mLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (hasMorePages)
+                    addMoreMovies();
+            }
+        };
+    }
+
+    private void addMoreMovies() {
+        mCarrerList.addAll(mMoviesSubList.get(mIndexList++));
+        hasMorePages = mIndexList < (totalPage - 1);
+        mAdapter.notifyDataSetChanged();
     }
 
     private class CreateDTO extends AsyncTask<Void, Void, List<CarrerMoviesDTO>> {
@@ -105,14 +135,17 @@ public class PersonDetailCarrerFragment extends BaseFragment {
                 if (g.getMediaType().equals(MediaType.MOVIE)) {
                         list.add(new CarrerMoviesDTO(g.getId(), g.getTitle(), g.getOriginalTitle(), g.getArtworkPath(), g.getReleaseDate(), g.getCharacter(), g.getDepartment(), g.getCreditType()));
                 }
-
         }
 
         @Override
         protected void onPostExecute(List<CarrerMoviesDTO> carrerMoviesDTOs) {
             super.onPostExecute(carrerMoviesDTOs);
-            mAdapter.setList(carrerMoviesDTOs);
-            mAdapter.notifyDataSetChanged();
+
+            mMoviesSubList = ListUtils.partition(carrerMoviesDTOs, 20);
+            totalPage = mMoviesSubList.size();
+            hasMorePages = mIndexList < (totalPage - 1);
+            mCarrerList.addAll(mMoviesSubList.get(mIndexList++));
+            mPersonMoviesRecyclerView.setAdapter(mAdapter);
         }
     }
 }

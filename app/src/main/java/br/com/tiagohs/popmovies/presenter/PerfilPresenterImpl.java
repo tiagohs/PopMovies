@@ -38,7 +38,6 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
 
     public PerfilPresenterImpl() {
         mMoviesServer = new MoviesServer();
-
     }
 
     public void setContext(Context context) {
@@ -49,7 +48,6 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
     }
 
     public void initUpdates(String tag) {
-        int duaracaoTotalAssistidas = 0;
         mTag = tag;
 
         mProfile = PrefsUtils.getCurrentProfile(mContext);
@@ -64,13 +62,9 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
             }
         }
 
-        mPerfilView.setEmailPerfil(mProfile.getUser().getEmail());
         mPerfilView.setNamePerfil(mProfile.getUser().getNome());
         mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
         mPerfilView.setPerfilDescricao(mProfile.getDescricao());
-
-        mPerfilView.setTotalHorasAssistidas(mProfileRepository.getTotalHoursWatched(mProfile.getProfileID()));
-        mPerfilView.setTotalFilmesAssistidos((int) mProfileRepository.getTotalMoviesWached(mProfile.getProfileID()));
         mPerfilView.setupTabs();
         mPerfilView.setProgressVisibility(View.GONE);
     }

@@ -41,7 +41,7 @@ public class GenreRepository {
         long genreID = 0;
 
         try {
-            ContentValues values = getGenresContentValues(genre);
+            ContentValues values = getGenresContentValues(genre, movieID);
 
             boolean genreJaExistente = findGenreByGenreID(genre.getGenrerID(), movieID) != null;
 
@@ -58,12 +58,12 @@ public class GenreRepository {
         return genreID;
     }
 
-    public GenreDB findGenreByGenreID(int genreID, long movieID) {
+    public GenreDB find(String where, String[] values) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find Genre Chamado.");
 
         try {
-            Cursor c = db.query(PopMoviesContract.GenreEntry.TABLE_NAME, null, SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genreID), String.valueOf(movieID)}, null, null, null);
+            Cursor c = db.query(PopMoviesContract.GenreEntry.TABLE_NAME, null, where, values, null, null, null);
             if (c.moveToFirst()) {
                 return getGenreDBByCursor(c);
             } else {
@@ -71,11 +71,13 @@ public class GenreRepository {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            db.close();
         }
 
         return null;
+    }
+
+    public GenreDB findGenreByGenreID(int genreID, long movieID) {
+        return find(SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genreID), String.valueOf(movieID)});
     }
 
     public List<GenreDB> findAllGenreDB(long movieID) {
@@ -157,11 +159,11 @@ public class GenreRepository {
         return genre;
     }
 
-    private ContentValues getGenresContentValues(GenreDB genre) {
+    private ContentValues getGenresContentValues(GenreDB genre, long movieID) {
         ContentValues values = new ContentValues();
 
-        values.put(PopMoviesContract.GenreEntry._ID, genre.getId());
         values.put(PopMoviesContract.GenreEntry.COLUMN_GENRER_ID, genre.getGenrerID());
+        values.put(PopMoviesContract.GenreEntry.COLUMN_MOVIE_FORER_ID_SERVER, movieID);
         values.put(PopMoviesContract.GenreEntry.COLUMN_GENRER_NAME, genre.getGenrerName());
 
         return values;

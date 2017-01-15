@@ -1,5 +1,7 @@
 package br.com.tiagohs.popmovies.data;
 
+import br.com.tiagohs.popmovies.model.db.MovieDB;
+
 public class SQLHelper {
 
     public static final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE IF NOT EXISTS " + PopMoviesContract.MoviesEntry.TABLE_NAME + " (" +
@@ -23,6 +25,7 @@ public class SQLHelper {
     public static final String SQL_CREATE_GENRER_TABLE = "CREATE TABLE IF NOT EXISTS " + PopMoviesContract.GenreEntry.TABLE_NAME + " (" +
             PopMoviesContract.GenreEntry.COLUMN_MOVIE_FORER_ID_SERVER + " TEXT NOT NULL, " +
             PopMoviesContract.GenreEntry._ID + " INTEGER PRIMARY KEY, " +
+            PopMoviesContract.GenreEntry.COLUMN_GENRER_ID + " INTEGER NOT NULL, " +
             PopMoviesContract.GenreEntry.COLUMN_GENRER_NAME + " TEXT, " +
             "CONSTRAINT `fk_Genrer_Movie` " +
             "FOREIGN KEY (`" + PopMoviesContract.GenreEntry.COLUMN_MOVIE_FORER_ID_SERVER + "`)" +
@@ -73,6 +76,12 @@ public class SQLHelper {
 
         public static final String WHERE_IS_FAVORITE_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
                 " AND " + PopMoviesContract.MoviesEntry.COLUMN_FAVORITE + " = 1";
+
+        public static final String WHERE_IS_WATCHED_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WATCHED;
+
+        public static final String WHERE_IS_WANT_SEE_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WANT_SEE;
 
         public static final String SORT_BY_DATE_DESC = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
                 " WHERE + " + WHERE_ALL_MOVIE + " ORDER BY DATETIME(" +

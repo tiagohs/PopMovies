@@ -50,9 +50,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private static final String ARG_LAYOUT_ID = "layoutID";
     private static final String ARG_PARAMETERS = "paramenters";
     private static final String ARG_LIST_MOVIES = "List_movies";
+    private static final String ARG_FRAGMENT_LAYOUT_ID = "fragment_layout_id";
 
     @BindView(R.id.list_movies_recycler_view)           RecyclerView mMoviesRecyclerView;
     @BindView(R.id.list_movies_principal_progress)      ProgressWheel mPrincipalProgress;
+    @Nullable @BindView(R.id.swipeRefreshLayout)        SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Inject
     ListMoviesDefaultPresenter mPresenter;
@@ -70,6 +72,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private int mColunas;
     private int mSpanCount;
     private boolean mReverseLayout;
+    private int mFragmentLayoutId;
 
     private List<MovieListDTO> mListMovies;
     private List<MovieListDTO> mListMoviesPararmeter;
@@ -102,11 +105,12 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         return bundle;
     }
 
-    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, List<MovieListDTO> listMovies, Bundle arguments) {
+    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, int fragmentLayoutId, List<MovieListDTO> listMovies, Bundle arguments) {
 
         if (arguments != null) {
             arguments.putSerializable(ARG_LIST_MOVIES, (ArrayList<MovieListDTO>) listMovies);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
+            arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_SORT, typeList);
         }
 
@@ -115,10 +119,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         return listMoviesDefaultFragment;
     }
 
-    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, Bundle arguments) {
+    public static ListMoviesDefaultFragment newInstance(Sort typeList, int fragmentLayoutId, int layoutID, Bundle arguments) {
 
         if (arguments != null) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
+            arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_SORT, typeList);
         }
 
@@ -127,10 +132,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         return listMoviesDefaultFragment;
     }
 
-    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, Map<String, String> parameters, Bundle arguments) {
+    public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, int fragmentLayoutId, Map<String, String> parameters, Bundle arguments) {
 
         if (arguments != null) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
+            arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_PARAMETERS, (HashMap<String, String>) parameters);
             arguments.putSerializable(ARG_SORT, typeList);
         }
@@ -140,11 +146,12 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         return listMoviesDefaultFragment;
     }
 
-    public static ListMoviesDefaultFragment newInstance(int id, Sort typeList, int layoutID, Map<String, String> parameters, Bundle arguments) {
+    public static ListMoviesDefaultFragment newInstance(int id, Sort typeList, int layoutID, int fragmentLayoutId, Map<String, String> parameters, Bundle arguments) {
 
         if (arguments != null) {
             arguments.putInt(ARG_ID, id);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
+            arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_PARAMETERS, (HashMap<String, String>) parameters);
             arguments.putSerializable(ARG_SORT, typeList);
         }
@@ -163,6 +170,8 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
+        mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
+        mFragmentLayoutId = getArguments().getInt(ARG_FRAGMENT_LAYOUT_ID, R.layout.fragment_list_movies_default);
     }
 
 
@@ -187,13 +196,21 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mParameters = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAMETERS);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
         mTypeListLayout = (ListsDefaultActivity.TypeListLayout) getArguments().getSerializable(ARG_TYPE_LAYOUT);
-        mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
         mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
         mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
 
         mPresenter.setContext(getActivity());
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    searchMovies();
+                }
+            });
+        }
     }
 
     @Override
@@ -206,8 +223,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     public void onPause() {
         super.onPause();
 
-        if (mPresenter != null)
-            mPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     @Override
@@ -228,7 +243,8 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         } else {
             mPresenter.getMovies(mID, mTypeList, TAG, mParameters);
         }
-
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void updateUI() {
@@ -238,6 +254,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         setupRecyclerView();
         setProgressVisibility(View.GONE);
         setRecyclerViewVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -248,7 +265,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     @Override
     protected int getViewID() {
-        return R.layout.fragment_list_movies_default;
+        return mFragmentLayoutId;
     }
 
     public void setProgressVisibility(int visibityState) {

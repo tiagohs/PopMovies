@@ -47,8 +47,8 @@ public class PerfilFilmesFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        addFragment(R.id.container_perfil_favoritos, ListMoviesDefaultFragment.newInstance(Sort.FAVORITE, R.layout.item_similares_movie, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
-        addFragment(R.id.container_perfil_assistidos, ListMoviesDefaultFragment.newInstance(0, Sort.ASSISTIDOS, R.layout.item_list_movies, new HashMap<String, String>(), ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns))));
+        addFragment(R.id.container_perfil_favoritos, ListMoviesDefaultFragment.newInstance(Sort.FAVORITE, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+        addFragment(R.id.container_perfil_assistidos, ListMoviesDefaultFragment.newInstance(0, Sort.ASSISTIDOS, R.layout.item_list_movies, R.layout.fragment_list_movies_default_no_pull, new HashMap<String, String>(), ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns))));
     }
 
     private void addFragment(int id, Fragment fragment) {

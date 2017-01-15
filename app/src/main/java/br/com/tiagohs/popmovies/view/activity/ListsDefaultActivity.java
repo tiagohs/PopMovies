@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -104,7 +105,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
         switch (mListActivityDTO.getListType()) {
             case MOVIES:
-                fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
             case PERSON:
                 if (mPersons == null)
@@ -150,7 +151,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         addFilterItemParameter(Param.PRIMARY_RELEASE_YEAR.getParam(), filters.getReleaseYear());
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), filters.getPrimaryRelaseDateGte());
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), filters.getPrimaryRelaseDateLte());
-        addFilterItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
+        //addFilterItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
         addFilterItemParameter(Param.VOTE_AVERAGE_LTE.getParam(), filters.getVoteAverageLte());
 
         additionalSearchConfigurations();

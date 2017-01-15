@@ -155,7 +155,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
             mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES);
             mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES));
 
-            addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+            addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         } else
             mKnowForContainer.setVisibility(View.GONE);
     }

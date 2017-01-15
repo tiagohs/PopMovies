@@ -9,10 +9,7 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 public interface PerfilView extends BaseView {
 
     void setNamePerfil(String nameUser);
-    void setEmailPerfil(String emailUser);
     void setImagePerfil(String imagePath);
-    void setTotalHorasAssistidas(long duracaoTotal);
-    void setTotalFilmesAssistidos(int totalFilmesAssistidos);
     void setBackground(String backgroundPath);
     void setupTabs();
     void setProfile(ProfileDB mProfile);

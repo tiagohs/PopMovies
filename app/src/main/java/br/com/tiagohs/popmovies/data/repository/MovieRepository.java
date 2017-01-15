@@ -78,7 +78,7 @@ public class MovieRepository {
         deleteMovie(serverID, profileID, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID);
     }
 
-    private Movie findMovie(int serverID, long profileID, String where, String[] values) {
+    private Movie findMovie(String where, String[] values) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find Movie Chamado.");
 
@@ -99,11 +99,19 @@ public class MovieRepository {
     }
 
     public Movie findMovieByServerID(int serverID, long profileID) {
-        return findMovie(serverID, profileID, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(serverID), String.valueOf(profileID)});
+        return findMovie(SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(serverID), String.valueOf(profileID)});
     }
 
-    private boolean isFavoriteMovie(long profileID, int serverID) {
-        return findMovie(serverID, profileID, SQLHelper.MovieSQL.WHERE_IS_FAVORITE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
+    public boolean isFavoriteMovie(long profileID, int serverID) {
+        return findMovie(SQLHelper.MovieSQL.WHERE_IS_FAVORITE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
+    }
+
+    public boolean isWantSeeMovie(long profileID, int serverID) {
+        return findMovie(SQLHelper.MovieSQL.WHERE_IS_WANT_SEE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
+    }
+
+    public boolean isWachedMovie(long profileID, int serverID) {
+        return findMovie(SQLHelper.MovieSQL.WHERE_IS_WATCHED_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
     }
 
     public List<Movie> findAllMovies(long profileID) {
@@ -169,8 +177,9 @@ public class MovieRepository {
 
         movie.setId(c.getInt(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER)));
         movie.setPosterPath(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_POSTER_PATH)));
-        movie.setFavorite(Boolean.parseBoolean(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_FAVORITE))));
+        movie.setFavorite(!c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_FAVORITE)).equals("0"));
         movie.setTitle(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_TITLE)));
+        movie.setStatusDB(c.getInt(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_STATUS)));
         movie.setVoteAverage(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_VOTES)));
         movie.setReleaseDate(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_RELEASE_DATE)));
         movie.setGenreIDs(mGenerRepository.findAllGenreID(movie.getId()));
@@ -186,7 +195,7 @@ public class MovieRepository {
             movie.setIdServer(c.getInt(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER)));
             movie.setPosterPath(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_POSTER_PATH)));
             movie.setStatus(c.getInt(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_STATUS)));
-            movie.setFavorite(Boolean.parseBoolean(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_FAVORITE))));
+            movie.setFavorite(!c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_FAVORITE)).equals("0"));
             movie.setTitle(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_TITLE)));
             movie.setVote(c.getDouble(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_VOTES)));
             movie.setRuntime(c.getInt(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_RUNTIME)));

@@ -21,7 +21,10 @@ import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,13 +59,11 @@ public class FilterDialogFragment extends DialogFragment {
     EditText mDataFinal;
 
     @BindView(R.id.nota_comunidade_seekbar)
-    CrystalRangeSeekbar mNotaComunidade;
+    CrystalSeekbar mNotaComunidade;
 
     @BindView(R.id.min_nota_text_view)
     TextView mNotaInicial;
 
-    @BindView(R.id.max_nota_text_view)
-    TextView mNotaFinal;
 
     private ListType mTypeList;
     private SimpleDateFormat mDateFormatter;
@@ -150,13 +151,13 @@ public class FilterDialogFragment extends DialogFragment {
     private View createView() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-       switch (mTypeList) {
-           case MOVIES:
-               return inflater.inflate(R.layout.fragment_filter_dialog, null);
+        switch (mTypeList) {
+            case MOVIES:
+                return inflater.inflate(R.layout.fragment_filter_dialog, null);
 
-           default:
-               return inflater.inflate(R.layout.fragment_filter_dialog, null);
-       }
+            default:
+                return inflater.inflate(R.layout.fragment_filter_dialog, null);
+        }
     }
 
     private void configurateView() {
@@ -198,7 +199,7 @@ public class FilterDialogFragment extends DialogFragment {
         List<String> years = new ArrayList<>();
 
         years.add("Nenhum");
-        for (int cont = Calendar.getInstance().get(Calendar.YEAR) + 5; cont >= 1890; cont--)
+        for (int cont = Calendar.getInstance().get(Calendar.YEAR) + 5; cont >= 1990; cont--)
             years.add(String.valueOf(cont));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
@@ -226,22 +227,18 @@ public class FilterDialogFragment extends DialogFragment {
                 .setSteps(1)
                 .apply();
 
-        mNotaComunidade.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+        mNotaComunidade.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
             @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                mNotaInicial.setText(String.valueOf(minValue));
-                mNotaFinal.setText(String.valueOf(maxValue));
-
-                mFilterValuesDTO.setVoteAverageGte(String.valueOf(minValue));
-                mFilterValuesDTO.setVoteAverageLte(String.valueOf(maxValue));
+            public void valueChanged(Number value) {
+                mNotaInicial.setText(String.valueOf(value));
+                mFilterValuesDTO.setVoteAverageLte(String.valueOf(value));
             }
         });
 
-        mNotaComunidade.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+        mNotaComunidade.setOnSeekbarFinalValueListener(new OnSeekbarFinalValueListener() {
             @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                mFilterValuesDTO.setVoteAverageGte(String.valueOf(minValue));
-                mFilterValuesDTO.setVoteAverageLte(String.valueOf(maxValue));
+            public void finalValue(Number value) {
+                mFilterValuesDTO.setVoteAverageLte(String.valueOf(value));
             }
         });
 

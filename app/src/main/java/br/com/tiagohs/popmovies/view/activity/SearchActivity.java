@@ -1,52 +1,38 @@
 package br.com.tiagohs.popmovies.view.activity;
 
-import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pnikosis.materialishprogress.ProgressWheel;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.movie.Movie;
-import br.com.tiagohs.popmovies.presenter.SearchPresenter;
-import br.com.tiagohs.popmovies.view.adapters.SearchAdapter;
-import br.com.tiagohs.popmovies.view.fragment.EndlessRecyclerView;
+import br.com.tiagohs.popmovies.view.adapters.SearchTabAdapter;
+import br.com.tiagohs.popmovies.view.callbacks.SearchCallback;
 import butterknife.BindView;
 
-public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmovies.view.SearchView, SearchView.OnQueryTextListener {
+public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private static final String TAG = SearchActivity.class.getSimpleName();
     private static final String ARG_QUERY = "br.com.tiagohs.popmovies.query";
 
-    @BindView(R.id.list_movies_recycler_view)       RecyclerView mResultsRecyclerView;
-    @BindView(R.id.search_progress)                 ProgressWheel mProgress;
-    @BindView(R.id.nenhum_filme_encontrado)         TextView mNenhumFilmeEncontrado;
+    @BindView(R.id.tabLayout)
+    TabLayout mTabLayout;
 
-    @Inject
-    SearchPresenter mSearchPresenter;
+    @BindView(R.id.search_view_pager)
+    ViewPager mViewPager;
 
     private SearchView mSearchView;
+    private SearchCallback mCallback;
 
-    private boolean hasMorePages;
     private String mQuery;
-    private List<Movie> mListMovies = new ArrayList<>();
 
-    private SearchAdapter mSearchAdapter;
-    private LinearLayoutManager mLinearLayout;
+    private SearchTabAdapter mSearchTabAdapter;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, SearchActivity.class);
@@ -57,17 +43,40 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mSearchPresenter.setView(this);
-        mSearchPresenter.setContext(this);
-
         if (savedInstanceState != null) {
             mQuery = savedInstanceState.getString(ARG_QUERY);
-            search(mQuery, true);
 
             if (mSearchView != null)
                 mSearchView.setQuery(mQuery, false);
 
         }
+        mSearchTabAdapter = new SearchTabAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.search_tab_array));
+        mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(0);
+
+        mViewPager.setAdapter(mSearchTabAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(tab.getPosition());
+                if (mQuery != null)
+                    onQueryTextSubmit(mQuery);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(tab.getPosition());
+                if (mQuery != null)
+                    onQueryTextSubmit(mQuery);
+            }
+        });
+
+
     }
 
     @Override
@@ -79,8 +88,6 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     protected void onStop() {
         super.onStop();
 
-        if (mSearchPresenter != null)
-            mSearchPresenter.onCancellRequest(this, TAG);
     }
 
     @Override
@@ -94,16 +101,12 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
     protected void onNewIntent(Intent intent) {
         //Quando Clicamos no botão search.
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            search(intent.getStringExtra(SearchManager.QUERY), true);
+            mCallback.onQueryChanged(intent.getStringExtra(SearchManager.QUERY), true);
 
             //Suggestion
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Toast.makeText(this, "Ação! Suggestion: ", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void search(String query, boolean isNewSearch) {
-        mSearchPresenter.searchMovies(query, false, null, TAG, null, isNewSearch);
     }
 
     @Override
@@ -129,7 +132,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(mQuery, true);
+                mCallback.onQueryChanged(mQuery, true);
                 mSnackbar.dismiss();
             }
         };
@@ -140,54 +143,7 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
         return 0;
     }
 
-    public void setListMovies(List<Movie> listMovies, boolean hasMorePages) {
-        mListMovies = listMovies;
-        this.hasMorePages = hasMorePages;
-    }
 
-    public void addAllMovies(List<Movie> listMovies, boolean hasMorePages) {
-        mListMovies.addAll(listMovies);
-        this.hasMorePages = hasMorePages;
-    }
-
-    public void setupRecyclerView() {
-        mLinearLayout = new LinearLayoutManager(this);
-        mResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mResultsRecyclerView.addOnScrollListener(createOnScrollListener());
-        setupAdapter();
-    }
-
-    public void updateAdapter() {
-        mSearchAdapter.notifyDataSetChanged();
-    }
-
-    private void setupAdapter() {
-        mSearchAdapter = new SearchAdapter(this, mListMovies, this, mSearchPresenter);
-        mResultsRecyclerView.setAdapter(mSearchAdapter);
-    }
-
-    private RecyclerView.OnScrollListener createOnScrollListener() {
-        return new EndlessRecyclerView(mLinearLayout) {
-
-            @Override
-            public void onLoadMore(int current_page) {
-                if(hasMorePages)
-                    search(mQuery, false);
-            }
-        };
-    }
-
-    public void onMovieSelected(int movieID, ImageView posterMovie) {
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions transitionActivityOptions = ActivityOptions
-                    .makeSceneTransitionAnimation(SearchActivity.this, posterMovie, getString(R.string.poster_movie));
-            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
-        } else {
-            startActivity(MovieDetailActivity.newIntent(this, movieID));
-        }
-
-    }
 
     @Override
     protected int getActivityBaseViewID() {
@@ -196,28 +152,18 @@ public class SearchActivity extends BaseActivity implements br.com.tiagohs.popmo
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        search(query, true);
+        if (mCallback != null)
+            mCallback.onQueryChanged(query, true);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         mQuery = newText;
-        search(newText, true);
+        Log.i(TAG, "TAB" + mCallback );
+        if (mCallback != null)
+            mCallback.onQueryChanged(newText, true);
         return false;
     }
 
-    @Override
-    public void setProgressVisibility(int visibityState) {
-        mProgress.setVisibility(visibityState);
-    }
-
-    @Override
-    public boolean isAdded() {
-        return this != null;
-    }
-
-    public void setNenhumFilmeEncontradoVisibility(int visibility) {
-        mNenhumFilmeEncontrado.setVisibility(visibility);
-    }
 }

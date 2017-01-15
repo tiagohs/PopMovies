@@ -4,6 +4,8 @@ import android.content.Context;
 
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
+import br.com.tiagohs.popmovies.view.SearchMoviesView;
+import br.com.tiagohs.popmovies.view.SearchPersonsView;
 import br.com.tiagohs.popmovies.view.SearchView;
 
 public interface SearchPresenter extends BasePresenter<SearchView> {
@@ -22,4 +24,7 @@ public interface SearchPresenter extends BasePresenter<SearchView> {
     void getMovieDetails(int movieID, boolean buttonStage, String tag);
     boolean isJaAssistido(int movieID);
     void setContext(Context context);
+
+    void setMovieView(SearchMoviesView searchMoviesView);
+    void setPersonView(SearchPersonsView searchPersonsView);
 }

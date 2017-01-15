@@ -96,7 +96,7 @@ public class PersonsServer extends PopMovieServer {
                              SearchType searchType,
                              Integer currentPage,
                              String tag,
-                             ResponseListener<GenericListResponse<MediaBasic>> listener) {
+                             ResponseListener<GenericListResponse<PersonFind>> listener) {
         mParameters = new HashMap<>();
 
         mParameters.put(Param.API_KEY.getParam(), KEY);
@@ -104,9 +104,9 @@ public class PersonsServer extends PopMovieServer {
         mParameters.put(Param.QUERY.getParam(), query);
         mParameters.put(Param.PAGE.getParam(), String.valueOf(currentPage));
         mParameters.put(Param.ADULT.getParam(), includeAdult ? String.valueOf(true) : String.valueOf(false));
-        mParameters.put(Param.SEARCH_TYPE.getParam(), searchType != null ? "" : searchType.getPropertyString());
+        mParameters.put(Param.SEARCH_TYPE.getParam(), searchType == null ? "" : searchType.getPropertyString());
 
-        mTypeToken = new TypeReference<GenericListResponse<MediaBasic>>(){};
+        mTypeToken = new TypeReference<GenericListResponse<PersonFind>>(){};
         mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
                 .addMethod(Method.SEARCH)
                 .addSubMethod(SubMethod.PERSON)

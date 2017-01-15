@@ -6,29 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="fill_vertical"
+    android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -323,6 +314,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp">
 
@@ -360,14 +353,23 @@
                 android:layout_gravity="right"
                 android:layout_below="@+id/movie_tomatoes_consensus"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/tomatoes_consensus_assign"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
@@ -383,8 +385,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp">
 
                 <TextView
                     android:id="@+id/sinopse_movie"
@@ -405,178 +408,160 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/imdb_reviews_container"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/imdb_reviews_riple"
+                app:mrl_rippleColor="@color/colorAccent"
+                android:layout_marginBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_imdb_icon"
+                        android:layout_weight="0.2"/>
+
+                    <TextView
+                        android:id="@+id/label_imdb"
+                        android:textSize="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IMDB Reviews"
+                        android:layout_weight="0.7"/>
+
+                    <TextView
+                        android:id="@+id/label_imdb_extra"
+                        android:textSize="22dp"
+                        android:gravity="left"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text=">"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/tomatoes_reviews_riple"
+                app:mrl_rippleColor="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_tomatoes"
+                        android:layout_weight="0.2"/>
+
+                    <TextView
+                        android:id="@+id/label_tomatoes"
+                        android:textSize="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tomatoes Reviews"
+                        android:layout_weight="0.7"/>
+
+                    <TextView
+                        android:id="@+id/label_tomatoes_extra"
+                        android:textSize="22dp"
+                        android:gravity="left"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text=">"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="0dp">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/imdb_ranking_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
-
-                    <LinearLayout
-                        android:padding="5dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_imdb_icon"
-                            android:layout_weight="0.2"/>
-
-                        <TextView
-                            android:id="@+id/label_imdb"
-                            android:textSize="18dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IMDB Reviews"
-                            android:layout_weight="0.7"/>
-
-                        <TextView
-                            android:id="@+id/label_imdb_extra"
-                            android:textSize="22dp"
-                            android:gravity="left"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:text=">"/>
-
-                    </LinearLayout>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/tomatoes_reviews_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="0dp">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/tomatoes_ranking_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
-
-                    <LinearLayout
-                        android:padding="5dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_tomatoes"
-                            android:layout_weight="0.2"/>
-
-                        <TextView
-                            android:id="@+id/label_tomatoes"
-                            android:textSize="18dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tomatoes Reviews"
-                            android:layout_weight="0.7"/>
-
-                        <TextView
-                            android:id="@+id/label_tomatoes_extra"
-                            android:textSize="22dp"
-                            android:gravity="left"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:text=">"/>
-
-                    </LinearLayout>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-            </android.support.v7.widget.CardView>
+                android:layout_marginBottom="10dp"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
 
             <include layout="@layout/include_movie_detail_overview_tec"/>
 
         </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/similares_container"
-            android:layout_margin="10dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="4dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/similares_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/similares_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:orientation="horizontal">
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_details_overview_similares"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:layout_marginLeft="16dp"
-                            android:text="@string/titles_movie_details_overview_similares"
-                            android:fontFamily="sans-serif-condensed"
-                            android:layout_weight="0.85"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
 
-                            android:layout_marginRight="16dp"
-                            android:gravity="center"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:text="@string/label_mais"
-                            android:fontFamily="sans-serif-condensed"
-                            android:layout_weight="0.15"/>
+                </LinearLayout>
 
-                    </LinearLayout>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_similares"
                 android:minHeight="150dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </android.support.v7.widget.CardView>
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>
