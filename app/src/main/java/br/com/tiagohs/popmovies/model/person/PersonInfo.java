@@ -37,6 +37,7 @@ import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.atwork.ArtworkMedia;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.credits.CreditTVBasic;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.response.ChangesResponse;
 import br.com.tiagohs.popmovies.model.response.CombinedCreditsResponse;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
@@ -72,8 +73,10 @@ public class PersonInfo extends PersonBasic implements Serializable {
     @JsonProperty("popularity")
     private float popularity;
     private Gender gender;
-    // AppendToResponse
     private final Set<PeopleMethod> methods = EnumSet.noneOf(PeopleMethod.class);
+
+
+    private List<MovieListDTO> moviesCarrer = Collections.emptyList();
 
     // AppendToResponse Properties
     private List<ChangeKeyItem> changes = Collections.emptyList();
@@ -199,6 +202,13 @@ public class PersonInfo extends PersonBasic implements Serializable {
         }
     }
 
+    public List<MovieListDTO> getMoviesCarrer() {
+        return moviesCarrer;
+    }
+
+    public void setMoviesCarrer(List<MovieListDTO> moviesCarrer) {
+        this.moviesCarrer = moviesCarrer;
+    }
 
     public Gender getGender() {
         return gender;

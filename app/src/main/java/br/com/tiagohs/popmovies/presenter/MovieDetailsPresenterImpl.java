@@ -155,6 +155,8 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
             mMovieDetailsView.setJaAssistido();
         else if (mMovieRepository.isWantSeeMovie(profileID, movieDetails.getId()))
             movieDetails.setStatusDB(MovieDB.STATUS_WANT_SEE);
+        else if (mMovieRepository.isDontWantSeeMovie(profileID, movieDetails.getId()))
+            movieDetails.setStatusDB(MovieDB.STATUS_DONT_WANT_SEE);
 
         if (movieDetails.getRuntime() == 0)
             mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);

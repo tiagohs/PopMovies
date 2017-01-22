@@ -43,7 +43,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private static final String ARG_PERSON = "br.com.tiagohs.popmovies.person";
 
     private static final int NUM_MAX_KNOW_FOR_MOVIES = 10;
-    private static final int NUM_MAX_IMAGES = 12;
+    private static final int NUM_MAX_IMAGES = 6;
 
     @BindView(R.id.descricao_person)                TextView mDescricaoPerson;
     @BindView(R.id.person_data_nascimento)          TextView mDataNascimento;
@@ -152,8 +152,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateKnowFor() {
 
         if (!mPerson.getMovieCredits().getCast().isEmpty() || !mPerson.getMovieCredits().getCrew().isEmpty()) {
-            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCast(), NUM_MAX_KNOW_FOR_MOVIES);
-            mListKnowForDTO.addAll(DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMovieCredits().getCrew(), NUM_MAX_KNOW_FOR_MOVIES));
+            mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMoviesCarrer(), NUM_MAX_KNOW_FOR_MOVIES);
 
             addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         } else

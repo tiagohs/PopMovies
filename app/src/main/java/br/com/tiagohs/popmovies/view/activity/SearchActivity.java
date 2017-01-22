@@ -143,8 +143,6 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         return 0;
     }
 
-
-
     @Override
     protected int getActivityBaseViewID() {
         return R.layout.activity_search;
@@ -152,6 +150,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        mSearchView.clearFocus();
+
         if (mCallback != null)
             mCallback.onQueryChanged(query, true);
         return true;
@@ -160,10 +160,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(String newText) {
         mQuery = newText;
-        Log.i(TAG, "TAB" + mCallback );
         if (mCallback != null)
             mCallback.onQueryChanged(newText, true);
-        return false;
+        return true;
     }
 
 }

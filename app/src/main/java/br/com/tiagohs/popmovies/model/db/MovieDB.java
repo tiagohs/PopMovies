@@ -7,6 +7,7 @@ import java.util.List;
 public class MovieDB {
     public static final int STATUS_WATCHED = 0;
     public static final int STATUS_WANT_SEE = 1;
+    public static final int STATUS_DONT_WANT_SEE = 2;
 
     private long id;
     private int idServer;

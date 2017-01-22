@@ -207,22 +207,25 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    mPresenter.resetValues();
                     searchMovies();
                 }
             });
         }
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         searchMovies();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
+        mPresenter.resetValues();
     }
 
     @Override
@@ -298,16 +301,16 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     public void updateAdapter() {
-        if (mListMoviesAdapter != null)
+        if (mListMoviesAdapter != null) {
+            mListMoviesAdapter.setList(mListMovies);
             mListMoviesAdapter.notifyDataSetChanged();
-        else
+        } else
             setupRecyclerView();
     }
 
     private void setupAdapter() {
 
         if (mListMoviesAdapter == null) {
-            Log.i(TAG, "Total Filmes: " + mListMovies.size());
             mListMoviesAdapter = new ListMoviesAdapter(getActivity(), mListMovies, mCallbacks, mLayoutID, mPresenter);
             mMoviesRecyclerView.setAdapter(mListMoviesAdapter);
         } else
@@ -338,8 +341,10 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
             @Override
             public void onLoadMore(int current_page) {
-                if(hasMorePages)
+                if(hasMorePages) {
                     searchMovies();
+                }
+
             }
         };
     }

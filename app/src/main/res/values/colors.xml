@@ -6,6 +6,8 @@
     <color name="colorAccent">#f44336</color>
     <color name="subtitle_white">#eeeeee</color>
 
+    <color name="color_estatistica_back">#7e57c2</color>
+
     <color name="colorPlayTransparent">#ffffff</color>
     <color name="placeholder_background">@color/primary_light</color>
 

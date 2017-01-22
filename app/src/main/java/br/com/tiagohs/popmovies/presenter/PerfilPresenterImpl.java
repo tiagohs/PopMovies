@@ -8,17 +8,21 @@ import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import java.util.List;
 import java.util.Random;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.view.MovieDetailsView;
 import br.com.tiagohs.popmovies.view.PerfilView;
@@ -52,19 +56,21 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
 
         mProfile = PrefsUtils.getCurrentProfile(mContext);
         mPerfilView.setProfile(mProfile);
-        mProfile.setFilmesAssistidos(mProfile.getFilmesAssistidos());
-        mProfile.setFilmesFavoritos(mProfile.getFilmesFavoritos());
+        List<MovieDB> movies = mMovieRepository.findAllMoviesDB(mProfile.getProfileID());
 
-        if (mProfile.getFilmesAssistidos() != null) {
-            if (!mProfile.getFilmesAssistidos().isEmpty()) {
-                int index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
-                getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), tag);
+        if (movies != null) {
+            if (!movies.isEmpty()) {
+                int index = new Random().nextInt(movies.size());
+                getMovie(movies.get(index).getIdServer(), tag);
             }
         }
 
+        if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
+            mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
+        else if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
+            mPerfilView.setLocalImagePerfil(ImageUtils.getBitmapFromPath(mProfile.getUser().getLocalPicture(), mContext));
+
         mPerfilView.setNamePerfil(mProfile.getUser().getNome());
-        mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
-        mPerfilView.setPerfilDescricao(mProfile.getDescricao());
         mPerfilView.setupTabs();
         mPerfilView.setProgressVisibility(View.GONE);
     }
@@ -93,8 +99,10 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
 
         int index = 0;
         if (response.getBackdrops().isEmpty() && response.getPosters().isEmpty()) {
-            index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
-            getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), mTag);
+            if (mProfile.getFilmesAssistidos() != null) {
+                index = new Random().nextInt(mProfile.getFilmesAssistidos().size());
+                getMovie(mProfile.getFilmesAssistidos().get(index).getIdServer(), mTag);
+            }
         } else {
 
             if (!response.getBackdrops().isEmpty()) {

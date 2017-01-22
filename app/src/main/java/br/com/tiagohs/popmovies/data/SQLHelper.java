@@ -39,6 +39,8 @@ public class SQLHelper {
             PopMoviesContract.UserEntry.COLUMN_TYPE_LOGIN + " TEXT, " +
             PopMoviesContract.UserEntry.COLUMN_USERNAME + " TEXT UNIQUE, " +
             PopMoviesContract.UserEntry.COLUMN_PICTURE_PATH + " TEXT, " +
+            PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE + " INTEGER, " +
+            PopMoviesContract.UserEntry.COLUMN_PICTURE_LOCAL_PATH + " TEXT, " +
             PopMoviesContract.UserEntry.COLUMN_EMAIL + " TEXT UNIQUE, " +
             PopMoviesContract.UserEntry.COLUMN_PASSWORD + " TEXT );";
 
@@ -46,6 +48,9 @@ public class SQLHelper {
             PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_USERNAME + " TEXT NOT NULL, " +
             PopMoviesContract.ProfileEntry._ID + " INTEGER PRIMARY KEY," +
             PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION + " TEXT, " +
+            PopMoviesContract.ProfileEntry.COLUMN_BIRTHDAY + " TEXT, " +
+            PopMoviesContract.ProfileEntry.COLUMN_COUNTRY + " TEXT, " +
+            PopMoviesContract.ProfileEntry.COLUMN_GENRER + " TEXT, " +
             "CONSTRAINT `fk_Profile_Usuario` " +
             "FOREIGN KEY (`" + PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_USERNAME + "`)" +
             "REFERENCES `" + PopMoviesContract.UserEntry.TABLE_NAME + "` (`" + PopMoviesContract.UserEntry._ID + "`)" +
@@ -66,10 +71,13 @@ public class SQLHelper {
         public static final String WHERE_ALL_MOVIE = PopMoviesContract.MoviesEntry.COLUMN_PROFILE_FORER_ID + " = ?";
 
         public static final String WHERE_ALL_MOVIES_WATCHED = WHERE_ALL_MOVIE +
-                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = 0";
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WATCHED;
 
         public static final String WHERE_ALL_MOVIE_WANT_SEE = WHERE_ALL_MOVIE +
-                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = 1";
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WANT_SEE;
+
+        public static final String WHERE_ALL_MOVIE_DONT_WANT_SEE = WHERE_ALL_MOVIE +
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_DONT_WANT_SEE;
 
         public static final String WHERE_ALL_FAVORITE_MOVIE = WHERE_ALL_MOVIE +
                 " AND " + PopMoviesContract.MoviesEntry.COLUMN_FAVORITE + " = 1";
@@ -82,6 +90,9 @@ public class SQLHelper {
 
         public static final String WHERE_IS_WANT_SEE_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
                 " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WANT_SEE;
+
+        public static final String WHERE_IS_DONT_WANT_SEE_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
+                " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_DONT_WANT_SEE;
 
         public static final String SORT_BY_DATE_DESC = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
                 " WHERE + " + WHERE_ALL_MOVIE + " ORDER BY DATETIME(" +
@@ -127,14 +138,39 @@ public class SQLHelper {
         public static final String SQL_TOTAL_HOURS_WATCHED = "SELECT SUM(" + PopMoviesContract.MoviesEntry.COLUMN_RUNTIME + ") FROM " +
                 PopMoviesContract.MoviesEntry.TABLE_NAME + " WHERE " + MovieSQL.WHERE_ALL_MOVIE;
 
-        public static final String SQL_TOTAL_MOVIES_WATCHED = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+        public static final String SQL_TOTAL_MOVIES = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
                 " WHERE " + MovieSQL.WHERE_ALL_MOVIE;
+
+        public static final String SQL_TOTAL_MOVIES_WATCHED = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_MOVIES_WATCHED;
+
+        public static final String SQL_TOTAL_MOVIES_FAVORITES = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_FAVORITE_MOVIE;
+
+        public static final String SQL_TOTAL_MOVIES_WANT_SEE = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_MOVIE_WANT_SEE;
+
+        public static final String SQL_TOTAL_MOVIES_DONT_WANT_SEE = "SELECT COUNT(*) FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_MOVIE_DONT_WANT_SEE;
 
         public static final String SQL_TOTAL_MOVIES_BY_GENRER = "SELECT COUNT(*) "
                 + "FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME + " m " +
                 "LEFT JOIN " + PopMoviesContract.GenreEntry.TABLE_NAME + " g " +
                 "ON " + "m." + PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER + " = g." + PopMoviesContract.GenreEntry.COLUMN_MOVIE_FORER_ID_SERVER +
-                " AND g."	+ PopMoviesContract.GenreEntry.COLUMN_GENRER_ID + " = ? " +
-                "WHERE m." + MovieSQL.WHERE_ALL_MOVIE;
+                " WHERE g."	+ PopMoviesContract.GenreEntry.COLUMN_GENRER_ID + " = ? " +
+                "AND m." + PopMoviesContract.MoviesEntry.COLUMN_PROFILE_FORER_ID + " = ? " +
+                " AND m." + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_WATCHED;
+
+        public static final String SQL_HAS_MOVIE_WATCHED = "SELECT 1 WHERE EXISTS (SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                                                            " WHERE " + MovieSQL.WHERE_ALL_MOVIES_WATCHED + ")";
+
+        public static final String SQL_HAS_MOVIE_WANT_SEE = "SELECT 1 WHERE EXISTS (SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_MOVIE_WANT_SEE + ")";
+
+        public static final String SQL_HAS_MOVIE_DONT_WANT_SEE = "SELECT 1 WHERE EXISTS (SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_MOVIE_DONT_WANT_SEE + ")";
+
+        public static final String SQL_HAS_MOVIE_FAVORITE = "SELECT 1 WHERE EXISTS (SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + MovieSQL.WHERE_ALL_FAVORITE_MOVIE + ")";
     }
 }

@@ -32,11 +32,25 @@ import butterknife.ButterKnife;
 public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOptionsAdapter.LongClickOptionsViewHolder> {
     private static final String TAG = ListMoviesAdapter.class.getSimpleName();
 
+    private static final int OPT_FAVORITE = 0;
+    private static final int OPT_WATCHED = 1;
+    private static final int OPT_WANT_SEE = 2;
+    private static final int OPT_DONT_WANT_SEE = 3;
+
     private List<Item> mItemList;
     private Context mContext;
     private int mMovieID;
     private long mProfileID;
     private LongClickCallbacks mCallback;
+
+    private MovieRepository mMovieRepository;
+    private Movie mMovie;
+
+    private boolean mIsFavorite;
+    private boolean mIsToSave;
+    private boolean mIsWatched;
+    private boolean mIsWantSee;
+    private boolean mIsDontWantSee;
 
     public LongClickOptionsAdapter(Context context, List<Item> itemList, int movieID, LongClickCallbacks callback) {
         this.mItemList = itemList;
@@ -44,6 +58,30 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         this.mMovieID = movieID;
         this.mCallback = callback;
         this.mProfileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
+        this.mMovieRepository = new MovieRepository(mContext);
+
+        configureOptions();
+    }
+
+    private void configureOptions() {
+        mMovie = mMovieRepository.findMovieByServerID(mMovieID, mProfileID);
+
+        Log.i(TAG, "Status: " + mMovie);
+
+        if (mMovie != null) {
+            Log.i(TAG, "Status: " + mMovie.getStatusDB());
+
+
+            if (mMovie.getStatusDB() == MovieDB.STATUS_WATCHED) {
+                mIsToSave = mIsWatched = true;
+            } else if (mMovie.getStatusDB() == MovieDB.STATUS_WANT_SEE) {
+                mIsToSave = mIsWantSee = true;
+            } else if (mMovie.getStatusDB() == MovieDB.STATUS_DONT_WANT_SEE) {
+                mIsToSave = mIsDontWantSee = true;
+            }
+
+            mIsFavorite = mMovie.isFavorite();
+        }
     }
 
     @Override
@@ -56,7 +94,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
     @Override
     public void onBindViewHolder(LongClickOptionsAdapter.LongClickOptionsViewHolder holder, int position) {
-        holder.bindMovie(position);
+        holder.bind(position);
     }
 
     @Override
@@ -65,82 +103,148 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
     }
 
     class LongClickOptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.item_icon)
-        ImageView mItemIcon;
-        @BindView(R.id.item_text)
-        TextView mItemText;
-        @BindView(R.id.item_riple)
-        MaterialRippleLayout mItemRiple;
+        @BindView(R.id.item_icon)       ImageView mItemIcon;
+        @BindView(R.id.item_text)       TextView mItemText;
+        @BindView(R.id.item_riple)      MaterialRippleLayout mItemRiple;
 
         private Item mItem;
-        private MovieRepository mMovieRepository;
-        private Movie mMovie;
         private int mPosition;
-        private boolean mIsFavorite;
-        private boolean mIsAssistido;
-        private int status;
+        private int mStatus;
 
         public LongClickOptionsViewHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-            mMovieRepository = new MovieRepository(mContext);
-            mMovie = mMovieRepository.findMovieByServerID(mMovieID, mProfileID);
 
-            if (mMovie != null) {
-                mIsAssistido = true;
-                mIsFavorite = mMovie.isFavorite();
-            }
+            mItemText.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
+            mItemRiple.setOnClickListener(this);
         }
 
-        public void bindMovie(int position) {
+        public void bind(int position) {
             mItem = mItemList.get(position);
             mPosition = position;
 
-            mItemText.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
-
-            if (position == 0) {
-                updateFavorite();
-            } else if (position == 1) {
-                updateAsstidos();
-            }
-
-            mItemRiple.setOnClickListener(this);
-
+            bindButton();
         }
 
-        public void updateFavorite() {
-            if (mIsFavorite) {
-                mItemIcon.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, mItem.getItemIconMarcado()));
-                mItemText.setText(mItem.getItemTextMarcado());
-            } else {
-                mItemIcon.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, mItem.getItemIconDesmarcado()));
-                mItemText.setText(mItem.getItemTextDesmarcado());
+        private void bindButton() {
+            switch (mPosition) {
+                case OPT_FAVORITE:
+                    update(mIsFavorite);
+                    break;
+                case OPT_WATCHED:
+                    update(mIsWatched);
+                    break;
+                case OPT_WANT_SEE:
+                    update(mIsWantSee);
+                    break;
+                case OPT_DONT_WANT_SEE:
+                    update(mIsDontWantSee);
+                    break;
             }
         }
 
-        public void updateAsstidos() {
-            if (mIsAssistido) {
+        public void update(boolean isButtonClicked) {
+            if (isButtonClicked) {
                 mItemIcon.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, mItem.getItemIconMarcado()));
                 mItemText.setText(mItem.getItemTextMarcado());
+                mItemText.setTextColor(ViewUtils.getColorFromResource(mContext, mItem.getColorID()));
             } else {
                 mItemIcon.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, mItem.getItemIconDesmarcado()));
                 mItemText.setText(mItem.getItemTextDesmarcado());
+                mItemText.setTextColor(ViewUtils.getColorFromResource(mContext, R.color.secondary_text));
             }
         }
 
         @Override
         public void onClick(View view) {
-            if (mPosition == 0) {
-                mIsFavorite = !mIsFavorite;
-                updateFavorite();
-            } else if (mPosition == 1) {
-                mIsAssistido = !mIsAssistido;
-                status = MovieDB.STATUS_WATCHED;
-                updateAsstidos();
+            switch (mPosition) {
+                case OPT_FAVORITE:
+                    onClickFavorite();
+                    break;
+                case OPT_WATCHED:
+                    onClickWatched();
+                    break;
+                case OPT_WANT_SEE:
+                    onClickWantSee();
+                    break;
+                case OPT_DONT_WANT_SEE:
+                    onClickDontWantSee();
+                    break;
             }
 
-            mCallback.onLongClick(mIsFavorite, mIsAssistido, status);
+            mCallback.onLongClick(mIsFavorite, mIsToSave, mStatus);
+        }
+
+        private void onClickFavorite() {
+            mIsFavorite = !mIsFavorite;
+            update(mIsFavorite);
+
+            if (!mIsWatched)
+                mIsWatched = true;
+
+            if (mIsDontWantSee)
+                mIsDontWantSee = false;
+
+            if (mIsWantSee)
+                mIsWantSee = false;
+
+            notifyDataSetChanged();
+        }
+
+        private void onClickWatched() {
+            mIsWatched = !mIsWatched;
+            mIsToSave = !mIsToSave;
+            mStatus = MovieDB.STATUS_WATCHED;
+            update(mIsWatched);
+
+            if ((!mIsWatched) && mIsFavorite) {
+                mIsFavorite = false;
+            }
+
+            if (mIsDontWantSee)
+                mIsDontWantSee = false;
+
+            if (mIsWantSee)
+                mIsWantSee = false;
+
+            notifyDataSetChanged();
+        }
+
+        private void onClickWantSee() {
+            mIsWantSee = !mIsWantSee;
+            mIsToSave = !mIsToSave;
+            mStatus = MovieDB.STATUS_WANT_SEE;
+            update(mIsWantSee);
+
+            if (mIsDontWantSee)
+                mIsDontWantSee = false;
+
+            if (mIsWatched)
+                mIsWatched = false;
+
+            if (mIsFavorite)
+                mIsFavorite = false;
+
+            notifyDataSetChanged();
+        }
+
+        private void onClickDontWantSee() {
+            mIsDontWantSee = !mIsDontWantSee;
+            mIsToSave = !mIsToSave;
+            mStatus = MovieDB.STATUS_DONT_WANT_SEE;
+            update(mIsDontWantSee);
+
+            if (mIsWantSee)
+                mIsWantSee = false;
+
+            if (mIsWatched)
+                mIsWatched = false;
+
+            if (mIsFavorite)
+                mIsFavorite = false;
+
+            notifyDataSetChanged();
         }
 
     }

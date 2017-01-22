@@ -16,17 +16,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TableLayout
+        <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            app:columnCount="2"
+            app:rowCount="2"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp">
 
-            <TableRow>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="fill_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/label_movie_details_titulo_original"
@@ -45,11 +50,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1">
+                    app:layout_columnWeight="1"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/label_movie_details_orcamento_original"
@@ -66,16 +71,13 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
-            </TableRow>
-
-            <TableRow>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1">
+                    app:layout_columnWeight="1"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/label_movie_details_idioma_original"
@@ -94,12 +96,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1">
+                    app:layout_columnWeight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/label_movie_details_receita_original"
@@ -118,9 +120,9 @@
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
 
-            </TableRow>
 
-        </TableLayout>
+
+        </android.support.v7.widget.GridLayout>
 
         <TextView
             android:id="@+id/descricao_person"
@@ -137,7 +139,9 @@
 
             <TableRow
                 android:layout_gravity="center"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/riple_wiki"

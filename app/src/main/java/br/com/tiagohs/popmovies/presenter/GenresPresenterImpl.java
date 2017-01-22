@@ -76,7 +76,6 @@ public class GenresPresenterImpl implements GenresPresenter, ResponseListener<Ge
         for (Map.Entry<Integer, Integer> entry : mBackgroundGeners.entrySet()) {
             for (int cont = 0; cont < response.getGenres().size(); cont++) {
                 if (response.getGenres().get(cont).getId() == entry.getKey()) {
-                    Log.i("Genre: ", response.getGenres().get(cont).getName());
                     response.getGenres().get(cont).setImgPath(entry.getValue());
                     break;
                 }

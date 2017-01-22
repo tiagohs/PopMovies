@@ -36,18 +36,28 @@ public class MovieRepository {
         SQLiteDatabase db = null;
         long movieID = 0;
 
+        Log.i(TAG, movie.getIdServer() + " " + movie.getProfileID());
+
         try {
             ContentValues values = getMoviesContentValues(movie);
 
-            boolean movieJaExistente = findMovieByServerID(movie.getIdServer(), movie.getProfileID()) != null;
+            Movie movieDatabase = findMovieByServerID(movie.getIdServer(), movie.getProfileID());
             db = mPopMoviesDB.getWritableDatabase();
 
-            if (movieJaExistente)
-                movieID = db.update(PopMoviesContract.MoviesEntry.TABLE_NAME, values, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(movie.getIdServer()), String.valueOf(movie.getProfileID())});
-            else
-                movieID = db.insert(PopMoviesContract.MoviesEntry.TABLE_NAME, "", values);
+            Log.i(TAG, "Movie: " + movieDatabase);
 
-            mGenerRepository.saveGenres(movie.getGenres(), movie.getIdServer());
+            if (movieDatabase != null) {
+                Log.i(TAG, "update");
+                movieID = db.update(PopMoviesContract.MoviesEntry.TABLE_NAME, values, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(movie.getIdServer()), String.valueOf(movie.getProfileID())});
+            } else {
+                Log.i(TAG, "save");
+                movieID = db.insert(PopMoviesContract.MoviesEntry.TABLE_NAME, "", values);
+            }
+
+            Log.i(TAG, "ID" +  movieID);
+
+            if (movieID != -1)
+                mGenerRepository.saveGenres(movie.getGenres(), movie.getIdServer());
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -114,6 +124,10 @@ public class MovieRepository {
         return findMovie(SQLHelper.MovieSQL.WHERE_IS_WATCHED_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
     }
 
+    public boolean isDontWantSeeMovie(long profileID, int serverID) {
+        return findMovie(SQLHelper.MovieSQL.WHERE_IS_DONT_WANT_SEE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
+    }
+
     public List<Movie> findAllMovies(long profileID) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "findAll Movie Chamado.");
@@ -156,6 +170,10 @@ public class MovieRepository {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIE_WANT_SEE);
     }
 
+    public List<MovieDB> findAllMoviesDontWantSee(long profileID) {
+        return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIE_DONT_WANT_SEE);
+    }
+
     public List<MovieDB> findAllFavoritesMovies(long profileID) {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_FAVORITE_MOVIE);
     }
@@ -183,6 +201,8 @@ public class MovieRepository {
         movie.setVoteAverage(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_VOTES)));
         movie.setReleaseDate(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_RELEASE_DATE)));
         movie.setGenreIDs(mGenerRepository.findAllGenreID(movie.getId()));
+
+        Log.i(TAG, "Title: " + movie.getTitle());
 
         return movie;
     }

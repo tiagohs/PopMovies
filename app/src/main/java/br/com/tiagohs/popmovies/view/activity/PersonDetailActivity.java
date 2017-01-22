@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,7 @@ import br.com.tiagohs.popmovies.view.EllipsizingTextView;
 import br.com.tiagohs.popmovies.view.PersonDetailView;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.PersonDetailFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -347,7 +349,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(ARG_NAME_PERSON, mPerson.getName());
+        if (mPerson != null)
+            outState.putString(ARG_NAME_PERSON, mPerson.getName());
     }
 
     @OnClick(R.id.facebook_riple)
@@ -395,7 +398,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @OnClick(R.id.filmes_total_person_riple)
     public void onClickTotalFilmes() {
-        startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(mPerson.getId(), mPerson.getName(), getString(R.string.carreira), Sort.PERSON_MOVIES_CARRER, R.layout.item_list_movies, ListType.MOVIES)));
+        startActivity(ListsDefaultActivity.newIntent(this, mPerson.getMoviesCarrer(), new ListActivityDTO(mPerson.getId(), mPerson.getName(), getString(R.string.carreira), Sort.LIST_DEFAULT, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
     private List<Artwork> getTotalPersonImages() {

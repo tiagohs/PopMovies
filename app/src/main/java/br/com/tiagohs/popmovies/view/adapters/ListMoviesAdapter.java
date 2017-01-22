@@ -2,21 +2,14 @@ package br.com.tiagohs.popmovies.view.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -25,12 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.Item;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.ListMoviesDefaultPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.LongClickCallbacks;
@@ -82,9 +73,9 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         @BindView(R.id.rodape_list_movies)          LinearLayout mRodapeListMovies;
 
         private MovieListDTO mMovie;
-        private boolean isMovieAssistidoMarked;
+        private boolean isToSave;
         private boolean isMovieFavoritoMarked;
-        private int status;
+        private int mStatus;
 
         public ListMoviesViewHolder(View itemView) {
             super(itemView);
@@ -112,8 +103,10 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             list.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
 
             List<Item> listItems = new ArrayList<>();
-            listItems.add(new Item("Marcado como Favorito", "Marcar como Favorito", R.drawable.ic_favorite_clicked, R.drawable.ic_favorite_border));
-            listItems.add(new Item("Marcado como Assistido", "Marcar como Assistido", R.drawable.ic_assistido_preenxido, R.drawable.ic_assitir_eye_black));
+            listItems.add(new Item("Marcado como Favorito", "Marcar como Favorito", R.drawable.ic_long_click_favorite_clicked, R.drawable.ic_long_click_favorite_normal, android.R.color.holo_red_dark));
+            listItems.add(new Item("Marcado como Assistido", "Marcar como Assistido", R.drawable.ic_long_click_assistido_clicked, R.drawable.ic_long_click_assistido_normal, android.R.color.holo_green_dark));
+            listItems.add(new Item("Marcado como Quero ver", "Marcar como Quero ver", R.drawable.ic_long_click_quero_ver_clicked, R.drawable.ic_long_click_quero_ver_normal, R.color.yellow));
+            listItems.add(new Item("Marcado como Não Quero ver", "Marcar como Não Quero ver", R.drawable.ic_long_click_nao_quero_ver_clicked, R.drawable.ic_long_click_nao_quero_ver_normal, R.color.colorAccent));
 
             list.setAdapter(new LongClickOptionsAdapter(mContext, listItems, mMovie.getMovieID(), this));
 
@@ -125,8 +118,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            Log.i(TAG, "Situação " + isMovieAssistidoMarked + " " + isMovieFavoritoMarked);
-                                            mPresenter.getMovieDetails(mMovie.getMovieID(), isMovieAssistidoMarked, isMovieFavoritoMarked, status, TAG);
+                                            mPresenter.getMovieDetails(mMovie.getMovieID(), isToSave, isMovieFavoritoMarked, mStatus, TAG);
                                         }
                                     })
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -148,8 +140,9 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         }
 
         @Override
-        public void onLongClick(boolean isFavorite, boolean isAssistido, int status) {
-            isMovieAssistidoMarked = isAssistido;
+        public void onLongClick(boolean isFavorite, boolean isToSave, int status) {
+            mStatus = status;
+            this.isToSave = isToSave;
             isMovieFavoritoMarked = isFavorite;
         }
     }

@@ -63,7 +63,9 @@ public enum Param {
     WITH_PEOPLE("with_people"),
     YEAR("year"),
     OMDB_QUERY("i"),
-    OMDB_TOMATOES("tomatoes");
+    OMDB_TOMATOES("tomatoes"),
+    WITH_RELEASE_TYPE("with_release_type"),
+    RELEASE("region");
 
     private String param;
 

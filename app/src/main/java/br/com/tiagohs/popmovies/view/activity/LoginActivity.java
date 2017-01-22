@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import com.twitter.sdk.android.core.models.User;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
@@ -40,6 +43,8 @@ import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.data.repository.UserRepository;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
@@ -48,10 +53,13 @@ import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final String USER_ID_KEY = "id";
     private static final String USER_NAME_KEY = "name";
     private static final String USER_EMAIL_KEY = "email";
+    private static final String USER_BIRTHDAY_KEY = "birthday";
+    private static final String USER_GENDER_KEY = "gender";
     private static final String USER_PHOTO_KEY = "user_photos";
 
     @BindView(R.id.login_facebook_button)               Button mLoginFacebookButton;
@@ -62,14 +70,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager mFacebookCallbackManager;
 
-    private UserRepository mUserRepository;
     private ProfileRepository mProfileRepository;
 
     private TwitterSession mSession;
-    private TwitterAuthClient mAuthClient;
     private String mUsername;
     private String mEmail;
     private String mName;
+    private String mBirthday;
+    private String mLocation;
+    private String mGender;
     private String mPathFoto;
     private String mToken;
 
@@ -81,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public LoginActivity() {
-        mUserRepository = new UserRepository(this);
         mProfileRepository = new ProfileRepository(this);
     }
 
@@ -105,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig), new Crashlytics());
-        mAuthClient = new TwitterAuthClient();
     }
 
     @Override
@@ -163,15 +170,20 @@ public class LoginActivity extends AppCompatActivity {
                                     mName = object.getString(USER_NAME_KEY).toString();
                                     mUsername = object.getString(USER_EMAIL_KEY).toString();
                                     mEmail = object.getString(USER_EMAIL_KEY).toString();
+
                                     mPathFoto = getString(R.string.facebook_photo, object.getString(USER_ID_KEY).toString());
 
                                     setUserData();
+
+                                    startActivity(HomeActivity.newIntent(LoginActivity.this));
+                                    finish();
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
+                                    setFacebookButtonVisibility(View.VISIBLE);
+                                    setTwitterButtonVisibility(View.VISIBLE);
                                 }
 
-                                startActivity(HomeActivity.newIntent(LoginActivity.this));
-                                finish();
                             }
 
                         });
@@ -241,19 +253,25 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setUserData() {
-        UserDB user = new UserDB();
-        user.setUsername(mUsername);
-        user.setEmail(mEmail);
-        user.setNome(mName);
-        user.setTypeLogin(mTypeLogin);
-        user.setToken(mToken);
-        user.setPicturePath(mPathFoto);
-        user.setLogged(true);
 
-        ProfileDB profile = new ProfileDB();
-        profile.setUser(user);
+        if (mProfileRepository.findProfileByUserUsername(mUsername) == null) {
+            UserDB user = new UserDB();
+            user.setUsername(mUsername);
+            user.setEmail(mEmail);
+            user.setNome(mName);
+            user.setTypeLogin(mTypeLogin);
+            user.setToken(mToken);
+            user.setPicturePath(mPathFoto);
+            user.setTypePhoto(UserDB.PHOTO_ONLINE);
+            user.setLogged(true);
 
-        mProfileRepository.saveProfile(profile, this);
+            ProfileDB profile = new ProfileDB();
+            profile.setUser(user);
+            profile.setCountry(LocaleUtils.getLocaleCountryName());
+
+            mProfileRepository.saveProfile(profile, this);
+        }
+
     }
 
     @Override

@@ -58,8 +58,16 @@
 
     <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
 
+    <string name="perfil_dados_pais">%1$s</string>
+    <string name="perfil_dados_pais_idade">%1$s, %2$s %3$s</string>
+    <string name="perfil_dados_pais_genero">%1$s- %2$s</string>
+    <string name="perfil_dados_pais_idade_genero">%1$s, %2$s %3$s - %4$s</string>
 
     <!-- Arrays -->
+    <string-array name="person_gender">
+        <item>Masculino</item>
+        <item>Feminino</item>
+    </string-array>
     <string-array name="movie_detail_tab_array">
         <item>Resumo</item>
         <item>Mídia</item>
@@ -247,7 +255,7 @@
     <string name="assistidos">Assistidos</string>
     <string name="atores_atrizes">Atores e Atrizes</string>
     <string name="favoritos">Favoritos</string>
-    <string name="nao_ha_descicao">Você não possui uma Descrição ainda!</string>
+    <string name="nao_ha_descicao">Você não possui uma Descrição ainda, clique no botão editar e adicione uma agora mesmo!</string>
     <string name="list_default">Lista Default</string>
     <string name="title_activity_videos_details">Videos Activity</string>
     <string name="videos">Vídeos e Trailers</string>
@@ -260,5 +268,11 @@
     <string name="desmarked_watched">Desmarcado como assistido</string>
     <string name="menu_perfil">Perfil</string>
     <string name="no_person_find">Nenhuma pessoa encontrada!</string>
+    <string name="want_see">Quero Ver</string>
+    <string name="quero_ver">Quero Ver</string>
+    <string name="dont_want_see">Não quero ver</string>
+    <string name="genres_outros">Outros</string>
+    <string name="title_activity_edit_perfil">Editar Perfil</string>
+    <string name="edit_done">Salvar</string>
 
 </resources>

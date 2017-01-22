@@ -1,8 +1,13 @@
 package br.com.tiagohs.popmovies.model.db;
 
+import android.graphics.Bitmap;
+
 public class UserDB {
     public static final int LOGIN_FACEBOOK = 0;
     public static final int LOGIN_TWITTER = 1;
+
+    public static final int PHOTO_LOCAL = 0;
+    public static final int PHOTO_ONLINE = 1;
 
     private int userID;
     private String nome;
@@ -11,13 +16,15 @@ public class UserDB {
     private String senha;
     private String picturePath;
     private String token;
+    private int typePhoto;
     private int typeLogin;
     private boolean isLogged;
+    private String mLocalPicture;
 
     public UserDB() {
     }
 
-    public UserDB(int userID, String nome, String username, String email, String senha, String picturePath, String token, int typeLogin, boolean isLogged) {
+    public UserDB(int userID, String nome, String username, String email, String senha, String picturePath, String token, int typePhoto, int typeLogin, boolean isLogged, String localPicture) {
         this.userID = userID;
         this.nome = nome;
         this.username = username;
@@ -25,8 +32,26 @@ public class UserDB {
         this.senha = senha;
         this.picturePath = picturePath;
         this.token = token;
+        this.typePhoto = typePhoto;
         this.typeLogin = typeLogin;
         this.isLogged = isLogged;
+        mLocalPicture = localPicture;
+    }
+
+    public int getTypePhoto() {
+        return typePhoto;
+    }
+
+    public void setTypePhoto(int typePhoto) {
+        this.typePhoto = typePhoto;
+    }
+
+    public String getLocalPicture() {
+        return mLocalPicture;
+    }
+
+    public void setLocalPicture(String localPicture) {
+        mLocalPicture = localPicture;
     }
 
     public int getUserID() {

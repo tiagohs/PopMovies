@@ -15,4 +15,5 @@ public interface MovieDetailsOverviewPresenter extends BasePresenter<MoviesDetai
     void setContext(Context context);
     void setMovieFavorite(MovieDetails movie);
     void onClickWantSee(MovieDetails movie, boolean buttonStage);
+    void onClickDontWantSee(MovieDetails movie, boolean buttonStage);
 }

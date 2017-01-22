@@ -31,18 +31,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:id="@+id/btn_favorito"
-                    android:drawableRight="@drawable/ic_favorite_border"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/secondary_text"
-                    android:padding="10dp"
-                    android:textSize="12dp"
-                    android:text="Favorite!   "/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
                     android:id="@+id/btn_quero_ver"
                     android:drawableLeft="@drawable/ic_quero_ver"
                     android:background="@android:color/transparent"
@@ -50,6 +38,29 @@
                     android:padding="10dp"
                     android:textSize="12dp"
                     android:text="   Quero Ver"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/btn_favorito"
+                    android:src="@drawable/ic_favorite_border"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/secondary_text"
+                    android:padding="10dp"
+                    android:textSize="12dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/btn_nao_quero_ver"
+                    android:drawableRight="@drawable/ic_nao_quero_ver"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/secondary_text"
+                    android:padding="10dp"
+                    android:textSize="12dp"
+                    android:text="Não quero ver   "/>
 
 
             </LinearLayout>
@@ -116,7 +127,7 @@
 
                     <Button
                         android:layout_width="wrap_content"
-                        android:maxWidth="150dp"
+                        android:minWidth="150dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:id="@+id/btn_pagina_inicial"
@@ -132,29 +143,31 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:id="@+id/rankings_container"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:paddingTop="15dp">
 
                 <LinearLayout
-                    android:id="@+id/rankings_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    android:orientation="horizontal">
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/imdb_riple"
                         app:mrl_rippleColor="@color/secondary_text"
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
                         android:layout_height="100dp"
                         app:mrl_rippleOverlay="true"
                         android:layout_marginBottom="10dp"
-                        android:layout_gravity="right|bottom">
+                        android:layout_gravity="center|bottom">
 
                         <FrameLayout
                             android:id="@+id/imdb_raking_container"
+                            android:layout_gravity="center"
                             android:layout_width="100dp"
                             android:layout_height="100dp">
 
@@ -201,19 +214,19 @@
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/tomatoes_riple"
                         app:mrl_rippleColor="@color/secondary_text"
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
                         android:layout_height="100dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_gravity="right|bottom"
-                        app:mrl_rippleOverlay="true">
+                        app:mrl_rippleOverlay="true"
+                        >
 
                         <FrameLayout
                             android:id="@+id/tomatoes_ranking_container"
+                            android:layout_gravity="center"
                             android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            >
+                            android:layout_height="100dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -252,10 +265,12 @@
                                 android:textColor="@color/secondary_text"/>
                         </FrameLayout>
                     </com.balysv.materialripple.MaterialRippleLayout>
+
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/metascore_riple"
                         app:mrl_rippleColor="@color/secondary_text"
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
                         android:layout_height="100dp"
                         android:layout_marginBottom="10dp"
                         android:layout_gravity="right|bottom"
@@ -263,6 +278,7 @@
 
                         <FrameLayout
                             android:id="@+id/metascore_ranking_container"
+                            android:layout_gravity="center"
                             android:layout_width="100dp"
                             android:layout_height="100dp">
 
@@ -506,6 +522,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/container_similares"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -554,7 +571,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:id="@+id/container_similares"
+                android:id="@+id/fragment_similares"
                 android:minHeight="150dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

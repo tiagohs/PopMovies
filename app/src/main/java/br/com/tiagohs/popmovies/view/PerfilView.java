@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.view;
 
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 
 import br.com.tiagohs.popmovies.R;
@@ -10,8 +11,8 @@ public interface PerfilView extends BaseView {
 
     void setNamePerfil(String nameUser);
     void setImagePerfil(String imagePath);
+    void setLocalImagePerfil(Bitmap image);
     void setBackground(String backgroundPath);
     void setupTabs();
     void setProfile(ProfileDB mProfile);
-    void setPerfilDescricao(String descricao);
 }

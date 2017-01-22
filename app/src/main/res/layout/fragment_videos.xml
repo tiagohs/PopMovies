@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/videos_recycler_view"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/videos_principal_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:matProg_barColor="@color/colorAccent"
+        app:matProg_progressIndeterminate="true" />
+
+    <TextView
+        android:id="@+id/videos_nao_encontrado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="Sem Vídeos disponíveis."/>
+</FrameLayout>
+

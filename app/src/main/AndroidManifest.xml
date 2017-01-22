@@ -44,6 +44,7 @@
             android:name=".view.activity.SearchActivity"
             android:label="@string/title_activity_search"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:parentActivityName=".view.activity.HomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -85,6 +86,12 @@
             android:label="@string/title_activity_perfil"
             android:parentActivityName=".view.activity.HomeActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.activity.PerfilEditActivity"
+            android:label="@string/title_activity_edit_perfil"
+            android:parentActivityName=".view.activity.PerfilEditActivity"
+            android:theme="@style/AppTheme" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1a5d11d9ee01839d87a101a0056c1e5429a4c331" />

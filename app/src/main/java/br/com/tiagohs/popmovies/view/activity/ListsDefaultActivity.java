@@ -17,6 +17,7 @@ import java.util.Map;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.FilterValuesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -35,13 +36,14 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     private static final String ARG_FTO = "br.com.tiagohs.popmovies.dto";
     private static final String ARG_PARAMETERS = "br.com.tiagohs.popmovies.parameters";
     private static final String ARG_PERSON_LIST = "br.com.tiagohs.popmovies.person_list";
-
+    private static final String ARG_MOVIES_LIST = "br.com.tiagohs.popmovies.movies_list";
 
     public enum TypeListLayout { LINEAR_LAYOUT, GRID_LAYOUT, STAGGERED; }
 
     private ListActivityDTO mListActivityDTO;
     private Map<String, String> mParameters;
     private List<PersonListDTO> mPersons;
+    private List<MovieListDTO> mMovies;
 
     public static Intent newIntent(Context context, ListActivityDTO listDTO) {
         Intent intent = new Intent(context, ListsDefaultActivity.class);
@@ -65,6 +67,14 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         return intent;
     }
 
+    public static Intent newIntent(Context context, List<MovieListDTO> movies, ListActivityDTO listDTO) {
+        Intent intent = new Intent(context, ListsDefaultActivity.class);
+        intent.putExtra(ARG_FTO, listDTO);
+        intent.putExtra(ARG_MOVIES_LIST, (ArrayList<MovieListDTO>) movies);
+
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +82,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         mListActivityDTO = (ListActivityDTO) getIntent().getSerializableExtra(ARG_FTO);
         mParameters = (HashMap<String, String>) getIntent().getSerializableExtra(ARG_PARAMETERS);
         mPersons = (ArrayList<PersonListDTO>) getIntent().getSerializableExtra(ARG_PERSON_LIST);
+        mMovies =  (ArrayList<MovieListDTO>) getIntent().getSerializableExtra(ARG_MOVIES_LIST);
 
         setActivityTitle(mListActivityDTO.getNameActivity());
         setActivitySubtitle(mListActivityDTO.getSubtitleActivity());
@@ -105,7 +116,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
         switch (mListActivityDTO.getListType()) {
             case MOVIES:
-                fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                if (mMovies == null)
+                    fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                else
+                    fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mMovies, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
             case PERSON:
                 if (mPersons == null)

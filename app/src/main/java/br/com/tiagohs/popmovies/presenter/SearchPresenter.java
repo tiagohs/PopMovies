@@ -2,13 +2,15 @@ package br.com.tiagohs.popmovies.presenter;
 
 import android.content.Context;
 
+import java.io.Serializable;
+
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import br.com.tiagohs.popmovies.view.SearchMoviesView;
 import br.com.tiagohs.popmovies.view.SearchPersonsView;
 import br.com.tiagohs.popmovies.view.SearchView;
 
-public interface SearchPresenter extends BasePresenter<SearchView> {
+public interface SearchPresenter extends BasePresenter<SearchView>, Serializable {
 
     void searchMovies(String query,
                              Boolean includeAdult,

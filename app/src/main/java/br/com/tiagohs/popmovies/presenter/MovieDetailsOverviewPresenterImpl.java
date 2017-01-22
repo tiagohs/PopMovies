@@ -86,6 +86,19 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     }
 
     @Override
+    public void onClickDontWantSee(MovieDetails movie, boolean buttonStage) {
+
+        if (buttonStage)
+            mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_DONT_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+        else
+            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+
+    }
+
+    @Override
     public void onErrorResponse(VolleyError error) {
 
         Log.i(TAG, "onError");
@@ -107,27 +120,28 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     @Override
     public void onResponse(RankingResponse response) {
+        mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
 
         if (mMoviesDetailsOverviewView.isAdded()) {
             mMoviesDetailsOverviewView.setMovieRankings(response);
 
-            if (response.getImdbRanting() == null || response.getImdbRanting().equals("N/A"))
+            if (isEmpty(response.getImdbRanting()))
                 mMoviesDetailsOverviewView.setImdbRakingContainerVisibility(View.GONE);
             else
                 mMoviesDetailsOverviewView.updateIMDB(response.getImdbRanting(), response.getImdbVotes());
 
-            if (response.getTomatoRating() == null || response.getTomatoRating().equals("N/A")) {
+            if (isEmpty(response.getTomatoRating())) {
                 mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
                 mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.GONE);
             } else
                 mMoviesDetailsOverviewView.updateTomatoes(response.getTomatoRating(), response.getTomatoReviews());
 
-            if (response.getMetascoreRating() == null || response.getMetascoreRating().equals("N/A"))
+            if (isEmpty(response.getMetascoreRating()))
                 mMoviesDetailsOverviewView.setMetascoreRakingContainerVisibility(View.GONE);
             else
                 mMoviesDetailsOverviewView.updateMetascore(response.getMetascoreRating());
 
-            if (response.getTomatoConsensus() == null || response.getTomatoConsensus().equals("N/A"))
+            if (isEmpty(response.getTomatoConsensus()))
                 mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
             else
                 mMoviesDetailsOverviewView.updateTomatoesConsensus(response.getTomatoConsensus());
@@ -135,11 +149,17 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             if (response.getTomatoURL() == null)
                 mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
 
+            if (isEmpty(response.getImdbRanting()) && isEmpty(response.getTomatoRating()) && isEmpty(response.getMetascoreRating()))
+                mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
+
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
-            mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
             mMoviesDetailsOverviewView.updateNomeacoes(ViewUtils.isEmptyValue(response.getAwards()) ? mContext.getString(R.string.nao_disponivel) : response.getAwards());
         }
 
+    }
+
+    public boolean isEmpty(String value) {
+        return value == null || value.equals("N/A");
     }
 
     public List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies) {

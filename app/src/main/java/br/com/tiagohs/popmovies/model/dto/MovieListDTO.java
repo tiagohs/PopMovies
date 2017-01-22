@@ -1,9 +1,12 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 public class MovieListDTO implements Serializable {
     private int mMovieID;
+    private String creditID;
     private String movieName;
     private String mPosterPath;
     private String voteAverage;
@@ -29,12 +32,12 @@ public class MovieListDTO implements Serializable {
         this.voteAverage = voteAverage;
     }
 
-    public int getmMovieID() {
-        return mMovieID;
+    public String getCreditID() {
+        return creditID;
     }
 
-    public void setmMovieID(int mMovieID) {
-        this.mMovieID = mMovieID;
+    public void setCreditID(String creditID) {
+        this.creditID = creditID;
     }
 
     public String getmPosterPath() {
@@ -91,5 +94,21 @@ public class MovieListDTO implements Serializable {
 
     public void setMovieName(String movieName) {
         this.movieName = movieName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof MovieListDTO) {
+            MovieListDTO m = (MovieListDTO) obj;
+            //Log.i("MovieL", m.getMovieName() + " ID " + m.getMovieID() + " " + getMovieName() + " ID2: " + getMovieID());
+            return m.getMovieID() == this.getMovieID();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

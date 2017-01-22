@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
+import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
 public class DTOUtils {
 
@@ -115,14 +117,19 @@ public class DTOUtils {
         return imageDTOs;
     }
 
-    public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> personsMovies, int maxSize) {
-
-        int numMovies = personsMovies.size() < maxSize ? personsMovies.size() - 1 : maxSize;
+    public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<MovieListDTO> movies, int maxSize) {
+        int numMovies = movies.size() < maxSize ? movies.size() - 1 : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 
         for (int cont = 0; cont < numMovies; cont++) {
-            CreditMovieBasic person = personsMovies.get(cont);
-            moviesMovieListDTO.add(new MovieListDTO(person.getId(), person.getTitle(), person.getArtworkPath(), null));
+            MovieListDTO c = movies.get(cont);
+
+            if (moviesMovieListDTO.contains(c))
+                continue;
+            else {
+                moviesMovieListDTO.add(c);
+            }
+
         }
 
         return moviesMovieListDTO;

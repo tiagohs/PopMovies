@@ -3,13 +3,16 @@ package br.com.tiagohs.popmovies.util;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -21,10 +24,45 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
 public class ImageUtils {
+
+    public static Bitmap getBitmapFromPath(String path, Context context) {
+        Uri imageURI = Uri.fromFile(new File(path));
+
+        Bitmap bm = null;
+        int[] sampleSizes = new int[]{5, 3, 2, 1};
+        int i = 0;
+
+        do {
+            bm = decodeBitmap(context, imageURI, sampleSizes[i]);
+            i++;
+        } while (bm.getWidth() < 400 && i < sampleSizes.length);
+
+        return bm;
+    }
+
+    private static Bitmap decodeBitmap(Context context, Uri theUri, int sampleSize) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = sampleSize;
+
+        AssetFileDescriptor fileDescriptor = null;
+        try {
+            fileDescriptor = context.getContentResolver().openAssetFileDescriptor(theUri, "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap actuallyUsableBitmap = BitmapFactory.decodeFileDescriptor(
+                fileDescriptor.getFileDescriptor(), null, options);
+
+        return actuallyUsableBitmap;
+    }
 
     public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
         ColorGenerator generator = ColorGenerator.MATERIAL;

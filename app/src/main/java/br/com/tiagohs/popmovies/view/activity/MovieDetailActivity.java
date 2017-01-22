@@ -13,6 +13,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -77,6 +78,7 @@ import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieDontWantSeeCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieFavoriteCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieVideosCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.MovieWantSeeCallback;
@@ -90,7 +92,7 @@ import butterknife.OnClick;
 public class MovieDetailActivity extends BaseActivity implements MovieDetailsView,
         MovieVideosCallbacks, ImagesCallbacks,
         PersonCallbacks, ReviewCallbacks, MovieFavoriteCallback,
-        ListMoviesCallbacks, ListWordsCallbacks, MovieWantSeeCallback {
+        ListMoviesCallbacks, ListWordsCallbacks, MovieWantSeeCallback, MovieDontWantSeeCallback {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
@@ -243,6 +245,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
 
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        
     }
 
     public void setupTabs() {
@@ -546,4 +553,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     }
 
+    @Override
+    public void onDontWantSeePressed() {
+
+    }
 }

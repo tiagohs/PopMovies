@@ -2,6 +2,9 @@ package br.com.tiagohs.popmovies.util;
 
 import android.content.res.Resources;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -54,6 +57,21 @@ public class LocaleUtils {
 
     public static String getLocaleLanguageAndCountry(Locale locale) {
         return getLocaleLanguageISO(locale) + "-" + getLocaleCountryISO(locale);
+    }
+
+    public static List<String> getAllCountrys() {
+        Locale[] locales = Locale.getAvailableLocales();
+        ArrayList<String> countries = new ArrayList<String>();
+        for (Locale locale : locales) {
+            String country = locale.getDisplayCountry();
+            if (country.trim().length() > 0 && !countries.contains(country)) {
+                countries.add(country);
+            }
+        }
+
+        Collections.sort(countries);
+
+        return countries;
     }
 
 }

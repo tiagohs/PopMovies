@@ -73,6 +73,8 @@ public class PopMoviesContract {
 
         public static final String COLUMN_NAME = "nome";
         public static final String COLUMN_PICTURE_PATH = "fotoPath";
+        public static final String COLUMN_PICTURE_LOCAL_PATH = "picture_local";
+        public static final String COLUMN_PICTURE_TYPE = "picture_type";
         public static final String COLUMN_TOKEN = "userToken";
         public static final String COLUMN_TYPE_LOGIN = "typeLogin";
         public static final String COLUMN_USERNAME = "username";
@@ -95,6 +97,9 @@ public class PopMoviesContract {
         public static final String TABLE_NAME = "Profile";
 
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_BIRTHDAY = "birthday";
+        public static final String COLUMN_COUNTRY = "country";
+        public static final String COLUMN_GENRER = "genrer";
         public static final String COLUMN_USER_FORER_USERNAME = "user_username";
 
         public static Uri buildProfileUri(long id) {

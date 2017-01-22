@@ -8,9 +8,11 @@ import br.com.tiagohs.popmovies.model.db.UserDB;
 public class PrefsUtils {
     public static final String USER_PREFS_ID = "user_prefs";
     public static final String PROFILE_PREFS_ID = "profile_prefs";
+    public static final String PROFILE_ID_PREFS_ID = "profile_id_prefs";
 
     public static final String USER_PREFS_VALUE_ID = "current_user_value";
     public static final String PROFILE_PREFS_VALUE_ID = "current_profile_value";
+    public static final String PROFILE_ID_PREFS_VALUE_ID = "current_profile_id_value";
 
     public static void setCurrentUser(UserDB currentUser, Context ctx){
         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS_ID, 0);

@@ -5,12 +5,14 @@ public class Item {
     public String mItemTextDesmarcado;
     public int mItemIconMarcado;
     public int mItemIconDesmarcado;
+    public int mColorID;
 
-    public Item(String mItemTextMarcado, String mItemTextDesmarcado, int mItemIconMarcado, int mItemIconDesmarcado) {
+    public Item(String mItemTextMarcado, String mItemTextDesmarcado, int mItemIconMarcado, int mItemIconDesmarcado, int mColorID) {
         this.mItemTextMarcado = mItemTextMarcado;
         this.mItemTextDesmarcado = mItemTextDesmarcado;
         this.mItemIconMarcado = mItemIconMarcado;
         this.mItemIconDesmarcado = mItemIconDesmarcado;
+        this.mColorID = mColorID;
     }
 
     public String getItemTextMarcado() {
@@ -44,6 +46,12 @@ public class Item {
     public void setItemIconDesmarcado(int mItemIconDesmarcado) {
         this.mItemIconDesmarcado = mItemIconDesmarcado;
     }
+
+    public int getColorID() {
+        return mColorID;
+    }
+
+
 
     @Override
     public String toString() {

@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +49,7 @@ public class UserRepository {
             else
                 userID = db.insert(PopMoviesContract.UserEntry.TABLE_NAME, "", values);
 
+            user.setUserID((int) userID);
             PrefsUtils.setCurrentUser(user, context);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -135,6 +139,8 @@ public class UserRepository {
         user.setUsername(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_USERNAME)));
         user.setEmail(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_EMAIL)));
         user.setSenha(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PASSWORD)));
+        user.setTypePhoto(c.getInt(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE)));
+        user.setSenha(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PICTURE_LOCAL_PATH)));
 
         return user;
     }
@@ -149,7 +155,9 @@ public class UserRepository {
         values.put(PopMoviesContract.UserEntry.COLUMN_USERNAME, user.getUsername());
         values.put(PopMoviesContract.UserEntry.COLUMN_EMAIL, user.getEmail());
         values.put(PopMoviesContract.UserEntry.COLUMN_PASSWORD, user.getSenha());
+        values.put(PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE, user.getTypePhoto());
 
         return values;
     }
+
 }

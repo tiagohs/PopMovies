@@ -18,6 +18,7 @@ import java.util.Map;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -118,8 +119,10 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEmCartazFragment() {
         mEmCartazParameters = new HashMap<>();
 
-        mEmCartazParameters.put(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(30));
-        mEmCartazParameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
+        mEmCartazParameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(30));
+        mEmCartazParameters.put(Param.RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
+        mEmCartazParameters.put(Param.RELEASE.getParam(), LocaleUtils.getLocaleCountryISO());
+        mEmCartazParameters.put(Param.WITH_RELEASE_TYPE.getParam(), "2|3");
         mEmCartazParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
         return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEmCartazParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
@@ -137,8 +140,10 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEstreiasFragment() {
         mEstreiasParameters = new HashMap<>();
 
-        mEstreiasParameters.put(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), MovieUtils.getDateDayWeek(Calendar.THURSDAY));
-        mEstreiasParameters.put(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), MovieUtils.getDateDayWeek(Calendar.SATURDAY));
+        mEstreiasParameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateDayWeek(Calendar.SUNDAY));
+        mEstreiasParameters.put(Param.RELEASE_DATE_LTE.getParam(), MovieUtils.getDateDayWeek(Calendar.SATURDAY));
+        mEstreiasParameters.put(Param.RELEASE.getParam(), LocaleUtils.getLocaleCountryISO());
+        mEstreiasParameters.put(Param.WITH_RELEASE_TYPE.getParam(), "2|3");
         mEstreiasParameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
 
         return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEstreiasParameters, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));

@@ -7,9 +7,6 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.model.media.Video;
 
-/**
- * Created by Tiago Henrique on 24/08/2016.
- */
 public class VideosResponse {
 
     @JsonProperty("id")

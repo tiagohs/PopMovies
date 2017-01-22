@@ -1,14 +1,21 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
+import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.PersonsServer;
+import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 
@@ -88,16 +95,35 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
                         SubMethod.TAGGED_IMAGES.getValue()}, mTag, "en", this);
             } else {
                 mPersonDetailView.setPerson(personInfo);
-
                 mPersonDetailView.updateImages();
-                mPersonDetailView.updateAditionalInfo(personInfo.getMovieCredits().getCast().size() + personInfo.getMovieCredits().getCrew().size(),
-                        personInfo.getImages().size() + personInfo.getTaggedImages().size());
+
+                personInfo.setMoviesCarrer(createPersonKnowForMoviesDTO(personInfo.getMovieCredits().getCast(), personInfo.getMovieCredits().getCrew()));
+                mPersonDetailView.updateAditionalInfo(personInfo.getMoviesCarrer().size(), (personInfo.getImages().size() + personInfo.getTaggedImages().size()) - 1);
+
                 updateExternalLinks(personInfo);
                 mPersonDetailView.setupTabs();
                 mPersonDetailView.setProgressVisibility(View.GONE);
             }
         }
 
+    }
+
+    public List<MovieListDTO> createPersonKnowForMoviesDTO(List<CreditMovieBasic> cast, List<CreditMovieBasic> crew) {
+        cast.addAll(crew);
+        List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
+
+        for (CreditMovieBasic c : cast) {
+            MovieListDTO movie = new MovieListDTO(c.getId(), c.getTitle(), c.getArtworkPath(), null);
+
+            if (moviesMovieListDTO.contains(movie))
+                continue;
+            else {
+                moviesMovieListDTO.add(movie);
+            }
+
+        }
+
+        return moviesMovieListDTO;
     }
 
     private void updateExternalLinks(PersonInfo personInfo) {

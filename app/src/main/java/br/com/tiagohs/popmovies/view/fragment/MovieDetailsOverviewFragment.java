@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -55,6 +56,7 @@ import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.view.callbacks.MovieDontWantSeeCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieFavoriteCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieWantSeeCallback;
 import br.com.tiagohs.popmovies.view.callbacks.MovieWatchedCallback;
@@ -99,10 +101,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.metascore_ranking_container)             FrameLayout mMetascoreRankingContainer;
     @BindView(R.id.tomatoes_consensus_container)            RelativeLayout mTomatoesConsensusContainer;
     @BindView(R.id.rankings_progress)                       ProgressWheel mRankingProgress;
-    @BindView(R.id.rankings_container)                      LinearLayout mRankingContainer;
+    @BindView(R.id.rankings_container)                      RelativeLayout mRankingContainer;
     @BindView(R.id.container_similares)                     LinearLayout mSimilaresTitleContainer;
-    @BindView(R.id.btn_favorito)                            Button mFavoritoButton;
+    @BindView(R.id.btn_favorito)                            ImageButton mFavoritoButton;
     @BindView(R.id.btn_quero_ver)                           Button mWantSeeButton;
+    @BindView(R.id.btn_nao_quero_ver)                       Button mDontWantSeeButton;
     @BindView(R.id.riple_pagina_inicial)                    MaterialRippleLayout mPaginaInicialContainer;
     @BindView(R.id.riple_imdb)                              MaterialRippleLayout mImdbContainer;
     @BindView(R.id.imdb_reviews_riple)                      MaterialRippleLayout mImdbReviewContainer;
@@ -125,8 +128,10 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     private boolean mIsFavorito;
     private boolean mIsWantSeePressed;
+    private boolean mIsDontWantSeePressed;
     private MovieWantSeeCallback mMovieWantSeeCallback;
     private MovieFavoriteCallback mMovieFavoriteCallback;
+    private MovieDontWantSeeCallback mMovieDontWantSeeCallback;
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -145,6 +150,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mKeyWordsCallbacks = (ListWordsCallbacks) context;
         mMovieWantSeeCallback = (MovieWantSeeCallback) context;
         mMovieFavoriteCallback = (MovieFavoriteCallback) context;
+        mMovieDontWantSeeCallback = (MovieDontWantSeeCallback) context;
 
         ((MovieDetailActivity) getActivity()).setCallback(this);
     }
@@ -193,6 +199,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             setImdbRakingContainerVisibility(View.GONE);
             setImdbVisibility(View.GONE);
             setImdbReviewsVisibility(View.GONE);
+            setRankingContainerVisibility(View.GONE);
             setRankingProgressVisibility(View.GONE);
             setTomatoesReviewsVisibility(View.GONE);
             updateNomeacoes(getString(R.string.nao_disponivel));
@@ -200,13 +207,18 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
 
         if (mMovie.isFavorite()) {
-            updateFavoriteButton("Favorito", R.drawable.ic_favorite_clicked);
+            updateFavoriteButton(R.drawable.ic_favorite_clicked);
             mIsFavorito = true;
         }
 
         if (mMovie.getStatusDB() == MovieDB.STATUS_WANT_SEE) {
             updateWantSeeState(R.drawable.ic_quero_ver_white, R.drawable.background_want_see, android.R.color.white);
             mIsWantSeePressed = true;
+        }
+
+        if (mMovie.getStatusDB() == MovieDB.STATUS_DONT_WANT_SEE) {
+            updateDontWantSeeState(R.drawable.ic_nao_quero_ver_white, R.drawable.background_dont_want_see, android.R.color.white);
+            mIsDontWantSeePressed = true;
         }
 
         setPaginaInicialVisibility(ViewUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
@@ -253,7 +265,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     public void configurarSimilares() {
-        addFragment(R.id.container_similares, ListMoviesDefaultFragment.newInstance(mMovie.getId(), Sort.SIMILARS, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+        addFragment(R.id.fragment_similares, ListMoviesDefaultFragment.newInstance(mMovie.getId(), Sort.SIMILARS, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, new HashMap<String, String>(), ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
     }
 
     public void updateIMDB(String ranking, String votes) {
@@ -352,11 +364,22 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mMovie.setFavorite(mIsFavorito);
 
         if (mIsFavorito) {
-            updateFavoriteButton("Favorito   ", R.drawable.ic_favorite_clicked);
+            updateFavoriteButton(R.drawable.ic_favorite_clicked);
             mMovieFavoriteCallback.onFavoritePressed();
+
+            if (mIsWantSeePressed) {
+                mIsWantSeePressed = false;
+                updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            }
+
+            if (mIsDontWantSeePressed) {
+                mIsDontWantSeePressed = false;
+                updateDontWantSeeState(R.drawable.ic_nao_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            }
+
             Toast.makeText(getContext(), "Marcado como Favorito.", Toast.LENGTH_SHORT).show();
         } else {
-            updateFavoriteButton("Favorite!   ", R.drawable.ic_favorite_border);
+            updateFavoriteButton(R.drawable.ic_favorite_border);
             Toast.makeText(getContext(), "Desmarcado como Favorito.", Toast.LENGTH_SHORT).show();
         }
 
@@ -371,15 +394,50 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
         if (mIsWantSeePressed) {
             updateWantSeeState(R.drawable.ic_quero_ver_white, R.drawable.background_want_see, android.R.color.white);
-            ViewUtils.createToastMessage(getContext(), "Marcado como 'Quero ver'");
             mMovieWantSeeCallback.onWantSeePressed();
+
             if (mIsFavorito) {
                 mIsFavorito = false;
-                updateFavoriteButton("Favorite!   ", R.drawable.ic_favorite_border);
+                updateFavoriteButton(R.drawable.ic_favorite_border);
             }
+
+            if (mIsDontWantSeePressed) {
+                mIsDontWantSeePressed = false;
+                updateDontWantSeeState(R.drawable.ic_nao_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            }
+
+            ViewUtils.createToastMessage(getContext(), "Marcado como 'Quero ver'");
         } else {
             updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
             ViewUtils.createToastMessage(getContext(), "Desmarcado como 'Quero ver'");
+        }
+
+    }
+
+    @OnClick(R.id.btn_nao_quero_ver)
+    public void onClickDontWantSee() {
+        mIsDontWantSeePressed = !mIsDontWantSeePressed;
+
+        mPresenter.onClickDontWantSee(mMovie, mIsDontWantSeePressed);
+
+        if (mIsDontWantSeePressed) {
+            updateDontWantSeeState(R.drawable.ic_nao_quero_ver_white, R.drawable.background_dont_want_see, android.R.color.white);
+            mMovieDontWantSeeCallback.onDontWantSeePressed();
+
+            if (mIsFavorito) {
+                mIsFavorito = false;
+                updateFavoriteButton(R.drawable.ic_favorite_border);
+            }
+
+            if (mIsWantSeePressed) {
+                mIsWantSeePressed = false;
+                updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            }
+
+            ViewUtils.createToastMessage(getContext(), "Marcado como 'Não quero ver'");
+        } else {
+            updateDontWantSeeState(R.drawable.ic_nao_quero_ver, android.R.color.transparent, R.color.secondary_text);
+            ViewUtils.createToastMessage(getContext(), "Desmarcado como 'Não quero ver'");
         }
 
     }
@@ -392,6 +450,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             updateWantSeeState(R.drawable.ic_quero_ver, android.R.color.transparent, R.color.secondary_text);
         }
 
+        if (mIsDontWantSeePressed) {
+            mIsDontWantSeePressed = false;
+            updateDontWantSeeState(R.drawable.ic_nao_quero_ver, android.R.color.transparent, R.color.secondary_text);
+        }
+
     }
 
     private void updateWantSeeState(int iconID, int backgroundColor, int textColor) {
@@ -400,9 +463,14 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mWantSeeButton.setBackground(ViewUtils.getDrawableFromResource(getContext(), backgroundColor));
     }
 
-    private void updateFavoriteButton(String text, int drawable) {
-        mFavoritoButton.setText(text);
-        mFavoritoButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
+    private void updateDontWantSeeState(int iconID, int backgroundColor, int textColor) {
+        mDontWantSeeButton.setTextColor(ViewUtils.getColorFromResource(getContext(), textColor));
+        mDontWantSeeButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, iconID, 0);
+        mDontWantSeeButton.setBackground(ViewUtils.getDrawableFromResource(getContext(), backgroundColor));
+    }
+
+    private void updateFavoriteButton(int drawable) {
+        mFavoritoButton.setImageDrawable(ViewUtils.getDrawableFromResource(getContext(), drawable));
     }
 
     @OnClick(R.id.tomatoes_riple)
@@ -531,12 +599,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     public void setRankingContainerVisibility(int visibility) {
-
-        if (visibility == View.VISIBLE) {
-            mRankingContainer.setAnimation(AnimationsUtils.createFadeInAnimation(1000));
-            mRankingContainer.setVisibility(visibility);
-        }
-
+        mRankingContainer.setVisibility(visibility);
     }
 
     @Override

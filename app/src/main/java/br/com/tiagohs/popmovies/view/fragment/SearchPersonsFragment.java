@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
+import br.com.tiagohs.popmovies.presenter.SearchPresenterImpl;
 import br.com.tiagohs.popmovies.view.SearchPersonsView;
 import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.adapters.SearchMovieAdapter;
@@ -54,10 +56,17 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         getApplicationComponent().inject(this);
 
         mSearchPresenter.setContext(getContext());
         mSearchPresenter.setPersonView(this);
+        setRetainInstance(true);
     }
 
     @Override
@@ -73,6 +82,7 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     @Override
     public void onQueryChanged(String query, boolean isNewSearch) {
         mQuery = query;
+
         mSearchPresenter.searchPersons(query, false, TAG, null, isNewSearch);
     }
 

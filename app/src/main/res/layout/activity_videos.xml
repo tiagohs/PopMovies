@@ -20,8 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:baselineAligned="false">
+            android:orientation="vertical">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -29,34 +28,12 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/AppTheme.Toolbar" />
 
-            <FrameLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout
+                android:id="@+id/fragment_videos"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp">
+                android:layout_height="wrap_content" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/videos_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <com.pnikosis.materialishprogress.ProgressWheel
-                    android:id="@+id/videos_principal_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    app:matProg_barColor="@color/colorAccent"
-                    app:matProg_progressIndeterminate="true" />
-
-                <TextView
-                    android:id="@+id/videos_nao_encontrado"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:text="Sem Vídeos disponíveis."/>
-            </FrameLayout>
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

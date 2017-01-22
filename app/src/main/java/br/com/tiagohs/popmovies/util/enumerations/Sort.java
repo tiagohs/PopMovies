@@ -14,6 +14,8 @@ public enum Sort {
     PERSON_DIRECTORS(R.string.person_directors),
     FAVORITE(R.string.favoritos),
     ASSISTIDOS(R.string.assistidos),
+    QUERO_VER(R.string.want_see),
+    NAO_QUERO_VER(R.string.dont_want_see),
     LIST_DEFAULT(R.string.list_default);
 
     private int nameID;

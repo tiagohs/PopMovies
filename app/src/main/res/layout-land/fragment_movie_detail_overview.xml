@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill_vertical"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:minWidth="100dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/btn_quero_ver"
+                            android:drawableLeft="@drawable/ic_quero_ver"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/secondary_text"
+                            android:padding="10dp"
+                            android:textSize="10dp"
+                            android:text=" Quero Ver"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/btn_favorito"
+                            android:src="@drawable/ic_favorite_border"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/secondary_text"
+                            android:padding="10dp"
+                            android:textSize="12dp"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:minWidth="100dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/btn_nao_quero_ver"
+                            android:drawableRight="@drawable/ic_nao_quero_ver"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/secondary_text"
+                            android:padding="10dp"
+                            android:textSize="10dp"
+                            android:text="Não quero ver   "
+                            android:layout_weight="1"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/riple_imdb"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            app:mrl_rippleOverlay="true"
+                            android:layout_weight="1">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:maxWidth="90dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/btn_imdb"
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/secondary_text"
+                                android:padding="10dp"
+                                android:textSize="12dp"
+                                android:text="@string/imdb"/>
+
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/riple_wiki"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:mrl_rippleOverlay="true"
+                            android:layout_weight="1">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:maxWidth="90dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/btn_wiki"
+                                android:drawableLeft="@drawable/ic_wiki"
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/secondary_text"
+                                android:padding="10dp"
+                                android:textSize="12dp"
+                                android:text="@string/wiki"/>
+
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/riple_pagina_inicial"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:mrl_rippleOverlay="true"
+                            android:layout_weight="1">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:minWidth="120dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/btn_pagina_inicial"
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/secondary_text"
+                                android:padding="10dp"
+                                android:textSize="12dp"
+                                android:text="Página Inicial"/>
+
+
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rankings_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/imdb_riple"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="100dp"
+                            app:mrl_rippleOverlay="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center|bottom">
+
+                            <FrameLayout
+                                android:id="@+id/imdb_raking_container"
+                                android:layout_gravity="center"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="12dp"
+                                    android:text="IMDb"
+                                    android:layout_gravity="top|center_horizontal"
+                                    android:textColor="@color/secondary_text"/>
+
+                                <ProgressBar
+                                    android:id="@+id/imdb_raking_progress"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:indeterminate="false"
+                                    android:layout_gravity="right|bottom"
+                                    android:progressDrawable="@drawable/progress_circle_green" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/imdb_raking"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14dp"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/imdb_num_votos"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="12dp"
+                                    android:layout_gravity="bottom|center_horizontal"
+                                    android:textColor="@color/secondary_text"/>
+                            </FrameLayout>
+
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/tomatoes_riple"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="right|bottom"
+                            app:mrl_rippleOverlay="true"
+                            >
+
+                            <FrameLayout
+                                android:id="@+id/tomatoes_ranking_container"
+                                android:layout_gravity="center"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="12dp"
+                                    android:text="Tomatoes"
+                                    android:layout_gravity="top|center_horizontal"
+                                    android:textColor="@color/secondary_text"/>
+
+                                <ProgressBar
+                                    android:id="@+id/tomatoes_ranking_progress"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:indeterminate="false"
+                                    android:layout_gravity="right|bottom"
+                                    android:progressDrawable="@drawable/progress_circle_green" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tomatoes_ranking"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14dp"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textStyle="bold"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tomatoes_num_votos"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="12dp"
+                                    android:layout_gravity="bottom|center_horizontal"
+                                    android:textColor="@color/secondary_text"/>
+                            </FrameLayout>
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/metascore_riple"
+                            app:mrl_rippleColor="@color/secondary_text"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="right|bottom"
+                            app:mrl_rippleOverlay="true">
+
+                            <FrameLayout
+                                android:id="@+id/metascore_ranking_container"
+                                android:layout_gravity="center"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="12dp"
+                                    android:text="Metascore"
+                                    android:layout_gravity="top|center_horizontal"
+                                    android:textColor="@color/secondary_text"/>
+
+                                <ProgressBar
+                                    android:id="@+id/metascore_ranking_progress"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:indeterminate="false"
+                                    android:layout_gravity="right|bottom"
+                                    android:progressDrawable="@drawable/progress_circle_green" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/metascore_ranking"
+                                    android:fontFamily="sans-serif"
+                                    android:textSize="22dp"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/primary_text"
+                                    android:textStyle="bold"/>
+                            </FrameLayout>
+                        </com.balysv.materialripple.MaterialRippleLayout>
+                    </LinearLayout>
+
+                    <com.pnikosis.materialishprogress.ProgressWheel
+                        android:id="@+id/rankings_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        app:matProg_barColor="@color/colorAccent"
+                        app:matProg_progressIndeterminate="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:id="@+id/tomatoes_consensus_container"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textColor="@color/primary_text"
+                    android:id="@+id/aspas"
+                    android:textSize="80dp"
+                    android:text="@string/aspas"
+                    android:fontFamily="sans-serif-condensed"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:layout_gravity="center"
+                    android:id="@+id/movie_tomatoes_consensus"
+                    android:textSize="14dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/aspas"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="23dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                android:text="- Rotten Tomatoes."
+                android:fontFamily="sans-serif-light"
+                android:layout_gravity="right"
+                android:layout_below="@+id/movie_tomatoes_consensus"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/tomatoes_consensus_assign"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="center">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/generos_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/sinopse_movie"
+                    android:textSize="14dp"
+                    android:textIsSelectable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text" />
+
+                <TextView
+                    android:id="@+id/adult_movie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="@string/adult_movie"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/imdb_reviews_riple"
+                    app:mrl_rippleColor="@color/colorAccent"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_imdb_icon"
+                            android:layout_weight="0.2"/>
+
+                        <TextView
+                            android:id="@+id/label_imdb"
+                            android:textSize="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IMDB Reviews"
+                            android:layout_weight="0.7"/>
+
+                        <TextView
+                            android:id="@+id/label_imdb_extra"
+                            android:textSize="22dp"
+                            android:gravity="left"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text=">"/>
+
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/tomatoes_reviews_riple"
+                    app:mrl_rippleColor="@color/colorAccent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_tomatoes"
+                            android:layout_weight="0.2"/>
+
+                        <TextView
+                            android:id="@+id/label_tomatoes"
+                            android:textSize="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tomatoes Reviews"
+                            android:layout_weight="0.7"/>
+
+                        <TextView
+                            android:id="@+id/label_tomatoes_extra"
+                            android:textSize="22dp"
+                            android:gravity="left"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text=">"/>
+
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <include layout="@layout/include_movie_detail_overview_tec"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_similares"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/similares_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/titles_movie_details_overview_similares"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.85"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/fragment_similares"
+                android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

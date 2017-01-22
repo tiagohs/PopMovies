@@ -1,28 +1,24 @@
 package br.com.tiagohs.popmovies.model.db;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class ProfileDB {
     private long profileID;
     private String descricao;
+    private Calendar birthday;
+    private String country;
+    private String genrer;
     private long totalHorasAssistidas;
 
     private UserDB user;
     private List<MovieDB> filmesAssistidos;
     private List<MovieDB> filmesQueroVer;
+    private List<MovieDB> filmesNaoQueroVer;
     private List<MovieDB> filmesFavoritos;
 
     public ProfileDB() {
-    }
 
-    public ProfileDB(long profileID, String descricao, long totalHorasAssistidas, UserDB user, List<MovieDB> filmesAssistidos, List<MovieDB> filmesQueroVer, List<MovieDB> filmesFavoritos) {
-        this.profileID = profileID;
-        this.descricao = descricao;
-        this.totalHorasAssistidas = totalHorasAssistidas;
-        this.user = user;
-        this.filmesAssistidos = filmesAssistidos;
-        this.filmesQueroVer = filmesQueroVer;
-        this.filmesFavoritos = filmesFavoritos;
     }
 
     public long getProfileID() {
@@ -79,5 +75,37 @@ public class ProfileDB {
 
     public void setFilmesFavoritos(List<MovieDB> filmesFavoritos) {
         this.filmesFavoritos = filmesFavoritos;
+    }
+
+    public List<MovieDB> getFilmesNaoQueroVer() {
+        return filmesNaoQueroVer;
+    }
+
+    public void setFilmesNaoQueroVer(List<MovieDB> filmesNaoQueroVer) {
+        this.filmesNaoQueroVer = filmesNaoQueroVer;
+    }
+
+    public Calendar getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Calendar birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getGenrer() {
+        return genrer;
+    }
+
+    public void setGenrer(String genrer) {
+        this.genrer = genrer;
     }
 }

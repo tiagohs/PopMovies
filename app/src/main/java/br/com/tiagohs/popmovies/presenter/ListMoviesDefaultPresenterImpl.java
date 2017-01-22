@@ -4,13 +4,17 @@ import android.app.Activity;
 
 import android.content.Context;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 
+import org.apache.commons.collections4.ListUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,7 @@ import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
+import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -38,6 +43,8 @@ import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
+import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
@@ -65,9 +72,21 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private boolean isSaved;
     private boolean isFavorite;
 
+    private int mId;
+    private Sort mTypeList;
+    private Map<String, String> mParameters;
+
+    private List<List<MovieDB>> moviesDB;
+    private int mListIndex = 0;
+
     public ListMoviesDefaultPresenterImpl() {
         mCurrentPage = 0;
         mMovieDetailsInterceptor = new MovieDetailsInterceptorImpl(this);
+        moviesDB = new ArrayList<>();
+    }
+
+    public void resetValues() {
+        //mListIndex = 0;
     }
 
     @Override
@@ -92,6 +111,10 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     public void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters) {
         mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
 
+        mId = id;
+        mTypeList = typeList;
+        mParameters = parameters;
+
         if (mListMoviesDefaultView.isInternetConnected()) {
             choiceTypeList(id, typeList, tag, parameters);
             mListMoviesDefaultView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
@@ -104,9 +127,12 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
         switch (typeList) {
             case FAVORITE:
-                getFavitesMovies();
             case ASSISTIDOS:
-                getMoviesAssistidos();
+            case QUERO_VER:
+            case NAO_QUERO_VER:
+                getMoviesDB(typeList);
+                ++mCurrentPage;
+                break;
             case GENEROS:
                 mMoviesServer.getMoviesByGenres(id, ++mCurrentPage, tag, this);
                 break;
@@ -126,6 +152,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             case PERSON_CONHECIDO_POR:
                 mPersonMoviesInterceptor.getPersonMovies(typeList, id, ++mCurrentPage, tag, new HashMap<String, String>());
                 break;
+
         }
     }
 
@@ -141,22 +168,11 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
     }
 
-    private void getMoviesAssistidos() {
-        GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
-        genericListResponse.setPage(1);
-        genericListResponse.setTotalPage(1);
-        genericListResponse.setResults(mMovieRepository.findAllMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID()));
+    private void getMoviesDB(Sort typeList) {
+        mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
+        mListMoviesDefaultView.setRecyclerViewVisibility(mListIndex == 0 ? View.GONE : View.VISIBLE);
 
-        onResponse(genericListResponse);
-    }
-
-    private void getFavitesMovies() {
-        GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
-        genericListResponse.setPage(1);
-        genericListResponse.setTotalPage(1);
-        genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID())));
-
-        onResponse(genericListResponse);
+        new MoviesSearch().execute(typeList);
     }
 
     private void noConnectionError() {
@@ -228,7 +244,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
                 movie.setPosterPath(m.getArtworkPath());
                 list.add(movie);
             }
-
         }
 
         return list;
@@ -258,25 +273,86 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     @Override
     public void onMovieDetailsRequestSucess(MovieDetails movie) {
-        if (isSaved)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
+        long id = -1;
+        if (isSaved) {
+            id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
                     movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
-        else if (!isSaved && isFavorite)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
-                                        movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
-                                        Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                        MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
-
-        else
+        } else if ((!isSaved) && isFavorite) {
+            id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+        } else {
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+        }
 
-        mListMoviesDefaultView.updateAdapter();
+        if (id == -1)
+            ViewUtils.createToastMessage(mContext, "Erro ao salvar Filme.");
+
+        mListIndex = 0;
+        getMovies(mId, mTypeList, TAG, mParameters);
     }
 
     @Override
     public void onMovieDetailsRequestError(VolleyError error) {
+        Log.i(TAG, "Errona conexão. " + error.getMessage());
+    }
 
+    private class MoviesSearch extends AsyncTask<Sort, Void, GenericListResponse<Movie>> {
+
+
+        @Override
+        protected GenericListResponse<Movie> doInBackground(Sort... sorts) {
+            Sort typeList = sorts[0];
+            GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
+
+            if (mListIndex == 0) {
+                List<MovieDB> movies = new ArrayList<>();
+
+                switch (typeList) {
+                    case ASSISTIDOS:
+                        movies = mMovieRepository.findAllMoviesWatched(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        break;
+                    case FAVORITE:
+                        movies = mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        break;
+                    case QUERO_VER:
+                        movies = mMovieRepository.findAllMoviesWantSee(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        break;
+                    case NAO_QUERO_VER:
+                        movies = mMovieRepository.findAllMoviesDontWantSee(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        break;
+                }
+
+                if (movies.isEmpty()) {
+                    genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(movies));
+                    genericListResponse.setPage(1);
+                    return genericListResponse;
+                }
+
+                moviesDB = ListUtils.partition(movies, 12);
+            }
+
+            try {
+                genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(moviesDB.get(mListIndex++)));
+                genericListResponse.setPage(mListIndex);
+                genericListResponse.setTotalPage(moviesDB.size());
+            } catch (Exception e) {
+                genericListResponse.setResults(new ArrayList<Movie>());
+                genericListResponse.setPage(mListIndex);
+                genericListResponse.setTotalPage(moviesDB.size());
+            }
+
+            return genericListResponse;
+        }
+
+        @Override
+        protected void onPostExecute(GenericListResponse<Movie> movieGenericListResponse) {
+            super.onPostExecute(movieGenericListResponse);
+
+            onResponse(movieGenericListResponse);
+        }
     }
 }

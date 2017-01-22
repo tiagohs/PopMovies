@@ -44,6 +44,7 @@
                     android:layout_gravity="center"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:visibility="gone"
                     app:matProg_barColor="@color/colorAccent"
                     app:matProg_progressIndeterminate="true" />
             </android.support.v7.widget.CardView>
@@ -51,17 +52,15 @@
         </FrameLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/perfil_descricao"
-            android:text="Você não possui uma Descrição ainda!"
-            android:textColor="@color/secondary_text"
-            android:maxLines="3"
             android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="2dp"
-            android:lines="3"/>
+            android:textColor="@color/primary_text"
+            android:id="@+id/name_perfil"
+            android:text="Tiago Henrique"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19dp"/>
     </LinearLayout>
 
 </LinearLayout>

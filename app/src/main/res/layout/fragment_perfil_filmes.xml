@@ -10,77 +10,303 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:orientation="vertical">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/perfil_favoritos_riple"
-            app:mrl_rippleColor="@color/secondary_text"
+        <LinearLayout
+            android:id="@+id/perfil_favoritos_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mrl_rippleOverlay="true">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/perfil_favoritos_riple"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:orientation="horizontal">
+                app:mrl_rippleOverlay="true">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.85">
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Favoritos"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Seus filmes favoritos"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@color/primary_text"
-                        android:text="Favoritos"
-                        android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:fontFamily="sans-serif-light"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@color/primary_text"
-                        android:text="Seus filmes favoritos"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="12dp"
-                        android:layout_weight="0.85"/>
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
 
                 </LinearLayout>
 
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_perfil_favoritos"
+                    android:minHeight="150dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
                 <TextView
+                    android:id="@+id/perfil_no_movies_favorite"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/label_mais"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_weight="0.15"/>
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:text="Você não possui nenhum filme favorito."/>
 
-            </LinearLayout>
-
-        </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/container_perfil_favoritos"
-            android:minHeight="200dp"
+            android:id="@+id/perfil_quero_ver_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/perfil_quero_ver_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Quero ver"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Seus filmes que você quer ver"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/yellow"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_perfil_quero_ver"
+                    android:minHeight="150dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/perfil_no_movies_want_see"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:text="Você não possui nenhum filme há ser visto."/>
+            </FrameLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/perfil_nao_quero_ver_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/perfil_nao_quero_ver_riple"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:mrl_rippleOverlay="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.85">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Não quero ver"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:fontFamily="sans-serif-light"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:textColor="@color/primary_text"
+                            android:text="Os Filmes que você jamais quer ver!"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
+                            android:layout_weight="0.85"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorAccent"
+                        android:text="@string/label_mais"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_weight="0.15"
+                        android:id="@+id/textView"/>
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_perfil_nao_quero_ver"
+                    android:minHeight="150dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/perfil_no_movies_dont_want_see"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:text="Você não possui nenhum filme há não ser visto."/>
+            </FrameLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/perfil_assistidos_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/perfil_assistidos_riple"
@@ -94,6 +320,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -140,12 +368,34 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/container_perfil_assistidos"
-            android:orientation="vertical"
-            android:layout_marginBottom="30dp"/>
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
+                android:id="@+id/fragment_perfil_assistidos"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp"/>
+
+            <TextView
+                android:id="@+id/perfil_no_movies_watched"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/secondary_text"
+                android:text="Você não possui nenhum filme Assistido."/>
+        </FrameLayout>
+
+    </LinearLayout>
 
     </LinearLayout>
 

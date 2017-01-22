@@ -27,6 +27,7 @@ import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
@@ -62,26 +63,33 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     private void onSetupNavigationDrawer() {
-        mNavigationView.setNavigationItemSelectedListener(this);
-        View view = mNavigationView.getHeaderView(0);
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+            View view = mNavigationView.getHeaderView(0);
 
-        ImageView fotoPerfil = (ImageView) view.findViewById(R.id.image_perfil);
-        ImageView background = (ImageView) view.findViewById(R.id.background);
-        TextView nomeUsuario = (TextView) view.findViewById(R.id.nome_usuario);
-        TextView emailUsuario = (TextView) view.findViewById(R.id.email_usuario);
-        ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress);
+            ImageView fotoPerfil = (ImageView) view.findViewById(R.id.image_perfil);
+            ImageView background = (ImageView) view.findViewById(R.id.background);
+            TextView nomeUsuario = (TextView) view.findViewById(R.id.nome_usuario);
+            TextView emailUsuario = (TextView) view.findViewById(R.id.email_usuario);
+            ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress);
 
-        ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  fotoPerfil, progress);
-        nomeUsuario.setText(mProfileDB.getUser().getNome());
-        emailUsuario.setText(mProfileDB.getUser().getEmail());
-        ImageUtils.loadWithBlur(this, R.drawable.background_image, background);
+            if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
+                ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  fotoPerfil, progress);
+            else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
+                fotoPerfil.setImageBitmap(ImageUtils.getBitmapFromPath(mProfileDB.getUser().getLocalPicture(), this));
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(PerfilActivity.newIntent(BaseActivity.this));
-            }
-        });
+            nomeUsuario.setText(mProfileDB.getUser().getNome());
+            emailUsuario.setText(mProfileDB.getCountry());
+            ImageUtils.loadWithBlur(this, R.drawable.background_image, background);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PerfilActivity.newIntent(BaseActivity.this));
+                }
+            });
+        }
+
     }
 
     @Override
@@ -208,7 +216,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (f == null) {
             fm.beginTransaction()
                     .add(fragmentID, fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else
             replaceFragment(fragmentID, fragment);
     }
@@ -219,7 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (f != null) {
             fm.beginTransaction()
                     .replace(fragmentID, fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
     }
 

@@ -1,5 +1,8 @@
 package br.com.tiagohs.popmovies.view;
 
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
 /**
@@ -8,5 +11,5 @@ import br.com.tiagohs.popmovies.model.response.VideosResponse;
 
 public interface VideosView extends BaseView {
 
-    void onUpdateUI(VideosResponse videos);
+    void onUpdateUI(List<Video> videos, boolean hasMorePages);
 }

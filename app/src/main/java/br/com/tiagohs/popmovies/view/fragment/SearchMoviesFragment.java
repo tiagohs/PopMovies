@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,9 +17,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
+import br.com.tiagohs.popmovies.presenter.SearchPresenterImpl;
 import br.com.tiagohs.popmovies.view.SearchMoviesView;
 import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.adapters.SearchMovieAdapter;
@@ -27,6 +30,8 @@ import butterknife.BindView;
 
 public class SearchMoviesFragment extends BaseFragment implements SearchCallback, SearchMoviesView {
     private static final String TAG = SearchMoviesFragment.class.getSimpleName();
+
+    private static final String ARG_PRESENTER = "br.com.tiagohs.popmovies.presenter";
 
     @BindView(R.id.list_movies_recycler_view)
     RecyclerView mResultsRecyclerView;
@@ -44,7 +49,6 @@ public class SearchMoviesFragment extends BaseFragment implements SearchCallback
 
     private SearchMovieAdapter mSearchAdapter;
     private LinearLayoutManager mLinearLayout;
-
     public static SearchMoviesFragment newInstace() {
         SearchMoviesFragment searchMoviesFragment = new SearchMoviesFragment();
         return searchMoviesFragment;
@@ -53,6 +57,12 @@ public class SearchMoviesFragment extends BaseFragment implements SearchCallback
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         getApplicationComponent().inject(this);
 
         mSearchPresenter.setContext(getContext());

@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.view.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -76,9 +77,6 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     FloatingActionButton mEditar;
 
 
-    @BindView(R.id.perfil_descricao)
-    TextView mPerfilDescricao;
-
     @BindView(R.id.perfil_app_bar)
     AppBarLayout mAppBarLayout;
 
@@ -100,6 +98,17 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
         mPerfilPresenter.setContext(this);
         mPerfilPresenter.setView(this);
+
+        mEditar.setOnClickListener(onClickEditButton());
+    }
+
+    public View.OnClickListener onClickEditButton() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(PerfilEditActivity.newIntent(PerfilActivity.this));
+            }
+        };
     }
 
     public void setProfile(ProfileDB mProfile) {
@@ -107,8 +116,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         mPerfilPresenter.initUpdates(TAG);
     }
@@ -116,14 +125,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     public void setupTabs() {
 
         if (!isDestroyed()) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = fm.findFragmentById(R.id.perfil_fragment);
-
-            if (fragment == null) {
-                fm.beginTransaction()
-                        .add(R.id.perfil_fragment, PerfilFragment.newInstance())
-                        .commit();
-            }
+            startFragment(R.id.perfil_fragment, PerfilFragment.newInstance());
         }
 
         mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
@@ -144,7 +146,6 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
                 mNamePerfil.setVisibility(View.VISIBLE);
-                mPerfilDescricao.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -152,14 +153,13 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mToolbar.setBackgroundColor(ViewUtils.getColorFromResource(getApplicationContext(), R.color.colorPrimary));
                 mToolbar.setTitle(PrefsUtils.getCurrentUser(PerfilActivity.this).getNome());
                 mNamePerfil.setVisibility(View.GONE);
-                mPerfilDescricao.setVisibility(View.GONE);
             }
 
             @Override
             public void onIdle(AppBarLayout appBarLayout) {
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
-
+                mNamePerfil.setVisibility(View.VISIBLE);
             }
         };
     }
@@ -173,13 +173,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         ImageUtils.load(this, imagePath, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mImagePerfil, mProgressFotoPerfil);
     }
 
-    public void setPerfilDescricao(String descricao) {
-        if (descricao == null)
-            mPerfilDescricao.setText(getString(R.string.nao_ha_descicao));
-        else
-            mPerfilDescricao.setText(descricao);
-
-        mPerfilDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+    public void setLocalImagePerfil(Bitmap image) {
+        mImagePerfil.setImageBitmap(image);
     }
 
     @Override

@@ -65,4 +65,9 @@ public class PresenterModule {
     public PerfilEstatisticasPresenter providesPerfilEstatisticasPresenter() {
         return new PerfilEstatisticasPresenterImpl();
     }
+
+    @Provides
+    public PerfilEditPresenter providesPerfilEditPresenter() {
+        return new PerfilEditPresenterImpl();
+    }
 }
