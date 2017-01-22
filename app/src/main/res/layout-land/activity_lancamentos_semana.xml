@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white"
+    tools:openDrawer="start">
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordenation_layout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/AppTheme.Toolbar" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/imdb_reviews_riple"
+                        app:mrl_rippleColor="@color/itemBackgroundRiple"
+                        android:background="@drawable/background_item_words_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        app:mrl_rippleOverlay="true"
+                        app:mrl_rippleRoundedCorners="10dp">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:background="@android:color/transparent"
+                            android:textSize="12dp"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:id="@+id/btn_anterior"
+                            android:text="Anterior"/>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:padding="5dp"
+                            android:background="@drawable/background_border">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_data_color"/>
+
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="12sp"
+                                android:textColor="@color/primary_text"
+                                android:text="22 jan 2017 - 28 jan 2017"
+                                android:id="@+id/text_datas"/>
+
+                        </LinearLayout>
+
+                        <Spinner
+                            android:id="@+id/spinner_country"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="match_parent"
+                            android:maxWidth="130dp"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        app:mrl_rippleColor="@color/itemBackgroundRiple"
+                        android:background="@drawable/background_item_words_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        app:mrl_rippleOverlay="true"
+                        app:mrl_rippleRoundedCorners="10dp">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:background="@android:color/transparent"
+                            android:textSize="12dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textAlignment="center"
+                            android:text="Próxima"
+                            android:id="@+id/btn_proximo"
+                            android:textColor="@android:color/white" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </RelativeLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/container_movies"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigation_drawer_header"
+        app:menu="@menu/activity_navigation_drawer_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

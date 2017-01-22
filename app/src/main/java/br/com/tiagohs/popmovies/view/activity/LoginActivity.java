@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager mFacebookCallbackManager;
 
     private ProfileRepository mProfileRepository;
+    private UserRepository mUserRepository;
 
     private TwitterSession mSession;
     private String mUsername;
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public LoginActivity() {
         mProfileRepository = new ProfileRepository(this);
+        mUserRepository = new UserRepository(this);
     }
 
     @Override
@@ -178,7 +180,6 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(HomeActivity.newIntent(LoginActivity.this));
                                     finish();
                                 } catch (Exception e) {
-                                    e.printStackTrace();
                                     ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
                                     setFacebookButtonVisibility(View.VISIBLE);
                                     setTwitterButtonVisibility(View.VISIBLE);
@@ -232,10 +233,22 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     @Override
                     public void success(Result<User> userResult) {
-                        final User user = userResult.data;
-                        mUsername = user.name;
-                        mName = user.screenName;
-                        mPathFoto = user.profileImageUrl;
+                        try {
+                            final User user = userResult.data;
+                            mUsername = user.name;
+                            mName = user.screenName;
+                            mPathFoto = user.profileImageUrl;
+
+                            setUserData();
+
+                            startActivity(HomeActivity.newIntent(LoginActivity.this));
+                            finish();
+                        } catch (Exception e) {
+                            ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                            setTwitterButtonVisibility(View.VISIBLE);
+                            setFacebookButtonVisibility(View.VISIBLE);
+                        }
+
                     }
 
                 });
@@ -254,7 +267,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUserData() {
 
-        if (mProfileRepository.findProfileByUserUsername(mUsername) == null) {
+        Log.i(TAG, "User name: " + mUsername);
+
+        ProfileDB profileDB = mProfileRepository.findProfileByUserUsername(mUsername);
+
+        if (profileDB == null) {
             UserDB user = new UserDB();
             user.setUsername(mUsername);
             user.setEmail(mEmail);
@@ -270,6 +287,12 @@ public class LoginActivity extends AppCompatActivity {
             profile.setCountry(LocaleUtils.getLocaleCountryName());
 
             mProfileRepository.saveProfile(profile, this);
+        } else {
+
+            Log.i(TAG, "User name: " + profileDB.getUser().getUsername());
+
+            PrefsUtils.setCurrentProfile(profileDB, this);
+            PrefsUtils.setCurrentUser(profileDB.getUser(), this);
         }
 
     }

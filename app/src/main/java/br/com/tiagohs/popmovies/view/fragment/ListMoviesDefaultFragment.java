@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -55,6 +57,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     @BindView(R.id.list_movies_recycler_view)           RecyclerView mMoviesRecyclerView;
     @BindView(R.id.list_movies_principal_progress)      ProgressWheel mPrincipalProgress;
     @Nullable @BindView(R.id.swipeRefreshLayout)        SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.nenhum_filme_encontrado)             TextView mNenhumFilmeEncontrado;
 
     @Inject
     ListMoviesDefaultPresenter mPresenter;
@@ -174,7 +177,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mFragmentLayoutId = getArguments().getInt(ARG_FRAGMENT_LAYOUT_ID, R.layout.fragment_list_movies_default);
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -264,6 +266,8 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.setView(this);
+
+        mNenhumFilmeEncontrado.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
     }
 
     @Override
@@ -347,6 +351,10 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
             }
         };
+    }
+
+    public void setNenhumFilmeEncontradoVisibility(int visibility) {
+        mNenhumFilmeEncontrado.setVisibility(visibility);
     }
 
 }

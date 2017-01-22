@@ -70,4 +70,9 @@ public class PresenterModule {
     public PerfilEditPresenter providesPerfilEditPresenter() {
         return new PerfilEditPresenterImpl();
     }
+
+    @Provides
+    public LancamentosSemanaPresenter providesLancamentosSemanaPresenter() {
+        return new LancamentosSemanaPresenterImpl();
+    }
 }

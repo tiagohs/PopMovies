@@ -41,15 +41,16 @@ public class UserRepository {
         try {
             ContentValues values = getUserContentValues(user);
 
-            boolean userJaExistente = findUserByUsername(user.getUsername()) != null;
+            boolean userJaExistente = findUserByUsername(user.getUsername(), user.getProfileID()) != null;
             db = mPopMoviesDB.getWritableDatabase();
 
             if (userJaExistente)
-                userID = db.update(PopMoviesContract.UserEntry.TABLE_NAME, values, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername()});
-            else
+                db.update(PopMoviesContract.UserEntry.TABLE_NAME, values, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())});
+            else {
                 userID = db.insert(PopMoviesContract.UserEntry.TABLE_NAME, "", values);
+                user.setUserID((int) userID);
+            }
 
-            user.setUserID((int) userID);
             PrefsUtils.setCurrentUser(user, context);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -60,12 +61,12 @@ public class UserRepository {
         return userID;
     }
 
-    private void deleteUser(String value, String where) {
+    private void deleteUser(String[] values, String where) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Delete User Chamado.");
 
         try {
-            db.delete(PopMoviesContract.UserEntry.TABLE_NAME, where, new String[]{value});
+            db.delete(PopMoviesContract.UserEntry.TABLE_NAME, where, values);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -73,20 +74,20 @@ public class UserRepository {
         }
     }
 
-    public void deleteUserByID(long id) {
-        deleteUser(String.valueOf(id), SQLHelper.UserSQL.WHERE_USER_BY_ID);
+    public void deleteUserByID(long id, long profileID) {
+        deleteUser(new String[]{String.valueOf(id), String.valueOf(profileID)}, SQLHelper.UserSQL.WHERE_USER_BY_ID);
     }
 
-    public void deleteUserByUsername(String username) {
-        deleteUser(username, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME);
+    public void deleteUserByUsername(String username, long profileID) {
+        deleteUser(new String[]{username, String.valueOf(profileID)}, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME);
     }
 
-    public UserDB findUserByUsername(String username) {
+    public UserDB findUserByUsername(String username, long profileID) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find User Chamado.");
 
         try {
-            Cursor c = db.query(PopMoviesContract.UserEntry.TABLE_NAME, null, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username}, null, null, null);
+            Cursor c = db.query(PopMoviesContract.UserEntry.TABLE_NAME, null, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username, String.valueOf(profileID)}, null, null, null);
             if (c.moveToFirst()) {
                 return getUserByCursor(c);
             } else {
@@ -140,6 +141,7 @@ public class UserRepository {
         user.setEmail(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_EMAIL)));
         user.setSenha(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PASSWORD)));
         user.setTypePhoto(c.getInt(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE)));
+        user.setProfileID(c.getInt(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PROFILE_ID)));
         user.setSenha(c.getString(c.getColumnIndex(PopMoviesContract.UserEntry.COLUMN_PICTURE_LOCAL_PATH)));
 
         return user;
@@ -155,6 +157,7 @@ public class UserRepository {
         values.put(PopMoviesContract.UserEntry.COLUMN_USERNAME, user.getUsername());
         values.put(PopMoviesContract.UserEntry.COLUMN_EMAIL, user.getEmail());
         values.put(PopMoviesContract.UserEntry.COLUMN_PASSWORD, user.getSenha());
+        values.put(PopMoviesContract.UserEntry.COLUMN_PROFILE_ID, user.getProfileID());
         values.put(PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE, user.getTypePhoto());
 
         return values;

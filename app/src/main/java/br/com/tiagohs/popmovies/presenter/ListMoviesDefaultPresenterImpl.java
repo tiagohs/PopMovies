@@ -205,8 +205,8 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             mListMoviesDefaultView.updateAdapter();
         }
 
-        mListMoviesDefaultView.setProgressVisibility(View.GONE);
         mListMoviesDefaultView.setRecyclerViewVisibility(View.VISIBLE);
+        mListMoviesDefaultView.setProgressVisibility(View.GONE);
     }
 
     private boolean isFirstPage() {
@@ -273,7 +273,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     @Override
     public void onMovieDetailsRequestSucess(MovieDetails movie) {
-        long id = -1;
+        long id = 0;
         if (isSaved) {
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
                     movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),

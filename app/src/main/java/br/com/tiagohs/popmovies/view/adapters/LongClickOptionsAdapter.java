@@ -25,10 +25,6 @@ import br.com.tiagohs.popmovies.view.callbacks.LongClickCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Tiago on 29/12/2016.
- */
-
 public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOptionsAdapter.LongClickOptionsViewHolder> {
     private static final String TAG = ListMoviesAdapter.class.getSimpleName();
 
@@ -145,6 +141,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         }
 
         public void update(boolean isButtonClicked) {
+
             if (isButtonClicked) {
                 mItemIcon.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, mItem.getItemIconMarcado()));
                 mItemText.setText(mItem.getItemTextMarcado());
@@ -178,6 +175,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
         private void onClickFavorite() {
             mIsFavorite = !mIsFavorite;
+            mIsToSave = mIsFavorite;
             update(mIsFavorite);
 
             if (!mIsWatched)
@@ -194,7 +192,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
         private void onClickWatched() {
             mIsWatched = !mIsWatched;
-            mIsToSave = !mIsToSave;
+            mIsToSave = mIsWatched;
             mStatus = MovieDB.STATUS_WATCHED;
             update(mIsWatched);
 
@@ -213,7 +211,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
         private void onClickWantSee() {
             mIsWantSee = !mIsWantSee;
-            mIsToSave = !mIsToSave;
+            mIsToSave = mIsWantSee;
             mStatus = MovieDB.STATUS_WANT_SEE;
             update(mIsWantSee);
 
@@ -231,7 +229,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
         private void onClickDontWantSee() {
             mIsDontWantSee = !mIsDontWantSee;
-            mIsToSave = !mIsToSave;
+            mIsToSave = mIsDontWantSee;
             mStatus = MovieDB.STATUS_DONT_WANT_SEE;
             update(mIsDontWantSee);
 

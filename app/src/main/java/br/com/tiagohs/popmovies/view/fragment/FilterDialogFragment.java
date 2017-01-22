@@ -116,7 +116,7 @@ public class FilterDialogFragment extends DialogFragment {
                 .setPositiveButton("Aplicar",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                mFiltersMoviesCallbacks.onFilterChanged(mFilterValuesDTO);
+                             mFiltersMoviesCallbacks.onFilterChanged(mFilterValuesDTO);
                             }
                         }
                 )
@@ -129,8 +129,7 @@ public class FilterDialogFragment extends DialogFragment {
                 )
                 .setNeutralButton("Resetar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        resetValues();
-                        mFiltersMoviesCallbacks.onFilterChanged(mFilterValuesDTO);
+                        mFiltersMoviesCallbacks.onFilterReset();
                     }
                 });
 
@@ -231,14 +230,14 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void valueChanged(Number value) {
                 mNotaInicial.setText(String.valueOf(value));
-                mFilterValuesDTO.setVoteAverageLte(String.valueOf(value));
+                mFilterValuesDTO.setVoteAverageGte(String.valueOf(value));
             }
         });
 
         mNotaComunidade.setOnSeekbarFinalValueListener(new OnSeekbarFinalValueListener() {
             @Override
             public void finalValue(Number value) {
-                mFilterValuesDTO.setVoteAverageLte(String.valueOf(value));
+                mFilterValuesDTO.setVoteAverageGte(String.valueOf(value));
             }
         });
 

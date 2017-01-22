@@ -55,6 +55,7 @@
     <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
     <string name="youtube_link" translatable="false">"https://img.youtube.com/vi/%1$s/0.jpg"</string>
+    <string name="lanc_date_min_max" translatable="false">%1$s - %2$s</string>
 
     <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
 
@@ -274,5 +275,6 @@
     <string name="genres_outros">Outros</string>
     <string name="title_activity_edit_perfil">Editar Perfil</string>
     <string name="edit_done">Salvar</string>
+    <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
 
 </resources>

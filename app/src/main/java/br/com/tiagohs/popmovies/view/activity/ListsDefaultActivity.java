@@ -42,6 +42,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     private ListActivityDTO mListActivityDTO;
     private Map<String, String> mParameters;
+    private Map<String, String> mParametersFilter;
     private List<PersonListDTO> mPersons;
     private List<MovieListDTO> mMovies;
 
@@ -87,7 +88,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         setActivityTitle(mListActivityDTO.getNameActivity());
         setActivitySubtitle(mListActivityDTO.getSubtitleActivity());
 
-        onUpdateUI();
+        onUpdateUI(mParameters);
     }
 
     @Override
@@ -97,7 +98,13 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     protected int getMenuLayoutID() {
-        return mListActivityDTO.getListType().equals(ListType.MOVIES) ? R.menu.menu_list_defult : R.menu.menu_principal;
+        if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) ||
+            mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
+            mListActivityDTO.getSortList().equals(Sort.QUERO_VER) ||
+            mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER))
+            return 0;
+        else
+            return mListActivityDTO.getListType().equals(ListType.MOVIES) ? R.menu.menu_list_defult : R.menu.menu_principal;
     }
 
     @Override
@@ -105,19 +112,19 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onUpdateUI();
+                onUpdateUI(mParametersFilter == null ? mParameters : mParametersFilter);
                 mSnackbar.dismiss();
             }
         };
     }
 
-    private void onUpdateUI() {
+    private void onUpdateUI(Map<String, String> parametersCurrent) {
         Fragment fragment = null;
 
         switch (mListActivityDTO.getListType()) {
             case MOVIES:
                 if (mMovies == null)
-                    fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mParameters, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                    fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, parametersCurrent, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 else
                     fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mMovies, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
@@ -157,19 +164,24 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     public void onFilterChanged(FilterValuesDTO filters) {
-        if (mParameters == null)
-            mParameters = new HashMap<>();
+        mParametersFilter = new HashMap<>();
 
         addFilterItemParameter(Param.SORT_BY.getParam(), filters.getSortBy());
         addFilterItemParameter(Param.INCLUDE_ADULT.getParam(), String.valueOf(filters.isIncludeAdult()));
         addFilterItemParameter(Param.PRIMARY_RELEASE_YEAR.getParam(), filters.getReleaseYear());
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), filters.getPrimaryRelaseDateGte());
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), filters.getPrimaryRelaseDateLte());
-        //addFilterItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
-        addFilterItemParameter(Param.VOTE_AVERAGE_LTE.getParam(), filters.getVoteAverageLte());
+        addFilterItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
+        //addFilterItemParameter(Param.VOTE_AVERAGE_LTE.getParam(), filters.getVoteAverageLte());
 
         additionalSearchConfigurations();
-        onUpdateUI();
+        onUpdateUI(mParametersFilter);
+    }
+
+    @Override
+    public void onFilterReset() {
+        mParametersFilter = null;
+        onUpdateUI(mParameters);
     }
 
     private void additionalSearchConfigurations() {
@@ -189,10 +201,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     private void addFilterItemParameter(String param, String value) {
         if (value != null) {
-            mParameters.put(param, value);
+            mParametersFilter.put(param, value);
         } else {
-            if (mParameters.containsKey(param))
-                mParameters.remove(param);
+            if (mParametersFilter.containsKey(param))
+                mParametersFilter.remove(param);
         }
     }
 }

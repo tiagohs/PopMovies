@@ -119,6 +119,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.menu_generos:
                 startActivity(GenresActivity.newIntent(this));
                 return true;
+            case R.id.menu_lancamentos:
+                startActivity(LancamentosSemanaActivity.newIntent(this));
+                return true;
             case R.id.menu_atores:
                 startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(getString(R.string.atores_atrizes), R.layout.item_list_movies, Sort.PERSON_POPULAR, ListType.PERSON)));
                 return true;

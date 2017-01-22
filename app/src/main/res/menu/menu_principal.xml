@@ -10,11 +10,11 @@
         android:icon="@drawable/ic_search"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/menu_opcoes"
-        android:orderInCategory="100"
-        android:title="@string/action_opcoes"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/menu_opcoes"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_opcoes"-->
+        <!--app:showAsAction="never"/>-->
 
     <item
         android:id="@+id/menu_sobre"

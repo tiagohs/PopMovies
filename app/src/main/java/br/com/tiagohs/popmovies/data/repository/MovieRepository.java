@@ -44,20 +44,13 @@ public class MovieRepository {
             Movie movieDatabase = findMovieByServerID(movie.getIdServer(), movie.getProfileID());
             db = mPopMoviesDB.getWritableDatabase();
 
-            Log.i(TAG, "Movie: " + movieDatabase);
-
             if (movieDatabase != null) {
-                Log.i(TAG, "update");
-                movieID = db.update(PopMoviesContract.MoviesEntry.TABLE_NAME, values, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(movie.getIdServer()), String.valueOf(movie.getProfileID())});
+                db.update(PopMoviesContract.MoviesEntry.TABLE_NAME, values, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(movie.getIdServer()), String.valueOf(movie.getProfileID())});
             } else {
-                Log.i(TAG, "save");
                 movieID = db.insert(PopMoviesContract.MoviesEntry.TABLE_NAME, "", values);
             }
 
-            Log.i(TAG, "ID" +  movieID);
-
-            if (movieID != -1)
-                mGenerRepository.saveGenres(movie.getGenres(), movie.getIdServer());
+            mGenerRepository.saveGenres(movie.getGenres(), movie.getIdServer());
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -92,6 +85,8 @@ public class MovieRepository {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find Movie Chamado.");
 
+
+
         try {
             Cursor c = db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, where, values, null, null, null);
             if (c.moveToFirst()) {
@@ -125,6 +120,8 @@ public class MovieRepository {
     }
 
     public boolean isDontWantSeeMovie(long profileID, int serverID) {
+        Log.i(TAG, "ID: " + profileID);
+
         return findMovie(SQLHelper.MovieSQL.WHERE_IS_DONT_WANT_SEE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
     }
 

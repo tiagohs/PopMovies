@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
+
+import br.com.tiagohs.popmovies.model.dto.LocaleDTO;
 
 /**
  * Created by Tiago Henrique on 04/09/2016.
@@ -67,6 +70,31 @@ public class LocaleUtils {
             if (country.trim().length() > 0 && !countries.contains(country)) {
                 countries.add(country);
             }
+        }
+
+        Collections.sort(countries);
+
+        return countries;
+    }
+
+    public static List<LocaleDTO> getAllCountrysDTO() {
+        Locale[] locales = Locale.getAvailableLocales();
+        ArrayList<LocaleDTO> countries = new ArrayList<LocaleDTO>();
+
+        LocaleDTO localeDTO;
+        for (Locale locale : locales) {
+            try {
+                String country = locale.getDisplayCountry();
+                String iso = locale.getISO3Country();
+                String code = locale.getCountry();
+                String name = locale.getDisplayCountry();
+                if (country.trim().length() > 0 && !countries.contains(country) && !"".equals(iso) && !"".equals(code) && !"".equals(name)) {
+                    countries.add(new LocaleDTO(name, locale.getDisplayLanguage(), iso, locale.getISO3Language(), locale));
+                }
+            } catch (MissingResourceException e){
+
+            }
+
         }
 
         Collections.sort(countries);

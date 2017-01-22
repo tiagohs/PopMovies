@@ -36,7 +36,6 @@ public class GenreRepository {
 
     public long saveGenre(GenreDB genre, long movieID) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
-        Log.i(TAG, "Save Genre Chamado.");
 
         long genreID = 0;
 
@@ -46,7 +45,7 @@ public class GenreRepository {
             boolean genreJaExistente = findGenreByGenreID(genre.getGenrerID(), movieID) != null;
 
             if (genreJaExistente)
-                genreID = db.update(PopMoviesContract.GenreEntry.TABLE_NAME, values, SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genreID), String.valueOf(movieID)});
+                db.update(PopMoviesContract.GenreEntry.TABLE_NAME, values, SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genreID), String.valueOf(movieID)});
             else
                 genreID = db.insert(PopMoviesContract.GenreEntry.TABLE_NAME, "", values);
         } catch (Exception ex) {

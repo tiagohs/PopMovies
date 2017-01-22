@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.twitter.sdk.android.core.models.User;
 
@@ -17,6 +18,7 @@ import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.PerfilEditView;
 
 public class PerfilEditPresenterImpl implements PerfilEditPresenter {
+    private static final String TAG = PerfilEditPresenterImpl.class.getSimpleName();
 
     private Context mContext;
     private PerfilEditView mPerfilEditView;
@@ -32,7 +34,9 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
     public void setContext(Context context) {
         mContext = context;
         mProfileRepository = new ProfileRepository(context);
-        mProfileDB = PrefsUtils.getCurrentProfile(mContext);
+        mProfileDB = PrefsUtils.getCurrentProfile(context);
+
+        Log.i(TAG, "UserName: " + mProfileDB.getUser().getUsername());
     }
 
     public void getProfileInfo() {
@@ -81,6 +85,8 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
             mProfileDB.getUser().setLocalPicture(photo);
             mProfileDB.getUser().setTypePhoto(UserDB.PHOTO_LOCAL);
         }
+
+        Log.i(TAG, "ProfileID: " + mProfileDB.getProfileID());
 
         mProfileRepository.saveProfile(mProfileDB, mContext);
     }

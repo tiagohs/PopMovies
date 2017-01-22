@@ -19,6 +19,7 @@ public class UserDB {
     private int typePhoto;
     private int typeLogin;
     private boolean isLogged;
+    private long profileID;
     private String mLocalPicture;
 
     public UserDB() {
@@ -36,6 +37,14 @@ public class UserDB {
         this.typeLogin = typeLogin;
         this.isLogged = isLogged;
         mLocalPicture = localPicture;
+    }
+
+    public long getProfileID() {
+        return profileID;
+    }
+
+    public void setProfileID(long profileID) {
+        this.profileID = profileID;
     }
 
     public int getTypePhoto() {

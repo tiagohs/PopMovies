@@ -55,6 +55,8 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
         mTag = tag;
 
         mProfile = PrefsUtils.getCurrentProfile(mContext);
+        Log.i(TAG, "UserName: " + mProfile.getUser().getUsername());
+
         mPerfilView.setProfile(mProfile);
         List<MovieDB> movies = mMovieRepository.findAllMoviesDB(mProfile.getProfileID());
 

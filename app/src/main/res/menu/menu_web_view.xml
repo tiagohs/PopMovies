@@ -9,16 +9,9 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_share"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_share"
-        android:title="@string/menu_compartilhar"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/menu_open_navegador"
         android:orderInCategory="100"
         android:icon="@drawable/ic_open_navegador"
         android:title="@string/menu_open_navegador"
-        app:showAsAction="never|withText"/>
+        app:showAsAction="always"/>
 </menu>

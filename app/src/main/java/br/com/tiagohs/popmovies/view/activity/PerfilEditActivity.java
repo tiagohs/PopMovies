@@ -245,11 +245,11 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case PICK_IMAGE_PERFIL_ID:
-                if (data != null) {
-                    ImageSaveDTO imageFromResult = ImageIntentPicker.getImageFromResult(this, resultCode, data);
-                    mPhotoPerfilLocal = imageFromResult.getPath();
-                    mPhotoPerfil.setImageBitmap(imageFromResult.getBitmap());
-                }
+                    if (resultCode == RESULT_OK) {
+                        ImageSaveDTO imageFromResult = ImageIntentPicker.getImageFromResult(this, resultCode, data);
+                        mPhotoPerfilLocal = imageFromResult.getPath();
+                        mPhotoPerfil.setImageBitmap(imageFromResult.getBitmap());
+                    }
 
                 break;
             default:

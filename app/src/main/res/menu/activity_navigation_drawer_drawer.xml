@@ -16,6 +16,17 @@
             android:id="@+id/menu_assistidos"
             android:icon="@drawable/ic_assistidos"
             android:title="@string/menu_assistidos" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_group_geral"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/menu_lancamentos"
+            android:icon="@drawable/ic_new_movies"
+            android:title="@string/title_activity_lancamentos_semana" />
         <item
             android:id="@+id/menu_generos"
             android:icon="@drawable/ic_genre"
@@ -24,20 +35,21 @@
             android:id="@+id/menu_atores"
             android:icon="@drawable/ic_actor"
             android:title="@string/menu_atores" />
-        <item
-            android:id="@+id/menu_buscar"
-            android:icon="@drawable/ic_search_menu"
-            android:title="@string/menu_search" />
+
 
     </group>
 
     <group
         android:id="@+id/menu_group_opcoes"
         android:checkableBehavior="none">
+            <!--<item-->
+                <!--android:id="@+id/menu_configuracoes"-->
+                <!--android:icon="@drawable/ic_settings"-->
+                <!--android:title="@string/menu_configuracoes" />-->
             <item
-                android:id="@+id/menu_configuracoes"
-                android:icon="@drawable/ic_settings"
-                android:title="@string/menu_configuracoes" />
+                android:id="@+id/menu_buscar"
+                android:icon="@drawable/ic_search_menu"
+                android:title="@string/menu_search" />
             <item
                 android:id="@+id/menu_sobre"
                 android:icon="@drawable/ic_about"

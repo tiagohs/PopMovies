@@ -5,6 +5,7 @@ import android.support.v7.widget.SearchView;
 import javax.inject.Singleton;
 
 import br.com.tiagohs.popmovies.presenter.PresenterModule;
+import br.com.tiagohs.popmovies.view.activity.LancamentosSemanaActivity;
 import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.PerfilActivity;
 import br.com.tiagohs.popmovies.view.activity.PerfilEditActivity;
@@ -43,4 +44,5 @@ public interface PopMoviesComponent {
     void inject(SearchPersonsFragment searchMoviesFragment);
     void inject(PerfilEstatisticasFragment perfilEstatisticasFragment);
     void inject(PerfilEditActivity perfilEditActivity);
+    void inject(LancamentosSemanaActivity lancamentosSemanaActivity);
 }

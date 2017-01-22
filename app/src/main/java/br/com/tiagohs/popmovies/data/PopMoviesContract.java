@@ -80,6 +80,7 @@ public class PopMoviesContract {
         public static final String COLUMN_USERNAME = "username";
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_PASSWORD = "password";
+        public static final String COLUMN_PROFILE_ID = "profile_id";
 
         public static Uri buildUserUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

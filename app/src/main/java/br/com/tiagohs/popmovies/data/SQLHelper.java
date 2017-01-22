@@ -41,6 +41,7 @@ public class SQLHelper {
             PopMoviesContract.UserEntry.COLUMN_PICTURE_PATH + " TEXT, " +
             PopMoviesContract.UserEntry.COLUMN_PICTURE_TYPE + " INTEGER, " +
             PopMoviesContract.UserEntry.COLUMN_PICTURE_LOCAL_PATH + " TEXT, " +
+            PopMoviesContract.UserEntry.COLUMN_PROFILE_ID + " INTEGER, " +
             PopMoviesContract.UserEntry.COLUMN_EMAIL + " TEXT UNIQUE, " +
             PopMoviesContract.UserEntry.COLUMN_PASSWORD + " TEXT );";
 
@@ -124,7 +125,8 @@ public class SQLHelper {
     }
 
     public static class UserSQL {
-        public static final String WHERE_USER_BY_USERNAME = PopMoviesContract.UserEntry.COLUMN_USERNAME + " = ?";
+        public static final String WHERE_USER_BY_USERNAME = PopMoviesContract.UserEntry.COLUMN_USERNAME + " = ? AND " +
+                                                            PopMoviesContract.UserEntry.COLUMN_PROFILE_ID + " = ? ";
 
         public static final String WHERE_USER_BY_ID = PopMoviesContract.UserEntry._ID + " = ?";
 

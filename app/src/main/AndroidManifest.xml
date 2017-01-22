@@ -91,6 +91,10 @@
             android:label="@string/title_activity_edit_perfil"
             android:parentActivityName=".view.activity.PerfilEditActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.activity.LancamentosSemanaActivity"
+            android:label="@string/title_activity_lancamentos_semana"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -26,6 +26,7 @@ import br.com.tiagohs.popmovies.util.enumerations.Param;
 import br.com.tiagohs.popmovies.util.enumerations.ParamSortBy;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.activity.GenresActivity;
+import br.com.tiagohs.popmovies.view.activity.LancamentosSemanaActivity;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListWordsAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListWordsCallbacks;
@@ -81,7 +82,9 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         listDTOs.add(new ItemListDTO(getString(R.string.nacionais), Sort.DISCOVER, parameters));
 
         parameters = new HashMap<>();
-        parameters.put(Param.PRIMARY_RELEASE_YEAR.getParam(), MovieUtils.getCurrentYear());
+        parameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(365));
+        parameters.put(Param.RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
+        parameters.put(Param.VOTE_AVERAGE_GTE.getParam(), String.valueOf(6.5));
         parameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
         listDTOs.add(new ItemListDTO(getString(R.string.destaques_do_ano), Sort.DISCOVER, parameters));
 
@@ -119,7 +122,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEmCartazFragment() {
         mEmCartazParameters = new HashMap<>();
 
-        mEmCartazParameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(30));
+        mEmCartazParameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(31));
         mEmCartazParameters.put(Param.RELEASE_DATE_LTE.getParam(), MovieUtils.getDateToday());
         mEmCartazParameters.put(Param.RELEASE.getParam(), LocaleUtils.getLocaleCountryISO());
         mEmCartazParameters.put(Param.WITH_RELEASE_TYPE.getParam(), "2|3");
@@ -169,7 +172,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
     @OnClick(R.id.movie_estreias_semana_riple)
     public void onClickEstreias() {
-        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.estreias_semana), Sort.DISCOVER, R.layout.item_list_movies, ListType.MOVIES), mEstreiasParameters));
+        startActivity(LancamentosSemanaActivity.newIntent(getActivity()));
     }
 
     @OnClick(R.id.movie_populares_riple)

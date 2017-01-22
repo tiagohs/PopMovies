@@ -46,13 +46,19 @@ public class ProfileRepository {
             boolean userJaExistente = findProfileByUserUsername(profile.getUser().getUsername()) != null;
             db = mPopMoviesDB.getWritableDatabase();
 
+            Log.i(TAG, "Username: " + profile.getUser().getUsername());
+
             if (userJaExistente)
-                id = db.update(PopMoviesContract.ProfileEntry.TABLE_NAME, values, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, new String[]{profile.getUser().getUsername()});
-            else
+                db.update(PopMoviesContract.ProfileEntry.TABLE_NAME, values, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, new String[]{profile.getUser().getUsername()});
+            else {
                 id = db.insert(PopMoviesContract.ProfileEntry.TABLE_NAME, "", values);
+                profile.setProfileID(id);
+            }
+
+            profile.getUser().setProfileID(profile.getProfileID());
 
             mUserRepository.saveUser(profile.getUser(), context);
-            profile.setProfileID(id);
+
             PrefsUtils.setCurrentProfile(profile, context);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -219,7 +225,6 @@ public class ProfileRepository {
 
         profile.setProfileID(c.getLong(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
         profile.setDescricao(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION)));
-        profile.setProfileID(c.getInt(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
 
         profile.setFilmesAssistidos(mMovieRepository.findAllMoviesWatched(profile.getProfileID()));
         profile.setFilmesQueroVer(mMovieRepository.findAllMoviesWantSee(profile.getProfileID()));
@@ -227,7 +232,7 @@ public class ProfileRepository {
         profile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(profile.getProfileID()));
 
         profile.setTotalHorasAssistidas(getTotalHoursWatched(profile.getProfileID()));
-        profile.setUser(mUserRepository.findUserByUsername(username));
+        profile.setUser(mUserRepository.findUserByUsername(username, profile.getProfileID()));
 
         return profile;
     }
