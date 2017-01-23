@@ -59,6 +59,11 @@
     <!-- Lançamentos da Semana -->
     <dimen name="lanc_sem_button_height">40dp</dimen>
     <dimen name="margin_spinner_country_max_width">100dp</dimen>
+    <dimen name="login_logo_margin_bottom">60dp</dimen>
+    <dimen name="txt_login_app_name">30sp</dimen>
+
+    <!-- Login -->
+
 
 
 </resources>

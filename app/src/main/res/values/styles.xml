@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,6 +10,44 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- TabLayouts -->
+
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/searchHintColor</item>
+        <item name="android:editTextColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.TabLayout">
+        <item name="tabTextColor">@android:color/white</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Toolbar.PopupOverlay">
+        <item name="android:background">@drawable/background_action_bar_transparent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!-- Layouts Gerais -->
 
     <style name="DividerStyle">
         <item name="android:layout_width">match_parent</item>
@@ -55,59 +92,17 @@
         <item name="android:layout_centerVertical">@dimen/margin_default_min</item>
     </style>
 
-    <declare-styleable name="atrrPersonalizados">
-        <attr name="tabTextColor" format="color" />
-        <attr name="tabSelectedTextColor" format="color" />
-        <attr name="tabIndicatorColor" format="color" />
-    </declare-styleable>
+    <!-- Login -->
 
-    <style name="AppTheme.TabLayout">
-        <item name="tabTextColor">@android:color/white</item>
-        <item name="tabSelectedTextColor">@android:color/white</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="tabIndicatorColor">@color/colorAccent</item>
+    <style name="LoginButtonStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionMenuTextColor">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:popupBackground">@android:color/white</item>
-        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/searchHintColor</item>
-        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/margin_default_medium</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin_default_min</item>
     </style>
 
-    <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.Toolbar.PopupOverlay">
-        <item name="windowActionBar">true</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:background">@drawable/background_action_bar_transparent</item>
-    </style>
-
-    <style name="ButtonFacebook" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textSize">15dp</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:background">@drawable/button_facebook</item>
-    </style>
-
-    <style name="ButtonTwitter" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textSize">15dp</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:background">@drawable/button_twitter</item>
-    </style>
-
-    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo">
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

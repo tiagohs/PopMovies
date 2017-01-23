@@ -1,6 +1,9 @@
 <resources>
+
+    <!-- Defaults -->
     <string name="facebook_app_id">1628004524169901</string>
     <string name="app_name">PopMovies</string>
+
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
     <string name="tentar_novamente">TENTAR NOVAMENTE</string>
@@ -299,6 +302,12 @@
     <string name="lanc_sem_btn_next_week">Próxima Semana</string>
     <string name="lanc_sem_btn_previous_week_description">Visualizar filmes lançados na semana anterior</string>
     <string name="lanc_sem_btn_next_week_description">Visualizar filmes lançados na próxima semana</string>
+
+    <!-- Login -->
+    <string name="login_facebook_title">Logar com o Facebook</string>
+    <string name="login_twitter_title">Logar com o Twitter</string>
+    <string name="login_facebook_description">Realizar login utilizando o facebook</string>
+    <string name="login_twitter_description">Realizar login utilizando o twitter</string>
 
 
 </resources>
