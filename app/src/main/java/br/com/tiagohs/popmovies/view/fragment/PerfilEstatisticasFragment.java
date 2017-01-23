@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,8 +127,15 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     @BindView(R.id.graph_nao_ha_dados)              TextView mNaoHaDados;
     @BindView(R.id.horas_nao_ha_dados)              TextView mHorasNaoHaDados;
     @BindView(R.id.horas_container)                 LinearLayout mHorasContainer;
+    @BindView(R.id.principal_progress)
+    ProgressWheel mProgressWheel;
 
-    Legend mLegend;
+    @BindView(R.id.principal_container)
+    LinearLayout mContainerPrincipal;
+
+
+    private Legend mLegend;
+    private boolean mIsEstatisticasLoaded = false;
 
     @Inject
     PerfilEstatisticasPresenter mPresenter;
@@ -150,10 +158,12 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        mPresenter.initUpdates();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !mIsEstatisticasLoaded ) {
+            mPresenter.initUpdates();
+            mIsEstatisticasLoaded = true;
+        }
     }
 
     public void setTotalHorasAssistidas(long duracaoTotal) {
@@ -317,7 +327,11 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
 
     @Override
     public void setProgressVisibility(int visibityState) {
+        mProgressWheel.setVisibility(visibityState);
+    }
 
+    public void setContainerPrincipalVisibility(int visibility) {
+        mContainerPrincipal.setVisibility(visibility);
     }
 
 }

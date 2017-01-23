@@ -69,7 +69,7 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
 
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.poster_movie)                            ImageView mPosterMovie;
+        @BindView(R.id.image_circle)                            ImageView mPosterMovie;
         @BindView(R.id.person_carrer_movie_title)               TextView mTitle;
         @BindView(R.id.person_carrer_movie_title_original)      TextView mTitleOriginal;
         @BindView(R.id.person_carrer_movie_year)                TextView mYear;

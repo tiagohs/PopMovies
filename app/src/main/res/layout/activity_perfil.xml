@@ -101,7 +101,7 @@
                 <include
                     app:layout_anchor="@+id/cardViewMovieDeatail"
                     app:layout_anchorGravity="top|left|end"
-                    layout="@layout/include_perfil_header" />
+                    layout="@layout/include_perfil_header"/>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

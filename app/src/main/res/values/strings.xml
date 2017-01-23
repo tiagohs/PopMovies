@@ -273,8 +273,26 @@
     <string name="quero_ver">Quero Ver</string>
     <string name="dont_want_see">Não quero ver</string>
     <string name="genres_outros">Outros</string>
-    <string name="title_activity_edit_perfil">Editar Perfil</string>
+
     <string name="edit_done">Salvar</string>
     <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
+    <string name="permission_error_title">Importante</string>
+    <string name="btn_ok">Ok</string>
+    <string name="btn_no_thanks">Não, obrigado</string>
+    <string name="permission_error_write_content">Precisamos da sua permissão de escrita para realizar essa ação</string>
+
+    <!-- Editar Perfil -->
+    <string name="title_activity_edit_perfil">Editar Perfil</string>
+    <string name="edit_perfil_nome">Nome</string>
+    <string name="edit_perfil_decription_hint">Escreva algo sobre você...</string>
+    <string name="edit_perfil_decription_title">Descrição</string>
+    <string name="edit_perfil_birthday">Aniversário</string>
+    <string name="edit_perfil_nome_description">Entre com o seu nome</string>
+    <string name="edit_perfil_birthday_description">Escolha a sua data de nascimento</string>
+    <string name="edit_perfil_country_description">Escolha o seu país de origem</string>
+    <string name="edit_perfil_gender_description">Escolha o seu gênero</string>
+    <string name="edit_perfil_decription_description">Escreva algo sobre você</string>
+
+
 
 </resources>

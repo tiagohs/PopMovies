@@ -62,7 +62,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
         @BindView(R.id.subtitulo_item_person_movie)
         TextView mSubtituloTextView;
 
-        @BindView(R.id.imagem_credit_movie)
+        @BindView(R.id.image_circle)
         ImageView mImagemPerson;
 
         private PersonListDTO mPerson;

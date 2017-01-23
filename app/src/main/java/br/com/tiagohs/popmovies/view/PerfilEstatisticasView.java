@@ -5,10 +5,6 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 
-/**
- * Created by Tiago on 15/01/2017.
- */
-
 public interface PerfilEstatisticasView extends BaseView {
 
     void setTotalHorasAssistidas(long duracaoTotal);
@@ -17,4 +13,5 @@ public interface PerfilEstatisticasView extends BaseView {
     void setTotalsMovies(long totalWatched, long totalFavorite, long totalWantSee, long totalDontWantSee);
     void setDadosPessoais(String pais, Calendar birthday, String genero);
     void setDescricao(String descricao);
+    void setContainerPrincipalVisibility(int visibility);
 }

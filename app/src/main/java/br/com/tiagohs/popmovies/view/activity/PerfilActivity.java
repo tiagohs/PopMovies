@@ -61,7 +61,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     @BindView(R.id.background_perfil)
     ImageView mBackgroundPerfil;
 
-    @BindView(R.id.image_perfil)
+    @BindView(R.id.image_circle)
     ImageView mImagePerfil;
 
     @BindView(R.id.name_perfil)
@@ -70,11 +70,14 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     @BindView(R.id.progress_perfil)
     ProgressBar mProgressPerfil;
 
-    @BindView(R.id.progress_perfil_foto)
+    @BindView(R.id.progress_image_circle)
     ProgressWheel mProgressFotoPerfil;
 
     @BindView(R.id.btn_editar)
     FloatingActionButton mEditar;
+
+    @BindView(R.id.picture_container)
+    LinearLayout mPictureContainer;
 
 
     @BindView(R.id.perfil_app_bar)
@@ -153,6 +156,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mToolbar.setBackgroundColor(ViewUtils.getColorFromResource(getApplicationContext(), R.color.colorPrimary));
                 mToolbar.setTitle(PrefsUtils.getCurrentUser(PerfilActivity.this).getNome());
                 mNamePerfil.setVisibility(View.GONE);
+                mPictureContainer.setVisibility(View.GONE);
             }
 
             @Override
@@ -160,6 +164,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
                 mNamePerfil.setVisibility(View.VISIBLE);
+                mPictureContainer.setVisibility(View.VISIBLE);
             }
         };
     }
@@ -208,7 +213,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         return isAdded();
     }
 
-    @OnClick(R.id.perfil_image)
+    @OnClick(R.id.image_circle)
     public void onClickPerfilImage() {
         ImageDTO perfilImage = new ImageDTO(mProfile.getUser().getPicturePath());
         List<ImageDTO> imagens = new ArrayList<>();

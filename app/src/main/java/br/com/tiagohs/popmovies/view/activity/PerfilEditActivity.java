@@ -63,10 +63,10 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
     @BindView(R.id.btn_photo)
     ImageButton mBtnPhoto;
 
-    @BindView(R.id.image_perfil)
+    @BindView(R.id.image_circle)
     ImageView mPhotoPerfil;
 
-    @BindView(R.id.progress_perfil_foto)
+    @BindView(R.id.progress_image_circle)
     ProgressWheel mProgressFotoPerfil;
 
     @Inject
@@ -93,7 +93,7 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
         mPresenter.setContext(this);
         mPresenter.setView(this);
 
-        setActivityTitle("Editar Perfil");
+        setActivityTitle(getString(R.string.title_activity_edit_perfil));
 
         updateBirthday();
         configureSpinnerCountry();

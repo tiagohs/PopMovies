@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/picture_circle_medium_frame"
+    android:layout_height="@dimen/picture_circle_medium_frame">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/picture_circle_medium_cardview"
+        android:layout_height="@dimen/picture_circle_medium_cardview"
+        android:elevation="@dimen/picture_circle_cardview_elevation"
+        app:cardCornerRadius="@dimen/picture_circle_medium_cardview_radius"
+        android:layout_gravity="center"
+        android:shape="ring">
+
+        <ImageView
+            android:id="@+id/image_circle"
+            android:layout_width="@dimen/picture_circle_medium_image"
+            android:layout_height="@dimen/picture_circle_medium_image"
+            android:layout_gravity="center"/>
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/progress_image_circle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            app:matProg_barColor="@color/colorAccent"
+            app:matProg_progressIndeterminate="true" />
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

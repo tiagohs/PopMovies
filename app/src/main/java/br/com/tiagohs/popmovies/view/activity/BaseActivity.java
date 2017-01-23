@@ -67,11 +67,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             mNavigationView.setNavigationItemSelectedListener(this);
             View view = mNavigationView.getHeaderView(0);
 
-            ImageView fotoPerfil = (ImageView) view.findViewById(R.id.image_perfil);
+            ImageView fotoPerfil = (ImageView) view.findViewById(R.id.image_circle);
             ImageView background = (ImageView) view.findViewById(R.id.background);
             TextView nomeUsuario = (TextView) view.findViewById(R.id.nome_usuario);
             TextView emailUsuario = (TextView) view.findViewById(R.id.email_usuario);
-            ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress);
+            ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress_image_circle);
 
             if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
                 ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  fotoPerfil, progress);

@@ -65,6 +65,7 @@ import br.com.tiagohs.popmovies.presenter.MovieDetailsPresenter;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
@@ -417,28 +418,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
+                    mProgressShare.setVisibility(View.GONE);
+
                     mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
 
-                    if (ContextCompat.checkSelfPermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            new MaterialDialog.Builder(MovieDetailActivity.this)
-                                    .title("Importante")
-                                    .content("Precisamos da sua permissão de escrita para realizar essa ação.")
-                                    .positiveText("Ok")
-                                    .negativeText("Não, Obrigado.")
-                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                        }
-                                    })
-                                    .show();
-                        } else {
-                            ActivityCompat.requestPermissions(MovieDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                        }
-                    } else {
+                    if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
                         createShareIntent(mImageToShare);
-                    }
+
                 }
             }, 4000);
         }
@@ -449,12 +435,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case 0:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    createShareIntent(mImageToShare);
-                break;
-        }
+        if (PermissionUtils.onRequestPermissionsResultValidate(grantResults, requestCode))
+            createShareIntent(mImageToShare);
     }
 
     public void createShareIntent(Bitmap imageToShare) {

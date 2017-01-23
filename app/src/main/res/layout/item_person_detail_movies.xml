@@ -24,30 +24,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical">
 
-            <FrameLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp">
-
-                <android.support.v7.widget.CardView
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:elevation="12dp"
-                    android:id="@+id/view2"
-                    app:cardCornerRadius="30dp"
-                    android:innerRadius="0dp"
-                    android:shape="ring"
-                    android:thicknessRatio="1.9">
-
-                    <ImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/img_1"
-                        android:id="@+id/poster_movie"
-                        android:layout_gravity="center"/>
-                </android.support.v7.widget.CardView>
-
-            </FrameLayout>
+            <include layout="@layout/include_circle_picture_small" />
 
         </LinearLayout>
 

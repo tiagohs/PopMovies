@@ -4,15 +4,19 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Tiago on 25/12/2016.
- */
+import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 
 public class PermissionUtils {
     public static final String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -34,5 +38,39 @@ public class PermissionUtils {
 
         ActivityCompat.requestPermissions(context, permissionsNegadas, 1);
         return false;
+    }
+
+    public static boolean validatePermission(final Activity activity, final String permission, String messageError) {
+        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                new MaterialDialog.Builder(activity)
+                        .title(activity.getString(R.string.permission_error_title))
+                        .content(messageError)
+                        .positiveText(R.string.btn_ok)
+                        .negativeText(R.string.btn_no_thanks)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                ActivityCompat.requestPermissions(activity, new String[]{permission}, 0);
+                            }
+                        })
+                        .show();
+                return false;
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{permission}, 0);
+            }
+        } else {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean onRequestPermissionsResultValidate(@NonNull int[] grantResults, int requestCode) {
+
+       if (requestCode == 0)
+            return grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+       return false;
     }
 }

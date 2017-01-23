@@ -75,7 +75,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     @BindView(R.id.label_total_fotos)           TextView mLabelTotalFotos;
     @BindView(R.id.name_person)                 TextView mPersonName;
     @BindView(R.id.background_person)           ImageView mBackgroundPerson;
-    @BindView(R.id.image_person)                ImageView mImagePerson;
+    @BindView(R.id.image_circle)                ImageView mImagePerson;
     @BindView(R.id.person_app_bar)              AppBarLayout mAppBarLayout;
     @BindView(R.id.facebook_riple)              MaterialRippleLayout mFacabookRiple;
     @BindView(R.id.twitter_riple)               MaterialRippleLayout mTwitterRiple;
@@ -390,7 +390,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
             onClickProfileImage();
     }
 
-    @OnClick(R.id.image_person)
+    @OnClick(R.id.image_circle)
     public void onClickProfileImage() {
         if (!mPerson.getImages().isEmpty())
             onClickImage(DTOUtils.createPersonImagesDTO(mPerson, mPerson.getImages().size(), mPerson.getImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));

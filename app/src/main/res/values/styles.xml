@@ -12,6 +12,30 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DividerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/margin_default_medium</item>
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_marginTop">@dimen/margin_default_medium</item>
+        <item name="android:layout_marginBottom">@dimen/margin_default_medium</item>
+    </style>
+
+    <!-- Edit Perfil -->
+
+    <style name="EditPerfilOptionStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edit_perfil_option_heigh</item>
+        <item name="android:textSize">@dimen/txt_size_medium</item>
+        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="EditPerfilOptionImageStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/margin_default_min</item>
+    </style>
+
     <declare-styleable name="atrrPersonalizados">
         <attr name="tabTextColor" format="color" />
         <attr name="tabSelectedTextColor" format="color" />
