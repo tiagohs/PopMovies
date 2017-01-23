@@ -41,6 +41,13 @@
         <item name="android:background">@drawable/background_action_bar_transparent</item>
     </style>
 
+    <style name="ToolbarTransparent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -55,6 +62,14 @@
         <item name="android:background">@color/divider</item>
         <item name="android:layout_marginTop">@dimen/margin_default_medium</item>
         <item name="android:layout_marginBottom">@dimen/margin_default_medium</item>
+    </style>
+
+    <style name="ProgressDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <!-- Edit Perfil -->

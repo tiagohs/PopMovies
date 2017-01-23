@@ -36,6 +36,7 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.presenter.PerfilPresenter;
@@ -215,11 +216,14 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     @OnClick(R.id.image_circle)
     public void onClickPerfilImage() {
-        ImageDTO perfilImage = new ImageDTO(mProfile.getUser().getPicturePath());
-        List<ImageDTO> imagens = new ArrayList<>();
-        imagens.add(perfilImage);
+        if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE) {
+            ImageDTO perfilImage = new ImageDTO(mProfile.getUser().getPicturePath());
+            List<ImageDTO> imagens = new ArrayList<>();
+            imagens.add(perfilImage);
 
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, perfilImage, getString(R.string.wallpapers_title), mProfile.getUser().getNome(), TypeShowImage.SIMPLE_IMAGE));
+            startActivity(WallpapersDetailActivity.newIntent(this, imagens, perfilImage, getString(R.string.wallpapers_title), mProfile.getUser().getNome(), TypeShowImage.SIMPLE_IMAGE));
+        }
+
     }
 
     @Override
