@@ -93,7 +93,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     protected int getActivityBaseViewID() {
-        return R.layout.activity_list_movies_default;
+        return R.layout.activity_default;
     }
 
     @Override

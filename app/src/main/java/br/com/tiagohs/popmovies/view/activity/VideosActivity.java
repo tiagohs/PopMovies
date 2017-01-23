@@ -74,7 +74,7 @@ public class VideosActivity extends BaseActivity {
         if (mPageSubtitle != null)
             mToolbar.setSubtitle(mPageSubtitle);
 
-        startFragment(R.id.fragment_videos, VideosFragment.newInstance(mMovieID, mTranslations));
+        startFragment(R.id.content_fragment, VideosFragment.newInstance(mMovieID, mTranslations));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class VideosActivity extends BaseActivity {
 
     @Override
     protected int getActivityBaseViewID() {
-        return R.layout.activity_videos;
+        return R.layout.activity_default;
     }
 
 

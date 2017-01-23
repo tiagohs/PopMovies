@@ -292,7 +292,13 @@
     <string name="edit_perfil_country_description">Escolha o seu país de origem</string>
     <string name="edit_perfil_gender_description">Escolha o seu gênero</string>
     <string name="edit_perfil_decription_description">Escreva algo sobre você</string>
+    <string name="edit_perfil_camera_description">Tire uma foto para o seu perfil</string>
 
+    <!-- Lançamentos da Semana -->
+    <string name="lanc_sem_btn_previous_week">Semana Anterior</string>
+    <string name="lanc_sem_btn_next_week">Próxima Semana</string>
+    <string name="lanc_sem_btn_previous_week_description">Visualizar filmes lançados na semana anterior</string>
+    <string name="lanc_sem_btn_next_week_description">Visualizar filmes lançados na próxima semana</string>
 
 
 </resources>

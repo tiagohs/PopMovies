@@ -57,7 +57,7 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
 
     @Override
     protected int getActivityBaseViewID() {
-        return R.layout.activity_home;
+        return R.layout.activity_default;
     }
 
     @Override

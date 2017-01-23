@@ -36,6 +36,25 @@
         <item name="android:layout_marginLeft">@dimen/margin_default_min</item>
     </style>
 
+    <!-- Lançamentos da Semana -->
+
+    <style name="LancamentoSemanaButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/lanc_sem_button_height</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">@dimen/margin_default_medium</item>
+        <item name="android:paddingRight">@dimen/margin_default_medium</item>
+        <item name="android:textSize">@dimen/txt_size_small</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LancamentoSemanaButtonRipleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/background_item_words_default</item>
+        <item name="android:layout_centerVertical">@dimen/margin_default_min</item>
+    </style>
+
     <declare-styleable name="atrrPersonalizados">
         <attr name="tabTextColor" format="color" />
         <attr name="tabSelectedTextColor" format="color" />

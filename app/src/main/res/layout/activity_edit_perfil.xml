@@ -51,6 +51,7 @@
                             android:layout_width="@dimen/perfil_camera_width"
                             android:layout_height="@dimen/perfil_camera_height"
                             android:background="@android:color/transparent"
+                            android:contentDescription="@string/edit_perfil_camera_description"
                             android:src="@drawable/ic_camera"/>
 
                     </com.balysv.materialripple.MaterialRippleLayout>
@@ -69,7 +70,8 @@
                         style="@style/EditPerfilOptionStyle"
                         android:hint="@string/edit_perfil_nome"
                         android:contentDescription="@string/edit_perfil_nome_description"
-                        android:drawableLeft="@drawable/ic_perfil"/>
+                        android:drawableLeft="@drawable/ic_perfil"
+                        android:focusable="true" />
 
                     <EditText
                         android:id="@+id/edit_birthday"
@@ -91,7 +93,7 @@
                             android:id="@+id/edit_country"
                             style="@style/EditPerfilOptionStyle"
                             android:contentDescription="@string/edit_perfil_country_description"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
                     </LinearLayout>
 
@@ -108,7 +110,7 @@
                             android:id="@+id/edit_gender"
                             style="@style/EditPerfilOptionStyle"
                             android:contentDescription="@string/edit_perfil_gender_description"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
                     </LinearLayout>
 

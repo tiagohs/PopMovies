@@ -72,7 +72,7 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected int getActivityBaseViewID() {
-        return R.layout.activity_web_view;
+        return R.layout.activity_default;
     }
 
 }

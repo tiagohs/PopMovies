@@ -3,12 +3,10 @@ package br.com.tiagohs.popmovies.view.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
-import br.com.tiagohs.popmovies.view.fragment.MovieDetailsReviewsFragment;
 
 
 public class MovieDetailsAdapter extends FragmentPagerAdapter {
