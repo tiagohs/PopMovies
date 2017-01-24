@@ -55,8 +55,6 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         this.mCallback = callback;
         this.mProfileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
         this.mMovieRepository = new MovieRepository(mContext);
-
-        configureOptions();
     }
 
     private void configureOptions() {
@@ -65,8 +63,6 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         Log.i(TAG, "Status: " + mMovie);
 
         if (mMovie != null) {
-            Log.i(TAG, "Status: " + mMovie.getStatusDB());
-
 
             if (mMovie.getStatusDB() == MovieDB.STATUS_WATCHED) {
                 mIsToSave = mIsWatched = true;
@@ -114,6 +110,8 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
             mItemText.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mItemRiple.setOnClickListener(this);
+
+            configureOptions();
         }
 
         public void bind(int position) {
@@ -175,8 +173,11 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
         private void onClickFavorite() {
             mIsFavorite = !mIsFavorite;
-            mIsToSave = mIsFavorite;
+
             update(mIsFavorite);
+
+            if (!mIsFavorite && mIsWatched)
+                mIsToSave = true;
 
             if (!mIsWatched)
                 mIsWatched = true;

@@ -2,15 +2,12 @@
 
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="fill_vertical">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,32 +17,24 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center|center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:minHeight="30dp"/>
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/margin_default_medium"
+            android:minHeight="@dimen/destaques_min_height"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/movie_estreias_semana_riple"
-                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:mrl_rippleColor="@color/colorAccent"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:paddingBottom="15dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -54,38 +43,16 @@
                         android:layout_weight="0.85">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/estreias_semana"
-                            android:textStyle="bold"
-                            android:textSize="16dp"
-                            android:fontFamily="sans-serif-light"
-                            />
+                            style="@style/TitleTitleTextView"
+                            android:text="@string/estreias_semana" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/estreias_semana_subtitle"
-                            android:fontFamily="sans-serif-light"
-                            android:textSize="12dp"
-                            android:layout_weight="0.85"/>
+                            style="@style/TitleSubtitleTextView"
+                            android:text="@string/estreias_semana_subtitle" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                    <TextView style="@style/TitleMoreTextView" />
 
                 </LinearLayout>
 
@@ -94,7 +61,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_estreia_movies"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -104,64 +71,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primary_light"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_default_medium"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/movie_populares_riple"
-                app:mrl_rippleColor="@color/secondary_text"
+                app:mrl_rippleColor="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="16dp"
                         android:layout_weight="0.85">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@android:color/white"
-                            android:text="@string/populares"
-                            android:textStyle="bold"
-                            android:textSize="16dp"
-                            android:fontFamily="sans-serif-light"
-                            />
+                            style="@style/TitleTitleTextView"
+                            android:textColor="@color/subtitle_white"
+                            android:text="@string/populares" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
+                            style="@style/TitleSubtitleTextView"
                             android:textColor="@color/subtitle_white"
-                            android:text="@string/populares_subtitle"
-                            android:fontFamily="sans-serif-light"
-                            android:textSize="12dp"
-                            android:layout_weight="0.85"/>
+                            android:text="@string/populares_subtitle" />
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/subtitle_white"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                        style="@style/TitleMoreTextView"
+                        android:textColor="@color/subtitle_white" />
 
                 </LinearLayout>
 
@@ -170,7 +112,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_popular_movies"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -180,24 +122,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_default_medium"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/movie_em_cartaz_riple"
-                app:mrl_rippleColor="@color/secondary_text"
+                app:mrl_rippleColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -206,38 +141,16 @@
                         android:layout_weight="0.85">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/em_cartaz"
-                            android:textStyle="bold"
-                            android:textSize="16dp"
-                            android:fontFamily="sans-serif-light"
-                            />
+                            style="@style/TitleTitleTextView"
+                            android:text="@string/em_cartaz" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/em_cartaz_subtitle"
-                            android:fontFamily="sans-serif-light"
-                            android:textSize="12dp"
-                            android:layout_weight="0.85"/>
+                            style="@style/TitleSubtitleTextView"
+                            android:text="@string/em_cartaz_subtitle" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                    <TextView style="@style/TitleMoreTextView" />
 
                 </LinearLayout>
 
@@ -246,7 +159,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_em_cartaz_movies"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -255,25 +168,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginTop="@dimen/margin_default_medium"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/movie_em_breve_riple"
-                app:mrl_rippleColor="@color/secondary_text"
+                app:mrl_rippleColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -282,38 +188,16 @@
                         android:layout_weight="0.85">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/em_breve"
-                            android:textStyle="bold"
-                            android:textSize="16dp"
-                            android:fontFamily="sans-serif-light"
-                            />
+                            style="@style/TitleTitleTextView"
+                            android:text="@string/em_breve" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:textColor="@color/primary_text"
-                            android:text="@string/em_breve_subtitle"
-                            android:fontFamily="sans-serif-light"
-                            android:textSize="12dp"
-                            android:layout_weight="0.85"/>
+                            style="@style/TitleSubtitleTextView"
+                            android:text="@string/em_breve_subtitle" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                    <TextView style="@style/TitleMoreTextView" />
 
                 </LinearLayout>
 
@@ -322,7 +206,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_em_breve_movies"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

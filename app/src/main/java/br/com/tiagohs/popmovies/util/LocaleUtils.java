@@ -89,7 +89,9 @@ public class LocaleUtils {
                 String code = locale.getCountry();
                 String name = locale.getDisplayCountry();
                 if (country.trim().length() > 0 && !countries.contains(country) && !"".equals(iso) && !"".equals(code) && !"".equals(name)) {
-                    countries.add(new LocaleDTO(name, locale.getDisplayLanguage(), iso, locale.getISO3Language(), locale));
+                    localeDTO = new LocaleDTO(name, locale.getDisplayLanguage(), iso, locale.getISO3Language(), locale);
+                    if (!countries.contains(localeDTO))
+                        countries.add(localeDTO);
                 }
             } catch (MissingResourceException e){
 

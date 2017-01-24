@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
+
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     private static final String ARG_PERSON = "person";
 
     @BindView(R.id.list_person_movies_recycler_view)        RecyclerView mPersonMoviesRecyclerView;
+    @BindView(R.id.principal_progress)                      ProgressWheel mProgress;
 
     private PersonInfo mPersonInfo;
     private ListMoviesCallbacks mCallbacks;
@@ -43,6 +46,8 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     private int mIndexList = 0;
     private boolean hasMorePages;
     private int totalPage;
+
+    private boolean mIsCarrerLoaded = false;
 
     public static PersonDetailCarrerFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
@@ -73,9 +78,15 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !mIsCarrerLoaded ) {
+            initUpdates();
+            mIsCarrerLoaded = true;
+        }
+    }
 
+    private void initUpdates() {
         mCarrerList = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mPersonMoviesRecyclerView.setLayoutManager(mLayoutManager);
@@ -146,6 +157,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
             hasMorePages = mIndexList < (totalPage - 1);
             mCarrerList.addAll(mMoviesSubList.get(mIndexList++));
             mPersonMoviesRecyclerView.setAdapter(mAdapter);
+            mProgress.setVisibility(View.GONE);
         }
     }
 }

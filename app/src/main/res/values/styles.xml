@@ -48,7 +48,7 @@
         <item name="android:layout_alignParentStart">true</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="Theme.AppCompat.Light.DarkActionBar" />
 
     <style name="AppBarDetails" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -70,6 +70,47 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="TitleBackground">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_default_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_default_medium</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="TitleMoreTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:text">@string/label_mais</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_weight">0.15</item>
+    </style>
+
+    <style name="TitleTitleTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/txt_size_large</item>
+    </style>
+
+    <style name="TitleSubtitleTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/txt_size_small</item>
     </style>
 
     <!-- Edit Perfil -->
@@ -118,6 +159,28 @@
         <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginBottom">@dimen/margin_default_min</item>
     </style>
+
+    <!-- Filter Dialog -->
+
+    <style name="FilterDialogLine">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/line_height</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@color/primary_light</item>
+        <item name="android:layout_weight">0.3</item>
+    </style>
+
+    <style name="FilterDialogDataEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">.5</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <!-- Home -->
+
+
 
 
 </resources>

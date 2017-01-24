@@ -18,11 +18,11 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp">
+            android:layout_height="150dp">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="150dp"
                 android:src="@drawable/img_1"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/poster_movie"

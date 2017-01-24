@@ -294,22 +294,33 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     public void setupRecyclerView() {
-        if (mListMoviesAdapter == null) {
-            setupLayoutManager();
-            mMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
-            mMoviesRecyclerView.setNestedScrollingEnabled(false);
-            setupAdapter();
+
+        if (!mListMovies.isEmpty()) {
+
+            if (mListMoviesAdapter == null) {
+                setupLayoutManager();
+                mMoviesRecyclerView.addOnScrollListener(createOnScrollListener());
+                mMoviesRecyclerView.setNestedScrollingEnabled(false);
+                setupAdapter();
+            } else
+                updateAdapter();
+
         } else
-            updateAdapter();
+            setNenhumFilmeEncontradoVisibility(View.VISIBLE);
 
     }
 
     public void updateAdapter() {
-        if (mListMoviesAdapter != null) {
-            mListMoviesAdapter.setList(mListMovies);
-            mListMoviesAdapter.notifyDataSetChanged();
+
+        if (!mListMovies.isEmpty()) {
+            if (mListMoviesAdapter != null) {
+                mListMoviesAdapter.setList(mListMovies);
+                mListMoviesAdapter.notifyDataSetChanged();
+            } else
+                setupRecyclerView();
         } else
-            setupRecyclerView();
+            setNenhumFilmeEncontradoVisibility(View.VISIBLE);
+
     }
 
     private void setupAdapter() {

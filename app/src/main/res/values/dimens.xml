@@ -37,6 +37,8 @@
     <dimen name="froating_button_elevation">4dp</dimen>
     <dimen name="margin_default_min">5dp</dimen>
     <dimen name="margin_default_medium">10dp</dimen>
+    <dimen name="line_height">1dp</dimen>
+    <dimen name="recycler_view_min_height">150dp</dimen>
 
     <!-- Circle Pictures -->
     <dimen name="picture_circle_cardview_elevation">12dp</dimen>
@@ -79,4 +81,11 @@
     <dimen name="perfil_background_height">280dp</dimen>
     <dimen name="perfil_header_height">120dp</dimen>
 
+    <!-- Person Perfil Detail -->
+    <dimen name="person_detail_perfil_height">350dp</dimen>
+    <dimen name="person_detail_header_height">130dp</dimen>
+    <dimen name="person_detail_progress_height">6dp</dimen>
+
+    <!-- Home -->
+    <dimen name="destaques_min_height">30dp</dimen>
 </resources>

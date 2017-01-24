@@ -214,18 +214,11 @@
     <string name="imdb">IMDB</string>
     <string name="menu_open_navegador">Abrir no Navegador</string>
     <string name="conhecido_por_title">Conhecido Por..</string>
-    <string name="estreias_semana">Estréias da Semana</string>
-    <string name="estreias_semana_subtitle">Os Lançamentos da Semana</string>
-    <string name="em_cartaz">Em Cartaz</string>
-    <string name="em_cartaz_subtitle">Filmes em cartaz no Brasil e no Mundo</string>
-    <string name="em_breve">Em Breve</string>
-    <string name="em_breve_subtitle">Em breve nos cinemas</string>
-    <string name="populares">Populares no PopMovies</string>
-    <string name="populares_subtitle">Os Filmes mais Populares</string>
+
 
     <string name="destaques_do_ano">Destaques do Ano</string>
     <string name="mais_bem_avaliados">Mais bem Avaliados</string>
-    <string name="nacionais">Nacionais</string>
+    <string name="brasileiros">Brasileiros</string>
     <string name="campeoes_bilheteria">Campeões de Bilheteria</string>
     <string name="no_movies_find">Nenhum filme encontrado.</string>
     <string name="buscar_by_ano_lancamento">Escolha o ano de lançamento:</string>
@@ -263,7 +256,6 @@
     <string name="list_default">Lista Default</string>
     <string name="title_activity_videos_details">Videos Activity</string>
     <string name="videos">Vídeos e Trailers</string>
-    <string name="title_activity_home">Home Activity</string>
     <string name="filter_title">Filtrar</string>
     <string name="login_facebook_cancelled">Login pelo facebook cancelado</string>
     <string name="login_facebook_error">Erro ao realizar o login pelo facebook</string>
@@ -278,7 +270,7 @@
     <string name="genres_outros">Outros</string>
 
     <string name="edit_done">Salvar</string>
-    <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
+
     <string name="permission_error_title">Importante</string>
     <string name="btn_ok">Ok</string>
     <string name="btn_no_thanks">Não, obrigado</string>
@@ -298,6 +290,7 @@
     <string name="edit_perfil_camera_description">Tire uma foto para o seu perfil</string>
 
     <!-- Lançamentos da Semana -->
+    <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
     <string name="lanc_sem_btn_previous_week">Semana Anterior</string>
     <string name="lanc_sem_btn_next_week">Próxima Semana</string>
     <string name="lanc_sem_btn_previous_week_description">Visualizar filmes lançados na semana anterior</string>
@@ -308,6 +301,27 @@
     <string name="login_twitter_title">Logar com o Twitter</string>
     <string name="login_facebook_description">Realizar login utilizando o facebook</string>
     <string name="login_twitter_description">Realizar login utilizando o twitter</string>
+    <string name="wallpapers_no_data">Sem Wallpapers disponíveis.</string>
 
+    <!-- Filter Dialog -->
+    <string name="filter_dialog_conteudo_adulto">Conteúdo Adulto</string>
+    <string name="filter_dialog_conteudo_adulto_description">Incluir na pesquisa filmes para maiores de 18 anos</string>
+    <string name="filter_dialog_ordenar_por">Ordenar por</string>
+    <string name="filter_dialog_ano">Ano</string>
+    <string name="filter_dialog_data">Data de Lançamento</string>
+    <string name="filter_dialog_nota">Nota na Comunidade</string>
+    <string name="filter_dialog_data_inicial">Data Inicial</string>
+    <string name="filter_dialog_data_final">Data Final</string>
+
+    <!-- Home -->
+    <string name="title_activity_home">Home Activity</string>
+    <string name="estreias_semana">Estréias da Semana</string>
+    <string name="estreias_semana_subtitle">Os Lançamentos da Semana</string>
+    <string name="em_cartaz">Em Cartaz</string>
+    <string name="em_cartaz_subtitle">Filmes em cartaz no Brasil e no Mundo</string>
+    <string name="em_breve">Em Breve</string>
+    <string name="em_breve_subtitle">Em breve nos cinemas</string>
+    <string name="populares">Populares no PopMovies</string>
+    <string name="populares_subtitle">Os Filmes mais Populares</string>
 
 </resources>

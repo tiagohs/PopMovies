@@ -10,14 +10,10 @@
     tools:openDrawer="start">
 
     <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/coordenation_layout"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/person_app_bar"
@@ -31,17 +27,13 @@
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
                 app:titleEnabled="false"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-                app:expandedTitleMarginBottom="32dp"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="@dimen/person_detail_perfil_height"
                     android:id="@+id/background_person"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
@@ -49,7 +41,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="130dip"
+                    android:layout_height="@dimen/person_detail_header_height"
                     android:layout_gravity="bottom">
 
                     <View
@@ -58,13 +50,13 @@
                         android:background="@drawable/background_image_bottom_transparent"
                         android:fitsSystemWindows="true"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp" />
+                        android:layout_height="@dimen/person_detail_header_height" />
+
                     <ProgressBar
                         android:id="@+id/progress_person_details"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="6dp"
-                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/person_detail_progress_height"
                         android:indeterminate="true"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
@@ -85,103 +77,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/filmes_total_person_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/total_filmes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
-                                android:gravity="center"
-                                android:textColor="@color/primary_text"
-                                android:textSize="35dp"/>
-
-                            <TextView
-                                android:id="@+id/label_total_filmes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:gravity="center"
-                                android:textColor="@color/secondary_text"
-                                android:layout_marginTop="5dp"
-                                android:textSize="15dp"/>
-
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/fotos_total_person_riple"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/total_fotos"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:textColor="@color/primary_text"
-                            android:textSize="35dp"/>
-
-                        <TextView
-                            android:id="@+id/label_total_fotos"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textColor="@color/secondary_text"
-                            android:fontFamily="sans-serif-light"
-                            android:layout_marginTop="5dp"
-                            android:textSize="15dp"/>
-
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_details_fragment"
-                android:orientation="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-        </LinearLayout>
+        <include layout="@layout/include_person_bellow" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -189,12 +85,8 @@
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/share_progress"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
+                style="@style/ProgressDefault"
                 android:visibility="gone"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 app:matProg_barColor="@color/colorAccent"
                 app:matProg_progressIndeterminate="true" />
 

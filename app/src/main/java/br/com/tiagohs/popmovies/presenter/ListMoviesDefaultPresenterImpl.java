@@ -189,7 +189,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
     }
 
     @Override

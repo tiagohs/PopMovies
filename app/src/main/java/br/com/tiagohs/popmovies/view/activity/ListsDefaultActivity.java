@@ -45,6 +45,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     private Map<String, String> mParametersFilter;
     private List<PersonListDTO> mPersons;
     private List<MovieListDTO> mMovies;
+    private Sort mOriginalSort;
 
     public static Intent newIntent(Context context, ListActivityDTO listDTO) {
         Intent intent = new Intent(context, ListsDefaultActivity.class);
@@ -181,10 +182,18 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     @Override
     public void onFilterReset() {
         mParametersFilter = null;
+
+        switch (mOriginalSort) {
+            case GENEROS:
+            case KEYWORDS:
+                mListActivityDTO.setSortList(mOriginalSort);
+        }
+
         onUpdateUI(mParameters);
     }
 
     private void additionalSearchConfigurations() {
+        mOriginalSort = mListActivityDTO.getSortList();
 
         switch (mListActivityDTO.getSortList()) {
             case GENEROS:

@@ -76,10 +76,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
         listDTOs.add(new ItemListDTO(getString(R.string.genres_title), Sort.GENEROS));
 
-        parameters = new HashMap<>();
-        parameters.put(Param.WITH_KEYWORDS.getParam(), String.valueOf(ID_KEYWORD_BRAZILIAN));
-        parameters.put(Param.SORT_BY.getParam(), ParamSortBy.POPULARITY_DESC.getValue());
-        listDTOs.add(new ItemListDTO(getString(R.string.nacionais), Sort.DISCOVER, parameters));
+        listDTOs.add(new ItemListDTO(ID_KEYWORD_BRAZILIAN, getString(R.string.brasileiros), Sort.KEYWORDS, new HashMap<String, String>()));
 
         parameters = new HashMap<>();
         parameters.put(Param.RELEASE_DATE_GTE.getParam(), MovieUtils.getDateBefore(365));
@@ -200,6 +197,9 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
                 break;
             case GENEROS:
                 startActivity(GenresActivity.newIntent(getActivity()));
+                break;
+            case KEYWORDS:
+                startActivity(ListsDefaultActivity.newIntent(getContext(), new ListActivityDTO(item.getItemID(), getString(R.string.keyword_name), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new HashMap<String, String>()));
                 break;
         }
     }
