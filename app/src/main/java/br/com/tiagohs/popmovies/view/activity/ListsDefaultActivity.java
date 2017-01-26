@@ -183,10 +183,12 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     public void onFilterReset() {
         mParametersFilter = null;
 
-        switch (mOriginalSort) {
-            case GENEROS:
-            case KEYWORDS:
-                mListActivityDTO.setSortList(mOriginalSort);
+        if (mOriginalSort != null) {
+            switch (mOriginalSort) {
+                case GENEROS:
+                case KEYWORDS:
+                    mListActivityDTO.setSortList(mOriginalSort);
+            }
         }
 
         onUpdateUI(mParameters);

@@ -36,8 +36,6 @@ public class MovieRepository {
         SQLiteDatabase db = null;
         long movieID = 0;
 
-        Log.i(TAG, movie.getIdServer() + " " + movie.getProfileID());
-
         try {
             ContentValues values = getMoviesContentValues(movie);
 
@@ -84,8 +82,6 @@ public class MovieRepository {
     private Movie findMovie(String where, String[] values) {
         SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
         Log.i(TAG, "Find Movie Chamado.");
-
-
 
         try {
             Cursor c = db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, where, values, null, null, null);
@@ -198,8 +194,6 @@ public class MovieRepository {
         movie.setVoteAverage(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_VOTES)));
         movie.setReleaseDate(c.getString(c.getColumnIndex(PopMoviesContract.MoviesEntry.COLUMN_RELEASE_DATE)));
         movie.setGenreIDs(mGenerRepository.findAllGenreID(movie.getId()));
-
-        Log.i(TAG, "Title: " + movie.getTitle());
 
         return movie;
     }

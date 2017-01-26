@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,13 +60,15 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
     @Override
     public void onBindViewHolder(ListMoviesViewHolder holder, int position) {
-        holder.bindMovie(list.get(position));
+        holder.bindMovie(list.get(position), position);
      }
 
     @Override
     public int getItemCount() {
         return list.size();
      }
+
+
 
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, LongClickCallbacks {
@@ -77,6 +80,9 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         private boolean isMovieFavoritoMarked;
         private int mStatus;
 
+        private int movieID;
+        private int mMoviePosition;
+
         public ListMoviesViewHolder(View itemView) {
             super(itemView);
 
@@ -85,8 +91,9 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindMovie(MovieListDTO movie) {
+        public void bindMovie(MovieListDTO movie, int position) {
             mMovie = movie;
+            mMoviePosition = position;
 
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
         }
@@ -94,10 +101,15 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         @Override
         public void onClick(View view) {
             mCallbacks.onMovieSelected(mMovie.getMovieID(), mImageView);
+
         }
 
         @Override
         public boolean onLongClick(View v) {
+            movieID = mMovie.getMovieID();
+
+            Log.i(TAG, "Titulo: " + mMovie.getMovieName() + " ID" + mMovie.getMovieID());
+
             final View view = ((Activity) mContext).getLayoutInflater().inflate(R.layout.long_click_layout, null);
             RecyclerView list = (RecyclerView) view.findViewById(R.id.list_items_recycler);
             list.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
@@ -118,7 +130,15 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            mPresenter.getMovieDetails(mMovie.getMovieID(), isToSave, isMovieFavoritoMarked, mStatus, TAG);
+                                            MaterialDialog materialDialog = new MaterialDialog.Builder(mContext)
+                                                    .content("Processando..")
+                                                    .cancelable(false)
+                                                    .progress(true, 0)
+                                                    .show();
+
+                                            Log.i(TAG, "ID anntes: " + movieID);
+
+                                            mPresenter.getMovieDetails(movieID, isToSave, isMovieFavoritoMarked, mStatus, TAG, materialDialog, mMoviePosition);
                                         }
                                     })
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {

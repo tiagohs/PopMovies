@@ -69,9 +69,9 @@ public abstract class BaseFragment extends Fragment {
         return ((App) getActivity().getApplication()).getPopMoviesComponent();
     }
 
-    public void onError(String msg) {
+    public void onError(int msgID) {
         mSnackbar = Snackbar
-                .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
+                .make(getCoordinatorLayout(), msgID, Snackbar.LENGTH_LONG);
 
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();

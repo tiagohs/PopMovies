@@ -40,6 +40,8 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
+import br.com.tiagohs.popmovies.util.PermissionUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
@@ -48,6 +50,7 @@ import br.com.tiagohs.popmovies.view.ViewPagerWallpapers;
 import br.com.tiagohs.popmovies.view.adapters.WallpaperPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class WallpapersDetailActivity extends AppCompatActivity {
     private static final String TAG = WallpapersDetailActivity.class.getSimpleName();
@@ -61,6 +64,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
     @BindView(R.id.coordenation_layout)     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.wallpaper_view_pager)    ViewPagerWallpapers mWallpaperViewPager;
+
+    private Unbinder mBinder;
 
     private List<ImageDTO> mImagens;
     private ImageDTO mImageCurrent;
@@ -84,7 +89,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpapers_detail);
-        ButterKnife.bind(this);
+        mBinder = ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
 
@@ -105,6 +110,13 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, getSupportActionBar(), mTypeShowImage);
         mWallpaperViewPager.setAdapter(mWallpaperPagerAdapter);
         setCurrentImage();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBinder != null)
+            mBinder.unbind();
     }
 
     private void setCurrentImage() {
@@ -168,9 +180,18 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     private void salvarImagem() {
         DownloadManager mgr = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        String nameImage = mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg";
+        String path = "";
+        String nameImage = "";
 
-        Uri downloadUri = Uri.parse("http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath());
+        if (mTypeShowImage.equals(TypeShowImage.SIMPLE_IMAGE)) {
+            nameImage = PrefsUtils.getCurrentProfile(this).getProfileID() + "_perfil.jpg";
+            path = mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath();
+        } else if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES)) {
+            nameImage = mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg";
+            path = "http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath();
+        }
+
+        Uri downloadUri = Uri.parse(path);
         DownloadManager.Request request = new DownloadManager.Request(
                 downloadUri);
 
@@ -201,12 +222,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case 0:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    salvarImagem();
-                break;
-        }
+        if (PermissionUtils.onRequestPermissionsResultValidate(grantResults, requestCode))
+            createShareIntent();
     }
 
     @Override
@@ -244,28 +261,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     private void share() {
 
-        if (ServerUtils.isNetworkConnected(this)) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    new MaterialDialog.Builder(this)
-                            .title("Importante")
-                            .content("Precisamos da sua permissão de escrita para realizar essa ação.")
-                            .positiveText("Ok")
-                            .negativeText("Não, Obrigado.")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    ActivityCompat.requestPermissions(WallpapersDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                }
-                            })
-                            .show();
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                }
-            } else {
-                createShareIntent();
-            }
-        }
+        if (PermissionUtils.validatePermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
+            createShareIntent();
 
     }
 

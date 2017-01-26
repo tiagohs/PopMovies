@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -31,6 +32,16 @@ import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
 public class ImageUtils {
+
+    public static void fixMediaDir() {
+        File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if (sdcard != null) {
+            File mediaDir = new File(sdcard, "DCIM/Camera");
+            if (!mediaDir.exists()) {
+                mediaDir.mkdirs();
+            }
+        }
+    }
 
     public static Bitmap getBitmapFromPath(String path, Context context) {
         Uri imageURI = Uri.fromFile(new File(path));

@@ -70,6 +70,7 @@
                         style="@style/EditPerfilOptionStyle"
                         android:hint="@string/edit_perfil_nome"
                         android:contentDescription="@string/edit_perfil_nome_description"
+                        android:maxLength="30"
                         android:drawableLeft="@drawable/ic_perfil"
                         android:focusable="true" />
 
@@ -141,6 +142,7 @@
                         android:textSize="@dimen/txt_size_medium"
                         android:hint="@string/edit_perfil_decription_hint"
                         android:contentDescription="@string/edit_perfil_decription_description"
+                        android:maxLength="200"
                         android:inputType="text|textMultiLine"
                         android:gravity="top"/>
 

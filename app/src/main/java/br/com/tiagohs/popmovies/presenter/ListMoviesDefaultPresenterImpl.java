@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
 import org.apache.commons.collections4.ListUtils;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 
@@ -78,6 +80,9 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     private List<List<MovieDB>> moviesDB;
     private int mListIndex = 0;
+
+    private MaterialDialog mDialog;
+    private int mPosition;
 
     public ListMoviesDefaultPresenterImpl() {
         mCurrentPage = 0;
@@ -156,10 +161,14 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
     }
 
-    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag) {
+    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, MaterialDialog dialog, int position) {
+        this.mDialog = dialog;
         this.mStatus = status;
         this.isSaved = isSaved;
         this.isFavorite = isFavorite;
+        this.mPosition = position;
+
+        Log.i(TAG, "Filme buscado." + movieID);
 
         if (mListMoviesDefaultView.isInternetConnected()) {
             mMovieDetailsInterceptor.getMovieDetails(movieID, new String[]{}, tag);
@@ -178,7 +187,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private void noConnectionError() {
 
         if (mListMoviesDefaultView.isAdded())
-            mListMoviesDefaultView.onError("Sem Conexão");
+            mListMoviesDefaultView.onError(R.string.no_internet);
 
         mListMoviesDefaultView.setProgressVisibility(View.GONE);
 
@@ -273,6 +282,8 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     @Override
     public void onMovieDetailsRequestSucess(MovieDetails movie) {
         long id = 0;
+        boolean isDelete = false;
+
         if (isSaved) {
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
                     movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
@@ -285,18 +296,28 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         } else {
             mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            isDelete = true;
+        }
+
+        if (isDelete)
+            mListMoviesDefaultView.notifyMovieRemoved(mPosition);
+        else {
+            mListIndex = 0;
+            getMovies(mId, mTypeList, TAG, mParameters);
         }
 
         if (id == -1)
             ViewUtils.createToastMessage(mContext, "Erro ao salvar Filme.");
 
-        mListIndex = 0;
-        getMovies(mId, mTypeList, TAG, mParameters);
+        mDialog.dismiss();
+
+
     }
 
     @Override
     public void onMovieDetailsRequestError(VolleyError error) {
-        Log.i(TAG, "Errona conexão. " + error.getMessage());
+        mDialog.dismiss();
+        ViewUtils.createToastMessage(mContext, "Erro ao Salvar o filme.");
     }
 
     private class MoviesSearch extends AsyncTask<Sort, Void, GenericListResponse<Movie>> {

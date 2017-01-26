@@ -2,6 +2,8 @@ package br.com.tiagohs.popmovies.presenter;
 
 import android.content.Context;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,6 @@ public interface ListMoviesDefaultPresenter extends BasePresenter<ListMoviesDefa
     void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters);
     void setContext(Context context);
     void resetValues();
-    void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag);
+    void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, MaterialDialog dialog, int position);
 
 }

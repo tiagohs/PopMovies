@@ -351,6 +351,10 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mMoviesRecyclerView.setLayoutManager(mLayoutManager);
     }
 
+    public void notifyMovieRemoved(int position) {
+        mListMoviesAdapter.notifyItemRemoved(position);
+    }
+
     private RecyclerView.OnScrollListener createOnScrollListener() {
         return new EndlessRecyclerView(mLayoutManager) {
 

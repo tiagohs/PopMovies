@@ -55,12 +55,12 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         this.mCallback = callback;
         this.mProfileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
         this.mMovieRepository = new MovieRepository(mContext);
+
+        configureOptions();
     }
 
     private void configureOptions() {
         mMovie = mMovieRepository.findMovieByServerID(mMovieID, mProfileID);
-
-        Log.i(TAG, "Status: " + mMovie);
 
         if (mMovie != null) {
 
@@ -80,6 +80,8 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
     public LongClickOptionsAdapter.LongClickOptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_long_click_layout, parent, false);
+
+
 
         return new LongClickOptionsViewHolder(view);
     }
@@ -111,7 +113,6 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
             mItemText.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mItemRiple.setOnClickListener(this);
 
-            configureOptions();
         }
 
         public void bind(int position) {

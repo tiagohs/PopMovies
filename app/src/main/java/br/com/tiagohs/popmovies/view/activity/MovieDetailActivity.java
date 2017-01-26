@@ -127,6 +127,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private boolean isStarted;
     private Bitmap mImageToShare;
     private MovieWatchedCallback mCallback;
+    private LinearLayout mMovieShareContainer;
 
     private boolean mIsNewMovie = false;
 
@@ -293,9 +294,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @OnClick({R.id.play_image_movie_principal, R.id.background_movie})
     public void onClickBackgroundMovie() {
-        if (isInternetConnected() && null != mMovie.getVideos()) {
-            if (!mMovie.getVideos().isEmpty())
-                inflateVideoPlayer(mMovie.getVideos().get(0).getKey());
+        if (null != mMovie) {
+            if (isInternetConnected() && null != mMovie.getVideos()) {
+                if (!mMovie.getVideos().isEmpty())
+                    inflateVideoPlayer(mMovie.getVideos().get(0).getKey());
+            }
         }
 
     }
@@ -398,7 +401,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private void shareMovie() {
         mProgressShare.setVisibility(View.VISIBLE);
 
-        if (isInternetConnected()) {
+        if (isInternetConnected() && mMovie != null) {
             final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
             ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
             ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
@@ -415,16 +418,20 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             sinopseMovie.setText(mMovie.getOverview());
             sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
-            final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
+            mMovieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
+
+                    if (!isDestroyed()) {
+                        mProgressShare.setVisibility(View.GONE);
+
+                        mImageToShare = ViewUtils.getBitmapFromView(mMovieShareContainer);
+
+                        if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
+                            createShareIntent(mImageToShare);
+                    }
+
                     mProgressShare.setVisibility(View.GONE);
-
-                    mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
-
-                    if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
-                        createShareIntent(mImageToShare);
-
                 }
             }, 4000);
         }
@@ -437,9 +444,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
         if (PermissionUtils.onRequestPermissionsResultValidate(grantResults, requestCode))
             createShareIntent(mImageToShare);
+
     }
 
     public void createShareIntent(Bitmap imageToShare) {
+        ImageUtils.fixMediaDir();
         String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mMovie.getTitle() , null);
 
         Uri imageUri = Uri.parse(pathofBmp);

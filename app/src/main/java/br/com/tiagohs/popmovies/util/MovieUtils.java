@@ -171,6 +171,26 @@ public class MovieUtils {
         return cal;
     }
 
+    public static int[] getAllGenrerIDs() {
+        return new int[]{28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770, 53, 10752, 37};
+    }
+
+    public static int[] getAllGenrerNames() {
+        return new int[]{R.string.genere_action, R.string.genere_adventure, R.string.genere_animation, R.string.genere_comedy,
+                         R.string.genere_crime, R.string.genere_documentary, R.string.genere_drama, R.string.genere_family,
+                         R.string.genere_fantasy, R.string.genere_history, R.string.genere_horror,
+                         R.string.genere_music, R.string.genere_mystery, R.string.genere_romance, R.string.genere_science_fiction,
+                         R.string.genere_tv_movie, R.string.genere_thriller, R.string.genere_war, R.string.genere_western};
+    }
+
+    public static int[] getAllGenrerBackgroundResoucers() {
+        return new int[]{R.drawable.img_gener_action, R.drawable.img_gener_adventure, R.drawable.img_gener_animation, R.drawable.img_gener_comedy,
+                         R.drawable.img_gener_crime, R.drawable.img_gener_documentary, R.drawable.img_gener_drama, R.drawable.img_gener_family,
+                         R.drawable.img_gener_fantasy, R.drawable.img_gener_history, R.drawable.img_gener_horror,
+                         R.drawable.img_gener_music, R.drawable.img_gener_mistery, R.drawable.img_gener_romance, R.drawable.img_gener_science_fiction,
+                         R.drawable.img_gener_tv_movie, R.drawable.img_gener_thriller, R.drawable.img_gener_war, R.drawable.img_gener_westeron};
+    }
+
     public static String formatGeneres(Context context, List<Integer> ids) {
 
         if(ids==null || ids.size()<0)
@@ -200,8 +220,6 @@ public class MovieUtils {
                     name = context.getString(R.string.genere_family); break;
                 case 14:
                     name = context.getString(R.string.genere_fantasy); break;
-                case 10769:
-                    name = context.getString(R.string.genere_foreign); break;
                 case 36:
                     name = context.getString(R.string.genere_history); break;
                 case 27:

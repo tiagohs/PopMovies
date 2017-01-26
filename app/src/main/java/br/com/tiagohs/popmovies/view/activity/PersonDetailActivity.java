@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ import br.com.tiagohs.popmovies.presenter.PersonDetailPresenter;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -191,7 +193,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     private void sharePersonDetails() {
         mProgressShare.setVisibility(View.VISIBLE);
 
-        if (isInternetConnected()) {
+        if (isInternetConnected() && mPerson != null) {
             View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
             ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
             TextView personName = (TextView) view.findViewById(R.id.person_name);
@@ -220,28 +222,17 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
 
-                    if (ContextCompat.checkSelfPermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            new MaterialDialog.Builder(PersonDetailActivity.this)
-                                    .title("Importante")
-                                    .content("Precisamos da sua permissão de escrita para realizar essa ação.")
-                                    .positiveText("Ok")
-                                    .negativeText("Não, Obrigado.")
-                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                        }
-                                    })
-                                    .show();
-                        } else {
-                            ActivityCompat.requestPermissions(PersonDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                        }
-                    } else {
-                        createShareIntent(mImageToShare);
+                    if (!isDestroyed()) {
+                        mProgressShare.setVisibility(View.GONE);
+
+                        mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                        if (PermissionUtils.validatePermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
+                            createShareIntent(mImageToShare);
                     }
+
+                    mProgressShare.setVisibility(View.GONE);
                 }
             }, 3000);
         }
@@ -252,15 +243,12 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case 0:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    createShareIntent(mImageToShare);
-                break;
-        }
+        if (PermissionUtils.onRequestPermissionsResultValidate(grantResults, requestCode))
+            createShareIntent(mImageToShare);
     }
 
     public void createShareIntent(Bitmap imageToShare) {
+        ImageUtils.fixMediaDir();
         String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mPerson.getName() , null);
 
         Uri imageUri = Uri.parse(pathofBmp);
@@ -384,21 +372,27 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @OnClick(R.id.background_person)
     public void onClickBackground() {
-        if (!mPerson.getTaggedImages().isEmpty())
-            onClickImage(DTOUtils.createPersonImagesBackgroundDTO(mPerson, mPerson.getImages().size(), mPerson.getTaggedImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
-        else if (!mPerson.getImages().isEmpty())
-            onClickProfileImage();
+        if (null != mPerson) {
+            if (!mPerson.getTaggedImages().isEmpty())
+                onClickImage(DTOUtils.createPersonImagesBackgroundDTO(mPerson, mPerson.getImages().size(), mPerson.getTaggedImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
+            else if (!mPerson.getImages().isEmpty())
+                onClickProfileImage();
+        }
+
     }
 
     @OnClick(R.id.image_circle)
     public void onClickProfileImage() {
-        if (!mPerson.getImages().isEmpty())
-            onClickImage(DTOUtils.createPersonImagesDTO(mPerson, mPerson.getImages().size(), mPerson.getImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
-    }
+        if (null != mPerson) {
+            if (!mPerson.getImages().isEmpty())
+                onClickImage(DTOUtils.createPersonImagesDTO(mPerson, mPerson.getImages().size(), mPerson.getImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
+        }
+        }
 
     @OnClick(R.id.filmes_total_person_riple)
     public void onClickTotalFilmes() {
-        startActivity(ListsDefaultActivity.newIntent(this, mPerson.getMoviesCarrer(), new ListActivityDTO(mPerson.getId(), mPerson.getName(), getString(R.string.carreira), Sort.LIST_DEFAULT, R.layout.item_list_movies, ListType.MOVIES)));
+        if (null != mPerson)
+            startActivity(ListsDefaultActivity.newIntent(this, mPerson.getMoviesCarrer(), new ListActivityDTO(mPerson.getId(), mPerson.getName(), getString(R.string.carreira), Sort.LIST_DEFAULT, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
     private List<Artwork> getTotalPersonImages() {
@@ -411,10 +405,12 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @OnClick(R.id.fotos_total_person_riple)
     public void onClickTotalFotos() {
-        List<Artwork> list = getTotalPersonImages();
+        if (null != mPerson) {
+            List<Artwork> list = getTotalPersonImages();
 
-        if (!getTotalPersonImages().isEmpty())
-            startActivity(WallpapersActivity.newIntent(this, DTOUtils.createPersonImagesDTO(mPerson, list.size(), list), getString(R.string.wallpapers_title), mPerson.getName()));
+            if (!getTotalPersonImages().isEmpty())
+                startActivity(WallpapersActivity.newIntent(this, DTOUtils.createPersonImagesDTO(mPerson, list.size(), list), getString(R.string.wallpapers_title), mPerson.getName()));
+        }
     }
 
     @Override

@@ -16,4 +16,5 @@ public interface ListMoviesDefaultView extends BaseView {
     void setListMovies(List<MovieListDTO> listMovies, boolean hasMorePages);
     void addAllMovies(List<MovieListDTO> listMovies, boolean hasMorePages);
     void updateAdapter();
+    void notifyMovieRemoved(int position);
 }

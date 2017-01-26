@@ -82,7 +82,10 @@ public class VideosFragment extends BaseFragment implements VideosView, MovieVid
         mTranslations = (ArrayList<Translation>) getArguments().getSerializable(ARG_TRANSLATION);
         mMovieID = getArguments().getInt(ARG_MOVIE_ID, 0);
 
+        Log.i(TAG, "Empty: " + mTranslations.isEmpty());
+
         mPresenter.getVideos(mMovieID, mTranslations, TAG);
+
     }
 
     public void onUpdateUI(List<Video> videos, boolean hasMorePages) {

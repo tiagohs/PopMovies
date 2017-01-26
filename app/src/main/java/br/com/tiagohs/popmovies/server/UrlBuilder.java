@@ -67,7 +67,6 @@ public class UrlBuilder {
             for (String paramName : mParameters.keySet())
                 mUrlBuilder.appendQueryParameter(paramName, mParameters.get(paramName));
 
-        if (mAppendToResponse != null)
             mUrlBuilder.appendQueryParameter(Param.APPEND.getParam(), mAppendToResponse);
 
         return mUrlBuilder.toString();

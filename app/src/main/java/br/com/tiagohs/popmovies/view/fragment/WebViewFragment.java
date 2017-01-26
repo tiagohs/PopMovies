@@ -51,7 +51,7 @@ public class WebViewFragment extends BaseFragment {
             configurateWebView();
             startUrl();
         } else {
-            onError(getString(R.string.no_internet));
+            onError(R.string.no_internet);
         }
 
     }

@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 
 import static android.R.attr.id;
@@ -198,12 +199,8 @@ public class ProfileRepository {
 
     public List<GenrerMoviesDTO> getAllGenrersSaved(long profileID) {
         List<GenrerMoviesDTO> genres = new ArrayList<>();
-        Integer[] genrersID = new Integer[]{28, 12, 16, 35, 80, 99, 18, 10751, 14, 10769, 36, 27, 10402, 9648, 10749, 878, 10770, 53, 10752, 7};
-        Integer[] namesID = new Integer[]{R.string.genere_action, R.string.genere_adventure, R.string.genere_animation, R.string.genere_comedy,
-                                          R.string.genere_crime, R.string.genere_documentary, R.string.genere_drama, R.string.genere_family,
-                                          R.string.genere_fantasy, R.string.genere_foreign, R.string.genere_history, R.string.genere_horror,
-                                          R.string.genere_music, R.string.genere_mystery, R.string.genere_romance, R.string.genere_science_fiction,
-                                          R.string.genere_tv_movie, R.string.genere_thriller, R.string.genere_war, R.string.genere_western};
+        int[] genrersID = MovieUtils.getAllGenrerIDs();
+        int[] namesID = MovieUtils.getAllGenrerNames();
 
         for (int cont = 0; cont < genrersID.length; cont++) {
             long totalMovies = getTotalMoviesByGenrer(genrersID[cont], profileID);

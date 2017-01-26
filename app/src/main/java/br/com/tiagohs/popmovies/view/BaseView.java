@@ -5,6 +5,6 @@ public interface BaseView {
     void setProgressVisibility(int visibityState);
 
     boolean isInternetConnected();
-    void onError(String msg);
+    void onError(int msgID);
     boolean isAdded();
 }

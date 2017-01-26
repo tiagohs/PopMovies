@@ -85,7 +85,13 @@ public class GenresFragment extends BaseFragment implements GenresView {
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return null;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGenresPresenter.getGenres(TAG);
+                mSnackbar.dismiss();
+            }
+        };
     }
 
     @Override
@@ -102,5 +108,10 @@ public class GenresFragment extends BaseFragment implements GenresView {
         } else {
             mGenresListAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void setProgressVisibility(int visibityState) {
+
     }
 }

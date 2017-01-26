@@ -51,7 +51,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     private void noConnectionError() {
         if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.onError("Sem Conexao");
+            mMoviesDetailsOverviewView.onError(R.string.no_internet);
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
         }
 

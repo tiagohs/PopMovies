@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptorImpl;
@@ -97,7 +98,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                     mIsNewMovieSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
         } else {
             if (mSearchMoviesView.isAdded())
-                mSearchMoviesView.onError("Sem Conexão");
+                mSearchMoviesView.onError(R.string.no_internet);
 
             mSearchMoviesView.setProgressVisibility(View.GONE);
         }
@@ -115,7 +116,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                                                    mIsNewPersonSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
         } else {
             if (mSearchPersonsView.isAdded())
-                mSearchPersonsView.onError("Sem Conexão");
+                mSearchPersonsView.onError(R.string.no_internet);
 
             mSearchPersonsView.setProgressVisibility(View.GONE);
         }
@@ -151,7 +152,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
             mMoviesServer.getMovieDetails(movieID, new String[]{}, tag, this);
         } else {
             if (mSearchMoviesView.isAdded())
-                mSearchMoviesView.onError("Sem Conexão");
+                mSearchMoviesView.onError(R.string.no_internet);
 
             mSearchMoviesView.setProgressVisibility(View.GONE);
         }
@@ -182,7 +183,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                     break;
                 default:
                     if (mSearchMoviesView.isAdded())
-                        mSearchMoviesView.onError("Sem Conexão");
+                        mSearchMoviesView.onError(R.string.no_internet);
             }
         }
 
@@ -231,7 +232,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                     break;
                 default:
                     if (mSearchPersonsView.isAdded())
-                        mSearchPersonsView.onError("Sem Conexão");
+                        mSearchPersonsView.onError(R.string.no_internet);
             }
         }
     }

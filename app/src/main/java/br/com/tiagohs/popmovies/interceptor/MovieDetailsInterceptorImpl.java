@@ -48,7 +48,7 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
 
     @Override
     public void onResponse(MovieDetails response) {
-        Log.i(TAG, "OnResponse!");
+
         if (mOriginalLanguage == null)
             mMovieDetails = response;
 
@@ -66,9 +66,11 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
                 if (mMovieDetails.getRuntime() == 0)
                     mMovieDetails.setRuntime(response.getRuntime());
 
-                mListener.onMovieDetailsRequestSucess(mMovieDetails);;
+                mListener.onMovieDetailsRequestSucess(mMovieDetails);
+                mOriginalLanguage = null;
             } else {
                 mListener.onMovieDetailsRequestSucess(response);
+                mOriginalLanguage = null;
             }
 
         }

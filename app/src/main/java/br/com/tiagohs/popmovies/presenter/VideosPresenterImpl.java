@@ -18,6 +18,7 @@ import org.apache.commons.collections4.ListUtils;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
 import br.com.tiagohs.popmovies.model.media.Translation;
@@ -60,7 +61,10 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
         mTag = tag;
 
         if (mVideosView.isInternetConnected()) {
-            mVideoInterceptor.getVideos(mMovieID, tag, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
+            if (!translation.isEmpty())
+                mVideoInterceptor.getVideos(mMovieID, tag, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
+            else
+                mVideoInterceptor.getVideos(mMovieID, tag, "en-US");
         } else {
             noConnectionError();
         }
@@ -69,7 +73,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     private void noConnectionError() {
         if (mVideosView.isAdded()) {
-            mVideosView.onError("Sem Conexao");
+            mVideosView.onError(R.string.no_internet);
         }
     }
 

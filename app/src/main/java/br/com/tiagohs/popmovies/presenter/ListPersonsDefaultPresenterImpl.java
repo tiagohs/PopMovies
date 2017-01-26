@@ -6,6 +6,7 @@ import android.view.View;
 import com.android.volley.VolleyError;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.interceptor.PersonInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonInterceptorImpl;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
@@ -74,7 +75,7 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
     @Override
     public void onPersonRequestError(VolleyError error) {
         if (mView.isAdded())
-            mView.onError("Sem Conexão");
+            mView.onError(R.string.no_internet);
 
         mView.setProgressVisibility(View.GONE);
 

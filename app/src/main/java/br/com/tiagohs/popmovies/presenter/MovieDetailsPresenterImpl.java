@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
@@ -99,7 +100,7 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     private void noConnectionError() {
         if (mMovieDetailsView.isAdded()) {
-            mMovieDetailsView.onError("Sem Conexao");
+            mMovieDetailsView.onError(R.string.no_internet);
             mMovieDetailsView.setProgressVisibility(View.GONE);
         }
 

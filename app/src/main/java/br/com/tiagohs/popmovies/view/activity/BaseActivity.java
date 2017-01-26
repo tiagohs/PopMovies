@@ -40,6 +40,7 @@ import br.com.tiagohs.popmovies.view.fragment.FilterDialogFragment;
 import br.com.tiagohs.popmovies.view.fragment.PerfilFilmesFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,6 +48,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @BindView(R.id.coordenation_layout)           CoordinatorLayout mCoordinatorLayout;
     @Nullable @BindView(R.id.drawer_layout)       DrawerLayout mDrawerLayout;
     @Nullable @BindView(R.id.nav_view)            NavigationView mNavigationView;
+
+    protected Unbinder mBinder;
 
     protected Snackbar mSnackbar;
     protected ProfileDB mProfileDB;
@@ -100,7 +103,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     private void injectViews() {
-        ButterKnife.bind(this);
+        mBinder = ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBinder != null)
+            mBinder.unbind();
     }
 
     @Override
@@ -192,9 +202,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         return ((App) getApplication()).getPopMoviesComponent();
     }
 
-    public void onError(String msg) {
+    public void onError(int msgID) {
         mSnackbar = Snackbar
-                .make(getCoordinatorLayout(), msg, Snackbar.LENGTH_INDEFINITE);
+                .make(getCoordinatorLayout(), getString(msgID), Snackbar.LENGTH_LONG);
 
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();

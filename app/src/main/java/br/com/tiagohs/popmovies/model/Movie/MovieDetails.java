@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -49,13 +50,13 @@ public class MovieDetails extends Movie implements Serializable  {
     @JsonProperty("revenue")
     private long revenue;
     @JsonProperty("production_companies")
-    private List<ProductionCompany> productionCompanies = Collections.emptyList();
+    private List<ProductionCompany> productionCompanies = new ArrayList<>();
     @JsonProperty("production_countries")
-    private List<ProductionCountry> productionCountries = Collections.emptyList();
+    private List<ProductionCountry> productionCountries = new ArrayList<>();
     @JsonProperty("runtime")
     private int runtime;
     @JsonProperty("spoken_languages")
-    private List<Language> spokenLanguages = Collections.emptyList();
+    private List<Language> spokenLanguages = new ArrayList<>();
     @JsonProperty("tagline")
     private String tagline;
     @JsonProperty("status")
@@ -64,17 +65,17 @@ public class MovieDetails extends Movie implements Serializable  {
     // AppendToResponse
     private final Set<MovieMethod> methods = EnumSet.noneOf(MovieMethod.class);
     // AppendToResponse Properties
-    private List<AlternativeTitle> alternativeTitles = Collections.emptyList();
+    private List<AlternativeTitle> alternativeTitles = new ArrayList<>();
     private MediaCreditList credits = new MediaCreditList();
-    private List<Artwork> images = Collections.emptyList();
-    private List<Keyword> keywords = Collections.emptyList();
-    private List<ReleaseInfo> releases = Collections.emptyList();
-    private List<Video> videos = Collections.emptyList();
-    private List<Translation> translations = Collections.emptyList();
-    private List<MovieDetails> similarMovies = Collections.emptyList();
-    private List<Review> reviews = Collections.emptyList();
-    private List<UserList> lists = Collections.emptyList();
-    private List<ChangeKeyItem> changes = Collections.emptyList();
+    private List<Artwork> images = new ArrayList<>();
+    private List<Keyword> keywords = new ArrayList<>();
+    private List<ReleaseInfo> releases = new ArrayList<>();
+    private List<Video> videos = new ArrayList<>();
+    private List<Translation> translations = new ArrayList<>();
+    private List<MovieDetails> similarMovies = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
+    private List<UserList> lists = new ArrayList<>();
+    private List<ChangeKeyItem> changes = new ArrayList<>();
 
     public void addMoreVideos(List<Video> videos) {
 

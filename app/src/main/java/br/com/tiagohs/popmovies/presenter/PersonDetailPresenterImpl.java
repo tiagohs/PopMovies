@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
@@ -60,7 +61,7 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
 
     private void noConnectionError() {
 
-        mPersonDetailView.onError("Sem Conexão");
+        mPersonDetailView.onError(R.string.no_internet);
         mPersonDetailView.setProgressVisibility(View.GONE);
     }
 
@@ -77,7 +78,7 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
     @Override
     public void onErrorResponse(VolleyError error) {
         if (mPersonDetailView.isAdded())
-            mPersonDetailView.onError("Houve algum erro.");
+            mPersonDetailView.onError(R.string.person_detail_error);
     }
 
     @Override

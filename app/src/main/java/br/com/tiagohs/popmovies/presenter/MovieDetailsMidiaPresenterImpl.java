@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.App;
+import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptor;
 import br.com.tiagohs.popmovies.interceptor.ImagemInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
@@ -52,7 +53,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     private void noConnectionError() {
         if (mView.isAdded())
-            mView.onError("Sem Conexão");
+            mView.onError(R.string.no_internet);
 
         mView.setProgressVisibility(View.GONE);
     }
@@ -84,7 +85,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onImageRequestError(VolleyError error) {
-        mView.onError("Videos: Erro ao carregar as imagens, tente novamente.");
+        mView.onError(R.string.imagens_error_load);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onVideoRequestError(VolleyError error) {
-        mView.onError("Videos: Erro ao carregar os vídeos, tente novamente.");
+        mView.onError(R.string.videos_error_load);
     }
 
     @Override

@@ -148,7 +148,6 @@
     <string name="genere_drama">Drama</string>
     <string name="genere_family">Familia</string>
     <string name="genere_fantasy">Fantasia</string>
-    <string name="genere_foreign">Estrangeiro</string>
     <string name="genere_history">Histórico</string>
     <string name="genere_horror">Horror</string>
     <string name="genere_music">Musical</string>
@@ -323,5 +322,9 @@
     <string name="em_breve_subtitle">Em breve nos cinemas</string>
     <string name="populares">Populares no PopMovies</string>
     <string name="populares_subtitle">Os Filmes mais Populares</string>
+    <string name="imagens_error_load">Erro ao carregar as imagens</string>
+    <string name="videos_error_load">Erro ao carregar os vídeos</string>
+    <string name="person_detail_error">Erro no servidor</string>
+    <string name="genre_error_network">Erro ao ao recuperar gêneros</string>
 
 </resources>
