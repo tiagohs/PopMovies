@@ -19,11 +19,14 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.view.activity.BaseActivity;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
 
     protected MaterialDialog materialDialog;
     protected Snackbar mSnackbar;
+
+    protected Unbinder mBinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void injectViews(View view) {
-        ButterKnife.bind(this, view);
+        mBinder = ButterKnife.bind(this, view);
     }
 
     protected abstract int getViewID();
@@ -78,6 +81,18 @@ public abstract class BaseFragment extends Fragment {
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
     }
 
+    public void onErrorNoConnection() {
+        onError(R.string.error_no_internet);
+    }
+
+    public void onErrorInServer() {
+        onError(R.string.error_no_server);
+    }
+
+    public void onErrorUnexpected() {
+        onError(R.string.erro_unexpected);
+    }
+
     protected abstract View.OnClickListener onSnackbarClickListener();
 
     public CoordinatorLayout getCoordinatorLayout() {
@@ -85,12 +100,21 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
-        if (materialDialog != null) {
+
+        if (materialDialog != null)
             hideDialogProgress();
-        }
+
         if (mSnackbar != null)
             mSnackbar.dismiss();
+
+
     }
 }

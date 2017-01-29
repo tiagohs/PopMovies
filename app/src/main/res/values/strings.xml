@@ -7,7 +7,7 @@
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
     <string name="tentar_novamente">TENTAR NOVAMENTE</string>
-    <string name="no_internet">Sem Conexão</string>
+    <string name="error_no_internet">Sem Conexão</string>
     <string name="pop_movie_title_principal">PopMovies</string>
     <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
     <string name="title_original">Original:</string>
@@ -326,5 +326,10 @@
     <string name="videos_error_load">Erro ao carregar os vídeos</string>
     <string name="person_detail_error">Erro no servidor</string>
     <string name="genre_error_network">Erro ao ao recuperar gêneros</string>
+    <string name="error_no_server">Erro no servidor</string>
+    <string name="erro_unexpected">Erro inesperado</string>
+    <string name="error_save_movie">Erro ao salvar o filme</string>
+    <string name="sucess_save_movie">Filme salvo com sucesso.</string>
+    <string name="error_loading_background">Erro ao carregar imagem de background</string>
 
 </resources>

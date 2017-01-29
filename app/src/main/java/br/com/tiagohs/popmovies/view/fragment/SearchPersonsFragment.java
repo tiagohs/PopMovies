@@ -16,10 +16,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
 import br.com.tiagohs.popmovies.presenter.SearchPresenterImpl;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.view.SearchPersonsView;
 import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.adapters.SearchMovieAdapter;
@@ -54,17 +56,12 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mSearchPresenter.setContext(getContext());
+        mSearchPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mSearchPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
         mSearchPresenter.setPersonView(this);
         setRetainInstance(true);
     }

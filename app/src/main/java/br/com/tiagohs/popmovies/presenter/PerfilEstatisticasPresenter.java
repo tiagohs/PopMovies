@@ -4,11 +4,14 @@ import android.content.Context;
 
 import java.util.List;
 
+import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.view.PerfilEstatisticasView;
 
 public interface PerfilEstatisticasPresenter extends BasePresenter<PerfilEstatisticasView> {
 
     void initUpdates();
-    void setContext(Context context);
+
+    void setUsername(String username);
+    void setProfileRepository(ProfileRepository profileRepository);
 }

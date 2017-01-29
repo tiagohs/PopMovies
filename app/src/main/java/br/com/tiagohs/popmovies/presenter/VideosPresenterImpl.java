@@ -1,16 +1,8 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
 import org.apache.commons.collections4.ListUtils;
@@ -24,12 +16,13 @@ import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
 import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.VideosView;
-import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 
 public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.onVideoListener {
     private static final String TAG = VideosPresenterImpl.class.getSimpleName();
+
+    private static final String LOCALE_US = "en-US";
+    private static final int NUM_MAX_VIDEOS_BY_PAGE = 12;
 
     private VideosView mVideosView;
     private VideoInterceptor mVideoInterceptor;
@@ -40,6 +33,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     private int mCurrentTranslation;
     private int mTotalTranslation;
+
     private int mMovieID;
     private String mTag;
 
@@ -64,7 +58,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
             if (!translation.isEmpty())
                 mVideoInterceptor.getVideos(mMovieID, tag, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
             else
-                mVideoInterceptor.getVideos(mMovieID, tag, "en-US");
+                mVideoInterceptor.getVideos(mMovieID, tag, LOCALE_US);
         } else {
             noConnectionError();
         }
@@ -73,18 +67,13 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     private void noConnectionError() {
         if (mVideosView.isAdded()) {
-            mVideosView.onError(R.string.no_internet);
+            mVideosView.onErrorNoConnection();
         }
     }
 
     @Override
     public void setView(VideosView view) {
         mVideosView = view;
-    }
-
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
     }
 
     @Override
@@ -101,7 +90,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
                 mVideoInterceptor.getVideos(mMovieID, mTag, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
                 return;
             } else {
-                mVideos = ListUtils.partition(mFinalVideosReponse.getVideos(), 12);
+                mVideos = ListUtils.partition(mFinalVideosReponse.getVideos(), NUM_MAX_VIDEOS_BY_PAGE);
                 mTotalPages = mVideos.size();
 
                 mVideosView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
@@ -124,7 +113,8 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     @Override
     public void onVideoRequestError(VolleyError error) {
-
+        if (mVideosView.isAdded())
+            mVideosView.onErrorInServer();
     }
 
     @Override

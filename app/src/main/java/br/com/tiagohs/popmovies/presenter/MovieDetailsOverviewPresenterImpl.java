@@ -1,8 +1,5 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -10,8 +7,6 @@ import com.android.volley.VolleyError;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.App;
-import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
@@ -21,8 +16,6 @@ import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.util.PrefsUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
 public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
@@ -31,7 +24,8 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     private MoviesServer mMoviesServer;
     private MoviesDetailsOverviewView mMoviesDetailsOverviewView;
     private MovieRepository mMovieRepository;
-    private Context mContext;
+
+    private long mProfileID;
 
     public MovieDetailsOverviewPresenterImpl() {
         mMoviesServer = new MoviesServer();
@@ -49,9 +43,17 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     }
 
+    public void setMovieRepository(MovieRepository movieRepository) {
+        this.mMovieRepository = movieRepository;
+    }
+
+    public void setProfileID(long profileID) {
+        this.mProfileID = profileID;
+    }
+
     private void noConnectionError() {
         if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.onError(R.string.no_internet);
+            mMoviesDetailsOverviewView.onErrorNoConnection();
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
         }
 
@@ -62,26 +64,16 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
         mMoviesDetailsOverviewView = view;
     }
 
-    public void setContext(Context context) {
-        mContext = context;
-        mMovieRepository = new MovieRepository(mContext);
-    }
-
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
-    }
-
     @Override
     public void onClickWantSee(MovieDetails movie, boolean buttonStage) {
 
         if (buttonStage)
             mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
-            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
 
     }
 
@@ -90,20 +82,19 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
         if (buttonStage)
             mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_DONT_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
-            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
 
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        Log.i(TAG, "onError");
-
         if (mMoviesDetailsOverviewView.isAdded()) {
+            mMoviesDetailsOverviewView.onErrorInServer();
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
             mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
@@ -113,7 +104,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     public void setMovieFavorite(MovieDetails movie) {
         mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
-                movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
                 Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                 MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
     }
@@ -153,7 +144,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
                 mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
 
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
-            mMoviesDetailsOverviewView.updateNomeacoes(ViewUtils.isEmptyValue(response.getAwards()) ? mContext.getString(R.string.nao_disponivel) : response.getAwards());
+            mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());
         }
 
     }

@@ -158,7 +158,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     private void init() {
         if (mSort != null)
-            mPresenter.getPersons(mSort);
+            mPresenter.getPersons(mSort, TAG);
         else {
             setupRecyclerView();
             setProgressVisibility(View.GONE);

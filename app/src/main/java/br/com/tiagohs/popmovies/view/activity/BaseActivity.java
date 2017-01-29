@@ -30,14 +30,11 @@ import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
-import br.com.tiagohs.popmovies.view.fragment.FilterDialogFragment;
-import br.com.tiagohs.popmovies.view.fragment.PerfilFilmesFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -210,6 +207,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mSnackbar.show();
         mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
 
+    }
+
+    public void onErrorNoConnection() {
+        onError(R.string.error_no_internet);
+    }
+
+    public void onErrorInServer() {
+        onError(R.string.error_no_server);
+    }
+
+    public void onErrorUnexpected() {
+        onError(R.string.erro_unexpected);
     }
 
     public boolean isInternetConnected() {

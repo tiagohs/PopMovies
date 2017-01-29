@@ -3,7 +3,6 @@ package br.com.tiagohs.popmovies.view.adapters;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.Item;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
@@ -54,7 +54,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
         this.mMovieID = movieID;
         this.mCallback = callback;
         this.mProfileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
-        this.mMovieRepository = new MovieRepository(mContext);
+        this.mMovieRepository = new MovieRepositoryImpl(mContext);
 
         configureOptions();
     }

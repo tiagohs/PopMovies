@@ -6,16 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.HashMap;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -61,7 +58,7 @@ public class PerfilFilmesFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProfileRepository = new ProfileRepository(getContext());
+        mProfileRepository = new ProfileRepositoryImpl(getContext());
 
         mProfileID = PrefsUtils.getCurrentProfile(getContext()).getProfileID();
 

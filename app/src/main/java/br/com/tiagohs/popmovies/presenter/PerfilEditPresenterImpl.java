@@ -1,29 +1,22 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
-
-import com.twitter.sdk.android.core.models.User;
 
 import java.util.Calendar;
 
 import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
-import br.com.tiagohs.popmovies.util.ImageUtils;
-import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.PerfilEditView;
 
 public class PerfilEditPresenterImpl implements PerfilEditPresenter {
     private static final String TAG = PerfilEditPresenterImpl.class.getSimpleName();
 
-    private Context mContext;
     private PerfilEditView mPerfilEditView;
 
     private ProfileRepository mProfileRepository;
+    private String mUsername;
+
     private ProfileDB mProfileDB;
 
     @Override
@@ -31,15 +24,16 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
         mPerfilEditView = view;
     }
 
-    public void setContext(Context context) {
-        mContext = context;
-        mProfileRepository = new ProfileRepository(context);
-        mProfileDB = PrefsUtils.getCurrentProfile(context);
+    public void setProfileRepository(ProfileRepository profileRepository) {
+        this.mProfileRepository = profileRepository;
+    }
 
-        Log.i(TAG, "UserName: " + mProfileDB.getUser().getUsername());
+    public void setUsername(String username) {
+        mUsername = username;
     }
 
     public void getProfileInfo() {
+        mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
 
         if (!ViewUtils.isEmptyValue(mProfileDB.getUser().getNome())) {
             mPerfilEditView.setName(mProfileDB.getUser().getNome());
@@ -59,7 +53,7 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
         if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
             mPerfilEditView.setPhoto(mProfileDB.getUser().getPicturePath());
         else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
-            mPerfilEditView.setLocalPhoto(ImageUtils.getBitmapFromPath(mProfileDB.getUser().getLocalPicture(), mContext));
+            mPerfilEditView.setLocalPhoto();
 
     }
 
@@ -86,14 +80,7 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
             mProfileDB.getUser().setTypePhoto(UserDB.PHOTO_LOCAL);
         }
 
-        Log.i(TAG, "ProfileID: " + mProfileDB.getProfileID());
-
-        mProfileRepository.saveProfile(mProfileDB, mContext);
+        mProfileRepository.saveProfile(mProfileDB);
     }
 
-
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-
-    }
 }

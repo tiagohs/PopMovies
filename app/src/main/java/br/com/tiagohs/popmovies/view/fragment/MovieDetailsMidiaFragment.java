@@ -134,6 +134,16 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     }
 
     @Override
+    public void onErrorGetImages() {
+        onError(R.string.imagens_error_load);
+    }
+
+    @Override
+    public void onErrorGetVideos() {
+        onError(R.string.videos_error_load);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 

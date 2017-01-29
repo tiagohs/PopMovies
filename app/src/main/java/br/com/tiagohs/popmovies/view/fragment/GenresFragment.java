@@ -73,9 +73,6 @@ public class GenresFragment extends BaseFragment implements GenresView {
     @Override
     public void onStop() {
         super.onStop();
-
-        if (mGenresPresenter != null)
-            mGenresPresenter.onCancellRequest(getActivity(), TAG);
     }
 
     @Override

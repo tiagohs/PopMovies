@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.Serializable;
 
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import br.com.tiagohs.popmovies.view.SearchMoviesView;
@@ -25,7 +26,9 @@ public interface SearchPresenter extends BasePresenter<SearchView>, Serializable
 
     void getMovieDetails(int movieID, boolean buttonStage, String tag);
     boolean isJaAssistido(int movieID);
-    void setContext(Context context);
+
+    void setMovieRepository(MovieRepository movieRepository);
+    void setProfileID(long profileID);
 
     void setMovieView(SearchMoviesView searchMoviesView);
     void setPersonView(SearchPersonsView searchPersonsView);

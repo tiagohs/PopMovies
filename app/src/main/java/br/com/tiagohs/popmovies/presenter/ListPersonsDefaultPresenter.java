@@ -9,5 +9,5 @@ import br.com.tiagohs.popmovies.view.ListPersonsDefaultView;
 
 public interface ListPersonsDefaultPresenter extends BasePresenter<ListPersonsDefaultView> {
 
-    void getPersons(Sort personSort);
+    void getPersons(Sort personSort, String ta);
 }

@@ -31,6 +31,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
@@ -43,6 +45,7 @@ import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -146,6 +149,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         mGenresCallbacks = (ListWordsCallbacks) context;
         mKeyWordsCallbacks = (ListWordsCallbacks) context;
         mMovieWantSeeCallback = (MovieWantSeeCallback) context;
@@ -158,9 +162,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @Override
     public void onDetach() {
         super.onDetach();
+
         mGenresCallbacks = null;
         mKeyWordsCallbacks = null;
         mMovieWantSeeCallback = null;
+        mMovieFavoriteCallback = null;
+        mMovieDontWantSeeCallback = null;
     }
 
     @Override
@@ -168,7 +175,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mPresenter.setContext(getActivity());
+        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
         mPresenter.setView(this);
 
         mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
@@ -202,7 +210,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             setRankingContainerVisibility(View.GONE);
             setRankingProgressVisibility(View.GONE);
             setTomatoesReviewsVisibility(View.GONE);
-            updateNomeacoes(getString(R.string.nao_disponivel));
+            mMovieNomeacoes.setText(getString(R.string.nao_disponivel));
         } else
             mPresenter.getMoviesRankings(mMovie.getImdbID(), TAG);
 
@@ -291,8 +299,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         mTomatoesConsensus.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
     }
 
-    public void updateNomeacoes(String nomeacoes) {
-        mMovieNomeacoes.setText(nomeacoes);
+    public void updateNomeacoes(String response) {
+        mMovieNomeacoes.setText(ViewUtils.isEmptyValue(response) ? getString(R.string.nao_disponivel) : response);
     }
 
     private void updateUI() {

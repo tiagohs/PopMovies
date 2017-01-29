@@ -1,17 +1,13 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.android.volley.VolleyError;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.response.GenresResponse;
 import br.com.tiagohs.popmovies.server.ResponseListener;
@@ -38,22 +34,18 @@ public class GenresPresenterImpl implements GenresPresenter, ResponseListener<Ge
     }
 
     @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
-    }
-
-    @Override
     public void getGenres(String tag) {
 
         if (mGenresView.isInternetConnected())
             mMoviesServer.getGenres(tag, this);
         else
-            mGenresView.onError(R.string.no_internet);
+            mGenresView.onErrorNoConnection();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        mGenresView.onError(R.string.genre_error_network);
+        if (mGenresView.isAdded())
+            mGenresView.onErrorInServer();
     }
 
     @Override

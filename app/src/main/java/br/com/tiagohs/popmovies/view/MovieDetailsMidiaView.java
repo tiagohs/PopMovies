@@ -13,4 +13,7 @@ public interface MovieDetailsMidiaView extends BaseView {
     void updateImageUI(ImageResponse imageResponse);
     void updateVideoUI(List<Video> videosResponse);
     void setVideosSearched(boolean videosSearched);
+
+    void onErrorGetImages();
+    void onErrorGetVideos();
 }

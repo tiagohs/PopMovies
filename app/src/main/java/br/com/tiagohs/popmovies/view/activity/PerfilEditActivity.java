@@ -29,6 +29,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.model.dto.ImageSaveDTO;
 import br.com.tiagohs.popmovies.presenter.PerfilEditPresenter;
 import br.com.tiagohs.popmovies.presenter.PerfilPresenter;
@@ -36,6 +37,7 @@ import br.com.tiagohs.popmovies.util.ImageIntentPicker;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.view.PerfilEditView;
 import butterknife.BindView;
@@ -90,8 +92,9 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mPresenter.setContext(this);
         mPresenter.setView(this);
+        mPresenter.setUsername(PrefsUtils.getCurrentProfile(this).getUser().getUsername());
+        mPresenter.setProfileRepository(new ProfileRepositoryImpl(this));
 
         setActivityTitle(getString(R.string.title_activity_edit_perfil));
 
@@ -233,8 +236,8 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
     }
 
     @Override
-    public void setLocalPhoto(Bitmap bitmap) {
-        mPhotoPerfil.setImageBitmap(bitmap);
+    public void setLocalPhoto() {
+        mPhotoPerfil.setImageBitmap(ImageUtils.getBitmapFromPath(mProfileDB.getUser().getLocalPicture(), this));
     }
 
     private void setEditTextValue(String text, EditText editText) {

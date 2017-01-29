@@ -12,6 +12,7 @@ public class ProfileDB {
     private long totalHorasAssistidas;
 
     private UserDB user;
+    private List<MovieDB> filmes;
     private List<MovieDB> filmesAssistidos;
     private List<MovieDB> filmesQueroVer;
     private List<MovieDB> filmesNaoQueroVer;
@@ -19,6 +20,14 @@ public class ProfileDB {
 
     public ProfileDB() {
 
+    }
+
+    public List<MovieDB> getFilmes() {
+        return filmes;
+    }
+
+    public void setFilmes(List<MovieDB> filmes) {
+        this.filmes = filmes;
     }
 
     public long getProfileID() {

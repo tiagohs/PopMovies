@@ -64,6 +64,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
     @BindView(R.id.coordenation_layout)     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.wallpaper_view_pager)    ViewPagerWallpapers mWallpaperViewPager;
+    @BindView(R.id.progress)                ProgressWheel mProgress;
 
     private Unbinder mBinder;
 
@@ -119,6 +120,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
             mBinder.unbind();
     }
 
+    public void setProgress(ProgressWheel progress) {
+        mProgress = progress;
+    }
+
     private void setCurrentImage() {
         for (int i = 0; i < mImagens.size(); i++) {
             if (mImagens.get(i).equals(mImageCurrent))
@@ -140,6 +145,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     }
 
     public void onSaveImageClicked() {
+
+        mProgress.setVisibility(View.VISIBLE);
 
         if (!ServerUtils.isWifiConnected(this)) {
             new MaterialDialog.Builder(this)
@@ -208,6 +215,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 Toast.makeText(WallpapersDetailActivity.this, "Imagem salva com sucesso", Toast.LENGTH_SHORT).show();
+                mProgress.setVisibility(View.GONE);
             }
         };
 

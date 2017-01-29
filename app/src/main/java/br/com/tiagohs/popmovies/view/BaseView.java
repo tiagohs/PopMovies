@@ -7,4 +7,8 @@ public interface BaseView {
     boolean isInternetConnected();
     void onError(int msgID);
     boolean isAdded();
+
+    void onErrorNoConnection();
+    void onErrorInServer();
+    void onErrorUnexpected();
 }

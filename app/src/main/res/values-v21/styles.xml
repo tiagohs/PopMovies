@@ -15,10 +15,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
-        <item name="android:windowEnterTransition">@transition/slide</item>
-
-        <item name="android:windowSharedElementEnterTransition">@transition/changebounds</item>
-        <item name="android:windowSharedElementExitTransition">@transition/changebounds</item>
+        <item name="android:windowEnterTransition">@transition/activity_fade</item>
+        <item name="android:windowExitTransition">@transition/activity_fade</item>
 
     </style>
 

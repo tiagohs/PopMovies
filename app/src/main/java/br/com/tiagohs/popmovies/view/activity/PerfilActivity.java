@@ -8,51 +8,34 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
-import br.com.tiagohs.popmovies.model.db.MovieDB;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
-import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.presenter.PerfilPresenter;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.util.enumerations.ListType;
-import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.AppBarMovieListener;
 import br.com.tiagohs.popmovies.view.PerfilView;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
-import br.com.tiagohs.popmovies.view.fragment.PerfilFilmesFragment;
 import br.com.tiagohs.popmovies.view.fragment.PerfilFragment;
-import br.com.tiagohs.popmovies.view.fragment.PersonDetailFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -100,7 +83,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mPerfilPresenter.setContext(this);
+        mPerfilPresenter.setProfileRepository(new ProfileRepositoryImpl(this));
+        mPerfilPresenter.setUsername(PrefsUtils.getCurrentUser(this).getUsername());
         mPerfilPresenter.setView(this);
 
         mEditar.setOnClickListener(onClickEditButton());
@@ -117,6 +101,11 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     public void setProfile(ProfileDB mProfile) {
         this.mProfile = mProfile;
+    }
+
+    @Override
+    public void onErrorLoadingBackground() {
+        ViewUtils.createToastMessage(this, getString(R.string.error_loading_background));
     }
 
     @Override
@@ -179,8 +168,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         ImageUtils.load(this, imagePath, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mImagePerfil, mProgressFotoPerfil);
     }
 
-    public void setLocalImagePerfil(Bitmap image) {
-        mImagePerfil.setImageBitmap(image);
+    public void setLocalImagePerfil() {
+        mImagePerfil.setImageBitmap(ImageUtils.getBitmapFromPath(mProfile.getUser().getLocalPicture(), this));
     }
 
     @Override
@@ -213,6 +202,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     public boolean isAdded() {
         return isAdded();
     }
+
 
     @OnClick(R.id.image_circle)
     public void onClickPerfilImage() {

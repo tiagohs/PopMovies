@@ -53,6 +53,7 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
@@ -66,6 +67,7 @@ import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
@@ -129,8 +131,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private MovieWatchedCallback mCallback;
     private LinearLayout mMovieShareContainer;
 
-    private boolean mIsNewMovie = false;
-
     public static Intent newIntent(Context context, int movieID) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(EXTRA_MOVIE_ID, movieID);
@@ -143,7 +143,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         getApplicationComponent().inject(this);
 
         mPresenter.setView(this);
-        mPresenter.setContext(this);
+        mPresenter.setMovieRepository(new MovieRepositoryImpl(this));
+        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(this).getProfileID());
         mJaAssistiButton.hide();
 
     }
@@ -361,7 +362,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
-        ViewUtils.startMovieActivityWithTranslation(this, movieID, posterMovie, getString(R.string.poster_movie));
+        startActivity(MovieDetailActivity.newIntent(this, movieID));
+        //ViewUtils.startMovieActivityWithTranslation(this, movieID, posterMovie, getString(R.string.poster_movie));
     }
 
     @Override

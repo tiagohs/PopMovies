@@ -34,6 +34,7 @@ public class ViewUtils {
     }
 
     public static void startMovieActivityWithTranslation(Activity context, int movieID, ImageView imageView, String posterTranslationID) {
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions transitionActivityOptions = ActivityOptions
                     .makeSceneTransitionAnimation(context, imageView, posterTranslationID);

@@ -33,17 +33,11 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
         mView = view;
     }
 
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
-    }
+    public void getPersons(Sort personSort, String tag) {
+        mTag = tag;
 
-    public void getPersons(Sort personSort) {
-
-
-        if (mView.isInternetConnected()) {
+        if (mView.isInternetConnected())
             mPersonInterceptor.getPersons(++mCurrentPage, mTag, personSort);
-        }
 
     }
 
@@ -75,12 +69,6 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
     @Override
     public void onPersonRequestError(VolleyError error) {
         if (mView.isAdded())
-            mView.onError(R.string.no_internet);
-
-        mView.setProgressVisibility(View.GONE);
-
-        if (mCurrentPage == 0) {
-            mView.setRecyclerViewVisibility(View.GONE);
-        }
+            mView.onErrorInServer();
     }
 }

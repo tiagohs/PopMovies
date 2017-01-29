@@ -26,7 +26,6 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.models.User;
@@ -34,17 +33,16 @@ import com.twitter.sdk.android.core.models.User;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.data.repository.UserRepository;
+import br.com.tiagohs.popmovies.data.repository.UserRepositoryImpl;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
@@ -90,14 +88,12 @@ public class LoginActivity extends AppCompatActivity {
         return intent;
     }
 
-    public LoginActivity() {
-        mProfileRepository = new ProfileRepository(this);
-        mUserRepository = new UserRepository(this);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mProfileRepository = new ProfileRepositoryImpl(this);
+        mUserRepository = new UserRepositoryImpl(this);
 
         onStartConfigurateLoginSDKs();
 
@@ -286,10 +282,8 @@ public class LoginActivity extends AppCompatActivity {
             profile.setUser(user);
             profile.setCountry(LocaleUtils.getLocaleCountryName());
 
-            mProfileRepository.saveProfile(profile, this);
+            mProfileRepository.saveProfile(profile);
         } else {
-
-            Log.i(TAG, "User name: " + profileDB.getUser().getUsername());
 
             PrefsUtils.setCurrentProfile(profileDB, this);
             PrefsUtils.setCurrentUser(profileDB.getUser(), this);

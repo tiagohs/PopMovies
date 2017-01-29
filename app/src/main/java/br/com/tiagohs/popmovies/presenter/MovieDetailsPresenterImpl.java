@@ -1,8 +1,6 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import android.view.View;
 
@@ -12,10 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
 import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.VideoInterceptor;
@@ -23,10 +20,9 @@ import br.com.tiagohs.popmovies.interceptor.VideoInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
-import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
-import br.com.tiagohs.popmovies.server.methods.MoviesServer;
+import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
@@ -41,7 +37,8 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     private VideoInterceptor mVideoInterceptor;
 
     private String mTag;
-    private Context mContext;
+
+    private long mProfileID;
 
     private MovieDetailsInterceptor mMovieDetailsInterceptor;
 
@@ -59,9 +56,12 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
         this.mMovieDetailsView = view;
     }
 
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
+    public void setMovieRepository(MovieRepository movieRepository) {
+        this.mMovieRepository = movieRepository;
+    }
+
+    public void setProfileID(long profileID) {
+        this.mProfileID = profileID;
     }
 
     @Override
@@ -84,23 +84,17 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
         if (buttonStage)
             mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
-            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
 
-    }
-
-    @Override
-    public void setContext(Context context) {
-        mContext = context;
-        mMovieRepository = new MovieRepository(mContext);
     }
 
     private void noConnectionError() {
         if (mMovieDetailsView.isAdded()) {
-            mMovieDetailsView.onError(R.string.no_internet);
+            mMovieDetailsView.onErrorNoConnection();
             mMovieDetailsView.setProgressVisibility(View.GONE);
         }
 
@@ -113,18 +107,6 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
             noConnectionError();
 
     }
-
-    private List<ItemListDTO> getDirectorsDTO(List<MediaCreditCrew> crews) {
-        List<ItemListDTO> list = new ArrayList<>();
-
-        for (MediaCreditCrew crew : crews) {
-            if (crew.getDepartment().equals("Directing") && !list.contains(new ItemListDTO(crew.getId())))
-                list.add(new ItemListDTO(crew.getId(), crew.getName()));
-        }
-
-        return list;
-    }
-
 
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
@@ -148,21 +130,20 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
     public void onMovieDetailsRequestSucess(MovieDetails movieDetails) {
         if (movieDetails.getVideos().isEmpty())
             getVideos(movieDetails);
-        long profileID = PrefsUtils.getCurrentProfile(mContext).getProfileID();
 
-        movieDetails.setFavorite(mMovieRepository.isFavoriteMovie(profileID, movieDetails.getId()));
+        movieDetails.setFavorite(mMovieRepository.isFavoriteMovie(mProfileID, movieDetails.getId()));
 
-        if (mMovieRepository.isWachedMovie(profileID, movieDetails.getId()))
+        if (mMovieRepository.isWachedMovie(mProfileID, movieDetails.getId()))
             mMovieDetailsView.setJaAssistido();
-        else if (mMovieRepository.isWantSeeMovie(profileID, movieDetails.getId()))
+        else if (mMovieRepository.isWantSeeMovie(mProfileID, movieDetails.getId()))
             movieDetails.setStatusDB(MovieDB.STATUS_WANT_SEE);
-        else if (mMovieRepository.isDontWantSeeMovie(profileID, movieDetails.getId()))
+        else if (mMovieRepository.isDontWantSeeMovie(mProfileID, movieDetails.getId()))
             movieDetails.setStatusDB(MovieDB.STATUS_DONT_WANT_SEE);
 
         if (movieDetails.getRuntime() == 0)
             mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);
 
-        mMovieDetailsView.setupDirectorsRecyclerView(getDirectorsDTO(movieDetails.getCrew()));
+        mMovieDetailsView.setupDirectorsRecyclerView(DTOUtils.createDirectorsItemsListDTO(movieDetails.getCrew()));
         mMovieDetailsView.updateUI(movieDetails);
         mMovieDetailsView.setupTabs();
         mMovieDetailsView.setProgressVisibility(View.GONE);

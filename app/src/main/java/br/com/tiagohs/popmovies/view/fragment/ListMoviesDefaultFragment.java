@@ -9,11 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,17 +23,17 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.ListMoviesDefaultPresenter;
-import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
 import br.com.tiagohs.popmovies.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class ListMoviesDefaultFragment extends BaseFragment implements ListMoviesDefaultView {
     private static final String TAG = ListMoviesDefaultFragment.class.getSimpleName();
@@ -203,13 +199,13 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
         mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
 
-        mPresenter.setContext(getActivity());
+        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
 
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    mPresenter.resetValues();
                     searchMovies();
                 }
             });
@@ -222,12 +218,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         super.onResume();
 
         searchMovies();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.resetValues();
     }
 
     @Override
@@ -353,6 +343,16 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public void notifyMovieRemoved(int position) {
         mListMoviesAdapter.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onErrorSaveMovie() {
+        ViewUtils.createToastMessage(getContext(), getString(R.string.error_save_movie));
+    }
+
+    @Override
+    public void onSucessSaveMovie() {
+        ViewUtils.createToastMessage(getContext(), getString(R.string.sucess_save_movie));
     }
 
     private RecyclerView.OnScrollListener createOnScrollListener() {

@@ -1,7 +1,5 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -9,12 +7,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.util.LocaleUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Param;
 import br.com.tiagohs.popmovies.util.enumerations.ParamSortBy;
 import br.com.tiagohs.popmovies.view.LancamentosSemanaView;
 
 public class LancamentosSemanaPresenterImpl implements LancamentosSemanaPresenter {
+    private static final int DAYS_OF_WEEK = 7;
 
     private LancamentosSemanaView mView;
 
@@ -35,8 +33,8 @@ public class LancamentosSemanaPresenterImpl implements LancamentosSemanaPresente
     }
 
     public void initUpdateMovies(Locale locale) {
-        setAtualMinMinDate();
-        setAtualMaxMinDate();
+        setDateByDayOfWeek(mAtualMinDate, Calendar.SUNDAY);
+        setDateByDayOfWeek(mAtualMaxDate, Calendar.SATURDAY);
 
         updateValues(locale);
     }
@@ -59,41 +57,25 @@ public class LancamentosSemanaPresenterImpl implements LancamentosSemanaPresente
     }
 
     public void onClickNext(Locale locale) {
-        setNextMaxAtualDate();
-        setNextMinAtualDate();
+        setDateByDays(mAtualMaxDate, DAYS_OF_WEEK);
+        setDateByDays(mAtualMinDate, DAYS_OF_WEEK);
 
         updateValues(locale);
     }
 
     public void onClickAnterior(Locale locale) {
-        setAnteriorMaxAtualDate();
-        setAnteriorMinAtualDate();
+        setDateByDays(mAtualMaxDate, -DAYS_OF_WEEK);
+        setDateByDays(mAtualMinDate, -DAYS_OF_WEEK);
 
         updateValues(locale);
     }
 
-    private void setAtualMinMinDate() {
-        mAtualMinDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+    private void setDateByDayOfWeek(Calendar date, int dayOfWeek) {
+        date.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     }
 
-    private void setAtualMaxMinDate() {
-        mAtualMaxDate.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-    }
-
-    private void setNextMinAtualDate() {
-        mAtualMinDate.add(Calendar.DATE, 7);
-    }
-
-    private void setNextMaxAtualDate() {
-        mAtualMaxDate.add(Calendar.DATE, 7);
-    }
-
-    private void setAnteriorMinAtualDate() {
-        mAtualMinDate.add(Calendar.DATE, -7);
-    }
-
-    private void setAnteriorMaxAtualDate() {
-        mAtualMaxDate.add(Calendar.DATE, -7);
+    private void setDateByDays(Calendar date, int numOfDays) {
+        date.add(Calendar.DATE, numOfDays);
     }
 
     @Override
@@ -101,8 +83,4 @@ public class LancamentosSemanaPresenterImpl implements LancamentosSemanaPresente
         mView = view;
     }
 
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-
-    }
 }

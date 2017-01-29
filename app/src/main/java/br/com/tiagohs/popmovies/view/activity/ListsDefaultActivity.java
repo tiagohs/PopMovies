@@ -99,10 +99,9 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     protected int getMenuLayoutID() {
-        if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) ||
-            mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
-            mListActivityDTO.getSortList().equals(Sort.QUERO_VER) ||
-            mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER))
+        if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) || mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
+            mListActivityDTO.getSortList().equals(Sort.QUERO_VER) || mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER) ||
+            mListActivityDTO.getSortList().equals(Sort.LIST_DEFAULT))
             return 0;
         else
             return mListActivityDTO.getListType().equals(ListType.MOVIES) ? R.menu.menu_list_defult : R.menu.menu_principal;

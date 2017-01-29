@@ -19,9 +19,11 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.presenter.SearchPresenter;
 import br.com.tiagohs.popmovies.presenter.SearchPresenterImpl;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.view.SearchMoviesView;
 import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.view.adapters.SearchMovieAdapter;
@@ -65,7 +67,8 @@ public class SearchMoviesFragment extends BaseFragment implements SearchCallback
         super.onViewCreated(view, savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mSearchPresenter.setContext(getContext());
+        mSearchPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mSearchPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
         mSearchPresenter.setMovieView(this);
     }
 

@@ -1,30 +1,19 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
-
-import android.content.Context;
-
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.tiagohs.popmovies.App;
-import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.PopMoviesDB;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
-
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptor;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
@@ -33,8 +22,6 @@ import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.PersonMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
-import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
-import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
@@ -44,24 +31,20 @@ import br.com.tiagohs.popmovies.server.ResponseListener;
 import br.com.tiagohs.popmovies.server.methods.MoviesServer;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.util.PrefsUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
-import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.view.ListMoviesDefaultView;
-import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 
 public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresenter,
         ResponseListener<GenericListResponse<Movie>>,
         PersonMoviesInterceptor.onPersonMoviesListener,
         DiscoverInterceptor.onDiscoverListener, MovieDetailsInterceptor.onMovieDetailsListener  {
+
     private static final String TAG = ListMoviesDefaultPresenterImpl.class.getSimpleName();
 
     private ListMoviesDefaultView mListMoviesDefaultView;
     private MoviesServer mMoviesServer;
 
     private MovieRepository mMovieRepository;
-    private Context mContext;
 
     private PersonMoviesInterceptor mPersonMoviesInterceptor;
     private DiscoverInterceptor mDiscoverInterceptor;
@@ -81,17 +64,14 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private List<List<MovieDB>> moviesDB;
     private int mListIndex = 0;
 
-    private MaterialDialog mDialog;
     private int mPosition;
+
+    private long mProfileID;
 
     public ListMoviesDefaultPresenterImpl() {
         mCurrentPage = 0;
         mMovieDetailsInterceptor = new MovieDetailsInterceptorImpl(this);
         moviesDB = new ArrayList<>();
-    }
-
-    public void resetValues() {
-        //mListIndex = 0;
     }
 
     @Override
@@ -103,14 +83,14 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         mDiscoverInterceptor = new DiscoverInterceptorImpl(this);
     }
 
-    public void setContext(Context context) {
-        mContext = context;
-        mMovieRepository = new MovieRepository(mContext);
+    public void setMovieRepository(MovieRepository movieRepository) {
+        this.mMovieRepository = movieRepository;
     }
 
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
+    public void setProfileID(long profileID) {
+        this.mProfileID = profileID;
     }
+
 
     @Override
     public void getMovies(int id, Sort typeList, String tag, Map<String, String> parameters) {
@@ -141,9 +121,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             case GENEROS:
                 mMoviesServer.getMoviesByGenres(id, ++mCurrentPage, tag, this);
                 break;
-            case COMPANY:
-
-                break;
             case DISCOVER:
                 mDiscoverInterceptor.getMovies(++mCurrentPage, tag, parameters);
                 break;
@@ -161,16 +138,14 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
     }
 
-    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, MaterialDialog dialog, int position) {
-        this.mDialog = dialog;
+    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, int position) {
         this.mStatus = status;
         this.isSaved = isSaved;
         this.isFavorite = isFavorite;
         this.mPosition = position;
 
-        Log.i(TAG, "Filme buscado." + movieID);
-
         if (mListMoviesDefaultView.isInternetConnected()) {
+            mListMoviesDefaultView.showDialogProgress();
             mMovieDetailsInterceptor.getMovieDetails(movieID, new String[]{}, tag);
         } else {
             noConnectionError();
@@ -187,7 +162,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private void noConnectionError() {
 
         if (mListMoviesDefaultView.isAdded())
-            mListMoviesDefaultView.onError(R.string.no_internet);
+            mListMoviesDefaultView.onErrorNoConnection();
 
         mListMoviesDefaultView.setProgressVisibility(View.GONE);
 
@@ -198,6 +173,8 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        if (mListMoviesDefaultView.isAdded())
+            mListMoviesDefaultView.onErrorInServer();
     }
 
     @Override
@@ -286,16 +263,16 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
         if (isSaved) {
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), isFavorite, movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         } else if ((!isSaved) && isFavorite) {
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), isFavorite, movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), isFavorite, movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         } else {
-            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
             isDelete = true;
         }
 
@@ -307,17 +284,18 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
 
         if (id == -1)
-            ViewUtils.createToastMessage(mContext, "Erro ao salvar Filme.");
+            mListMoviesDefaultView.onErrorSaveMovie();
 
-        mDialog.dismiss();
-
-
+        mListMoviesDefaultView.hideDialogProgress();
+        mListMoviesDefaultView.onSucessSaveMovie();
     }
 
     @Override
     public void onMovieDetailsRequestError(VolleyError error) {
-        mDialog.dismiss();
-        ViewUtils.createToastMessage(mContext, "Erro ao Salvar o filme.");
+        if (mListMoviesDefaultView.isAdded()) {
+            mListMoviesDefaultView.hideDialogProgress();
+            mListMoviesDefaultView.onErrorSaveMovie();
+        }
     }
 
     private class MoviesSearch extends AsyncTask<Sort, Void, GenericListResponse<Movie>> {
@@ -333,16 +311,16 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
                 switch (typeList) {
                     case ASSISTIDOS:
-                        movies = mMovieRepository.findAllMoviesWatched(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        movies = mMovieRepository.findAllMoviesWatched(mProfileID);
                         break;
                     case FAVORITE:
-                        movies = mMovieRepository.findAllFavoritesMovies(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        movies = mMovieRepository.findAllFavoritesMovies(mProfileID);
                         break;
                     case QUERO_VER:
-                        movies = mMovieRepository.findAllMoviesWantSee(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        movies = mMovieRepository.findAllMoviesWantSee(mProfileID);
                         break;
                     case NAO_QUERO_VER:
-                        movies = mMovieRepository.findAllMoviesDontWantSee(PrefsUtils.getCurrentProfile(mContext).getProfileID());
+                        movies = mMovieRepository.findAllMoviesDontWantSee(mProfileID);
                         break;
                 }
 

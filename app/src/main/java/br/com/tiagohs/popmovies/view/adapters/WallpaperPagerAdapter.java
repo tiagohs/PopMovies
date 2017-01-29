@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
+import br.com.tiagohs.popmovies.view.activity.WallpapersDetailActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
@@ -41,6 +42,8 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         this.mToolbar = toolbar;
         mIsVisible = true;
         this.mTypeShowImage = typeShowImage;
+
+
     }
 
     @Override
@@ -51,7 +54,6 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         view.setOnClickListener(this);
 
         mCurrentImage = mImageDTOs.get(position);
-        Log.i("Walll", "Path: " + mCurrentImage.getImagePath());
 
         if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES))
             ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);

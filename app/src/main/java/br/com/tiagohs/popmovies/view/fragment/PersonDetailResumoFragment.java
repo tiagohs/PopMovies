@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.data.PopMoviesDB;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
@@ -33,9 +30,7 @@ import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
-import br.com.tiagohs.popmovies.view.adapters.ListMoviesAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
-import br.com.tiagohs.popmovies.view.callbacks.ListMoviesCallbacks;
 import butterknife.BindView;
 import butterknife.OnClick;
 

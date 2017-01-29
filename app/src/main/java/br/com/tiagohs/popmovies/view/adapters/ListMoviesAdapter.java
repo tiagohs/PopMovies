@@ -130,15 +130,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            MaterialDialog materialDialog = new MaterialDialog.Builder(mContext)
-                                                    .content("Processando..")
-                                                    .cancelable(false)
-                                                    .progress(true, 0)
-                                                    .show();
-
-                                            Log.i(TAG, "ID anntes: " + movieID);
-
-                                            mPresenter.getMovieDetails(movieID, isToSave, isMovieFavoritoMarked, mStatus, TAG, materialDialog, mMoviePosition);
+                                            mPresenter.getMovieDetails(movieID, isToSave, isMovieFavoritoMarked, mStatus, TAG, mMoviePosition);
                                         }
                                     })
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {

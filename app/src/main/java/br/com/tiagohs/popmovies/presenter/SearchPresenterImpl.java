@@ -1,6 +1,5 @@
 package br.com.tiagohs.popmovies.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -10,14 +9,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchMoviesInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptor;
 import br.com.tiagohs.popmovies.interceptor.SearchPersonInterceptorImpl;
-import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -37,6 +35,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     private SearchMoviesInterceptor mSearchMoviesInterceptor;
     private SearchPersonInterceptor mSearchPersonInterceptor;
+
     private MovieRepository mMovieRepository;
     private MoviesServer mMoviesServer;
 
@@ -44,7 +43,6 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     private int mMovieTotalPages;
     private int mPersonCurrentPage;
     private int mPersonTotalPages;
-    private Context mContext;
 
     private SearchMoviesView mSearchMoviesView;
     private SearchPersonsView mSearchPersonsView;
@@ -52,20 +50,28 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
     private boolean mIsNewMovieSearch;
     private boolean mIsNewPersonSearch;
 
+    private long mProfileID;
+
     private boolean mButtonStage;
 
     public SearchPresenterImpl() {
-        mMovieCurrentPage = mPersonCurrentPage =1;
+        mMovieCurrentPage = mPersonCurrentPage = 1;
 
         mMoviesServer = new MoviesServer();
         mSearchMoviesInterceptor = new SearchMoviesInterceptorImpl(this);
         mSearchPersonInterceptor = new SearchPersonInterceptorImpl(this);
     }
 
-    @Override
-    public void setView(SearchView view) {
-
+    public void setMovieRepository(MovieRepository movieRepository) {
+        mMovieRepository = movieRepository;
     }
+
+    public void setProfileID(long profileID) {
+        mProfileID = profileID;
+    }
+
+    @Override
+    public void setView(SearchView view) {}
 
     public void setMovieView(SearchMoviesView searchMoviesView) {
         mSearchMoviesView = searchMoviesView;
@@ -75,38 +81,26 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
         mSearchPersonsView = searchPersonsView;
     }
 
-    @Override
-    public void setContext(Context context) {
-        mContext = context;
-        mMovieRepository = new MovieRepository(mContext);
-    }
-
-    @Override
-    public void onCancellRequest(Activity activity, String tag) {
-        ((App) activity.getApplication()).cancelAll(tag);
-    }
-
-    public void searchMovies(String query,
-                             Boolean includeAdult,
-                             Integer searchYear, String tag,
-                             Integer primaryReleaseYear, boolean isNewSearch) {
+    public void searchMovies(String query, Boolean includeAdult, Integer searchYear,
+                             String tag, Integer primaryReleaseYear, boolean isNewSearch) {
         mIsNewMovieSearch = isNewSearch;
 
         if (mSearchMoviesView.isInternetConnected()) {
-            mSearchMoviesInterceptor.searchMovies(query, includeAdult,
-                                                  searchYear, primaryReleaseYear, tag,
-                    mIsNewMovieSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
-        } else {
-            if (mSearchMoviesView.isAdded())
-                mSearchMoviesView.onError(R.string.no_internet);
-
-            mSearchMoviesView.setProgressVisibility(View.GONE);
-        }
+            mSearchMoviesInterceptor.searchMovies(query, includeAdult, searchYear, primaryReleaseYear, tag,
+                                                mIsNewMovieSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
+        } else
+            noConnection();
 
     }
 
-    public void searchPersons(String query,
-                              Boolean includeAdult, String tag,
+    private void noConnection() {
+        if (mSearchMoviesView.isAdded())
+            mSearchMoviesView.onErrorNoConnection();
+
+        mSearchMoviesView.setProgressVisibility(View.GONE);
+    }
+
+    public void searchPersons(String query, Boolean includeAdult, String tag,
                               SearchType searchType, boolean isNewSearch) {
         mIsNewPersonSearch = isNewSearch;
 
@@ -114,12 +108,8 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
             mSearchPersonsView.setProgressVisibility(View.VISIBLE);
             mSearchPersonInterceptor.searchPersons(query, includeAdult, searchType, tag,
                                                    mIsNewPersonSearch ? mMovieCurrentPage : ++mMovieCurrentPage);
-        } else {
-            if (mSearchPersonsView.isAdded())
-                mSearchPersonsView.onError(R.string.no_internet);
-
-            mSearchPersonsView.setProgressVisibility(View.GONE);
-        }
+        } else
+            noConnection();
 
     }
 
@@ -151,15 +141,12 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
         if (mSearchMoviesView.isInternetConnected()) {
             mMoviesServer.getMovieDetails(movieID, new String[]{}, tag, this);
         } else {
-            if (mSearchMoviesView.isAdded())
-                mSearchMoviesView.onError(R.string.no_internet);
-
-            mSearchMoviesView.setProgressVisibility(View.GONE);
+            noConnection();
         }
     }
 
     public boolean isJaAssistido(int movieID) {
-        return mMovieRepository.findMovieByServerID(movieID, PrefsUtils.getCurrentProfile(mContext).getProfileID()) != null;
+        return mMovieRepository.findMovieByServerID(movieID, mProfileID) != null;
     }
 
     private void setupResponseMovies(List<Movie> movies) {
@@ -182,8 +169,7 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                     setupResponseMovies(new ArrayList<Movie>());
                     break;
                 default:
-                    if (mSearchMoviesView.isAdded())
-                        mSearchMoviesView.onError(R.string.no_internet);
+                    noConnection();
             }
         }
 
@@ -231,25 +217,28 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
                     setupResponsePerson(new ArrayList<PersonFind>());
                     break;
                 default:
-                    if (mSearchPersonsView.isAdded())
-                        mSearchPersonsView.onError(R.string.no_internet);
+                    noConnection();
             }
         }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        if (mSearchMoviesView != null && mSearchMoviesView.isAdded())
+            mSearchMoviesView.onErrorInServer();
+        else if (mSearchPersonsView != null && mSearchPersonsView.isAdded()) {
+            mSearchPersonsView.onErrorInServer();
+        }
     }
 
     @Override
     public void onResponse(MovieDetails movie) {
         if (mButtonStage)
             mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), PrefsUtils.getCurrentProfile(mContext).getProfileID(),
+                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
         else
-            mMovieRepository.deleteMovieByServerID(movie.getId(), PrefsUtils.getCurrentProfile(mContext).getProfileID());
+            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
     }
 }

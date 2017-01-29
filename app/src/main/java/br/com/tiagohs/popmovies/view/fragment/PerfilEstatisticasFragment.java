@@ -30,11 +30,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.presenter.PerfilEstatisticasPresenter;
 import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
@@ -152,9 +154,8 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
         getApplicationComponent().inject(this);
 
         mPresenter.setView(this);
-        mPresenter.setContext(getContext());
-
-
+        mPresenter.setProfileRepository(new ProfileRepositoryImpl(getContext()));
+        mPresenter.setUsername(PrefsUtils.getCurrentUser(getContext()).getUsername());
     }
 
     @Override

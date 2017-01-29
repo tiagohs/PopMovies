@@ -1,16 +1,10 @@
 package br.com.tiagohs.popmovies.util;
 
-import android.content.Context;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.data.PopMoviesDB;
-import br.com.tiagohs.popmovies.data.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.atwork.ArtworkMedia;
-import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
@@ -23,7 +17,6 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
-import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
 public class DTOUtils {
 
@@ -55,6 +48,17 @@ public class DTOUtils {
 
         for (Keyword k : keywords)
             list.add(new ItemListDTO(k.getId(), k.getName()));
+
+        return list;
+    }
+
+    public static List<ItemListDTO> createDirectorsItemsListDTO(List<MediaCreditCrew> crews) {
+        List<ItemListDTO> list = new ArrayList<>();
+
+        for (MediaCreditCrew crew : crews) {
+            if (crew.getDepartment().equals("Directing") && !list.contains(new ItemListDTO(crew.getId())))
+                list.add(new ItemListDTO(crew.getId(), crew.getName()));
+        }
 
         return list;
     }
@@ -96,7 +100,7 @@ public class DTOUtils {
     }
 
     public static List<ImageDTO> createPersonImagesDTO(PersonInfo person, int numTotalImages, List<Artwork> images) {
-        numTotalImages = images.size() <= numTotalImages ? images.size() - 1: numTotalImages;
+        numTotalImages = images.size() <= numTotalImages ? images.size() : numTotalImages;
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
         for (int cont = 0; cont < numTotalImages; cont++) {
@@ -118,7 +122,7 @@ public class DTOUtils {
     }
 
     public static List<MovieListDTO> createPersonKnowForMoviesDTO(List<MovieListDTO> movies, int maxSize) {
-        int numMovies = movies.size() < maxSize ? movies.size() - 1 : maxSize;
+        int numMovies = movies.size() < maxSize ? movies.size() : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 
         for (int cont = 0; cont < numMovies; cont++) {

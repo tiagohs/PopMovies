@@ -11,8 +11,10 @@ public interface PerfilView extends BaseView {
 
     void setNamePerfil(String nameUser);
     void setImagePerfil(String imagePath);
-    void setLocalImagePerfil(Bitmap image);
+    void setLocalImagePerfil();
     void setBackground(String backgroundPath);
     void setupTabs();
     void setProfile(ProfileDB mProfile);
+
+    void onErrorLoadingBackground();
 }
