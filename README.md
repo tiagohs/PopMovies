@@ -1,5 +1,5 @@
 # PopMovies
-<p>Uma rede social de filmes relativamente, onde você pode:</p>
+<p>Uma rede social de filmes relativamente simples, onde você pode:</p>
 
 <ul>
 <li>Marcar quais filmes você já assistiu;</li>
