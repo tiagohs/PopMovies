@@ -140,8 +140,9 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
             if (response.getTomatoURL() == null)
                 mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
 
-            if (isEmpty(response.getImdbRanting()) && isEmpty(response.getTomatoRating()) && isEmpty(response.getMetascoreRating()))
+            if (isEmpty(response.getImdbRanting()) && isEmpty(response.getTomatoRating()) && isEmpty(response.getMetascoreRating())) {
                 mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
+            }
 
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());

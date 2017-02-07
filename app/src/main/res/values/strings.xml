@@ -3,6 +3,8 @@
     <!-- Defaults -->
     <string name="facebook_app_id">1628004524169901</string>
     <string name="app_name">PopMovies</string>
+    <string name="font_open_sans">opensans.ttf</string>
+    <string name="font_open_sans_bold">openSansBold.ttf</string>
 
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
@@ -59,6 +61,11 @@
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
     <string name="youtube_link" translatable="false">"https://img.youtube.com/vi/%1$s/0.jpg"</string>
     <string name="lanc_date_min_max" translatable="false">%1$s - %2$s</string>
+
+    <string name="downloaded_image_perfil_name"  translatable="false">%1$d_perfil.jpg</string>
+    <string name="downloaded_image_name"  translatable="false">%1$d_image.jpg</string>
+    <string name="url_image" translatable="false">http://image.tmdb.org/t/p/%1$s/%2$s</string>
+
 
     <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
 
@@ -331,5 +338,20 @@
     <string name="error_save_movie">Erro ao salvar o filme</string>
     <string name="sucess_save_movie">Filme salvo com sucesso.</string>
     <string name="error_loading_background">Erro ao carregar imagem de background</string>
+    <string name="sucess_data_saved">Dados salvos com sucesso</string>
+    <string name="error_permission_save">Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso</string>
+    <string name="downloaded_baixando_content">Baixando Wallpaper</string>
+    <string name="downloaded_name_folder">/PopMovies Images</string>
+    <string name="sucess_image_saved">Imagem salva com sucesso</string>
+    <string name="share_title">PopMovies - Compartilhar</string>
+    <string name="wifi_dialog_title">Importante</string>
+    <string name="wifi_dialog_content">Você irá realizar um Download sem estar conectado ao Wi-fi, deseja continuar?</string>
+    <string name="wifi_dialog_positive">Sim</string>
+    <string name="wifi_dialog_negative">Não</string>
+    <string name="filter_dialog_title">Filtrar</string>
+    <string name="filter_dialog_aplicar">Aplicar</string>
+    <string name="filter_dialog_cancel">Cancelar</string>
+    <string name="filter_dialog_reset">Resetar</string>
+    <string name="years_snipper_nenhum">Nenhum</string>
 
 </resources>

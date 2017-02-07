@@ -25,16 +25,8 @@ public class GenresActivity extends BaseActivity implements GenresCallbacks {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mToolbar.setTitle("Gêneros");
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.content_fragment);
-
-        if (fragment == null) {
-            fm.beginTransaction()
-                    .add(R.id.content_fragment, GenresFragment.newInstance())
-                    .commit();
-        }
+        setActivityTitle(getString(R.string.genres_title));
+        startFragment(R.id.content_fragment, GenresFragment.newInstance());
     }
 
     @Override

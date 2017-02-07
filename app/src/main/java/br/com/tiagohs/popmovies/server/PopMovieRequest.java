@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.server;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PopMovieRequest<T> extends Request<T> {
@@ -30,8 +32,6 @@ public class PopMovieRequest<T> extends Request<T> {
 
     public PopMovieRequest(int method, String url, Map<String, String> headers, Map<String, String> parameters, TypeReference<T> typeToken, ResponseListener<T> listener) {
         super(method, url, listener);
-
-        Log.i(TAG, "URL Criada: " + url);
 
         this.mParameters = parameters;
         this.headers = headers;

@@ -29,8 +29,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @BindView(R.id.wallpapers_recycler_view)        RecyclerView mWallpapersRecyclerView;
     @BindView(R.id.wallpapers_principal_progress)   ProgressWheel mProgress;
-    @BindView(R.id.wallpaper_nao_encontrado)
-    TextView mWallpapersNaoEncontrados;
+    @BindView(R.id.wallpaper_nao_encontrado)        TextView mWallpapersNaoEncontrados;
 
     private List<ImageDTO> mWallpapers;
     private String mPageTitle;
@@ -52,11 +51,6 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
         mWallpapers = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_WALLPAPERS);
         mPageTitle = getIntent().getStringExtra(ARG_TITLE_PAGE);
         mPageSubtitle = getIntent().getStringExtra(ARG_SUBTITLE_PAGE);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         mToolbar.setTitle(mPageTitle);
 
@@ -68,13 +62,12 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     private void configurateWallpapersRecyclerView() {
 
-        if (mWallpapers == null) {
+        if (mWallpapers == null)
             noImages();
-        } else if (mWallpapers.isEmpty()) {
+        else if (mWallpapers.isEmpty())
             noImages();
-        } else {
-            int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
-            mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
+        else {
+            mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.images_movie_detail_columns)));
             mWallpapersRecyclerView.setAdapter(new ImageAdapter(this, mWallpapers, this, mWallpapers));
             mProgress.setVisibility(View.GONE);
         }

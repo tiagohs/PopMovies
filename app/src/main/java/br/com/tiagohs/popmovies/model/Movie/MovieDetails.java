@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,6 @@ import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCast;
 import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 import br.com.tiagohs.popmovies.model.keyword.Keyword;
-import br.com.tiagohs.popmovies.model.list.UserList;
 import br.com.tiagohs.popmovies.model.media.AlternativeTitle;
 import br.com.tiagohs.popmovies.model.media.MediaCreditList;
 import br.com.tiagohs.popmovies.model.media.Translation;
@@ -74,7 +72,6 @@ public class MovieDetails extends Movie implements Serializable  {
     private List<Translation> translations = new ArrayList<>();
     private List<MovieDetails> similarMovies = new ArrayList<>();
     private List<Review> reviews = new ArrayList<>();
-    private List<UserList> lists = new ArrayList<>();
     private List<ChangeKeyItem> changes = new ArrayList<>();
 
     public void addMoreVideos(List<Video> videos) {
@@ -233,10 +230,6 @@ public class MovieDetails extends Movie implements Serializable  {
         return similarMovies;
     }
 
-    public List<UserList> getLists() {
-        return lists;
-    }
-
     public List<Review> getReviews() {
         return reviews;
     }
@@ -295,12 +288,6 @@ public class MovieDetails extends Movie implements Serializable  {
     public void setSimilarMovies(GenericListResponse<MovieDetails> similarMovies) {
         this.similarMovies = similarMovies.getResults();
         addMethod(MovieMethod.SIMILAR);
-    }
-
-    @JsonSetter("lists")
-    public void setLists(GenericListResponse<UserList> lists) {
-        this.lists = lists.getResults();
-        addMethod(MovieMethod.LISTS);
     }
 
     @JsonSetter("reviews")

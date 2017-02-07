@@ -38,14 +38,18 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     private static final String ARG_PERSON_LIST = "br.com.tiagohs.popmovies.person_list";
     private static final String ARG_MOVIES_LIST = "br.com.tiagohs.popmovies.movies_list";
 
-    public enum TypeListLayout { LINEAR_LAYOUT, GRID_LAYOUT, STAGGERED; }
+    public static final int LINEAR_LAYOUT = 0;
+    public static final int GRID_LAYOUT = 1;
+    public static final int STAGGERED = 2;
 
-    private ListActivityDTO mListActivityDTO;
     private Map<String, String> mParameters;
     private Map<String, String> mParametersFilter;
+
     private List<PersonListDTO> mPersons;
     private List<MovieListDTO> mMovies;
+
     private Sort mOriginalSort;
+    private ListActivityDTO mListActivityDTO;
 
     public static Intent newIntent(Context context, ListActivityDTO listDTO) {
         Intent intent = new Intent(context, ListsDefaultActivity.class);
@@ -99,12 +103,16 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     protected int getMenuLayoutID() {
-        if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) || mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
-            mListActivityDTO.getSortList().equals(Sort.QUERO_VER) || mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER) ||
-            mListActivityDTO.getSortList().equals(Sort.LIST_DEFAULT))
-            return 0;
-        else
-            return mListActivityDTO.getListType().equals(ListType.MOVIES) ? R.menu.menu_list_defult : R.menu.menu_principal;
+
+        if (null != mListActivityDTO.getSortList()) {
+            if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) || mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
+                    mListActivityDTO.getSortList().equals(Sort.QUERO_VER) || mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER) ||
+                    mListActivityDTO.getSortList().equals(Sort.LIST_DEFAULT))
+                return 0;
+        }
+
+        return mListActivityDTO.getListType().equals(ListType.MOVIES) ? R.menu.menu_list_defult : R.menu.menu_principal;
+
     }
 
     @Override
@@ -112,7 +120,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onUpdateUI(mParametersFilter == null ? mParameters : mParametersFilter);
+                onUpdateUI(null == mParametersFilter ? mParameters : mParametersFilter);
                 mSnackbar.dismiss();
             }
         };
@@ -123,13 +131,13 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
         switch (mListActivityDTO.getListType()) {
             case MOVIES:
-                if (mMovies == null)
+                if (null == mMovies)
                     fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getId(), mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, parametersCurrent, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 else
                     fragment = ListMoviesDefaultFragment.newInstance(mListActivityDTO.getSortList(), mListActivityDTO.getLayoutID(), R.layout.fragment_list_movies_default, mMovies, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
             case PERSON:
-                if (mPersons == null)
+                if (null == mPersons)
                     fragment = ListPersonsDefaultFragment.newInstance(mListActivityDTO.getSortList(), ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 else
                     fragment = ListPersonsDefaultFragment.newInstance(mPersons, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
@@ -164,7 +172,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     public void onFilterChanged(FilterValuesDTO filters) {
-        mParametersFilter = new HashMap<>();
+        if (mParametersFilter == null) {
+            mParametersFilter = new HashMap<>();
+            mParametersFilter.putAll(mParameters);
+        }
 
         addFilterItemParameter(Param.SORT_BY.getParam(), filters.getSortBy());
         addFilterItemParameter(Param.INCLUDE_ADULT.getParam(), String.valueOf(filters.isIncludeAdult()));
@@ -172,7 +183,6 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_GTE.getParam(), filters.getPrimaryRelaseDateGte());
         addFilterItemParameter(Param.PRIMARY_RELEASE_DATE_LTE.getParam(), filters.getPrimaryRelaseDateLte());
         addFilterItemParameter(Param.VOTE_AVERAGE_GTE.getParam(), filters.getVoteAverageGte());
-        //addFilterItemParameter(Param.VOTE_AVERAGE_LTE.getParam(), filters.getVoteAverageLte());
 
         additionalSearchConfigurations();
         onUpdateUI(mParametersFilter);
@@ -182,7 +192,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     public void onFilterReset() {
         mParametersFilter = null;
 
-        if (mOriginalSort != null) {
+        if (null != mOriginalSort) {
             switch (mOriginalSort) {
                 case GENEROS:
                 case KEYWORDS:
@@ -210,7 +220,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     }
 
     private void addFilterItemParameter(String param, String value) {
-        if (value != null) {
+        if (null != value) {
             mParametersFilter.put(param, value);
         } else {
             if (mParametersFilter.containsKey(param))

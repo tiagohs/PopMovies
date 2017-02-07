@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -19,13 +20,11 @@ import butterknife.BindView;
 
 public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private static final String TAG = SearchActivity.class.getSimpleName();
+
     private static final String ARG_QUERY = "br.com.tiagohs.popmovies.query";
 
-    @BindView(R.id.tabLayout)
-    TabLayout mTabLayout;
-
-    @BindView(R.id.search_view_pager)
-    ViewPager mViewPager;
+    @BindView(R.id.tabLayout)               TabLayout mTabLayout;
+    @BindView(R.id.search_view_pager)       ViewPager mViewPager;
 
     private SearchView mSearchView;
     private SearchCallback mCallback;
@@ -50,17 +49,25 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 mSearchView.setQuery(mQuery, false);
 
         }
+
+        onSetupTabs();
+    }
+
+    private void onSetupTabs() {
         mSearchTabAdapter = new SearchTabAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.search_tab_array));
         mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(0);
 
         mViewPager.setAdapter(mSearchTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(createTabSelectedListener());
+    }
+
+    private TabLayout.OnTabSelectedListener createTabSelectedListener() {
+        return new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(tab.getPosition());
-                if (mQuery != null)
-                    onQueryTextSubmit(mQuery);
+                onTypeSearchChange(mSearchTabAdapter.getCurrentFragment(tab.getPosition()));
+                onQueryTextSubmit(mQuery);
             }
 
             @Override
@@ -70,24 +77,14 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                mCallback = (SearchCallback) mSearchTabAdapter.getCurrentFragment(tab.getPosition());
-                if (mQuery != null)
-                    onQueryTextSubmit(mQuery);
+                onTypeSearchChange(mSearchTabAdapter.getCurrentFragment(tab.getPosition()));
+                onQueryTextSubmit(mQuery);
             }
-        });
-
-
+        };
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
+    private void onTypeSearchChange(Fragment callback) {
+        mCallback = (SearchCallback) callback;
     }
 
     @Override
@@ -99,14 +96,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     protected void onNewIntent(Intent intent) {
-        //Quando Clicamos no botão search.
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()))
             mCallback.onQueryChanged(intent.getStringExtra(SearchManager.QUERY), true);
 
-            //Suggestion
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Toast.makeText(this, "Ação! Suggestion: ", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -116,9 +109,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) menu.findItem(R.id.menu_item_search).getActionView();
 
-        // Assumes current activity is the searchable activity
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setQueryHint("Procurar");
+        mSearchView.setQueryHint(getString(R.string.menu_search));
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setFocusable(true);
@@ -152,7 +144,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     public boolean onQueryTextSubmit(String query) {
         mSearchView.clearFocus();
 
-        if (mCallback != null)
+        if (mCallback != null && query != null)
             mCallback.onQueryChanged(query, true);
         return true;
     }
@@ -160,8 +152,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(String newText) {
         mQuery = newText;
-        if (mCallback != null)
+
+        if (mCallback != null && mQuery != null)
             mCallback.onQueryChanged(newText, true);
+
         return true;
     }
 

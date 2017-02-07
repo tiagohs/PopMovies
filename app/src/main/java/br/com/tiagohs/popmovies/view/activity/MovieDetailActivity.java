@@ -68,6 +68,7 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
+import br.com.tiagohs.popmovies.util.ShareUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ItemType;
@@ -101,6 +102,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
     private static final int RECYCLER_VIEW_ORIENTATION = LinearLayoutManager.HORIZONTAL;
+
+
+    private static final int TAB_SHOW_ANIMATION_DURATION = 2000;
 
     private static final String MOVIE = "movie";
     private static final String START = "start";
@@ -145,8 +149,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mPresenter.setView(this);
         mPresenter.setMovieRepository(new MovieRepositoryImpl(this));
         mPresenter.setProfileID(PrefsUtils.getCurrentProfile(this).getProfileID());
+
         mJaAssistiButton.hide();
 
+        mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
+        mPresenter.getMovieDetails(mMovieID, TAG);
     }
 
     public void setCallback(MovieWatchedCallback fragment) {
@@ -161,23 +168,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     protected int getMenuLayoutID() {
         return R.menu.menu_detail_default;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
-        mPresenter.getMovieDetails(mMovieID, TAG);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-//        if (mPresenter != null)
-//            mPresenter.onCancellRequest(this, TAG);
     }
 
     public void setJaAssistido() {
@@ -248,11 +238,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
         mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
 
 
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        
     }
 
     public void setupTabs() {
@@ -363,7 +348,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @Override
     public void onMovieSelected(int movieID, ImageView posterMovie) {
         startActivity(MovieDetailActivity.newIntent(this, movieID));
-        //ViewUtils.startMovieActivityWithTranslation(this, movieID, posterMovie, getString(R.string.poster_movie));
     }
 
     @Override
@@ -414,9 +398,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
             ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
             titleMovie.setText(mMovie.getTitle());
-            titleMovie.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
             yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
-            yearMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
             sinopseMovie.setText(mMovie.getOverview());
             sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
@@ -450,27 +432,18 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     public void createShareIntent(Bitmap imageToShare) {
-        ImageUtils.fixMediaDir();
-        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mMovie.getTitle() , null);
+        String imdbID = null;
 
-        Uri imageUri = Uri.parse(pathofBmp);
+        if (null != mMovie.getImdbID())
+            imdbID = getString(R.string.movie_imdb, mMovie.getImdbID());
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-
-        if (mMovie.getImdbID() != null)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.movie_imdb, mMovie.getImdbID()));
-
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.setType("image/jpeg");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "send"));
+        ShareUtils.shareImageWithText(this, MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mMovie.getTitle() , null), imdbID);
         mProgressShare.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.poster_movie)
     public void onClickPosterMovie() {
-        if (mMovie != null) {
+        if (null != mMovie) {
             if (!mMovie.getImages().isEmpty())
                 onClickImage(getImageDTO(mMovie.getImages().size()), new ImageDTO(mMovie.getId(), null, mMovie.getPosterPath()));
         }
@@ -502,7 +475,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
 
     @Override
     public boolean isAdded() {
-        return this != null;
+        return !isDestroyed();
     }
 
     @Override
@@ -518,7 +491,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     public void setTabsVisibility(int visibilityState) {
 
         if (visibilityState == View.VISIBLE) {
-            mContainerTabs.setAnimation(AnimationsUtils.createFadeInAnimation(1000));
+            mContainerTabs.setAnimation(AnimationsUtils.createFadeInAnimation(TAB_SHOW_ANIMATION_DURATION));
             mContainerTabs.setVisibility(visibilityState);
         }
 
@@ -542,12 +515,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     @Override
-    public void onClickReview(String reviewID) {
-
-    }
-
-    @Override
     public void onDontWantSeePressed() {
-
+        if (mIsWatchPressed) {
+            mIsWatchPressed = false;
+            updateState(R.drawable.ic_assitir_eye, R.color.yellow);
+        }
     }
 }

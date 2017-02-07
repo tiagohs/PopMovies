@@ -42,35 +42,18 @@ import butterknife.OnClick;
 public class PerfilActivity extends BaseActivity implements PerfilView, ListMoviesCallbacks {
     private static final String TAG = PerfilActivity.class.getSimpleName();
 
-    @BindView(R.id.background_perfil)
-    ImageView mBackgroundPerfil;
-
-    @BindView(R.id.image_circle)
-    ImageView mImagePerfil;
-
-    @BindView(R.id.name_perfil)
-    TextView mNamePerfil;
-
-    @BindView(R.id.progress_perfil)
-    ProgressBar mProgressPerfil;
-
-    @BindView(R.id.progress_image_circle)
-    ProgressWheel mProgressFotoPerfil;
-
-    @BindView(R.id.btn_editar)
-    FloatingActionButton mEditar;
-
-    @BindView(R.id.picture_container)
-    LinearLayout mPictureContainer;
-
-
-    @BindView(R.id.perfil_app_bar)
-    AppBarLayout mAppBarLayout;
+    @BindView(R.id.background_perfil)               ImageView mBackgroundPerfil;
+    @BindView(R.id.image_circle)                    ImageView mImagePerfil;
+    @BindView(R.id.name_perfil)                     TextView mNamePerfil;
+    @BindView(R.id.progress_perfil)                 ProgressBar mProgressPerfil;
+    @BindView(R.id.progress_image_circle)           ProgressWheel mProgressFotoPerfil;
+    @BindView(R.id.btn_editar)                      FloatingActionButton mEditar;
+    @BindView(R.id.picture_container)               LinearLayout mPictureContainer;
+    @BindView(R.id.perfil_app_bar)                  AppBarLayout mAppBarLayout;
 
     @Inject()
     PerfilPresenter mPerfilPresenter;
 
-    private String mBackgrounPath;
     private ProfileDB mProfile;
 
     public static Intent newIntent(Context context) {
@@ -88,6 +71,8 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         mPerfilPresenter.setView(this);
 
         mEditar.setOnClickListener(onClickEditButton());
+
+        mPerfilPresenter.initUpdates(TAG);
     }
 
     public View.OnClickListener onClickEditButton() {
@@ -108,13 +93,6 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
         ViewUtils.createToastMessage(this, getString(R.string.error_loading_background));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mPerfilPresenter.initUpdates(TAG);
-    }
-
     public void setupTabs() {
 
         if (!isDestroyed()) {
@@ -125,9 +103,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
     }
 
     public void setBackground(String backgroundPath) {
-        mBackgrounPath = backgroundPath;
-
-        ImageUtils.loadWithBlur(this, mBackgrounPath, mBackgroundPerfil, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
+        ImageUtils.loadWithBlur(this, backgroundPath, mBackgroundPerfil, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
 
         }
 
@@ -161,7 +137,6 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     public void setNamePerfil(String nameUser) {
         mNamePerfil.setText(nameUser);
-        mNamePerfil.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
     }
 
     public void setImagePerfil(String imagePath) {
@@ -200,7 +175,7 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     @Override
     public boolean isAdded() {
-        return isAdded();
+        return !isDestroyed();
     }
 
 
@@ -218,13 +193,6 @@ public class PerfilActivity extends BaseActivity implements PerfilView, ListMovi
 
     @Override
     public void onMovieSelected(int movieID, ImageView imageView) {
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions transitionActivityOptions = ActivityOptions
-                    .makeSceneTransitionAnimation(PerfilActivity.this, imageView, getString(R.string.poster_movie));
-            startActivity(MovieDetailActivity.newIntent(this, movieID), transitionActivityOptions.toBundle());
-        } else {
-            startActivity(MovieDetailActivity.newIntent(this, movieID));
-        }
+        ViewUtils.startMovieActivityWithTranslation(this, movieID, imageView, getString(R.string.poster_movie));
     }
 }

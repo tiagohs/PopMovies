@@ -47,29 +47,14 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
 
     private static final int PICK_IMAGE_PERFIL_ID = 234;
 
-    @BindView(R.id.edit_name)
-    EditText mEditName;
-
-    @BindView(R.id.edit_birthday)
-    EditText mEditBirthday;
-
-    @BindView(R.id.edit_country)
-    Spinner mEditCountry;
-
-    @BindView(R.id.edit_gender)
-    Spinner mEditGender;
-
-    @BindView(R.id.edit_descricao)
-    EditText mEditDescricao;
-
-    @BindView(R.id.btn_photo)
-    ImageButton mBtnPhoto;
-
-    @BindView(R.id.image_circle)
-    ImageView mPhotoPerfil;
-
-    @BindView(R.id.progress_image_circle)
-    ProgressWheel mProgressFotoPerfil;
+    @BindView(R.id.edit_name)                   EditText mEditName;
+    @BindView(R.id.edit_birthday)               EditText mEditBirthday;
+    @BindView(R.id.edit_country)                Spinner mEditCountry;
+    @BindView(R.id.edit_gender)                 Spinner mEditGender;
+    @BindView(R.id.edit_descricao)              EditText mEditDescricao;
+    @BindView(R.id.btn_photo)                   ImageButton mBtnPhoto;
+    @BindView(R.id.image_circle)                ImageView mPhotoPerfil;
+    @BindView(R.id.progress_image_circle)       ProgressWheel mProgressFotoPerfil;
 
     @Inject
     PerfilEditPresenter mPresenter;
@@ -84,7 +69,7 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
     private ArrayAdapter<String> mGenderAdapter;
 
     public static Intent newIntent(Context context) {
-        return  new Intent(context, PerfilEditActivity.class);
+        return new Intent(context, PerfilEditActivity.class);
     }
 
     @Override
@@ -115,8 +100,7 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
 
             @Override
             public void onClick(View v) {
-                Intent chooseImageIntent = ImageIntentPicker.getPickImageIntent(PerfilEditActivity.this);
-                startActivityForResult(chooseImageIntent, PICK_IMAGE_PERFIL_ID);
+                startActivityForResult(ImageIntentPicker.getPickImageIntent(PerfilEditActivity.this), PICK_IMAGE_PERFIL_ID);
             }
         };
     }
@@ -205,7 +189,7 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
         switch (item.getItemId()) {
             case R.id.menu_edit_save:
                 mPresenter.save(mEditName.getText().toString(), mBirthday, mCountry, mGender, mEditDescricao.getText().toString(), mPhotoPerfilLocal);
-                ViewUtils.createToastMessage(this, "Dados salvos com sucesso.");
+                ViewUtils.createToastMessage(this, getString(R.string.sucess_data_saved));
                 finish();
                 break;
         }
@@ -283,6 +267,6 @@ public class PerfilEditActivity extends BaseActivity implements PerfilEditView {
 
     @Override
     public boolean isAdded() {
-        return this != null;
+        return !isDestroyed();
     }
 }

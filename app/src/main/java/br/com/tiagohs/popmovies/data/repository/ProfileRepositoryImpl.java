@@ -43,13 +43,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             boolean userJaExistente = findProfileByUserUsername(profile.getUser().getUsername()) != null;
             db = mPopMoviesDB.getWritableDatabase();
 
-            Log.i(TAG, "Username: " + profile.getUser().getUsername());
-
             if (userJaExistente)
                 db.update(PopMoviesContract.ProfileEntry.TABLE_NAME, values, SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, new String[]{profile.getUser().getUsername()});
             else {
                 id = db.insert(PopMoviesContract.ProfileEntry.TABLE_NAME, "", values);
-                profile.setProfileID(id);
+                if (id != -1)
+                    profile.setProfileID(id);
             }
 
             profile.getUser().setProfileID(profile.getProfileID());

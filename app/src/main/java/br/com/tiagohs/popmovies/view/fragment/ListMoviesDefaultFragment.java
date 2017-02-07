@@ -67,7 +67,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private int mOrientation;
 
     private Sort mTypeList;
-    private ListsDefaultActivity.TypeListLayout mTypeListLayout;
+    private int mTypeListLayout;
     private int mColunas;
     private int mSpanCount;
     private boolean mReverseLayout;
@@ -80,7 +80,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createLinearListArguments(int orientation, boolean reverseLayout) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.LINEAR_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putBoolean(ARG_REVERSE_LAYOUT, reverseLayout);
 
@@ -89,7 +89,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createGridListArguments(int colunas) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.GRID_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
         bundle.putInt(ARG_NUM_COLUNAS, colunas);
 
         return bundle;
@@ -97,7 +97,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createStaggeredListArguments(int spanCount, int orientation) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.STAGGERED);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putInt(ARG_SPAN_COUNT, spanCount);
 
@@ -171,6 +171,15 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mFragmentLayoutId = getArguments().getInt(ARG_FRAGMENT_LAYOUT_ID, R.layout.fragment_list_movies_default);
+        mID = getArguments().getInt(ARG_ID);
+        mTypeList = (Sort) getArguments().getSerializable(ARG_SORT);
+        mParameters = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAMETERS);
+        mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
+        mTypeListLayout = getArguments().getInt(ARG_TYPE_LAYOUT);
+        mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
+        mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
+        mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
+        mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
     }
 
     @Override
@@ -188,28 +197,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     @Override
     public void onStart() {
         super.onStart();
-
-        mID = getArguments().getInt(ARG_ID);
-        mTypeList = (Sort) getArguments().getSerializable(ARG_SORT);
-        mParameters = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAMETERS);
-        mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
-        mTypeListLayout = (ListsDefaultActivity.TypeListLayout) getArguments().getSerializable(ARG_TYPE_LAYOUT);
-        mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
-        mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
-        mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
-        mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
-
-        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
-        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
-
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    searchMovies();
-                }
-            });
-        }
 
     }
 
@@ -257,7 +244,18 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         super.onViewCreated(view, savedInstanceState);
         mPresenter.setView(this);
 
-        mNenhumFilmeEncontrado.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
+        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    searchMovies();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -325,13 +323,13 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     private void setupLayoutManager() {
 
         switch (mTypeListLayout) {
-            case GRID_LAYOUT:
+            case ListsDefaultActivity.GRID_LAYOUT:
                 mLayoutManager = new GridLayoutManager(getActivity(), mColunas);
                 break;
-            case LINEAR_LAYOUT:
+            case ListsDefaultActivity.LINEAR_LAYOUT:
                 mLayoutManager = new LinearLayoutManager(getActivity(), mOrientation, mReverseLayout);
                 break;
-            case STAGGERED:
+            case ListsDefaultActivity.STAGGERED:
                 mLayoutManager = new StaggeredGridLayoutManager(mSpanCount, mOrientation);
                 break;
             default:

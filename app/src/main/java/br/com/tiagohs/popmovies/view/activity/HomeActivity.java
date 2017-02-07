@@ -27,7 +27,6 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PermissionUtils.validate(this, 0);
 
         onSetupDrawerLayout();
         startFragment(R.id.content_fragment, HomeFragment.newInstance());
@@ -42,7 +41,7 @@ public class HomeActivity extends BaseActivity implements ListMoviesCallbacks {
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return  new View.OnClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSnackbar.dismiss();

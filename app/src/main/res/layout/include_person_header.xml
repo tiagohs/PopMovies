@@ -15,11 +15,12 @@
 
         <include layout="@layout/include_circle_picture_large" />
 
-        <TextView
+        <br.com.tiagohs.popmovies.view.PopTextView
             android:id="@+id/name_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
+            app:font="@string/font_open_sans"
             android:textSize="30dp"/>
 
         <LinearLayout

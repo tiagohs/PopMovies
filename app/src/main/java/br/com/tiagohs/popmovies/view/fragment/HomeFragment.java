@@ -53,13 +53,8 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         initMovies();
         initDestaques();
@@ -94,18 +89,6 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         listDTOs.add(new ItemListDTO(getString(R.string.campeoes_bilheteria), Sort.DISCOVER, parameters));
 
         return listDTOs;
-    }
-
-    private void addFragment(int id, Fragment fragment) {
-        FragmentManager fm = getChildFragmentManager();
-        Fragment f = fm.findFragmentById(id);
-
-        if (f == null) {
-            fm.beginTransaction()
-                    .add(id, fragment)
-                    .commit();
-        }
-
     }
 
     private Fragment createPopularesFragment() {
@@ -151,10 +134,10 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
 
     private void initMovies() {
-        addFragment(R.id.container_em_breve_movies, createEmBreveFragment());
-        addFragment(R.id.container_em_cartaz_movies, createEmCartazFragment());
-        addFragment(R.id.container_estreia_movies, createEstreiasFragment());
-        addFragment(R.id.container_popular_movies, createPopularesFragment());
+        startFragment(R.id.container_em_breve_movies, createEmBreveFragment());
+        startFragment(R.id.container_em_cartaz_movies, createEmCartazFragment());
+        startFragment(R.id.container_estreia_movies, createEstreiasFragment());
+        startFragment(R.id.container_popular_movies, createPopularesFragment());
     }
 
     @OnClick(R.id.movie_em_breve_riple)

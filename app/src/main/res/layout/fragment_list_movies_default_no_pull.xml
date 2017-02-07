@@ -19,12 +19,13 @@
         app:matProg_barColor="@color/colorAccent"
         app:matProg_progressIndeterminate="true" />
 
-    <TextView
+    <br.com.tiagohs.popmovies.view.PopTextView
         android:id="@+id/nenhum_filme_encontrado"
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="@dimen/recycler_view_min_height"
         android:text="@string/no_movies_find"
+        app:font="@string/font_open_sans"
         android:gravity="center"
         android:layout_gravity="center|top"/>
 </FrameLayout>

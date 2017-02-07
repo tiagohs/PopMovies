@@ -20,11 +20,9 @@ public class GenreRepositoryImpl implements GenreRepository {
     private static final String TAG = GenreRepositoryImpl.class.getSimpleName();
 
     private PopMoviesDB mPopMoviesDB;
-    private SimpleDateFormat mDateFormat;
 
     public GenreRepositoryImpl(Context context) {
         this.mPopMoviesDB = new PopMoviesDB(context);
-        mDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     public void saveGenres(List<GenreDB> genres, long movieID) {
@@ -107,7 +105,8 @@ public class GenreRepositoryImpl implements GenreRepository {
             if (c.moveToFirst()) {
                 do {
                     id = c.getInt(c.getColumnIndex(PopMoviesContract.GenreEntry.COLUMN_GENRER_ID));
-                    genresID.add(id);
+                    if (id != -1)
+                        genresID.add(id);
                 } while (c.moveToNext());
             }
         } catch (Exception ex) {
@@ -125,23 +124,6 @@ public class GenreRepositoryImpl implements GenreRepository {
         if (c.moveToFirst()) {
             do {
                 genres.add(getGenreDBByCursor(c));
-            } while (c.moveToNext());
-        }
-
-        return genres;
-    }
-
-    private List<Genre> genreCursorToList(Cursor c) {
-        List<Genre> genres = new ArrayList<>();
-
-        if (c.moveToFirst()) {
-            do {
-                Genre genre = new Genre();
-
-                genre.setId(c.getInt(c.getColumnIndex(PopMoviesContract.GenreEntry.COLUMN_GENRER_ID)));
-                genre.setName(c.getString(c.getColumnIndex(PopMoviesContract.GenreEntry.COLUMN_GENRER_NAME)));
-
-                genres.add(genre);
             } while (c.moveToNext());
         }
 

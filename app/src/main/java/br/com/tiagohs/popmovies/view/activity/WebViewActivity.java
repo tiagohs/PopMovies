@@ -33,30 +33,13 @@ public class WebViewActivity extends BaseActivity {
 
         mUrl = getIntent().getStringExtra(ARG_URL);
         mTitle = getIntent().getStringExtra(ARG_TITLE);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        setActionBarTitle(mTitle);
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.content_fragment);
-
-        if (fragment == null) {
-            fm.beginTransaction()
-                    .add(R.id.content_fragment, WebViewFragment.newInstance(mUrl))
-                    .commit();
-        }
-    }
-
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle(mTitle);
+        startFragment(R.id.content_fragment, WebViewFragment.newInstance(mUrl));
     }
 
     public void setActionBarSubTitle(String subtitle) {
-        getSupportActionBar().setSubtitle(subtitle);
+        setActivitySubtitle(subtitle);
     }
 
 

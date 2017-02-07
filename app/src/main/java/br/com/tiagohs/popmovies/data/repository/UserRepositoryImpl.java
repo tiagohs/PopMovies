@@ -39,7 +39,9 @@ public class UserRepositoryImpl implements UserRepository {
                 db.update(PopMoviesContract.UserEntry.TABLE_NAME, values, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())});
             else {
                 userID = db.insert(PopMoviesContract.UserEntry.TABLE_NAME, "", values);
-                user.setUserID((int) userID);
+
+                if (userID != -1)
+                    user.setUserID((int) userID);
             }
 
             PrefsUtils.setCurrentUser(user, context);

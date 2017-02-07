@@ -43,6 +43,7 @@ import br.com.tiagohs.popmovies.data.repository.UserRepositoryImpl;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
+import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
@@ -56,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String USER_ID_KEY = "id";
     private static final String USER_NAME_KEY = "name";
     private static final String USER_EMAIL_KEY = "email";
-    private static final String USER_BIRTHDAY_KEY = "birthday";
-    private static final String USER_GENDER_KEY = "gender";
     private static final String USER_PHOTO_KEY = "user_photos";
 
     @BindView(R.id.login_facebook_button)               Button mLoginFacebookButton;
@@ -69,15 +68,11 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager mFacebookCallbackManager;
 
     private ProfileRepository mProfileRepository;
-    private UserRepository mUserRepository;
 
     private TwitterSession mSession;
     private String mUsername;
     private String mEmail;
     private String mName;
-    private String mBirthday;
-    private String mLocation;
-    private String mGender;
     private String mPathFoto;
     private String mToken;
 
@@ -91,9 +86,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PermissionUtils.validate(this, 0);
 
         mProfileRepository = new ProfileRepositoryImpl(this);
-        mUserRepository = new UserRepositoryImpl(this);
 
         onStartConfigurateLoginSDKs();
 
@@ -117,8 +112,6 @@ public class LoginActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
-
-        mTitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
     }
 
     private void onSetupFacebook() {
@@ -262,12 +255,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setUserData() {
-
-        Log.i(TAG, "User name: " + mUsername);
-
         ProfileDB profileDB = mProfileRepository.findProfileByUserUsername(mUsername);
 
-        if (profileDB == null) {
+        if (null == profileDB) {
             UserDB user = new UserDB();
             user.setUsername(mUsername);
             user.setEmail(mEmail);

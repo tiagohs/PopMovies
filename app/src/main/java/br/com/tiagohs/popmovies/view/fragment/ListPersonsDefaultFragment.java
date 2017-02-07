@@ -54,14 +54,14 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     private Sort mSort;
 
     private int mOrientation;
-    private ListsDefaultActivity.TypeListLayout mTypeListLayout;
+    private int mTypeListLayout;
     private int mColunas;
     private int mSpanCount;
     private boolean mReverseLayout;
 
     public static Bundle createLinearListArguments(int orientation, boolean reverseLayout) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.LINEAR_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putBoolean(ARG_REVERSE_LAYOUT, reverseLayout);
 
@@ -70,7 +70,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     public static Bundle createGridListArguments(int colunas) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.GRID_LAYOUT);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
         bundle.putInt(ARG_NUM_COLUNAS, colunas);
 
         return bundle;
@@ -78,7 +78,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     public static Bundle createStaggeredListArguments(int spanCount, int orientation) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.TypeListLayout.STAGGERED);
+        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putInt(ARG_SPAN_COUNT, spanCount);
 
@@ -128,7 +128,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         mSort = (Sort) getArguments().getSerializable(ARG_PERSON_SORT);
         mPersonCredit = (ArrayList<PersonListDTO>) getArguments().getSerializable(ARG_PERSONS);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
-        mTypeListLayout = (ListsDefaultActivity.TypeListLayout) getArguments().getSerializable(ARG_TYPE_LAYOUT);
+        mTypeListLayout = getArguments().getInt(ARG_TYPE_LAYOUT);
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
@@ -142,18 +142,13 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
             });
         }
 
+
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         init();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
     }
 
     private void init() {
@@ -199,13 +194,13 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     private void setupLayoutManager() {
 
         switch (mTypeListLayout) {
-            case GRID_LAYOUT:
+            case ListsDefaultActivity.GRID_LAYOUT:
                 mLayoutManager = new GridLayoutManager(getActivity(), mColunas);
                 break;
-            case LINEAR_LAYOUT:
+            case ListsDefaultActivity.LINEAR_LAYOUT:
                 mLayoutManager = new LinearLayoutManager(getActivity(), mOrientation, mReverseLayout);
                 break;
-            case STAGGERED:
+            case ListsDefaultActivity.STAGGERED:
                 mLayoutManager = new StaggeredGridLayoutManager(mSpanCount, mOrientation);
                 break;
             default:

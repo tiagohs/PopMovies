@@ -30,10 +30,13 @@ android {
 
     defaultConfig {
         applicationId "br.com.tiagohs.popmovies"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        // Enabling multidex support.
+        multiDexEnabled true
 
         buildConfigField "String", "MOVIEDB_API", "${MOVIEDB_API}"
         buildConfigField "String", "GOOGLE_KEY", "${GOOGLE_KEY}"
@@ -119,10 +122,14 @@ dependencies {
         transitive = true;
     }
 
+    //Para transformações Blurr
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
 
+    //Para Divisão em Páginas das Lists
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 
 }

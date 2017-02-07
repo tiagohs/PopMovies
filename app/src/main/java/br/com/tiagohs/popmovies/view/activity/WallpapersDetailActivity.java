@@ -43,6 +43,7 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.ShareUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
@@ -102,23 +103,12 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         mPageTitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_TITLE);
         mPageSubtitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_SUBTITLE);
         mTypeShowImage = (TypeShowImage) getIntent().getSerializableExtra(ARG_TYPE_SHOW_IMAGE);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, getSupportActionBar(), mTypeShowImage);
         mWallpaperViewPager.setAdapter(mWallpaperPagerAdapter);
         setCurrentImage();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mBinder != null)
-            mBinder.unbind();
-    }
 
     public void setProgress(ProgressWheel progress) {
         mProgress = progress;
@@ -150,10 +140,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
         if (!ServerUtils.isWifiConnected(this)) {
             new MaterialDialog.Builder(this)
-                    .title("Importante")
-                    .content("Você irá realizar um Download sem estar conectado ao Wi-fi, deseja continuar?")
-                    .positiveText("Sim")
-                    .negativeText("Não")
+                    .title(getString(R.string.wifi_dialog_title))
+                    .content(getString(R.string.wifi_dialog_content))
+                    .positiveText(getString(R.string.wifi_dialog_positive))
+                    .negativeText(getString(R.string.wifi_dialog_negative))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -166,23 +156,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     }
 
     private void onCheckPermissionsToSave() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ViewUtils.createAlertDialogWithPositive(this, "Importante",
-                        "Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso.",
-                        new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            ActivityCompat.requestPermissions(WallpapersDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                        }
-                });
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            }
-        } else {
+
+        if (PermissionUtils.validatePermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.error_permission_save)))
             salvarImagem();
 
-        }
     }
 
     private void salvarImagem() {
@@ -191,11 +168,11 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         String nameImage = "";
 
         if (mTypeShowImage.equals(TypeShowImage.SIMPLE_IMAGE)) {
-            nameImage = PrefsUtils.getCurrentProfile(this).getProfileID() + "_perfil.jpg";
+            nameImage = getString(R.string.downloaded_image_perfil_name, PrefsUtils.getCurrentProfile(this).getProfileID());
             path = mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath();
         } else if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES)) {
-            nameImage = mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg";
-            path = "http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath();
+            nameImage = getString(R.string.downloaded_image_perfil_name, mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID());
+            path = getString(R.string.url_image, ImageSize.BACKDROP_1280.getSize(), mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath());
         }
 
         Uri downloadUri = Uri.parse(path);
@@ -205,16 +182,16 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         request.setAllowedNetworkTypes(
                 DownloadManager.Request.NETWORK_WIFI
                         | DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false).setTitle("PopMovies")
-                .setDescription("Baixando Wallpaper.")
+                .setAllowedOverRoaming(false).setTitle(getString(R.string.app_name))
+                .setDescription(getString(R.string.downloaded_baixando_content))
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationInExternalPublicDir(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/PopMovies Images", nameImage);
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath() + getString(R.string.downloaded_name_folder), nameImage);
 
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
-                Toast.makeText(WallpapersDetailActivity.this, "Imagem salva com sucesso", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WallpapersDetailActivity.this, getString(R.string.sucess_image_saved), Toast.LENGTH_SHORT).show();
                 mProgress.setVisibility(View.GONE);
             }
         };
@@ -275,31 +252,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     }
 
     public void createShareIntent() {
-        Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" + ImageSize.BACKDROP_1280.getSize() + mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath()).into(new Target() {
-            @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("image/*");
-                i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap));
-                startActivity(Intent.createChooser(i, "PopMovies - Compartilhar"));
-            }
 
-            @Override public void onBitmapFailed(Drawable errorDrawable) { }
-            @Override public void onPrepareLoad(Drawable placeHolderDrawable) { }
-        });
-    }
+        ShareUtils.shareImage(this, getString(R.string.url_image, ImageSize.BACKDROP_1280.getSize(), mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath()),
+                getString(R.string.downloaded_image_name, mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID()), mProgress);
 
-    public Uri getLocalBitmapUri(Bitmap bmp) {
-        Uri bmpUri = null;
-        try {
-            File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID() + "_image.jpg");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
     }
 
 }

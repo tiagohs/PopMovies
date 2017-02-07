@@ -10,4 +10,8 @@
         <attr name="tvea_textShrink" format="string" />
         <attr name="tvea_textExpand" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="CustomTextView">
+        <attr name="font" format="string" />
+    </declare-styleable>
 </resources>

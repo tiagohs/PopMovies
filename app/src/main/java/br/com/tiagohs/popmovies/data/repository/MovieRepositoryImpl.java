@@ -115,8 +115,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
     }
 
     public boolean isDontWantSeeMovie(long profileID, int serverID) {
-        Log.i(TAG, "ID: " + profileID);
-
         return findMovie(SQLHelper.MovieSQL.WHERE_IS_DONT_WANT_SEE_MOVIE, new String[]{String.valueOf(serverID), String.valueOf(profileID)}) != null;
     }
 

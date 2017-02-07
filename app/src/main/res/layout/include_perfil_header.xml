@@ -18,7 +18,7 @@
 
         <include layout="@layout/include_circle_picture_large" />
 
-        <TextView
+        <br.com.tiagohs.popmovies.view.PopTextView
             android:layout_gravity="center"
             android:textColor="@color/primary_text"
             android:id="@+id/name_perfil"
@@ -27,6 +27,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:font="@string/font_open_sans_bold"
             android:textSize="19dp"/>
     </LinearLayout>
 

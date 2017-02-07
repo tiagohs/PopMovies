@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -21,9 +22,6 @@ import br.com.tiagohs.popmovies.view.VideosView;
 public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.onVideoListener {
     private static final String TAG = VideosPresenterImpl.class.getSimpleName();
 
-    private static final String LOCALE_US = "en-US";
-    private static final int NUM_MAX_VIDEOS_BY_PAGE = 12;
-
     private VideosView mVideosView;
     private VideoInterceptor mVideoInterceptor;
 
@@ -33,7 +31,6 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     private int mCurrentTranslation;
     private int mTotalTranslation;
-
     private int mMovieID;
     private String mTag;
 
@@ -55,10 +52,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
         mTag = tag;
 
         if (mVideosView.isInternetConnected()) {
-            if (!translation.isEmpty())
-                mVideoInterceptor.getVideos(mMovieID, tag, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
-            else
-                mVideoInterceptor.getVideos(mMovieID, tag, LOCALE_US);
+            mVideoInterceptor.getVideos(mMovieID, tag, mTranslations.get(mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
         } else {
             noConnectionError();
         }
@@ -90,10 +84,13 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
                 mVideoInterceptor.getVideos(mMovieID, mTag, mTranslations.get(++mCurrentTranslation).getLanguage() + "-" + mTranslations.get(0).getCountry());
                 return;
             } else {
-                mVideos = ListUtils.partition(mFinalVideosReponse.getVideos(), NUM_MAX_VIDEOS_BY_PAGE);
+                mVideos = ListUtils.partition(mFinalVideosReponse.getVideos(), 12);
                 mTotalPages = mVideos.size();
 
-                mVideosView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
+                if (mTotalPages > 0)
+                    mVideosView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
+                else
+                    mVideosView.onUpdateUI(mFinalVideosReponse.getVideos(), mCurrentPage < mTotalPages);
             }
         }
 
@@ -113,8 +110,7 @@ public class VideosPresenterImpl implements VideosPresenter, VideoInterceptor.on
 
     @Override
     public void onVideoRequestError(VolleyError error) {
-        if (mVideosView.isAdded())
-            mVideosView.onErrorInServer();
+
     }
 
     @Override

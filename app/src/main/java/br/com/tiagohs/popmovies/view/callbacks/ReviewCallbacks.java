@@ -7,5 +7,4 @@ package br.com.tiagohs.popmovies.view.callbacks;
 public interface ReviewCallbacks {
 
     void onClickReviewLink(String url);
-    void onClickReview(String reviewID);
 }

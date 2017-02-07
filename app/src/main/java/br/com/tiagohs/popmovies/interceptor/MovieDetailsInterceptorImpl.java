@@ -52,8 +52,7 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
         if (mOriginalLanguage == null)
             mMovieDetails = response;
 
-        if ((ViewUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null) {
-
+        if (hasEmptyValues(response)) {
             mOriginalLanguage = response.getOriginalLanguage();
             mMoviesServer.getMovieDetails(mMovieID, mMovieParameters, mTag, mOriginalLanguage, this);
 
@@ -74,5 +73,9 @@ public class MovieDetailsInterceptorImpl implements MovieDetailsInterceptor, Res
             }
 
         }
+    }
+
+    private boolean hasEmptyValues(MovieDetails response) {
+        return (ViewUtils.isEmptyValue(response.getOverview()) || response.getRuntime() == 0) && mOriginalLanguage == null;
     }
 }

@@ -49,6 +49,7 @@ import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
+import br.com.tiagohs.popmovies.util.ShareUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
@@ -202,12 +203,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
             ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
             personName.setText(mPerson.getName());
-            personName.setTypeface(Typeface.createFromAsset(getAssets(), "openSansBold.ttf"));
 
             if (mPerson.getBirthday() != null) {
                 int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
                 personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
-                personSubtitle.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
             } else {
                 personSubtitle.setVisibility(View.GONE);
             }
@@ -248,21 +247,12 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     public void createShareIntent(Bitmap imageToShare) {
-        ImageUtils.fixMediaDir();
-        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mPerson.getName() , null);
-
-        Uri imageUri = Uri.parse(pathofBmp);
-
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
+        String imdbID = null;
 
         if (mPerson.getImdbId() != null)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.person_imdb, mPerson.getImdbId()));
+            imdbID = getString(R.string.person_imdb, mPerson.getImdbId());
 
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.setType("image/jpeg");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "send"));
+        ShareUtils.shareImageWithText(this, MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mPerson.getName() , null), imdbID);
         mProgressShare.setVisibility(View.GONE);
     }
 
@@ -306,7 +296,6 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     public void updateAditionalInfo(int totalFilmes, int totalFotos) {
 
-        mPersonName.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
         mPersonName.setText(mPerson.getName());
 
         mLabelTotalFilmes.setText(getResources().getQuantityString(R.plurals.number_of_films_person, totalFilmes));
@@ -319,16 +308,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     public void setupTabs() {
 
-        if (!isDestroyed()) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = fm.findFragmentById(R.id.person_details_fragment);
-
-            if (fragment == null) {
-                fm.beginTransaction()
-                        .add(R.id.person_details_fragment, PersonDetailFragment.newInstance(mPerson))
-                        .commit();
-            }
-        }
+        if (!isDestroyed())
+            startFragment(R.id.person_details_fragment, PersonDetailFragment.newInstance(mPerson));
 
         mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
     }
@@ -353,7 +334,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
                     Uri.parse(getString(R.string.twitter_link_uri, mPerson.getExternalIDs().getTwitterId())));
             startActivity(intent);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse(getString(R.string.twitter_link, mPerson.getExternalIDs().getTwitterId()))));
         }
@@ -430,7 +411,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
 
     @Override
     public boolean isAdded() {
-        return this != null;
+        return !isDestroyed();
     }
 
 }

@@ -1,6 +1,8 @@
 package br.com.tiagohs.popmovies.view.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -53,9 +55,9 @@ public class GenresFragment extends BaseFragment implements GenresView {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        ((App) getActivity().getApplication()).getPopMoviesComponent().inject(this);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getApplicationComponent().inject(this);
 
         mGenresPresenter.setView(this);
 
@@ -68,11 +70,6 @@ public class GenresFragment extends BaseFragment implements GenresView {
 
         mGenresRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setupAdapter();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     @Override

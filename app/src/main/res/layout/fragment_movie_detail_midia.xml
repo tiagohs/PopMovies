@@ -73,12 +73,13 @@
                     android:clipToPadding="false"
                     android:scrollbars="vertical" />
 
-                <TextView
+                <br.com.tiagohs.popmovies.view.PopTextView
                     android:id="@+id/videos_nao_encontrado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="gone"
+                    app:font="@string/font_open_sans"
                     android:text="Sem Vídeos disponíveis."
                     />
             </FrameLayout>
@@ -143,12 +144,13 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"/>
 
-                <TextView
+                <br.com.tiagohs.popmovies.view.PopTextView
                     android:id="@+id/wallpaper_nao_encontrado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="gone"
+                    app:font="@string/font_open_sans"
                     android:text="Sem Wallpapers disponíveis."
                     />
 

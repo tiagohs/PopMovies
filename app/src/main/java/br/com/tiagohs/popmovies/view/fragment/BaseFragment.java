@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,12 @@ public abstract class BaseFragment extends Fragment {
                 .show();
     }
 
+    @Override
+    public void onPause() {
+        ((App) getActivity().getApplication()).clearCache();
+        super.onPause();
+    }
+
     public void hideDialogProgress() {
         materialDialog.dismiss();
     }
@@ -70,6 +78,21 @@ public abstract class BaseFragment extends Fragment {
 
     protected PopMoviesComponent getApplicationComponent() {
         return ((App) getActivity().getApplication()).getPopMoviesComponent();
+    }
+
+    protected void startFragment(int fragmentID, Fragment fragment) {
+        FragmentManager fm = getChildFragmentManager();
+        Fragment f = fm.findFragmentById(fragmentID);
+
+        if (null == f) {
+            fm.beginTransaction()
+                    .add(fragmentID, fragment)
+                    .commitAllowingStateLoss();
+        } else {
+            fm.beginTransaction()
+                    .replace(fragmentID, fragment)
+                    .commitAllowingStateLoss();
+        }
     }
 
     public void onError(int msgID) {
@@ -102,7 +125,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     @Override

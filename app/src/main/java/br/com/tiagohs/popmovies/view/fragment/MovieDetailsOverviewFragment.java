@@ -104,7 +104,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.metascore_ranking_container)             FrameLayout mMetascoreRankingContainer;
     @BindView(R.id.tomatoes_consensus_container)            RelativeLayout mTomatoesConsensusContainer;
     @BindView(R.id.rankings_progress)                       ProgressWheel mRankingProgress;
-    @BindView(R.id.rankings_container)                      RelativeLayout mRankingContainer;
+    @BindView(R.id.rankings_container)                      LinearLayout mRankingContainer;
     @BindView(R.id.container_similares)                     LinearLayout mSimilaresTitleContainer;
     @BindView(R.id.btn_favorito)                            ImageButton mFavoritoButton;
     @BindView(R.id.btn_quero_ver)                           Button mWantSeeButton;
@@ -183,15 +183,9 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         init();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 
     private void init() {

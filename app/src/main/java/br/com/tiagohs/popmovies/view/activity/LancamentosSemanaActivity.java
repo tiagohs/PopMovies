@@ -37,17 +37,10 @@ import butterknife.OnClick;
 
 public class LancamentosSemanaActivity extends BaseActivity implements LancamentosSemanaView, ListMoviesCallbacks {
 
-    @BindView(R.id.btn_proximo)
-    Button mProximo;
-
-    @BindView(R.id.btn_anterior)
-    Button mAnterior;
-
-    @BindView(R.id.text_datas)
-    TextView mDatas;
-
-    @BindView(R.id.spinner_country)
-    Spinner mCountrys;
+    @BindView(R.id.btn_proximo)         Button mProximo;
+    @BindView(R.id.btn_anterior)        Button mAnterior;
+    @BindView(R.id.text_datas)          TextView mDatas;
+    @BindView(R.id.spinner_country)     Spinner mCountrys;
 
     @Inject
     LancamentosSemanaPresenter mPresenter;
@@ -68,7 +61,7 @@ public class LancamentosSemanaActivity extends BaseActivity implements Lancament
 
         mPresenter.setView(this);
 
-        setActivityTitle("Lançamentos da Semana");
+        setActivityTitle(getString(R.string.title_activity_lancamentos_semana));
 
         mLocale = LocaleUtils.getLocaleAtual();
         mPresenter.initUpdateMovies(mLocale);
@@ -147,7 +140,7 @@ public class LancamentosSemanaActivity extends BaseActivity implements Lancament
 
     @Override
     public boolean isAdded() {
-        return this != null;
+        return !isDestroyed();
     }
 
     @Override

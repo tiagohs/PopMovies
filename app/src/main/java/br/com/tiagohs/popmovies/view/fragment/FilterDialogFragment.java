@@ -43,26 +43,18 @@ import butterknife.ButterKnife;
 public class FilterDialogFragment extends DialogFragment {
     private static final String ARG_TYPE_LIST = "typeList";
 
-    @BindView(R.id.adult_checkbox)
-    CheckBox mAdultCheckBox;
+    private static final int MIN_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 5;
+    private static final int MAX_YEAR = 1890;
+    private static final int MIN_NOTA = 0;
+    private static final int MAX_NOTA = 10;
 
-    @BindView(R.id.ordenar_por_spinner)
-    Spinner mSortBySpinner;
-
-    @BindView(R.id.ano_lancamento_spinner)
-    Spinner mAnoLancamentoSpinner;
-
-    @BindView(R.id.data_inicial)
-    EditText mDataInicial;
-
-    @BindView(R.id.data_final)
-    EditText mDataFinal;
-
-    @BindView(R.id.nota_comunidade_seekbar)
-    CrystalSeekbar mNotaComunidade;
-
-    @BindView(R.id.min_nota_text_view)
-    TextView mNotaInicial;
+    @BindView(R.id.adult_checkbox)              CheckBox mAdultCheckBox;
+    @BindView(R.id.ordenar_por_spinner)         Spinner mSortBySpinner;
+    @BindView(R.id.ano_lancamento_spinner)      Spinner mAnoLancamentoSpinner;
+    @BindView(R.id.data_inicial)                EditText mDataInicial;
+    @BindView(R.id.data_final)                  EditText mDataFinal;
+    @BindView(R.id.nota_comunidade_seekbar)     CrystalSeekbar mNotaComunidade;
+    @BindView(R.id.min_nota_text_view)          TextView mNotaInicial;
 
 
     private ListType mTypeList;
@@ -111,52 +103,40 @@ public class FilterDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
-                .setTitle("Filtrar")
-                .setPositiveButton("Aplicar",
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.filter_dialog_title))
+                .setPositiveButton(R.string.filter_dialog_aplicar,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                              mFiltersMoviesCallbacks.onFilterChanged(mFilterValuesDTO);
                             }
                         }
                 )
-                .setNegativeButton("Cancelar",
+                .setNegativeButton(R.string.filter_dialog_cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                             }
                         }
                 )
-                .setNeutralButton("Resetar", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.filter_dialog_reset, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         mFiltersMoviesCallbacks.onFilterReset();
                     }
                 });
 
-        View v = createView();
+        createView(alertDialog);
 
-        ButterKnife.bind(this, v);
-        b.setView(v);
-
-        configurateView();
-
-        return b.create();
+        return alertDialog.create();
     }
 
-    private void resetValues() {
-        mFilterValuesDTO = new FilterValuesDTO();
-    }
-
-    private View createView() {
+    private void createView(AlertDialog.Builder alertDialog) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_filter_dialog, null);
 
-        switch (mTypeList) {
-            case MOVIES:
-                return inflater.inflate(R.layout.fragment_filter_dialog, null);
-
-            default:
-                return inflater.inflate(R.layout.fragment_filter_dialog, null);
-        }
+        ButterKnife.bind(this, view);
+        alertDialog.setView(view);
+        configurateView();
     }
 
     private void configurateView() {
@@ -195,34 +175,41 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     private void configureAnoSnipper() {
-        List<String> years = new ArrayList<>();
+        mAnoLancamentoSpinner.setAdapter(createArrayAdapter());
+        mAnoLancamentoSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+    }
 
-        years.add("Nenhum");
-        for (int cont = Calendar.getInstance().get(Calendar.YEAR) + 5; cont >= 1990; cont--)
-            years.add(String.valueOf(cont));
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        mAnoLancamentoSpinner.setAdapter(dataAdapter);
-        mAnoLancamentoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private AdapterView.OnItemSelectedListener createOnItemSelectedListener() {
+        return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = (String) adapterView.getItemAtPosition(i);
-                mFilterValuesDTO.setReleaseYear(item.equals("Nenhum") ? null : item);
+                mFilterValuesDTO.setReleaseYear(item.equals(getString(R.string.years_snipper_nenhum)) ? null : item);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
-        });
+        };
+    }
 
+    private ArrayAdapter createArrayAdapter() {
+        List<String> years = new ArrayList<>();
+        years.add(getString(R.string.years_snipper_nenhum));
+
+        for (int cont = MIN_YEAR; cont >= MAX_YEAR; cont--)
+            years.add(String.valueOf(cont));
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return dataAdapter;
     }
 
     private void configureSeekbarNota() {
         mNotaComunidade.setDataType(CrystalRangeSeekbar.DataType.INTEGER)
-                .setMinValue(0)
-                .setMaxValue(10)
+                .setMinValue(MIN_NOTA)
+                .setMaxValue(MAX_NOTA)
                 .setSteps(1)
                 .apply();
 

@@ -9,8 +9,10 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +44,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Nullable @BindView(R.id.toolbar)             Toolbar mToolbar;
-    @BindView(R.id.coordenation_layout)           CoordinatorLayout mCoordinatorLayout;
+              @BindView(R.id.coordenation_layout) CoordinatorLayout mCoordinatorLayout;
     @Nullable @BindView(R.id.drawer_layout)       DrawerLayout mDrawerLayout;
     @Nullable @BindView(R.id.nav_view)            NavigationView mNavigationView;
 
@@ -63,7 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     private void onSetupNavigationDrawer() {
-        if (mNavigationView != null) {
+        if (null != mNavigationView) {
             mNavigationView.setNavigationItemSelectedListener(this);
             View view = mNavigationView.getHeaderView(0);
 
@@ -106,8 +108,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBinder != null)
+
+        if (null != mBinder)
             mBinder.unbind();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ((App) getApplication()).clearCache();
     }
 
     @Override
@@ -235,18 +244,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(fragmentID);
 
-        if (f == null) {
+        if (null == f) {
             fm.beginTransaction()
                     .add(fragmentID, fragment)
                     .commitAllowingStateLoss();
-        } else
-            replaceFragment(fragmentID, fragment);
-    }
-    protected void replaceFragment(int fragmentID, Fragment fragment) {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment f = fm.findFragmentById(fragmentID);
-
-        if (f != null) {
+        } else {
             fm.beginTransaction()
                     .replace(fragmentID, fragment)
                     .commitAllowingStateLoss();

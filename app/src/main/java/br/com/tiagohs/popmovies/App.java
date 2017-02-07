@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -9,6 +10,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +20,7 @@ import io.fabric.sdk.android.Fabric;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.Executors;
 
 
 public class App extends Application {
@@ -31,6 +34,8 @@ public class App extends Application {
 
     private PopMoviesComponent mPopMoviesComponent;
     private RequestQueue mRequestQueue;
+
+    private LruCache picassoCache;
     
     @Override
     public void onCreate() {
@@ -43,15 +48,25 @@ public class App extends Application {
         initPicasso();
     }
 
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+    }
+
     private void initPicasso() {
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
+        picassoCache = new LruCache(this);
+        builder.memoryCache(picassoCache);
+        Picasso.setSingletonInstance(builder.build());
 
         Picasso built = builder.build();
         built.setIndicatorsEnabled(false);
         built.setLoggingEnabled(true);
 
         //Picasso.setSingletonInstance(built);
+    }
+
+    public void clearCache() {
+        picassoCache.clear();
     }
 
     public PopMoviesComponent getPopMoviesComponent() {

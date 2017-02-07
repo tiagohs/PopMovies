@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="350dp"
     android:layout_height="200dp"
@@ -44,11 +45,12 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
 
-                <TextView
+                <br.com.tiagohs.popmovies.view.PopTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
                     android:textColor="@android:color/white"
+                    app:font="@string/font_open_sans_bold"
                     android:textStyle="bold"
                     android:id="@+id/movie_title"
                     android:text="Se Beber não Case"/>
@@ -58,11 +60,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
                         android:textColor="@android:color/white"
+                        app:font="@string/font_open_sans"
                         android:layout_marginRight="10dp"
                         android:id="@+id/movie_year"
                         android:text="2016" />

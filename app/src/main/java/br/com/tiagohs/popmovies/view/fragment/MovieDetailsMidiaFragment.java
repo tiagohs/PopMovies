@@ -103,18 +103,13 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
             mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
         }
 
+
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         init();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 
     private void init() {
@@ -155,10 +150,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
             outState.putSerializable(ARG_MOVIE_SAVED, mMovieDetails);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     @Override
     protected int getViewID() {
@@ -188,7 +179,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
             setupImageAdapter();
         } else {
             mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
-            mWallpapersNaoEncontrados.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         }
     }
 
@@ -204,7 +194,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
             mVideosRecyclerView.setAdapter(mVideoAdapter);
         } else {
             mVideosNaoEncontrados.setVisibility(View.VISIBLE);
-            mVideosNaoEncontrados.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
         }
     }
 

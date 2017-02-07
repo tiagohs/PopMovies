@@ -13,6 +13,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,6 +24,8 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -216,6 +219,7 @@ public class ImageUtils {
                 .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
                 .placeholder(drawable1)
                 .error(drawable1)
+                .fit()
                 .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -245,6 +249,8 @@ public class ImageUtils {
 
     public static void load(Context context, String url, int placeholder, int imageError, final ImageView imageView, final ProgressWheel progressbar) {
         progressbar.setVisibility(View.VISIBLE);
+
+        ViewCompat.setElevation(imageView, 12);
 
         Picasso.with(context)
                 .load(url)
