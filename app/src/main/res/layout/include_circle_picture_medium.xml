@@ -9,7 +9,6 @@
         android:id="@+id/cardview"
         android:layout_width="@dimen/picture_circle_medium_cardview"
         android:layout_height="@dimen/picture_circle_medium_cardview"
-        app:cardElevation="@dimen/picture_circle_cardview_elevation"
         app:cardPreventCornerOverlap="false"
         app:cardCornerRadius="@dimen/picture_circle_medium_cardview_radius"
         android:layout_gravity="center"

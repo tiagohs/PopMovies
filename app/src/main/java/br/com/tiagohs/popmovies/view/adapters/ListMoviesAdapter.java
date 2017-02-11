@@ -73,7 +73,6 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
 
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, LongClickCallbacks {
         @BindView(R.id.poster_movie)                ImageView mImageView;
-        @BindView(R.id.rodape_list_movies)          LinearLayout mRodapeListMovies;
 
         private MovieListDTO mMovie;
         private boolean isToSave;
@@ -95,7 +94,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             mMovie = movie;
             mMoviePosition = position;
 
-            ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185, mRodapeListMovies);
+            ImageUtils.load(mContext, movie.getPosterPath(), mImageView, mMovie.getMovieName(), ImageSize.POSTER_185);
         }
 
         @Override

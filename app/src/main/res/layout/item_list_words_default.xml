@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_gravity="center"
@@ -27,7 +26,7 @@
             android:textSize="14dp"
             android:gravity="center"/>
 
-        </com.balysv.materialripple.MaterialRippleLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

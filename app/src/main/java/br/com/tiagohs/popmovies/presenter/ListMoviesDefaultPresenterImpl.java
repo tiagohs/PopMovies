@@ -5,8 +5,6 @@ import android.view.View;
 
 import com.android.volley.VolleyError;
 
-import org.apache.commons.collections4.ListUtils;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -14,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptor;
 import br.com.tiagohs.popmovies.interceptor.DiscoverInterceptorImpl;
 import br.com.tiagohs.popmovies.interceptor.MovieDetailsInterceptor;
@@ -45,6 +44,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private MoviesServer mMoviesServer;
 
     private MovieRepository mMovieRepository;
+    private ProfileRepository mProfileRepository;
 
     private PersonMoviesInterceptor mPersonMoviesInterceptor;
     private DiscoverInterceptor mDiscoverInterceptor;
@@ -61,7 +61,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private Sort mTypeList;
     private Map<String, String> mParameters;
 
-    private List<List<MovieDB>> moviesDB;
     private int mListIndex = 0;
 
     private int mPosition;
@@ -71,7 +70,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     public ListMoviesDefaultPresenterImpl() {
         mCurrentPage = 0;
         mMovieDetailsInterceptor = new MovieDetailsInterceptorImpl(this);
-        moviesDB = new ArrayList<>();
     }
 
     @Override
@@ -85,6 +83,9 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     public void setMovieRepository(MovieRepository movieRepository) {
         this.mMovieRepository = movieRepository;
+    }
+    public void setProfileRepository(ProfileRepository profileRepository) {
+        this.mProfileRepository = profileRepository;
     }
 
     public void setProfileID(long profileID) {
@@ -116,7 +117,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             case QUERO_VER:
             case NAO_QUERO_VER:
                 getMoviesDB(typeList);
-                ++mCurrentPage;
+                //++mCurrentPage;
                 break;
             case GENEROS:
                 mMoviesServer.getMoviesByGenres(id, ++mCurrentPage, tag, this);
@@ -300,48 +301,35 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
 
     private class MoviesSearch extends AsyncTask<Sort, Void, GenericListResponse<Movie>> {
 
-
         @Override
         protected GenericListResponse<Movie> doInBackground(Sort... sorts) {
             Sort typeList = sorts[0];
             GenericListResponse<Movie> genericListResponse = new GenericListResponse<Movie>();
+            List<MovieDB> movies = new ArrayList<>();
+            long totalMovies = 0;
 
-            if (mListIndex == 0) {
-                List<MovieDB> movies = new ArrayList<>();
-
-                switch (typeList) {
-                    case ASSISTIDOS:
-                        movies = mMovieRepository.findAllMoviesWatched(mProfileID);
-                        break;
-                    case FAVORITE:
-                        movies = mMovieRepository.findAllFavoritesMovies(mProfileID);
-                        break;
-                    case QUERO_VER:
-                        movies = mMovieRepository.findAllMoviesWantSee(mProfileID);
-                        break;
-                    case NAO_QUERO_VER:
-                        movies = mMovieRepository.findAllMoviesDontWantSee(mProfileID);
-                        break;
-                }
-
-                if (movies.isEmpty()) {
-                    genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(movies));
-                    genericListResponse.setPage(1);
-                    return genericListResponse;
-                }
-
-                moviesDB = ListUtils.partition(movies, 12);
+            switch (typeList) {
+                case ASSISTIDOS:
+                    movies = mMovieRepository.findAllMoviesWatched(mProfileID, ++mCurrentPage);
+                    totalMovies = mProfileRepository.getTotalMoviesWatched(mProfileID);
+                    break;
+                case FAVORITE:
+                    movies = mMovieRepository.findAllFavoritesMovies(mProfileID, ++mCurrentPage);
+                    totalMovies = mProfileRepository.getTotalFavorites(mProfileID);
+                    break;
+                case QUERO_VER:
+                    movies = mMovieRepository.findAllMoviesWantSee(mProfileID, ++mCurrentPage);
+                    totalMovies = mProfileRepository.getTotalMoviesWantSee(mProfileID);
+                    break;
+                case NAO_QUERO_VER:
+                    movies = mMovieRepository.findAllMoviesDontWantSee(mProfileID, ++mCurrentPage);
+                    totalMovies = mProfileRepository.getTotalMoviesDontWantSee(mProfileID);
+                    break;
             }
 
-            try {
-                genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(moviesDB.get(mListIndex++)));
-                genericListResponse.setPage(mListIndex);
-                genericListResponse.setTotalPage(moviesDB.size());
-            } catch (Exception e) {
-                genericListResponse.setResults(new ArrayList<Movie>());
-                genericListResponse.setPage(mListIndex);
-                genericListResponse.setTotalPage(moviesDB.size());
-            }
+            genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(movies));
+            genericListResponse.setPage(mCurrentPage);
+            genericListResponse.setTotalPage((int) Math.ceil(new Double(totalMovies) / new Double(6)));
 
             return genericListResponse;
         }

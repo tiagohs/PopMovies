@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.data.repository;
 
 import java.util.List;
 
+import br.com.tiagohs.popmovies.data.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 
@@ -20,9 +21,15 @@ public interface MovieRepository {
     boolean isDontWantSeeMovie(long profileID, int serverID);
 
     List<Movie> findAllMovies(long profileID);
+
     List<MovieDB> findAllMoviesDB(long profileID);
     List<MovieDB> findAllMoviesWatched(long profileID);
     List<MovieDB> findAllMoviesWantSee(long profileID);
     List<MovieDB> findAllMoviesDontWantSee(long profileID);
     List<MovieDB> findAllFavoritesMovies(long profileID);
+
+    List<MovieDB> findAllMoviesWatched(long profileID, int page);
+    List<MovieDB> findAllMoviesWantSee(long profileID, int page);
+    List<MovieDB> findAllMoviesDontWantSee(long profileID, int page);
+    List<MovieDB> findAllFavoritesMovies(long profileID, int page);
 }

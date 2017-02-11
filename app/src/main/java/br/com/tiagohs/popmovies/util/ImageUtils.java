@@ -205,36 +205,6 @@ public class ImageUtils {
                 .into(imageView);
     }
 
-    public static void load(Context context, String path, final ImageView imageView, String name, ImageSize imageSize, final ViewGroup rodapeImage) {
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        rodapeImage.setVisibility(View.GONE);
-
-        TextDrawable drawable1 = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4)
-                .endConfig()
-                .buildRoundRect(String.valueOf(name.charAt(0)), generator.getRandomColor(), 10);
-
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .placeholder(drawable1)
-                .error(drawable1)
-                .fit()
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        rodapeImage.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        rodapeImage.setVisibility(View.VISIBLE);
-                    }
-                });
-    }
-
-
-
     public static void load(Context context, int pathImg, int placeholder, ImageView imageView) {
         new BitmatCreator(context).loadBitmap(pathImg, imageView, BitmapFactory.decodeResource(context.getResources(),
                 placeholder));

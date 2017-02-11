@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.data.repository;
 
+import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,10 +21,13 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 
 public class MovieRepositoryImpl implements MovieRepository  {
     private static final String TAG = MovieRepositoryImpl.class.getSimpleName();
+    private static final int MAX_MOVIES_BY_PAGE = 12;
 
     private PopMoviesDB mPopMoviesDB;
     private GenreRepository mGenerRepository;
     private SimpleDateFormat mDateFormat;
+
+
 
     public MovieRepositoryImpl(Context context) {
         this.mPopMoviesDB = new PopMoviesDB(context);
@@ -98,6 +102,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
         return null;
     }
 
+
     public Movie findMovieByServerID(int serverID, long profileID) {
         return findMovie(SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(serverID), String.valueOf(profileID)});
     }
@@ -148,20 +153,55 @@ public class MovieRepositoryImpl implements MovieRepository  {
         return null;
     }
 
+    public List<MovieDB> findAllByPage(String[] values, String where) {
+        SQLiteDatabase db = mPopMoviesDB.getWritableDatabase();
+        Log.i(TAG, "Find Movie by Page Chamado.");
+
+        try {
+            return movieDBCursorToList(db.rawQuery(where, values));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        return null;
+    }
+
+    public List<MovieDB> findAllMoviesDB(long profileID, int page) {
+        return findAllByPage(new String[]{String.valueOf(profileID), String.valueOf((page - 1) * MAX_MOVIES_BY_PAGE), String.valueOf(MAX_MOVIES_BY_PAGE)}, SQLHelper.MovieSQL.SELECT_ALL_MOVIES_WITH_PAGES);
+    }
+
     public List<MovieDB> findAllMoviesDB(long profileID) {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIE);
+    }
+
+    public List<MovieDB> findAllMoviesWatched(long profileID, int page) {
+        return findAllByPage(new String[]{String.valueOf(profileID), String.valueOf((page - 1) * MAX_MOVIES_BY_PAGE), String.valueOf(MAX_MOVIES_BY_PAGE)}, SQLHelper.MovieSQL.SELECT_ALL_MOVIES_WATCHED_WITH_PAGES);
     }
 
     public List<MovieDB> findAllMoviesWatched(long profileID) {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIES_WATCHED);
     }
 
+    public List<MovieDB> findAllMoviesWantSee(long profileID, int page) {
+        return findAllByPage(new String[]{String.valueOf(profileID), String.valueOf((page - 1) * MAX_MOVIES_BY_PAGE), String.valueOf(MAX_MOVIES_BY_PAGE)}, SQLHelper.MovieSQL.SELECT_ALL_MOVIES_WANT_SEE_WITH_PAGES);
+    }
+
     public List<MovieDB> findAllMoviesWantSee(long profileID) {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIE_WANT_SEE);
     }
 
+    public List<MovieDB> findAllMoviesDontWantSee(long profileID, int page) {
+        return findAllByPage(new String[]{String.valueOf(profileID), String.valueOf((page - 1) * MAX_MOVIES_BY_PAGE), String.valueOf(MAX_MOVIES_BY_PAGE)}, SQLHelper.MovieSQL.SELECT_ALL_MOVIES_DONT_WANT_SEE_WITH_PAGES);
+    }
+
     public List<MovieDB> findAllMoviesDontWantSee(long profileID) {
         return findAll(new String[]{String.valueOf(profileID)}, SQLHelper.MovieSQL.WHERE_ALL_MOVIE_DONT_WANT_SEE);
+    }
+
+    public List<MovieDB> findAllFavoritesMovies(long profileID, int page) {
+        return findAllByPage(new String[]{String.valueOf(profileID), String.valueOf((page - 1) * MAX_MOVIES_BY_PAGE), String.valueOf(MAX_MOVIES_BY_PAGE)}, SQLHelper.MovieSQL.SELECT_ALL_MOVIES_FAVORITE_WITH_PAGES);
     }
 
     public List<MovieDB> findAllFavoritesMovies(long profileID) {

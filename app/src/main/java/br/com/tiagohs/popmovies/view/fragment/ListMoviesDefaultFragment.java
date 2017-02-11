@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
+import br.com.tiagohs.popmovies.data.repository.ProfileRepositoryImpl;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.presenter.ListMoviesDefaultPresenter;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -245,6 +246,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mPresenter.setView(this);
 
         mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mPresenter.setProfileRepository(new ProfileRepositoryImpl(getContext()));
         mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
 
         if (mSwipeRefreshLayout != null) {

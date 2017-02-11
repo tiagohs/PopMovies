@@ -6,7 +6,7 @@ public class SQLHelper {
 
     public static final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE IF NOT EXISTS " + PopMoviesContract.MoviesEntry.TABLE_NAME + " (" +
             PopMoviesContract.MoviesEntry.COLUMN_PROFILE_FORER_ID + " INTEGER NOT NULL, " +
-            PopMoviesContract.MoviesEntry._ID + " INTEGER PRIMARY KEY," +
+            PopMoviesContract.MoviesEntry._ID + " INTEGER UNIQUE PRIMARY KEY," +
             PopMoviesContract.MoviesEntry.COLUMN_ID_SERVER + " INTEGER NOT NULL, " +
             PopMoviesContract.MoviesEntry.COLUMN_TITLE + " TEXT, " +
             PopMoviesContract.MoviesEntry.COLUMN_STATUS + " TEXT, " +
@@ -94,6 +94,21 @@ public class SQLHelper {
 
         public static final String WHERE_IS_DONT_WANT_SEE_MOVIE = WHERE_MOVIE_BY_SERVER_ID +
                 " AND " + PopMoviesContract.MoviesEntry.COLUMN_STATUS + " = " + MovieDB.STATUS_DONT_WANT_SEE;
+
+        public static final String SELECT_ALL_MOVIES_WITH_PAGES = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + WHERE_ALL_MOVIE + " LIMIT ?,? ";
+
+        public static final String SELECT_ALL_MOVIES_WATCHED_WITH_PAGES = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + WHERE_ALL_MOVIES_WATCHED + " LIMIT ?,? ";
+
+        public static final String SELECT_ALL_MOVIES_WANT_SEE_WITH_PAGES = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + WHERE_ALL_MOVIE_WANT_SEE + " LIMIT ?,? ";
+
+        public static final String SELECT_ALL_MOVIES_DONT_WANT_SEE_WITH_PAGES = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + WHERE_ALL_MOVIE_DONT_WANT_SEE + " LIMIT ?,? ";
+
+        public static final String SELECT_ALL_MOVIES_FAVORITE_WITH_PAGES = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
+                " WHERE " + WHERE_ALL_FAVORITE_MOVIE + " LIMIT ?,? ";
 
         public static final String SORT_BY_DATE_DESC = "SELECT * FROM " + PopMoviesContract.MoviesEntry.TABLE_NAME +
                 " WHERE + " + WHERE_ALL_MOVIE + " ORDER BY DATETIME(" +

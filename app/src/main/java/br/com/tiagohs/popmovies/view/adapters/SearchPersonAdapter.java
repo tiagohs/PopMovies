@@ -67,7 +67,7 @@ public class SearchPersonAdapter extends RecyclerView.Adapter<SearchPersonAdapte
 
 
     class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.person_picture)
+        @BindView(R.id.image_circle)
         ImageView mImageView;
         @BindView(R.id.person_name)
         TextView mName;

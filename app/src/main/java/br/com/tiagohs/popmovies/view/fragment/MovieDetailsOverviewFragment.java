@@ -104,6 +104,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.metascore_ranking_container)             FrameLayout mMetascoreRankingContainer;
     @BindView(R.id.tomatoes_consensus_container)            RelativeLayout mTomatoesConsensusContainer;
     @BindView(R.id.rankings_progress)                       ProgressWheel mRankingProgress;
+    @BindView(R.id.rankings_container_geral)                RelativeLayout mRankingContainerGeral;
     @BindView(R.id.rankings_container)                      LinearLayout mRankingContainer;
     @BindView(R.id.container_similares)                     LinearLayout mSimilaresTitleContainer;
     @BindView(R.id.btn_favorito)                            ImageButton mFavoritoButton;
@@ -602,6 +603,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     public void setRankingContainerVisibility(int visibility) {
         mRankingContainer.setVisibility(visibility);
+        mRankingContainerGeral.setVisibility(visibility);
     }
 
     @Override

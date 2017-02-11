@@ -163,15 +163,17 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rankings_container"
+                    android:id="@+id/rankings_container_geral"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/rankings_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:gravity="center">
 
                         <com.balysv.materialripple.MaterialRippleLayout
