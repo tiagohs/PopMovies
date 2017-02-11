@@ -56,6 +56,11 @@
     <string name="person_wiki" translatable="false">https://en.wikipedia.org/w/index.php?search=%1$s</string>
     <string name="person_imdb" translatable="false">https://www.imdb.com/name/%1$s</string>
     <string name="imdb_link" translatable="false">https://www.imdb.com/title/%1$s</string>
+    <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
+    <string name="filmow_url" translatable="false">https://filmow.com/buscar/?year_start=&amp;year_end=&amp;other_seen_user=&amp;other_want_see_user=&amp;q=%1$s&amp;order=boost</string>
+    <string name="netflix_link" translatable="false">https://www.netflix.com/search?q=%1$s</string>
+    <string name="google_play_link" translatable="false">https://play.google.com/store/search?q=%1$s&amp;c=movies&amp;hl=%2$s</string>
+
     <string name="imdb_reviews_link" translatable="false">https://www.imdb.com/title/%1$s/reviews</string>
     <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
@@ -66,8 +71,11 @@
     <string name="downloaded_image_name"  translatable="false">%1$d_image.jpg</string>
     <string name="url_image" translatable="false">http://image.tmdb.org/t/p/%1$s/%2$s</string>
 
+    <string name="collection">Franquia %1$s</string>
 
-    <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
+
+
+
 
     <string name="perfil_dados_pais">%1$s</string>
     <string name="perfil_dados_pais_idade">%1$s, %2$s %3$s</string>
@@ -353,5 +361,8 @@
     <string name="filter_dialog_cancel">Cancelar</string>
     <string name="filter_dialog_reset">Resetar</string>
     <string name="years_snipper_nenhum">Nenhum</string>
+    <string name="filmow">Filmow</string>
+    <string name="error_rankings">Erro ao carregar notas do IMDB e Tomatoes</string>
+    <string name="sucess_delete_movie">Filme deletado com sucesso</string>
 
 </resources>

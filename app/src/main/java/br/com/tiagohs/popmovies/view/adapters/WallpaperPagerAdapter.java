@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 
-public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickListener {
+public class WallpaperPagerAdapter extends PagerAdapter {
 
     @BindView(R.id.wallpaper_img)           PhotoView mWallpaperImage;
     @BindView(R.id.image_item_progress)     ProgressWheel mProgress;
@@ -32,15 +32,11 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
     private Context mContext;
     private List<ImageDTO> mImageDTOs;
     private ImageDTO mCurrentImage;
-    private ActionBar mToolbar;
-    private boolean mIsVisible;
     private TypeShowImage mTypeShowImage;
 
-    public WallpaperPagerAdapter(Activity context, List<ImageDTO> imageDTOs, ActionBar toolbar, TypeShowImage typeShowImage) {
+    public WallpaperPagerAdapter(Activity context, List<ImageDTO> imageDTOs, TypeShowImage typeShowImage) {
         mContext = context;
         mImageDTOs = imageDTOs;
-        this.mToolbar = toolbar;
-        mIsVisible = true;
         this.mTypeShowImage = typeShowImage;
 
 
@@ -51,7 +47,6 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_wallpaper_detail, container, false);
 
         ButterKnife.bind(this, view);
-        view.setOnClickListener(this);
 
         mCurrentImage = mImageDTOs.get(position);
 
@@ -93,12 +88,4 @@ public class WallpaperPagerAdapter extends PagerAdapter implements View.OnClickL
         return view == object;
     }
 
-    @Override
-    public void onClick(View view) {
-        mIsVisible = !mIsVisible;
-        if (mIsVisible)
-            mToolbar.show();
-        else
-            mToolbar.hide();
-    }
 }

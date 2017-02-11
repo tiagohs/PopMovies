@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.data.repository.MovieRepository;
+import br.com.tiagohs.popmovies.interceptor.MovieCollectionInterceptor;
+import br.com.tiagohs.popmovies.interceptor.MovieCollectionInterceptorImpl;
+import br.com.tiagohs.popmovies.model.movie.CollectionDetails;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
@@ -18,10 +21,12 @@ import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.view.MoviesDetailsOverviewView;
 
-public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse> {
+public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPresenter, ResponseListener<RankingResponse>, MovieCollectionInterceptor.onMovieCollectionListener {
     private static final String TAG = MovieDetailsOverviewPresenterImpl.class.getSimpleName();
 
     private MoviesServer mMoviesServer;
+    private MovieCollectionInterceptor mMovieCollectionInterceptor;
+
     private MoviesDetailsOverviewView mMoviesDetailsOverviewView;
     private MovieRepository mMovieRepository;
 
@@ -29,6 +34,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     public MovieDetailsOverviewPresenterImpl() {
         mMoviesServer = new MoviesServer();
+        mMovieCollectionInterceptor = new MovieCollectionInterceptorImpl(this);
     }
 
     @Override
@@ -42,6 +48,17 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
         }
 
     }
+
+    @Override
+    public void getMovieCollections(int collectionID, String tag) {
+
+        if (mMoviesDetailsOverviewView.isInternetConnected()) {
+            mMovieCollectionInterceptor.getMovieCollections(tag, collectionID);
+        } else {
+            noConnectionError();
+        }
+    }
+
 
     public void setMovieRepository(MovieRepository movieRepository) {
         this.mMovieRepository = movieRepository;
@@ -94,7 +111,7 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
     public void onErrorResponse(VolleyError error) {
 
         if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.onErrorInServer();
+            mMoviesDetailsOverviewView.onErrorGetRankings();
             mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
             mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
             mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
@@ -156,5 +173,15 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     public List<MovieListDTO> getSimilaresMovies(List<MovieDetails> movies) {
         return DTOUtils.createMovieDetailsListDTO(movies);
+    }
+
+    @Override
+    public void onMovieCollectionRequestSucess(CollectionDetails response) {
+        mMoviesDetailsOverviewView.setCollections(response.getMovies());
+    }
+
+    @Override
+    public void onMovieCollectionRequestError(VolleyError error) {
+        mMoviesDetailsOverviewView.setCollectionsVisibility(View.GONE);
     }
 }

@@ -65,6 +65,7 @@ import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.presenter.MovieDetailsPresenter;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -521,4 +522,20 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
             updateState(R.drawable.ic_assitir_eye, R.color.yellow);
         }
     }
+
+    @OnClick(R.id.btn_amazon)
+    public void onAmazonClick() {
+        startActivityForResult(WebViewActivity.newIntent(this, "https://www.amazon.com/s/rh=n%3A2649512011%2Ck%3A" + mMovie.getOriginalTitle() +"&keywords=" + mMovie.getOriginalTitle() + "&ie=UTF8 ", mMovie.getTitle()), 0);
+    }
+
+    @OnClick(R.id.btn_netflix)
+    public void onNetflixClick() {
+        startActivityForResult(WebViewActivity.newIntent(this, getString(R.string.netflix_link, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+    }
+
+    @OnClick(R.id.btn_google_play)
+    public void onGooglePlayClick() {
+        startActivityForResult(WebViewActivity.newIntent(this, getString(R.string.google_play_link, mMovie.getOriginalTitle(), LocaleUtils.getLocaleLanguageAndCountry()), mMovie.getTitle()), 0);
+    }
+
 }

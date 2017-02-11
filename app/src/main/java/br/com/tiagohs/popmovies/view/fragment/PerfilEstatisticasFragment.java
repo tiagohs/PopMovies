@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -206,8 +207,8 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
                     pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_idade, idade)));
         } else if (birthday == null && !ViewUtils.isEmptyValue(genero)) {
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_genero, pais, genero));
-        } else {
-            mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais, pais));
+        } else if (pais != null) {
+                mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais, pais));
         }
 
         mResumoDadosPessoais.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));

@@ -33,6 +33,8 @@ public class PopMovieRequest<T> extends Request<T> {
     public PopMovieRequest(int method, String url, Map<String, String> headers, Map<String, String> parameters, TypeReference<T> typeToken, ResponseListener<T> listener) {
         super(method, url, listener);
 
+        Log.i(TAG, "URL: " + url);
+
         this.mParameters = parameters;
         this.headers = headers;
         this.typeReference = typeToken;

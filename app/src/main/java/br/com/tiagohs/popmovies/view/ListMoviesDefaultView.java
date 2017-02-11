@@ -20,4 +20,5 @@ public interface ListMoviesDefaultView extends BaseView {
 
     void onErrorSaveMovie();
     void onSucessSaveMovie();
+    void onDeleteSaveSucess();
 }

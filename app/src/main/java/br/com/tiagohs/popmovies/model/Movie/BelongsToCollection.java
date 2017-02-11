@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
-/**
- * Created by Tiago Henrique on 27/08/2016.
- */
 public class BelongsToCollection implements Serializable {
     @JsonProperty("id")
     private int id;

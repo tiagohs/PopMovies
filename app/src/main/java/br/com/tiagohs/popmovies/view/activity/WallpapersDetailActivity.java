@@ -104,7 +104,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         mPageSubtitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_SUBTITLE);
         mTypeShowImage = (TypeShowImage) getIntent().getSerializableExtra(ARG_TYPE_SHOW_IMAGE);
 
-        mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, getSupportActionBar(), mTypeShowImage);
+        mWallpaperPagerAdapter = new WallpaperPagerAdapter(this, mImagens, mTypeShowImage);
         mWallpaperViewPager.setAdapter(mWallpaperPagerAdapter);
         setCurrentImage();
     }

@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.presenter;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -56,6 +57,7 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
     private int mStatus;
     private boolean isSaved;
     private boolean isFavorite;
+    private boolean dontIsFavorite;
 
     private int mId;
     private Sort mTypeList;
@@ -117,7 +119,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             case QUERO_VER:
             case NAO_QUERO_VER:
                 getMoviesDB(typeList);
-                //++mCurrentPage;
                 break;
             case GENEROS:
                 mMoviesServer.getMoviesByGenres(id, ++mCurrentPage, tag, this);
@@ -139,11 +140,12 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         }
     }
 
-    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, int position) {
+    public void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite,  boolean dontIsFavorite, int status, String tag, int position) {
         this.mStatus = status;
         this.isSaved = isSaved;
         this.isFavorite = isFavorite;
         this.mPosition = position;
+        this.dontIsFavorite = dontIsFavorite;
 
         if (mListMoviesDefaultView.isInternetConnected()) {
             mListMoviesDefaultView.showDialogProgress();
@@ -262,18 +264,28 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         long id = 0;
         boolean isDelete = false;
 
-        if (isSaved) {
+        if (dontIsFavorite) { //Removendo um Favorito
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
                     movie.getTitle(), isFavorite, movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
-        } else if ((!isSaved) && isFavorite) {
+            mListMoviesDefaultView.onDeleteSaveSucess();
+            isDelete = true;
+        } else if (isSaved) { //Removendo um Filme Assistido
             id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
                     movie.getTitle(), isFavorite, movie.getVoteCount(), mProfileID,
                     Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
                     MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
-        } else {
+            mListMoviesDefaultView.onSucessSaveMovie();
+        } else if ((!isSaved) && isFavorite) { //Adicionando um filme favorito
+            id = mMovieRepository.saveMovie(new MovieDB(movie.getId(), mStatus, movie.getRuntime(), movie.getPosterPath(),
+                    movie.getTitle(), isFavorite, movie.getVoteCount(), mProfileID,
+                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+            mListMoviesDefaultView.onSucessSaveMovie();
+        } else { //Senão, é pra deletar
             mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
+            mListMoviesDefaultView.onDeleteSaveSucess();
             isDelete = true;
         }
 
@@ -288,7 +300,6 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
             mListMoviesDefaultView.onErrorSaveMovie();
 
         mListMoviesDefaultView.hideDialogProgress();
-        mListMoviesDefaultView.onSucessSaveMovie();
     }
 
     @Override

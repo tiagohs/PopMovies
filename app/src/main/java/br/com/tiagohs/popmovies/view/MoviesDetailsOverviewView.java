@@ -1,5 +1,8 @@
 package br.com.tiagohs.popmovies.view;
 
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
 
@@ -23,4 +26,10 @@ public interface MoviesDetailsOverviewView extends BaseView {
     void setRankingProgressVisibility(int visibility);
     void setRankingContainerVisibility(int visibility);
     void setTomatoesReviewsVisibility(int visibility);
+
+    void setCollections(List<Movie> movies);
+
+    void setCollectionsVisibility(int visibility);
+
+    void onErrorGetRankings();
 }

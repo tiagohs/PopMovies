@@ -43,6 +43,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
     private Movie mMovie;
 
     private boolean mIsFavorite;
+    private boolean mDontIsFavorite;
     private boolean mIsToSave;
     private boolean mIsWatched;
     private boolean mIsWantSee;
@@ -169,7 +170,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
                     break;
             }
 
-            mCallback.onLongClick(mIsFavorite, mIsToSave, mStatus);
+            mCallback.onLongClick(mIsFavorite, mIsToSave, mStatus, mDontIsFavorite);
         }
 
         private void onClickFavorite() {
@@ -177,8 +178,11 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
             update(mIsFavorite);
 
-            if (!mIsFavorite && mIsWatched)
+            if (!mIsFavorite && mIsWatched) {
+                mDontIsFavorite = true;
                 mIsToSave = true;
+            }
+
 
             if (!mIsWatched)
                 mIsWatched = true;

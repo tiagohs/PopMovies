@@ -22,7 +22,7 @@ public interface ListMoviesDefaultPresenter extends BasePresenter<ListMoviesDefa
     void setProfileRepository(ProfileRepository profileRepository);
     void setProfileID(long profileID);
 
-    void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, int status, String tag, int position);
+    void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, boolean dontIsFavorite, int status, String tag, int position);
 
 
 }

@@ -36,6 +36,7 @@ import br.com.tiagohs.popmovies.data.repository.MovieRepositoryImpl;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.movie.ReleaseDate;
 import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
@@ -114,10 +115,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.riple_imdb)                              MaterialRippleLayout mImdbContainer;
     @BindView(R.id.imdb_reviews_riple)                      MaterialRippleLayout mImdbReviewContainer;
     @BindView(R.id.tomatoes_reviews_riple)                  MaterialRippleLayout mTomatoesReviewContainer;
+    @BindView(R.id.container_collection)                    LinearLayout mCollectionsContainer;
     @BindView(R.id.elenco_nao_encontrado)                   TextView mElencoNaoEncontrado;
     @BindView(R.id.equipe_tecnica_nao_encontrada)           TextView mEquipeNaoEncontrada;
     @BindView(R.id.label_movie_details_date_mundial)        TextView mReleaseDateMundial;
     @BindView(R.id.label_movie_details_date_pais_atual)     TextView mReleaseDatePaisAtual;
+    @BindView(R.id.collection_title)                        TextView mTitleCollection;
 
     @Inject
     MovieDetailsOverviewPresenter mPresenter;
@@ -136,6 +139,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     private MovieWantSeeCallback mMovieWantSeeCallback;
     private MovieFavoriteCallback mMovieFavoriteCallback;
     private MovieDontWantSeeCallback mMovieDontWantSeeCallback;
+
+    private List<MovieListDTO> mCollection;
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -229,6 +234,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         configuraRecyclersViews();
         configurarSimilares();
         updateUI();
+
+        if (mMovie.getBelongsToCollection() != null) {
+            mPresenter.getMovieCollections(mMovie.getBelongsToCollection().getId(), TAG);
+            mTitleCollection.setText(getString(R.string.collection, mMovie.getTitle()));
+        } else
+            setCollectionsVisibility(View.GONE);
 
         if (mMovie.getCast().isEmpty()) {
             mElencoNaoEncontrado.setVisibility(View.VISIBLE);
@@ -524,6 +535,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.movie_imdb, mMovie.getImdbID()), mMovie.getTitle()), 0);
     }
 
+    @OnClick(R.id.btn_filmow)
+    public void onFilmowClick() {
+        if (mMovie.getOriginalTitle() != null)
+            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.filmow_url, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+    }
+
     @OnClick(R.id.btn_wiki)
     public void onWikiClick() {
         startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.person_wiki, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
@@ -573,12 +590,34 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
             startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()), mMovie.getTitle()), 0);
     }
 
+    @OnClick(R.id.collection_riple)
+    public void onClickCollections() {
+        if (mCollection != null)
+            startActivity(ListsDefaultActivity.newIntent(getContext(), mCollection, new ListActivityDTO(mMovie.getId(), mMovie.getTitle(), getString(R.string.collection, mMovie.getTitle()), Sort.LIST_DEFAULT, R.layout.item_list_movies, ListType.MOVIES)));
+    }
+
     public void setImdbReviewsVisibility(int visibility) {
         mImdbReviewContainer.setVisibility(visibility);
     }
 
     public void setTomatoesReviewsVisibility(int visibility) {
         mTomatoesReviewContainer.setVisibility(visibility);
+    }
+
+    @Override
+    public void setCollections(List<Movie> movies) {
+        mCollection = DTOUtils.createMovieListDTO(movies);
+        startFragment(R.id.fragment_collection, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mCollection, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+    }
+
+    @Override
+    public void setCollectionsVisibility(int visibility) {
+        mCollectionsContainer.setVisibility(visibility);
+    }
+
+    @Override
+    public void onErrorGetRankings() {
+        ViewUtils.createToastMessage(getContext(), getString(R.string.error_rankings));
     }
 
     @Override

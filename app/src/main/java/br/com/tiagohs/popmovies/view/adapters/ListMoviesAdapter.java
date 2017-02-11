@@ -68,15 +68,13 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         return list.size();
      }
 
-
-
-
     class ListMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, LongClickCallbacks {
         @BindView(R.id.poster_movie)                ImageView mImageView;
 
         private MovieListDTO mMovie;
         private boolean isToSave;
         private boolean isMovieFavoritoMarked;
+        private boolean mDontIsFavorite;
         private int mStatus;
 
         private int movieID;
@@ -129,7 +127,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            mPresenter.getMovieDetails(movieID, isToSave, isMovieFavoritoMarked, mStatus, TAG, mMoviePosition);
+                                            mPresenter.getMovieDetails(movieID, isToSave, isMovieFavoritoMarked, mDontIsFavorite, mStatus, TAG, mMoviePosition);
                                         }
                                     })
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -151,10 +149,11 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
         }
 
         @Override
-        public void onLongClick(boolean isFavorite, boolean isToSave, int status) {
+        public void onLongClick(boolean isFavorite, boolean isToSave, int status, boolean dontIsFavorite) {
             mStatus = status;
             this.isToSave = isToSave;
             isMovieFavoritoMarked = isFavorite;
+            mDontIsFavorite = dontIsFavorite;
         }
     }
 }

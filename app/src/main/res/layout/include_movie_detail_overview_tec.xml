@@ -329,6 +329,59 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/container_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#9575cd"
+        android:layout_marginTop="@dimen/margin_default_medium"
+        android:orientation="vertical">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/collection_riple"
+            app:mrl_rippleColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mrl_rippleOverlay="true">
+
+            <LinearLayout style="@style/TitleBackground">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.85">
+
+                    <TextView
+                        android:id="@+id/collection_title"
+                        style="@style/TitleTitleTextView"
+                        android:maxLines="1"
+                        android:layout_marginRight="20dp"
+                        android:ellipsize="marquee"
+                        android:textColor="@color/subtitle_white" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TitleMoreTextView"
+                    android:minWidth="50dp"
+                    android:textColor="@color/subtitle_white" />
+
+            </LinearLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/fragment_collection"
+            android:minHeight="@dimen/recycler_view_min_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_default_min">
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

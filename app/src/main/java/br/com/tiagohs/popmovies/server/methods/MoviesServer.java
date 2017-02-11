@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.tiagohs.popmovies.model.movie.CollectionDetails;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
@@ -236,6 +237,22 @@ public class MoviesServer extends PopMovieServer {
                 .addMethod(Method.GENRE)
                 .addMethod(Method.MOVIE)
                 .addSubMethod(SubMethod.LIST)
+                .addParameters(mParameters)
+                .build();
+
+        execute(METHOD_REQUEST_GET, null, listener, tag);
+    }
+
+    public void getMovieCollections(String tag, int collectionID, ResponseListener<CollectionDetails> listener) {
+        mParameters = new HashMap<>();
+
+        mParameters.put(Param.API_KEY.getParam(), KEY);
+        mParameters.put(Param.LANGUAGE.getParam(), LocaleUtils.getLocaleLanguageAndCountry());
+
+        mTypeToken = new TypeReference<CollectionDetails>(){};
+        mUrl = new UrlBuilder().addBaseUrl(BASE_URL_TMDB_MOVIES)
+                .addMethod(Method.COLLECTION)
+                .addId(collectionID)
                 .addParameters(mParameters)
                 .build();
 

@@ -108,9 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (null != mBinder)
-            mBinder.unbind();
     }
 
     @Override

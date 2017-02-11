@@ -132,4 +132,6 @@ dependencies {
 
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 
+    compile 'com.github.clans:fab:1.6.4'
+
 }

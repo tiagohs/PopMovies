@@ -342,7 +342,18 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     public void notifyMovieRemoved(int position) {
-        mListMoviesAdapter.notifyItemRemoved(position);
+
+        switch (mTypeList) {
+            case FAVORITE:
+            case ASSISTIDOS:
+            case QUERO_VER:
+            case NAO_QUERO_VER:
+                mListMovies.remove(position);
+                mListMoviesAdapter.setList(mListMovies);
+                mListMoviesAdapter.notifyItemRemoved(position);
+                mListMoviesAdapter.notifyItemRangeChanged(position, mListMoviesAdapter.getItemCount());
+        }
+
     }
 
     @Override
@@ -353,6 +364,11 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     @Override
     public void onSucessSaveMovie() {
         ViewUtils.createToastMessage(getContext(), getString(R.string.sucess_save_movie));
+    }
+
+    @Override
+    public void onDeleteSaveSucess() {
+        ViewUtils.createToastMessage(getContext(), getString(R.string.sucess_delete_movie));
     }
 
     private RecyclerView.OnScrollListener createOnScrollListener() {
