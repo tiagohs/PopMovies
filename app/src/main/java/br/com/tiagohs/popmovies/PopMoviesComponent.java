@@ -10,10 +10,12 @@ import br.com.tiagohs.popmovies.view.activity.PerfilEditActivity;
 import br.com.tiagohs.popmovies.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.view.activity.SearchActivity;
 import br.com.tiagohs.popmovies.view.fragment.GenresFragment;
+import br.com.tiagohs.popmovies.view.fragment.LancamentosSemanaFragment;
 import br.com.tiagohs.popmovies.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.ListPersonsDefaultFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsMidiaFragment;
 import br.com.tiagohs.popmovies.view.fragment.MovieDetailsOverviewFragment;
+import br.com.tiagohs.popmovies.view.fragment.PerfilEditFragment;
 import br.com.tiagohs.popmovies.view.fragment.PerfilEstatisticasFragment;
 import br.com.tiagohs.popmovies.view.fragment.SearchMoviesFragment;
 import br.com.tiagohs.popmovies.view.fragment.SearchPersonsFragment;
@@ -37,6 +39,6 @@ public interface PopMoviesComponent {
     void inject(SearchMoviesFragment searchMoviesFragment);
     void inject(SearchPersonsFragment searchMoviesFragment);
     void inject(PerfilEstatisticasFragment perfilEstatisticasFragment);
-    void inject(PerfilEditActivity perfilEditActivity);
-    void inject(LancamentosSemanaActivity lancamentosSemanaActivity);
+    void inject(PerfilEditFragment perfilEditFragment);
+    void inject(LancamentosSemanaFragment lancamentosSemanaFragment);
 }

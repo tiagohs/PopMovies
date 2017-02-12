@@ -309,23 +309,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/margin_default_medium"
+        android:layout_marginBottom="@dimen/margin_default_medium"
         android:gravity="center">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/keywords_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_default_medium"
             android:layout_gravity="center|center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:minHeight="30dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
     </LinearLayout>
 
     <LinearLayout
@@ -381,6 +376,13 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -416,7 +418,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-
                     android:layout_marginRight="16dp"
                     android:gravity="center"
                     android:textColor="@color/colorPrimaryDark"
@@ -454,9 +455,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/equipe_tecnica_riple"

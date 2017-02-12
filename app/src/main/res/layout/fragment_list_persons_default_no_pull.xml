@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="top"
+        android:paddingLeft="@dimen/margin_default_medium"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:matProg_barColor="@color/colorAccent"

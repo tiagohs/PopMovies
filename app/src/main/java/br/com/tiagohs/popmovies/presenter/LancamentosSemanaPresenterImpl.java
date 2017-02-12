@@ -32,6 +32,13 @@ public class LancamentosSemanaPresenterImpl implements LancamentosSemanaPresente
         formatterDateView = new SimpleDateFormat("dd MMM yyyy");
     }
 
+    public void updateWithCalendar(Calendar baseDate, Locale locale) {
+        mAtualMaxDate.setTime(baseDate.getTime());
+        mAtualMinDate.setTime(baseDate.getTime());
+
+        initUpdateMovies(locale);
+    }
+
     public void initUpdateMovies(Locale locale) {
         setDateByDayOfWeek(mAtualMinDate, Calendar.SUNDAY);
         setDateByDayOfWeek(mAtualMaxDate, Calendar.SATURDAY);

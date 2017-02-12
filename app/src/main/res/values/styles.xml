@@ -113,12 +113,17 @@
         <item name="android:textSize">@dimen/txt_size_small</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <!-- Edit Perfil -->
 
     <style name="EditPerfilOptionStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/edit_perfil_option_heigh</item>
         <item name="android:textSize">@dimen/txt_size_medium</item>
+        <item name="android:focusable">false</item>
         <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
     </style>
 

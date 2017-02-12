@@ -19,7 +19,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:src="@drawable/img_1"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
@@ -29,7 +29,7 @@
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/image_item_movie_progress"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"

@@ -20,16 +20,13 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.view.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.view.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.view.fragment.WallpapersFragment;
 import butterknife.BindView;
 
 public class WallpapersActivity extends BaseActivity implements ImagesCallbacks {
     public static final String ARG_WALLPAPERS = "br.com.tiagohs.popmovies.wallpapers";
     public static final String ARG_TITLE_PAGE = "br.com.tiagohs.popmovies.title_page_wall";
     public static final String ARG_SUBTITLE_PAGE = "br.com.tiagohs.popmovies.subtitle_page_wall";
-
-    @BindView(R.id.wallpapers_recycler_view)        RecyclerView mWallpapersRecyclerView;
-    @BindView(R.id.wallpapers_principal_progress)   ProgressWheel mProgress;
-    @BindView(R.id.wallpaper_nao_encontrado)        TextView mWallpapersNaoEncontrados;
 
     private List<ImageDTO> mWallpapers;
     private String mPageTitle;
@@ -57,37 +54,12 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
         if (mPageSubtitle != null)
             mToolbar.setSubtitle(mPageSubtitle);
 
-        configurateWallpapersRecyclerView();
-    }
-
-    private void configurateWallpapersRecyclerView() {
-
-        if (mWallpapers == null)
-            noImages();
-        else if (mWallpapers.isEmpty())
-            noImages();
-        else {
-            mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.images_movie_detail_columns)));
-            mWallpapersRecyclerView.setAdapter(new ImageAdapter(this, mWallpapers, this, mWallpapers));
-            mProgress.setVisibility(View.GONE);
-        }
-
-    }
-
-    private void noImages() {
-        mWallpapersNaoEncontrados.setVisibility(View.VISIBLE);
-        mProgress.setVisibility(View.GONE);
+        startFragment(R.id.content_fragment, WallpapersFragment.newInstance(mWallpapers));
     }
 
     @Override
     protected View.OnClickListener onSnackbarClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                configurateWallpapersRecyclerView();
-                mSnackbar.dismiss();
-            }
-        };
+        return null;
     }
 
     @Override
@@ -97,7 +69,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     @Override
     protected int getActivityBaseViewID() {
-        return R.layout.activity_wallpapers;
+        return R.layout.activity_default;
     }
 
     @Override

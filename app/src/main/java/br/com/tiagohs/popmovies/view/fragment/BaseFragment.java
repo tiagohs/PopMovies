@@ -8,7 +8,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import br.com.tiagohs.popmovies.App;
 import br.com.tiagohs.popmovies.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.db.ProfileDB;
+import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.view.activity.BaseActivity;
 import butterknife.ButterKnife;
@@ -27,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected MaterialDialog materialDialog;
     protected Snackbar mSnackbar;
+    protected ProfileDB mProfileDB;
 
     protected Unbinder mBinder;
 
@@ -45,6 +47,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mProfileDB = PrefsUtils.getCurrentProfile(getActivity());
         injectViews(view);
     }
 
