@@ -151,8 +151,11 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
             if (isEmpty(response.getTomatoConsensus()))
                 mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
-            else
+            else {
+                mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.VISIBLE);
                 mMoviesDetailsOverviewView.updateTomatoesConsensus(response.getTomatoConsensus());
+            }
+
 
             if (response.getTomatoURL() == null)
                 mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);

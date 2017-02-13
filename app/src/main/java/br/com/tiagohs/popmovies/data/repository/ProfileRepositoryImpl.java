@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.data.PopMoviesContract;
@@ -25,12 +28,16 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     private UserRepository mUserRepository;
     private Context mContext;
 
+    private SimpleDateFormat mDateFormat;
+
     public ProfileRepositoryImpl(Context context) {
         this.mPopMoviesDB = new PopMoviesDB(context);
         this.mMovieRepository = new MovieRepositoryImpl(context);
         this.mUserRepository = new UserRepositoryImpl(context);
 
         this.mContext = context;
+
+        mDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     }
 
     public long saveProfile(ProfileDB profile) {
@@ -215,18 +222,30 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public ProfileDB getProfileByCursor(Cursor c, String username) {
         ProfileDB profile = new ProfileDB();
 
-        profile.setProfileID(c.getLong(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
-        profile.setDescricao(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION)));
+        try {
+            profile.setProfileID(c.getLong(c.getColumnIndex(PopMoviesContract.ProfileEntry._ID)));
+            profile.setDescricao(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION)));
+            profile.setGenrer(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_GENRER)));
+            profile.setCountry(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_COUNTRY)));
 
-        profile.setFilmes(mMovieRepository.findAllMoviesDB(profile.getProfileID()));
-        profile.setFilmesAssistidos(mMovieRepository.findAllMoviesWatched(profile.getProfileID()));
-        profile.setFilmesQueroVer(mMovieRepository.findAllMoviesWantSee(profile.getProfileID()));
-        profile.setFilmesNaoQueroVer(mMovieRepository.findAllMoviesDontWantSee(profile.getProfileID()));
-        profile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(profile.getProfileID()));
+            String birthdayString = c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_BIRTHDAY));
+            if (birthdayString != null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(mDateFormat.parse(birthdayString));
+                profile.setBirthday(calendar);
+            }
 
-        profile.setTotalHorasAssistidas(getTotalHoursWatched(profile.getProfileID()));
-        profile.setUser(mUserRepository.findUserByUsername(username, profile.getProfileID()));
+            profile.setFilmes(mMovieRepository.findAllMoviesDB(profile.getProfileID()));
+            profile.setFilmesAssistidos(mMovieRepository.findAllMoviesWatched(profile.getProfileID()));
+            profile.setFilmesQueroVer(mMovieRepository.findAllMoviesWantSee(profile.getProfileID()));
+            profile.setFilmesNaoQueroVer(mMovieRepository.findAllMoviesDontWantSee(profile.getProfileID()));
+            profile.setFilmesFavoritos(mMovieRepository.findAllFavoritesMovies(profile.getProfileID()));
 
+            profile.setTotalHorasAssistidas(getTotalHoursWatched(profile.getProfileID()));
+            profile.setUser(mUserRepository.findUserByUsername(username, profile.getProfileID()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return profile;
     }
 
@@ -234,6 +253,11 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         ContentValues values = new ContentValues();
 
         values.put(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION, profile.getDescricao());
+        if (profile.getBirthday() != null)
+            values.put(PopMoviesContract.ProfileEntry.COLUMN_BIRTHDAY, mDateFormat.format(profile.getBirthday().getTime()));
+
+        values.put(PopMoviesContract.ProfileEntry.COLUMN_COUNTRY, profile.getCountry());
+        values.put(PopMoviesContract.ProfileEntry.COLUMN_GENRER, profile.getGenrer());
         values.put(PopMoviesContract.ProfileEntry.COLUMN_USER_FORER_USERNAME, profile.getUser().getUsername());
 
         return values;

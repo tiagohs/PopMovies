@@ -28,7 +28,7 @@
     <string name="wiki">WIKI</string>
     <string name="tvrage">TVRAGE</string>
     <string name="freebase">FREEBASE</string>
-    <string name="titles_movie_details_overview_similares">SIMILARES</string>
+    <string name="titles_movie_details_overview_similares">Similares</string>
     <string name="titulo_original">Titulo Original:</string>
     <string name="idioma_original">Idioma Original:</string>
     <string name="orcamento">Orçamento:</string>
@@ -202,8 +202,8 @@
     <string name="title_activity_main_novo">MainNovoActivity</string>
     <string name="title_activity_movies_by_genre">MoviesByGenreActivity</string>
     <string name="title_activity_actor_details">ActorDetailActivity</string>
-    <string name="titles_movie_detail_midia_videos">VIDEOS E TRAILERS</string>
-    <string name="titles_movie_detail_midia_imagens">POSTER E WALLPAPERS</string>
+    <string name="titles_movie_detail_midia_videos">Vídeos e Trailers</string>
+    <string name="titles_movie_detail_midia_imagens">Posters e Wallpapers</string>
     <string name="person_nascimento">Data de Nascimento</string>
     <string name="cidade_natal">Cidade Natal</string>
     <string name="principais_areas">Principais áreas</string>
@@ -224,7 +224,7 @@
     <string name="title_activity_wallpapers">Wallpapers</string>
     <string name="person">Pessoas</string>
     <string name="similares">Similares</string>
-    <string name="conhecido_por">CONHECIDO POR</string>
+    <string name="conhecido_por">Conhecido por</string>
     <string name="imdb">IMDB</string>
     <string name="menu_open_navegador">Abrir no Navegador</string>
     <string name="conhecido_por_title">Conhecido Por..</string>
@@ -364,5 +364,33 @@
     <string name="filmow">Filmow</string>
     <string name="error_rankings">Erro ao carregar notas do IMDB e Tomatoes</string>
     <string name="sucess_delete_movie">Filme deletado com sucesso</string>
+    <string name="videos_no_data">Sem Vídeos disponíveis</string>
+    <string name="movie_detail_tomatoes_reviews">Tomatoes Reviews</string>
+    <string name="movie_detail_imdb_reviews">IMDB Reviews</string>
+    <string name="perfil_estatisticas_description">Estátisticas, Dados Pessoais e Gráficos</string>
+    <string name="perfil_estatisticas_filmes_saved">Filmes Salvos</string>
+    <string name="perfil_estatistiticas_filmes">Filmes</string>
+    <string name="hours_watched_title">Total de horas assistidas</string>
+    <string name="hour_watched_year">Anos</string>
+    <string name="hour_watched_months">Meses</string>
+    <string name="hour_watched_days">Dias</string>
+    <string name="hour_watched_hours">Horas</string>
+    <string name="hour_watched_minutes">Minutos</string>
+    <string name="perfil_estatisticas_no_data_to_hour">Não há dados Suficientes</string>
+    <string name="perfil_estatisticas_no_data_to_genres_graphic">Não há dados suficientes</string>
+    <string name="favoritos_title">Favoritos</string>
+    <string name="favoritos_subtitle">Seus filmes favoritos</string>
+    <string name="quero_ver_title">Quero ver</string>
+    <string name="quero_ver_subtitle">Seus filmes que você quer ver</string>
+    <string name="nao_quero_ver_title">Não quero ver</string>
+    <string name="nao_quero_ver_subtitle">Os Filmes que você jamais quer ver!</string>
+    <string name="assistidos_subtitle">Seus filmes assistidos</string>
+    <string name="perfil_filmes_no_data">Você não asssistiu nenhum filme ainda</string>
+    <string name="perfil_filmes_dont_see_no_data">Você não possui nenhum filme há não ser visto.</string>
+    <string name="perfil_filmes_favorite_no_data">Você não possui nenhum filme favorito.</string>
+    <string name="perfil_filmes_want_see_no_data">Você não possui nenhum filme há ser visto</string>
+    <string name="want_see_button">Quero Ver</string>
+    <string name="dont_want_see_button">Não quero ver</string>
+    <string name="pagina_inicial">Página Inicial</string>
 
 </resources>

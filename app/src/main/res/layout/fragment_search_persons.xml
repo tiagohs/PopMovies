@@ -2,24 +2,19 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="16dp"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_person_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false" />
+        android:layout_height="wrap_content" />
 
     <com.pnikosis.materialishprogress.ProgressWheel
         android:visibility="gone"
         android:id="@+id/search_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        style="@style/ProgressDefault"
         app:matProg_barColor="@color/colorAccent"
         app:matProg_progressIndeterminate="true" />
 

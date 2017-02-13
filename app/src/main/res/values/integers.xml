@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="person_detail_collumns">2</integer>
+    <integer name="person_detail_rows">2</integer>
+    <integer name="person_detail_areas_max_line">1</integer>
+</resources>

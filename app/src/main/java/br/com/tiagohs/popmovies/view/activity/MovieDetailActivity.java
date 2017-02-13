@@ -123,7 +123,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     @BindView(R.id.progress_movies_details)       ProgressBar mProgressMovieDetails;
     @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
     @BindView(R.id.share_progress)                ProgressWheel mProgressShare;
-    @BindView(R.id.duracao_movie_container)       LinearLayout mDuracaoMovieContainer;
+    @BindView(R.id.duracao_icon)                  ImageView mDuracaoIcon;
 
     @Inject MovieDetailsPresenter mPresenter;
 
@@ -485,7 +485,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     public void setDuracaoMovieVisibility(int visibility) {
-        mDuracaoMovieContainer.setVisibility(visibility);
+        mDuracaoIcon.setVisibility(visibility);
+        mDuracao.setVisibility(visibility);
     }
 
     @Override

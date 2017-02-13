@@ -136,7 +136,6 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     @BindView(R.id.principal_container)
     LinearLayout mContainerPrincipal;
 
-
     private Legend mLegend;
     private boolean mIsEstatisticasLoaded = false;
 
@@ -211,7 +210,6 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
                 mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais, pais));
         }
 
-        mResumoDadosPessoais.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
     }
 
     public void setTotalsMovies(long totalWatched, long totalFavorite, long totalWantSee, long totalDontWantSee) {
@@ -227,12 +225,10 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
         else
             mDescricaoDadosPessoais.setText(R.string.nao_ha_descicao);
 
-        mDescricaoDadosPessoais.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
     }
 
     private void setTotalsMovies(long total, TextView mTexView) {
         mTexView.setText(String.valueOf(total) + " " + getResources().getQuantityString(R.plurals.number_of_filmes_assistidos, (int) total));
-        mTexView.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
     }
 
     private void setTotalHorasVisibility(LinearLayout container, TextView numerTextView, TextView label, int idLabelString, int value) {

@@ -9,6 +9,8 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         app:tabMaxWidth="0dp"
         app:tabGravity="fill"
         app:tabMode="fixed"
@@ -16,8 +18,6 @@
         app:tabSelectedTextColor="@color/colorPrimaryDark"
         android:background="@android:color/transparent"
         app:tabIndicatorColor="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
         android:fontFamily="sans-serif-condensed" />
 
     <android.support.v4.view.ViewPager

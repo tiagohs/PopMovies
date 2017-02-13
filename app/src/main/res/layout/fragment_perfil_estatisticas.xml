@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,103 +19,73 @@
             <LinearLayout
                 android:id="@+id/principal_container"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="@color/divider">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:textColor="@color/secondary_text"
-                        android:text="Estátisticas, Dados Pessoais e Gráficos"/>
-
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textAlignment="center"
+                    android:background="@color/divider"
+                    android:textColor="@color/secondary_text"
+                    android:text="@string/perfil_estatisticas_description"/>
 
                 <LinearLayout
                     android:id="@+id/dados_iniciais_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-
                     android:orientation="horizontal">
 
                     <com.balysv.materialripple.MaterialRippleLayout
-                        android:id="@+id/imdb_reviews_riple"
-                        app:mrl_rippleColor="@color/colorPrimaryDark"
-                        app:mrl_rippleBackground="@color/color_estatistica_back"
+                        android:id="@+id/filmes_total_person_riple"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorPrimaryDark"
+                        app:mrl_rippleBackground="@color/color_estatistica_back"
                         app:mrl_rippleOverlay="true">
 
                         <LinearLayout
-                            android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:layout_marginLeft="6dp"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin_default_medium"
+                            android:layout_marginLeft="@dimen/margin_default_min"
                             android:layout_weight="0.8">
 
+                            <br.com.tiagohs.popmovies.view.PopTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/perfil_estatisticas_filmes_saved"
+                                app:font="@string/font_open_sans"
+                                style="@style/MoviesSavedTextView" />
+
                             <TextView
-                                android:text="Filmes Salvos"
-                                android:gravity="center"
+                                android:id="@+id/total_filmes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@android:color/white"
                                 android:fontFamily="sans-serif-light"
-                                android:layout_marginBottom="5dp"
-                                android:textSize="12dp"/>
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@android:color/white"
+                                android:textSize="30dp"/>
 
-                            <com.balysv.materialripple.MaterialRippleLayout
-                                android:id="@+id/filmes_total_person_riple"
-                                app:mrl_rippleColor="@color/secondary_text"
+                            <br.com.tiagohs.popmovies.view.PopTextView
+                                android:id="@+id/label_total_filmes"
+                                android:text="@string/perfil_estatistiticas_filmes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                app:mrl_rippleOverlay="true">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
-
-                                    <TextView
-                                        android:id="@+id/total_filmes"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-light"
-                                        android:textStyle="bold"
-                                        android:gravity="center"
-                                        android:text="20"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="30dp"/>
-
-                                    <TextView
-                                        android:id="@+id/label_total_filmes"
-                                        android:text="Filmes"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-light"
-                                        android:gravity="center"
-                                        android:textColor="@android:color/white"
-                                        android:layout_marginTop="5dp"
-                                        android:textSize="12dp"/>
-
-                                </LinearLayout>
-                            </com.balysv.materialripple.MaterialRippleLayout>
+                                app:font="@string/font_open_sans"
+                                style="@style/MoviesSavedTextView"/>
 
                         </LinearLayout>
                     </com.balysv.materialripple.MaterialRippleLayout>
 
                     <View
-                        android:layout_width="1dp"
+                        android:layout_width="@dimen/divider_height"
                         android:layout_height="match_parent"
                         android:background="@color/divider"/>
 
@@ -124,8 +93,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:layout_marginRight="6dp"
+                        android:padding="@dimen/margin_default_medium"
+                        android:layout_marginRight="@dimen/margin_default_min"
                         android:layout_weight="0.3">
 
                         <FrameLayout
@@ -138,15 +107,13 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:text="Total de horas assistidas:"
-                                    android:gravity="center"
+                                <br.com.tiagohs.popmovies.view.PopTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/secondary_text"
-                                    android:fontFamily="sans-serif-light"
-                                    android:layout_marginBottom="5dp"
-                                    android:textSize="12dp"/>
+                                    android:gravity="center"
+                                    android:text="@string/hours_watched_title"
+                                    app:font="@string/font_open_sans"
+                                    style="@style/HoursWatchedTextView"/>
 
                                 <com.balysv.materialripple.MaterialRippleLayout
                                     android:id="@+id/total_horas_riple"
@@ -167,31 +134,26 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="@dimen/margin_default_min"
+                                            android:layout_marginRight="@dimen/margin_default_min"
                                             android:gravity="center">
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/total_anos"
-                                                android:text="20"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:textStyle="bold"
                                                 android:gravity="center"
-                                                android:textColor="@color/primary_text"
-                                                android:textSize="30dp"/>
+                                                app:font="@string/font_open_sans_bold"
+                                                style="@style/HoursWatchedOptionNumberTextView" />
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/label_total_anos"
-                                                android:text="Anos"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="center"
-                                                android:textColor="@color/secondary_text"
-                                                android:fontFamily="sans-serif-light"
-                                                android:layout_marginTop="5dp"
-                                                android:textSize="12dp"/>
+                                                android:text="@string/hour_watched_year"
+                                                app:font="@string/font_open_sans"
+                                                style="@style/HoursWatchedOptionTextView"/>
 
                                         </LinearLayout>
 
@@ -200,31 +162,26 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="@dimen/margin_default_min"
+                                            android:layout_marginRight="@dimen/margin_default_min"
                                             android:gravity="center">
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/total_meses"
-                                                android:text="12"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:textStyle="bold"
                                                 android:gravity="center"
-                                                android:textColor="@color/primary_text"
-                                                android:textSize="30dp"/>
+                                                app:font="@string/font_open_sans_bold"
+                                                style="@style/HoursWatchedOptionNumberTextView"/>
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/label_total_meses"
-                                                android:text="Meses"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="center"
-                                                android:textColor="@color/secondary_text"
-                                                android:fontFamily="sans-serif-light"
-                                                android:layout_marginTop="5dp"
-                                                android:textSize="12dp"/>
+                                                android:text="@string/hour_watched_months"
+                                                app:font="@string/font_open_sans"
+                                                style="@style/HoursWatchedOptionTextView"/>
 
                                         </LinearLayout>
 
@@ -233,31 +190,26 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="@dimen/margin_default_min"
+                                            android:layout_marginRight="@dimen/margin_default_min"
                                             android:gravity="center">
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/total_dias"
-                                                android:text="31"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:textStyle="bold"
                                                 android:gravity="center"
-                                                android:textColor="@color/primary_text"
-                                                android:textSize="30dp"/>
+                                                app:font="@string/font_open_sans_bold"
+                                                style="@style/HoursWatchedOptionNumberTextView"/>
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/label_total_dias"
-                                                android:text="Dias"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="center"
-                                                android:textColor="@color/secondary_text"
-                                                android:fontFamily="sans-serif-light"
-                                                android:layout_marginTop="5dp"
-                                                android:textSize="12dp"/>
+                                                android:text="@string/hour_watched_days"
+                                                app:font="@string/font_open_sans"
+                                                style="@style/HoursWatchedOptionTextView"/>
 
                                         </LinearLayout>
 
@@ -266,31 +218,26 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="@dimen/margin_default_min"
+                                            android:layout_marginRight="@dimen/margin_default_min"
                                             android:gravity="center">
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/total_horas"
-                                                android:text="60"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:textStyle="bold"
                                                 android:gravity="center"
-                                                android:textColor="@color/primary_text"
-                                                android:textSize="30dp"/>
+                                                app:font="@string/font_open_sans_bold"
+                                                style="@style/HoursWatchedOptionNumberTextView"/>
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/label_total_horas"
-                                                android:text="Horas"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="center"
-                                                android:textColor="@color/secondary_text"
-                                                android:fontFamily="sans-serif-light"
-                                                android:layout_marginTop="5dp"
-                                                android:textSize="12dp"/>
+                                                android:text="@string/hour_watched_hours"
+                                                app:font="@string/font_open_sans"
+                                                style="@style/HoursWatchedOptionTextView"/>
 
                                         </LinearLayout>
 
@@ -299,31 +246,26 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical"
-                                            android:layout_marginLeft="5dp"
-                                            android:layout_marginRight="5dp"
+                                            android:layout_marginLeft="@dimen/margin_default_min"
+                                            android:layout_marginRight="@dimen/margin_default_min"
                                             android:gravity="center">
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/total_minutos"
-                                                android:text="60"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:textStyle="bold"
                                                 android:gravity="center"
-                                                android:textColor="@color/primary_text"
-                                                android:textSize="30dp"/>
+                                                app:font="@string/font_open_sans_bold"
+                                                style="@style/HoursWatchedOptionNumberTextView"/>
 
-                                            <TextView
+                                            <br.com.tiagohs.popmovies.view.PopTextView
                                                 android:id="@+id/label_total_minutos"
-                                                android:text="Minutos"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="center"
-                                                android:textColor="@color/secondary_text"
-                                                android:fontFamily="sans-serif-light"
-                                                android:layout_marginTop="5dp"
-                                                android:textSize="12dp"/>
+                                                android:text="@string/hour_watched_minutes"
+                                                app:font="@string/font_open_sans"
+                                                style="@style/HoursWatchedOptionTextView"/>
 
                                         </LinearLayout>
                                     </LinearLayout>
@@ -337,25 +279,26 @@
                                 android:visibility="gone"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Não há dados Suficientes"/>
+                                android:text="@string/perfil_estatisticas_no_data_to_hour"/>
 
                         </FrameLayout>
-
-
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <View style="@style/DividerStyle"/>
+                <View
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    style="@style/DividerLargeStyle"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:paddingTop="@dimen/margin_default_min"
+                    android:paddingBottom="@dimen/margin_default_min"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:gravity="center">
@@ -363,117 +306,119 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/margin_default_medium"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/perfil_estatisticas_image_size"
+                            android:layout_height="@dimen/perfil_estatisticas_image_size"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_assistidos_preenxido"/>
 
-                        <TextView
+                        <br.com.tiagohs.popmovies.view.PopTextView
                             android:id="@+id/total_movies_watched"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="51 Filmes"/>
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/margin_default_min"
+                            app:font="@string/font_open_sans"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/margin_default_medium"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/perfil_estatisticas_image_size"
+                            android:layout_height="@dimen/perfil_estatisticas_image_size"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_favorite_clicked"/>
 
-                        <TextView
+                        <br.com.tiagohs.popmovies.view.PopTextView
                             android:id="@+id/total_movies_favorites"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="51 Filmes"/>
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/margin_default_min"
+                            app:font="@string/font_open_sans"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/margin_default_medium"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/perfil_estatisticas_image_size"
+                            android:layout_height="@dimen/perfil_estatisticas_image_size"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_quero_ver"/>
 
-                        <TextView
+                        <br.com.tiagohs.popmovies.view.PopTextView
                             android:id="@+id/total_movies_want_see"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="51 Filmes"/>
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/margin_default_min"
+                            app:font="@string/font_open_sans"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/margin_default_medium"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/perfil_estatisticas_image_size"
+                            android:layout_height="@dimen/perfil_estatisticas_image_size"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_nao_quero_ver"/>
 
-                        <TextView
+                        <br.com.tiagohs.popmovies.view.PopTextView
                             android:id="@+id/total_movies_dont_want_see"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="51 Filmes"/>
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/margin_default_min"
+                            app:font="@string/font_open_sans"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <View style="@style/DividerStyle"/>
+                <View
+                    android:layout_marginTop="0dp"
+                    style="@style/DividerLargeStyle"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/margin_default_medium"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/perfil_estatisticas_image_small_size"
+                        android:layout_height="@dimen/perfil_estatisticas_image_small_size"
                         android:src="@drawable/ic_locale"/>
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/resumo_dados_pessoais"
-                        android:layout_marginLeft="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Brasil, 23 Anos - Masculino"/>
+                        android:layout_marginLeft="@dimen/margin_default_min"
+                        app:font="@string/font_open_sans"/>
 
                 </LinearLayout>
 
@@ -482,45 +427,44 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/margin_default_medium">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:textColor="@color/primary_text"
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/aspas"
-                        android:textSize="80dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/perfil_estatisticas_descricao_aspas_height"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/perfil_estatisticas_descricao_aspas_text_size"
                         android:text="@string/aspas"
-                        android:fontFamily="sans-serif-condensed"/>
+                        app:font="@string/font_open_sans" />
 
                     <TextView
                         android:id="@+id/descricao_dados_pessoais"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text"
                         android:layout_gravity="center"
-                        android:textSize="14dp"
-                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/secondary_text"
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/aspas"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="23dp"/>
+                        android:layout_marginLeft="@dimen/margin_default_min"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"/>
 
                 </RelativeLayout>
 
-                <View style="@style/DividerStyle"/>
+                <View style="@style/DividerLargeStyle"/>
 
                 <LinearLayout
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="@dimen/margin_default_medium"
+                    android:layout_marginBottom="@dimen/margin_default_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="100dp"
+                    android:minHeight="@dimen/min_heigth_genres_graphic"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -529,7 +473,7 @@
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/genrers_graphic"
                             android:layout_width="match_parent"
-                            android:layout_height="300dp"/>
+                            android:layout_height="@dimen/genres_graphic_height"/>
 
                         <TextView
                             android:id="@+id/graph_nao_ha_dados"
@@ -537,21 +481,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Não hpa dados Suficientes"/>
+                            android:text="@string/perfil_estatisticas_no_data_to_genres_graphic"/>
                     </FrameLayout>
 
-
-
-
                 </LinearLayout>
-
 
             </LinearLayout>
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/principal_progress"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="@dimen/recycler_view_min_height"
                 app:matProg_barColor="@color/colorAccent"
                 app:matProg_progressIndeterminate="true" />
 

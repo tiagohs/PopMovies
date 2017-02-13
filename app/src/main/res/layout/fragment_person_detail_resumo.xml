@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="fill_vertical"
-    >
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -20,11 +14,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="16dp"
-            app:columnCount="2"
-            app:rowCount="2"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp">
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:columnCount="@integer/person_detail_collumns"
+            app:rowCount="@integer/person_detail_rows"
+            android:horizontalSpacing="@dimen/margin_default_medium"
+            android:verticalSpacing="@dimen/margin_default_medium">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -33,162 +27,162 @@
                     app:layout_gravity="fill_horizontal"
                     android:orientation="vertical">
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/label_movie_details_titulo_original"
-                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/genre_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/secondary_text"
+                        app:font="@string/font_open_sans" />
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/person_genero"
-                        android:textSize="13dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/primary_text"
+                        app:font="@string/font_open_sans" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_columnWeight="1"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/margin_default_min"
                     android:orientation="vertical">
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/label_movie_details_orcamento_original"
-                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/person_nascimento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/secondary_text"
+                        app:font="@string/font_open_sans" />
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/person_data_nascimento"
-                        android:textSize="13dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/primary_text"
+                        app:font="@string/font_open_sans" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_columnWeight="1"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/margin_default_medium"
                     android:orientation="vertical">
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/label_movie_details_idioma_original"
-                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/cidade_natal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/secondary_text"
+                        app:font="@string/font_open_sans" />
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/person_cidade_natal"
-                        android:textSize="13dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/primary_text"
+                        app:font="@string/font_open_sans" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_columnWeight="1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="@dimen/margin_default_medium"
+                    android:layout_marginLeft="@dimen/margin_default_min"
                     android:orientation="vertical">
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/label_movie_details_receita_original"
-                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/principais_areas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text" />
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/secondary_text"
+                        app:font="@string/font_open_sans" />
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.view.PopTextView
                         android:id="@+id/person_principais_areas"
-                        android:textSize="13dp"
-                        android:maxLines="3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text" />
+                        android:maxLines="@integer/person_detail_areas_max_line"
+                        android:textSize="@dimen/txt_size_medium"
+                        android:textColor="@color/primary_text"
+                        app:font="@string/font_open_sans" />
                 </LinearLayout>
-
-
 
         </android.support.v7.widget.GridLayout>
 
-        <TextView
+        <br.com.tiagohs.popmovies.view.PopTextView
             android:id="@+id/descricao_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/margin_default_medium"
+            android:layout_marginTop="@dimen/margin_default_medium"
+            app:font="@string/font_open_sans"/>
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal">
 
-            <TableRow
-                android:layout_gravity="center"
-                android:gravity="center"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/riple_wiki"
+                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true"
+                android:layout_weight="1">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_wiki"
-                    app:mrl_rippleColor="@color/secondary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/btn_wiki"
-                        android:drawableLeft="@drawable/ic_wiki"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/secondary_text"
-                        android:padding="10dp"
-                        android:textSize="12dp"
-                        android:text="@string/wiki"/>
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/riple_imdb"
-                    app:mrl_rippleColor="@color/secondary_text"
+                <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true"
-                    android:layout_weight="1">
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/btn_wiki"
+                    android:drawableLeft="@drawable/ic_wiki"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/secondary_text"
+                    android:padding="10dp"
+                    android:textSize="12dp"
+                    android:text="@string/wiki"/>
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/btn_imdb"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/secondary_text"
-                        android:padding="10dp"
-                        android:textSize="12dp"
-                        android:text="@string/imdb"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/riple_imdb"
+                app:mrl_rippleColor="@color/secondary_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true"
+                android:layout_weight="1">
 
-            </TableRow>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/btn_imdb"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/secondary_text"
+                    android:padding="10dp"
+                    android:textSize="12dp"
+                    android:text="@string/imdb"/>
 
-        </TableLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/know_for_container"
@@ -198,41 +192,29 @@
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/conhecido_por_riple"
-                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:mrl_rippleColor="@color/colorAccent"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:id="@+id/conhecido_por_title_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@color/primary_text"
-                        android:layout_marginLeft="16dp"
-                        android:text="@string/conhecido_por"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.85"/>
+                        android:layout_weight="0.85">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                        <TextView
+                            style="@style/TitleTitleTextView"
+                            android:text="@string/conhecido_por" />
+
+                    </LinearLayout>
+
+                    <TextView style="@style/TitleMoreTextView" />
 
                 </LinearLayout>
+
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <LinearLayout
@@ -240,7 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:minHeight="40dp" />
+                android:minHeight="@dimen/recycler_view_min_height" />
 
         </LinearLayout>
 
@@ -248,44 +230,34 @@
             android:id="@+id/wallpapers_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_default_medium">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/wallpapers_riple"
-                app:mrl_rippleColor="@color/secondary_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:mrl_rippleColor="@color/colorAccent"
                 app:mrl_rippleOverlay="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:orientation="horizontal">
+                <LinearLayout style="@style/TitleBackground">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@color/primary_text"
-                        android:layout_marginLeft="16dp"
-                        android:text="@string/titles_movie_detail_midia_imagens"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.85"/>
+                        android:layout_weight="0.85">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="@string/label_mais"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_weight="0.15"/>
+                        <TextView
+                            style="@style/TitleTitleTextView"
+                            android:text="@string/titles_movie_detail_midia_imagens" />
+
+                    </LinearLayout>
+
+                    <TextView style="@style/TitleMoreTextView" />
 
                 </LinearLayout>
+
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -294,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_default_medium"
                 android:layout_marginRight="@dimen/margin_default_medium"
-                android:minHeight="40dp"/>
+                android:minHeight="@dimen/recycler_view_min_height"/>
 
         </LinearLayout>
 

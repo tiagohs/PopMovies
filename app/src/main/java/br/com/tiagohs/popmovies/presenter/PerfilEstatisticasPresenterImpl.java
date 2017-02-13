@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.presenter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import br.com.tiagohs.popmovies.data.repository.ProfileRepository;
@@ -30,6 +31,8 @@ public class PerfilEstatisticasPresenterImpl implements PerfilEstatisticasPresen
     public void initUpdates() {
         mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
         long profileID = mProfileDB.getProfileID();
+
+        Log.i(TAG, mProfileDB.getCountry() + " " + mProfileDB.getBirthday() + " " + mProfileDB.getGenrer());
 
         mPerfilEstatisticasView.setDadosPessoais(mProfileDB.getCountry(), mProfileDB.getBirthday(), mProfileDB.getGenrer());
         mPerfilEstatisticasView.setDescricao(mProfileDB.getDescricao());

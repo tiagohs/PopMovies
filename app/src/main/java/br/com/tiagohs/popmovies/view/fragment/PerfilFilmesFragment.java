@@ -35,7 +35,6 @@ public class PerfilFilmesFragment extends BaseFragment {
     @BindView(R.id.perfil_no_movies_watched)
     TextView mNoMoviesWatched;
 
-
     private ProfileRepository mProfileRepository;
 
     private long mProfileID;

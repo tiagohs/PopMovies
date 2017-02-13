@@ -84,7 +84,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     @BindView(R.id.metascore_ranking)                       TextView mMetascoreRanking;
     @BindView(R.id.metascore_ranking_progress)              ProgressBar mMetascoreRankingProgress;
     @BindView(R.id.aspas)                                   TextView mAspas;
-    @BindView(R.id.movie_tomatoes_consensus)                TextView mTomatoesConsensus;
+    @BindView(R.id.movie_tomatoes_consensus)     TextView mTomatoesConsensus;
     @BindView(R.id.movie_nomeacoes)                         TextView mMovieNomeacoes;
     @BindView(R.id.imdb_riple)                              MaterialRippleLayout mImdbRiple;
     @BindView(R.id.tomatoes_riple)                          MaterialRippleLayout mTomatoesRiple;

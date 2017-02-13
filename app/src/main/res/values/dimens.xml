@@ -39,6 +39,7 @@
     <dimen name="margin_default_medium">10dp</dimen>
     <dimen name="line_height">1dp</dimen>
     <dimen name="recycler_view_min_height">150dp</dimen>
+    <dimen name="margin_divider_small">1dp</dimen>
 
     <!-- Circle Pictures -->
     <dimen name="picture_circle_cardview_elevation">12dp</dimen>
@@ -69,13 +70,6 @@
     <dimen name="login_logo_margin_bottom">60dp</dimen>
     <dimen name="txt_login_app_name">30sp</dimen>
 
-    <!-- Movies Details -->
-    <dimen name="movie_detail_image_background_height">350dp</dimen>
-    <dimen name="movie_detail_background_play_width">50dp</dimen>
-    <dimen name="movie_detail_background_play_height">50dp</dimen>
-    <dimen name="movie_detail_background_play_margin_top">83dp</dimen>
-    <dimen name="movie_detail_header_height">130dp</dimen>
-    <dimen name="movie_detail_progress_height">8dp</dimen>
 
     <!-- Perfil -->
     <dimen name="perfil_background_height">280dp</dimen>
@@ -88,4 +82,35 @@
 
     <!-- Home -->
     <dimen name="destaques_min_height">30dp</dimen>
+
+    <!-- Perfil Estatisticas -->
+    <dimen name="txt_hours_watched_number">28sp</dimen>
+    <dimen name="perfil_estatisticas_image_size">50dp</dimen>
+    <dimen name="perfil_estatisticas_image_small_size">20dp</dimen>
+    <dimen name="perfil_estatisticas_descricao_aspas_height">50dp</dimen>
+    <dimen name="perfil_estatisticas_descricao_aspas_text_size">60sp</dimen>
+    <dimen name="min_heigth_genres_graphic">100dp</dimen>
+    <dimen name="genres_graphic_height">300dp</dimen>
+
+    <!-- Movies Details -->
+    <dimen name="movie_detail_image_background_height">350dp</dimen>
+    <dimen name="movie_detail_background_play_width">50dp</dimen>
+    <dimen name="movie_detail_background_play_height">50dp</dimen>
+    <dimen name="movie_detail_background_play_margin_top">83dp</dimen>
+    <dimen name="movie_detail_header_height">130dp</dimen>
+    <dimen name="movie_detail_progress_height">8dp</dimen>
+    <dimen name="include_movie_detail_height">160dp</dimen>
+    <dimen name="include_movie_detail_padding_top">40dp</dimen>
+    <dimen name="include_movie_detail_image_width">112dp</dimen>
+    <dimen name="include_movie_detail_image_height">145dp</dimen>
+    <dimen name="include_movie_detail_icon_size">20dp</dimen>
+    <dimen name="include_movie_detail_icon_margin">2dp</dimen>
+    <dimen name="include_movie_detail_title_size">20dp</dimen>
+    <dimen name="include_movie_detail_title_height">35dp</dimen>
+    <dimen name="include_movie_detail_directors_height">30dp</dimen>
+    <dimen name="movie_detail_button_height">40dp</dimen>
+    <dimen name="movie_detail_button_width">90dp</dimen>
+    <dimen name="movie_detail_page_min_width">125dp</dimen>
+    <dimen name="movie_detail_icon_padding">5dp</dimen>
+
 </resources>
