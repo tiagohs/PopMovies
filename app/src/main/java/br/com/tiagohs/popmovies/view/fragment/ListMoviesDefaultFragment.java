@@ -196,19 +196,6 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        searchMovies();
-    }
-
-    @Override
     protected View.OnClickListener onSnackbarClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -258,6 +245,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
             });
         }
 
+        searchMovies();
     }
 
     @Override

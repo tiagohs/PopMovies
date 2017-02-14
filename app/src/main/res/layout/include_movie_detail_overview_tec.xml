@@ -5,305 +5,210 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="@dimen/margin_default_medium">
 
-    <TableLayout
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:shrinkColumns="1">
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:columnCount="@integer/person_detail_collumns"
+        app:rowCount="@integer/person_detail_rows">
 
-        <TableRow>
+        <ImageView
+            android:layout_width="@dimen/movie_detail_icon_medium_height"
+            android:layout_height="@dimen/movie_detail_icon_medium_height"
+            android:src="@drawable/ic_title_original"
+            app:layout_gravity="center_horizontal"/>
 
-            <LinearLayout
-                android:layout_width="72dp"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:gravity="top">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_gravity="top"
+            android:layout_marginLeft="@dimen/margin_default_medium"
+            android:orientation="vertical"
+            android:layout_weight="0.7">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_title_original"
-                    android:layout_gravity="center_horizontal"/>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_titulo_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/movie_details_titulo_original_title"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"/>
 
-            </LinearLayout>
-
-            <LinearLayout
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/movie_details_titulo_original"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:orientation="vertical"
-                android:layout_weight="0.7">
+                android:maxLines="3"
+                android:layout_marginTop="@dimen/margin_default_min"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"/>
 
-                <TextView
-                    android:id="@+id/label_movie_details_titulo_original"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="14dp"
-                    android:maxLines="1"
-                    android:textColor="@color/primary_text"
-                    android:text="Título Original"/>
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/movie_details_titulo_original"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:maxLines="3"
-                    android:textSize="14dp"
-                    android:fontFamily="sans-serif-light"
-                    android:layout_marginTop="5dp"/>
+        <ImageView
+            android:layout_width="@dimen/movie_detail_icon_medium_height"
+            android:layout_height="@dimen/movie_detail_icon_medium_height"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_data"
+            app:layout_gravity="center_horizontal"/>
 
-            </LinearLayout>
-        </TableRow>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_gravity="top"
+            android:layout_marginLeft="@dimen/margin_default_medium"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_weight="0.7">
 
-        <TableRow>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_date_mundial"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"/>
 
-            <LinearLayout
-                android:layout_width="72dp"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:gravity="top">
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_date_pais_atual"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/label_movie_details_date_mundial"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_data"
-                    android:layout_gravity="center_horizontal"/>
+        </RelativeLayout>
 
-            </LinearLayout>
+        <ImageView
+            android:layout_width="@dimen/movie_detail_icon_medium_height"
+            android:layout_height="@dimen/movie_detail_icon_medium_height"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_nomeacoes"
+            app:layout_gravity="center_horizontal"/>
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_gravity="top"
+            android:layout_marginLeft="@dimen/margin_default_medium"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_weight="0.7">
+
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_nomeacoes"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/movie_details_permios_title"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans" />
+
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/movie_nomeacoes"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:orientation="vertical"
-                android:layout_weight="0.7">
+                android:layout_marginTop="@dimen/margin_default_min"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="right"
-                        android:gravity="left">
+        <ImageView
+            android:layout_width="@dimen/movie_detail_icon_medium_height"
+            android:layout_height="@dimen/movie_detail_icon_medium_height"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_money"
+            app:layout_gravity="center_horizontal"/>
 
-                        <TextView
-                            android:id="@+id/label_movie_details_date_mundial"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:maxLines="1"
-                            android:textColor="@color/primary_text"
-                            android:text="Mundial:"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_gravity="top"
+            android:layout_marginLeft="@dimen/margin_default_medium"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_weight="0.7" >
 
-                        <TextView
-                            android:id="@+id/label_movie_details_date_pais_atual"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:layout_marginTop="5dp"
-                            android:maxLines="1"
-                            android:textColor="@color/primary_text"
-                            android:text="Brasil:"/>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_orcamento_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"
+                android:text="@string/movie_details_orcamento_title"/>
 
-                    </LinearLayout>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_receita_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/label_movie_details_orcamento_original"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"
+                android:text="@string/movie_details_receita_title"/>
 
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/movie_details_orcamento_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@id/label_movie_details_orcamento_original"
+                android:layout_marginLeft="@dimen/margin_default_min"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans" />
 
-                </LinearLayout>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/movie_details_receita_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/movie_details_orcamento_original"
+                android:layout_toRightOf="@id/label_movie_details_receita_original"
+                android:layout_marginTop="@dimen/margin_default_min"
+                android:layout_marginLeft="@dimen/margin_default_min"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"/>
 
-            </LinearLayout>
-        </TableRow>
+        </RelativeLayout>
 
-        <TableRow>
+        <ImageView
+            android:layout_width="@dimen/movie_detail_icon_medium_height"
+            android:layout_height="@dimen/movie_detail_icon_medium_height"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_idioma"
+            android:id="@+id/poster_movie"
+            app:layout_gravity="center_horizontal"/>
 
-            <LinearLayout
-                android:layout_width="72dp"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:gravity="top">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_gravity="top"
+            android:layout_marginLeft="@dimen/margin_default_medium"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/margin_default_medium"
+            android:orientation="vertical"
+            android:layout_weight="0.7">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_nomeacoes"
-                    android:layout_gravity="center_horizontal"/>
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/label_movie_details_idioma_original"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans"
+                android:text="@string/movie_details_idioma_title"/>
 
-            </LinearLayout>
-
-            <LinearLayout
+            <br.com.tiagohs.popmovies.view.PopTextView
+                android:id="@+id/movie_details_idioma_original"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:orientation="vertical"
-                android:layout_weight="0.7">
+                android:layout_marginTop="@dimen/margin_default_min"
+                android:maxLines="3"
+                style="@style/MovieDetailsTextView"
+                app:font="@string/font_open_sans" />
 
-                <TextView
-                    android:id="@+id/label_movie_nomeacoes"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="14dp"
-                    android:maxLines="1"
-                    android:textColor="@color/primary_text"
-                    android:text="Prêmios e Nomeações"/>
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/movie_nomeacoes"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:maxLines="3"
-                    android:textSize="14dp"
-                    android:fontFamily="sans-serif-light"
-                    android:layout_marginTop="5dp"/>
-
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow>
-
-            <LinearLayout
-                android:layout_width="72dp"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:gravity="top">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_money"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:orientation="vertical"
-                android:layout_weight="0.7">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="right"
-                        android:gravity="left">
-
-                        <TextView
-                            android:id="@+id/label_movie_details_orcamento_original"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:maxLines="1"
-                            android:textColor="@color/primary_text"
-                            android:text="Orçamento:"/>
-
-                        <TextView
-                            android:id="@+id/label_movie_details_receita_original"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:layout_marginTop="5dp"
-                            android:maxLines="1"
-                            android:textColor="@color/primary_text"
-                            android:text="Receita:"/>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/movie_details_orcamento_original"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:maxLines="1"
-                            android:fontFamily="sans-serif-light"/>
-
-                        <TextView
-                            android:id="@+id/movie_details_receita_original"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:maxLines="1"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:gravity="bottom"
-                            android:layout_gravity="bottom"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow>
-
-            <LinearLayout
-                android:layout_width="72dp"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:gravity="top">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_idioma"
-                    android:id="@+id/poster_movie"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:orientation="vertical"
-                android:layout_weight="0.7">
-
-                <TextView
-                    android:id="@+id/label_movie_details_idioma_original"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="16dp"
-                    android:maxLines="1"
-                    android:textColor="@color/primary_text"
-                    android:text="Idioma Original"/>
-
-                <TextView
-                    android:id="@+id/movie_details_idioma_original"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:maxLines="3"
-                    android:textSize="15dp"
-                    android:fontFamily="sans-serif-light"
-                    android:layout_marginTop="5dp"/>
-
-            </LinearLayout>
-        </TableRow>
-    </TableLayout>
+    </android.support.v7.widget.GridLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -319,7 +224,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/margin_default_medium"
             android:layout_gravity="center|center_horizontal"
-            android:minHeight="30dp"/>
+            android:minHeight="@dimen/include_movie_detail_directors_height"/>
 
     </LinearLayout>
 
@@ -327,7 +232,7 @@
         android:id="@+id/container_collection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#9575cd"
+        android:background="@color/collection_background"
         android:layout_marginTop="@dimen/margin_default_medium"
         android:orientation="vertical">
 
@@ -376,12 +281,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
+    <View style="@style/DividerSmallStyle"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -390,40 +290,26 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/elenco_riple"
-            app:mrl_rippleColor="@color/secondary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:mrl_rippleColor="@color/colorAccent"
             app:mrl_rippleOverlay="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/TitleBackground">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/titles_movie_detail_tecnico_cast"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_weight="0.85"/>
+                    android:layout_weight="0.85">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/label_mais"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_weight="0.15"/>
+                    <TextView
+                        style="@style/TitleTitleTextView"
+                        android:text="@string/titles_movie_detail_tecnico_cast" />
+
+                </LinearLayout>
+
+                <TextView style="@style/TitleMoreTextView" />
 
             </LinearLayout>
 
@@ -436,7 +322,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_elenco"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -446,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:text="Sem informações sobre o elenco no momento."
+                android:text="@string/elenco_no_data"
                 />
 
         </FrameLayout>
@@ -459,41 +345,26 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/equipe_tecnica_riple"
-            app:mrl_rippleColor="@color/secondary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:mrl_rippleColor="@color/colorAccent"
             app:mrl_rippleOverlay="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/TitleBackground">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/primary_text"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/titles_movie_detail_tecnico_crew"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_weight="0.85"/>
+                    android:layout_weight="0.85">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    <TextView
+                        style="@style/TitleTitleTextView"
+                        android:text="@string/titles_movie_detail_tecnico_crew" />
 
-                    android:layout_marginRight="16dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/label_mais"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_weight="0.15"/>
+                </LinearLayout>
+
+                <TextView style="@style/TitleMoreTextView" />
 
             </LinearLayout>
 
@@ -506,7 +377,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_equipe_tecnica"
-                android:minHeight="150dp"
+                android:minHeight="@dimen/recycler_view_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -516,11 +387,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:text="Sem informações sobre a equipe no momento."
-                />
+                android:text="@string/equipe_no_data" />
 
         </FrameLayout>
-
 
     </LinearLayout>
 

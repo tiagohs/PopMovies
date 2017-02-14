@@ -5,6 +5,7 @@
     <string name="app_name">PopMovies</string>
     <string name="font_open_sans">opensans.ttf</string>
     <string name="font_open_sans_bold">openSansBold.ttf</string>
+    <string name="font_times_new_roman">TimesNewRoman.ttf</string>
 
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
@@ -33,8 +34,8 @@
     <string name="idioma_original">Idioma Original:</string>
     <string name="orcamento">Orçamento:</string>
     <string name="receita">Receita:</string>
-    <string name="titles_movie_detail_tecnico_cast">ELENCO PRINCIPAL</string>
-    <string name="titles_movie_detail_tecnico_crew">EQUIPE TÉCNICA</string>
+    <string name="titles_movie_detail_tecnico_cast">Elenco Principal</string>
+    <string name="titles_movie_detail_tecnico_crew">Equipe Técnica</string>
     <string name="titles_movie_detail_tecnico_keywords">KEYWORDS</string>
     <string name="data_nascimento_formatado">%1$s - %2$d</string>
     <string name="imdb_votes">%1$s votos</string>
@@ -392,5 +393,12 @@
     <string name="want_see_button">Quero Ver</string>
     <string name="dont_want_see_button">Não quero ver</string>
     <string name="pagina_inicial">Página Inicial</string>
+    <string name="movie_details_titulo_original_title">Título Original</string>
+    <string name="movie_details_permios_title">Prêmios e Nomeações</string>
+    <string name="movie_details_orcamento_title">Orçamento:</string>
+    <string name="movie_details_receita_title">Receita:</string>
+    <string name="movie_details_idioma_title">Idioma Original</string>
+    <string name="equipe_no_data">Sem informações sobre a equipe no momento.</string>
+    <string name="elenco_no_data">Sem informações sobre o elenco no momento.</string>
 
 </resources>

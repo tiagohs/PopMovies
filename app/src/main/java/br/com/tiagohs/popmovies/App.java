@@ -56,7 +56,6 @@ public class App extends Application {
         Picasso.Builder builder = new Picasso.Builder(this);
         picassoCache = new LruCache(this);
         builder.memoryCache(picassoCache);
-        Picasso.setSingletonInstance(builder.build());
 
         Picasso built = builder.build();
         built.setIndicatorsEnabled(false);

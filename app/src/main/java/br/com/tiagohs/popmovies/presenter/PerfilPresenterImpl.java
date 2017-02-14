@@ -42,26 +42,30 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
     }
 
     public void initUpdates(String tag) {
-        mTag = tag;
-        mProfile = mProfileRepository.findProfileByUserUsername(mUsername);
 
-        mPerfilView.setProfile(mProfile);
-        List<MovieDB> movies = mProfile.getFilmes();
+        if (mPerfilView.isAdded()) {
+            mTag = tag;
+            mProfile = mProfileRepository.findProfileByUserUsername(mUsername);
 
-        if (movies != null) {
-            if (!movies.isEmpty()) {
-                getRandomBackground();
+            mPerfilView.setProfile(mProfile);
+            List<MovieDB> movies = mProfile.getFilmes();
+
+            if (movies != null) {
+                if (!movies.isEmpty()) {
+                    getRandomBackground();
+                }
             }
+
+            if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
+                mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
+            else if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
+                mPerfilView.setLocalImagePerfil();
+
+            mPerfilView.setNamePerfil(mProfile.getUser().getNome());
+            mPerfilView.setupTabs();
+            mPerfilView.setProgressVisibility(View.GONE);
         }
 
-        if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-            mPerfilView.setImagePerfil(mProfile.getUser().getPicturePath());
-        else if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
-            mPerfilView.setLocalImagePerfil();
-
-        mPerfilView.setNamePerfil(mProfile.getUser().getNome());
-        mPerfilView.setupTabs();
-        mPerfilView.setProgressVisibility(View.GONE);
     }
 
     private void getRandomBackground() {
@@ -86,17 +90,19 @@ public class PerfilPresenterImpl implements PerfilPresenter, ResponseListener<Im
     @Override
     public void onResponse(ImageResponse response) {
 
-        if (hasImages(response.getBackdrops(), response.getPosters())) {
-            if (mProfile.getFilmesAssistidos() != null)
-                getRandomBackground();
+        if (mPerfilView.isAdded()) {
+            if (hasImages(response.getBackdrops(), response.getPosters())) {
+                if (mProfile.getFilmesAssistidos() != null)
+                    getRandomBackground();
 
-        } else {
+            } else {
 
-            if (!response.getBackdrops().isEmpty())
-                updatePerfilBackground(response.getBackdrops());
-            else
-                updatePerfilBackground(response.getPosters());
+                if (!response.getBackdrops().isEmpty())
+                    updatePerfilBackground(response.getBackdrops());
+                else
+                    updatePerfilBackground(response.getPosters());
 
+            }
         }
 
     }

@@ -128,9 +128,10 @@ public class MovieDetailsOverviewPresenterImpl implements MovieDetailsOverviewPr
 
     @Override
     public void onResponse(RankingResponse response) {
-        mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
 
         if (mMoviesDetailsOverviewView.isAdded()) {
+            mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
+
             mMoviesDetailsOverviewView.setMovieRankings(response);
 
             if (isEmpty(response.getImdbRanting()))

@@ -101,9 +101,8 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         updatePersonInfo();
     }
 

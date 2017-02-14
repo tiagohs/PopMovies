@@ -192,49 +192,53 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailVi
     }
 
     private void sharePersonDetails() {
-        mProgressShare.setVisibility(View.VISIBLE);
 
-        if (isInternetConnected() && mPerson != null) {
-            View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
-            ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
-            TextView personName = (TextView) view.findViewById(R.id.person_name);
-            TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
-            EllipsizingTextView personDescricao = (EllipsizingTextView) view.findViewById(R.id.person_descricao);
+        if (PermissionUtils.validatePermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content))) {
+            mProgressShare.setVisibility(View.VISIBLE);
 
-            ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
-            personName.setText(mPerson.getName());
+            if (isInternetConnected() && mPerson != null) {
+                View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
+                ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
+                TextView personName = (TextView) view.findViewById(R.id.person_name);
+                TextView personSubtitle = (TextView) view.findViewById(R.id.person_subtitle);
+                EllipsizingTextView personDescricao = (EllipsizingTextView) view.findViewById(R.id.person_descricao);
 
-            if (mPerson.getBirthday() != null) {
-                int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
-                personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
-            } else {
-                personSubtitle.setVisibility(View.GONE);
-            }
+                ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
+                personName.setText(mPerson.getName());
 
-            if (ViewUtils.isEmptyValue(mPerson.getBiography()))
-                personDescricao.setText(mDescricao);
-            else
-                personDescricao.setText(mPerson.getBiography());
-            personDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
-
-            final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
-
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-
-                    if (!isDestroyed()) {
-                        mProgressShare.setVisibility(View.GONE);
-
-                        mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
-
-                        if (PermissionUtils.validatePermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
-                            createShareIntent(mImageToShare);
-                    }
-
-                    mProgressShare.setVisibility(View.GONE);
+                if (mPerson.getBirthday() != null) {
+                    int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
+                    personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
+                } else {
+                    personSubtitle.setVisibility(View.GONE);
                 }
-            }, 3000);
+
+                if (ViewUtils.isEmptyValue(mPerson.getBiography()))
+                    personDescricao.setText(mDescricao);
+                else
+                    personDescricao.setText(mPerson.getBiography());
+                personDescricao.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+
+                final LinearLayout movieShareContainer = (LinearLayout) view.findViewById(R.id.share_person_container);
+
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+
+                        if (!isDestroyed()) {
+                            mProgressShare.setVisibility(View.GONE);
+
+                            mImageToShare = ViewUtils.getBitmapFromView(movieShareContainer);
+
+                            createShareIntent(mImageToShare);
+                        }
+
+                    }
+                }, 3000);
+            }
         }
+
+
+
 
     }
 

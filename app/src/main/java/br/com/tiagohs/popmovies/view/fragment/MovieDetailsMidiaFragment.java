@@ -3,13 +3,16 @@ package br.com.tiagohs.popmovies.view.fragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,8 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @BindView(R.id.videos_riple)                    MaterialRippleLayout mVideosRiple;
     @BindView(R.id.videos_nao_encontrado)           TextView mVideosNaoEncontrados;
     @BindView(R.id.wallpaper_nao_encontrado)        TextView mWallpapersNaoEncontrados;
+    @BindView(R.id.principal_progress)              ProgressWheel mProgressPrincipal;
+    @BindView(R.id.container_principal)             LinearLayout mContainerPrincipal;
 
     @Inject
     MovieDetailsMidiaPresenter mPresenter;
@@ -61,6 +66,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     private List<ImageDTO> mTotalImages;
 
     private boolean isVideosSearched = false;
+    private boolean mIsMoviesDetailsMidiaLoaded = false;
 
     public static MovieDetailsMidiaFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
@@ -93,8 +99,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getPopMoviesComponent().inject(this);
 
-        mPresenter.setView(this);
-
         if (savedInstanceState != null) {
             isVideosSearched = savedInstanceState.getBoolean(ARG_IS_VIDEO_SEARCHED);
             mTotalImages = (ArrayList<ImageDTO>) savedInstanceState.getSerializable(ARG_IMAGES_SAVED);
@@ -109,7 +113,24 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+
+        mPresenter.setView(this);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !mIsMoviesDetailsMidiaLoaded ) {
+            init();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    if (isAdded())
+                        setProgressVisibility(View.GONE);
+                    mContainerPrincipal.setVisibility(View.VISIBLE);
+                }
+            }, 2000);
+            mIsMoviesDetailsMidiaLoaded = true;
+        }
     }
 
     private void init() {
@@ -232,6 +253,6 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     @Override
     public void setProgressVisibility(int visibityState) {
-
+        mProgressPrincipal.setVisibility(visibityState);
     }
 }

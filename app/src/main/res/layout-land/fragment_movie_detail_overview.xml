@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:minHeight="30dp"/>
 
-        <TextView
+        <br.com.tiagohs.popmovies.view.PopTextView
             android:id="@+id/sinopse_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +72,8 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/txt_size_medium"
             android:textIsSelectable="true"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/primary_text"
+            app:font="@string/font_open_sans"/>
 
         <TextView
             android:id="@+id/adult_movie"

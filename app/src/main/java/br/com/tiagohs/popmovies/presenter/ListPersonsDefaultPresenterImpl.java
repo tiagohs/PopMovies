@@ -46,16 +46,19 @@ public class ListPersonsDefaultPresenterImpl implements ListPersonsDefaultPresen
         mCurrentPage = personsResponse.getPage();
         mTotalPages = personsResponse.getTotalPage();
 
-        if (isFirstPage()) {
-            mView.setListMovies(DTOUtils.createPersonListDTO(personsResponse.getResults()), hasMorePages());
-            mView.setupRecyclerView();
-        } else {
-            mView.addAllMovies(DTOUtils.createPersonListDTO(personsResponse.getResults()), hasMorePages());
-            mView.updateAdapter();
+        if (mView.isAdded()) {
+            if (isFirstPage()) {
+                mView.setListMovies(DTOUtils.createPersonListDTO(personsResponse.getResults()), hasMorePages());
+                mView.setupRecyclerView();
+            } else {
+                mView.addAllMovies(DTOUtils.createPersonListDTO(personsResponse.getResults()), hasMorePages());
+                mView.updateAdapter();
+            }
+
+            mView.setProgressVisibility(View.GONE);
+            mView.setRecyclerViewVisibility(View.VISIBLE);
         }
 
-        mView.setProgressVisibility(View.GONE);
-        mView.setRecyclerViewVisibility(View.VISIBLE);
     }
 
     private boolean isFirstPage() {

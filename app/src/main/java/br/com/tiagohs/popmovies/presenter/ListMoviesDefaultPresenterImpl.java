@@ -185,16 +185,20 @@ public class ListMoviesDefaultPresenterImpl implements ListMoviesDefaultPresente
         mCurrentPage = response.getPage();
         mTotalPages = response.getTotalPage();
 
-        if (isFirstPage()) {
-            mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
-            mListMoviesDefaultView.setupRecyclerView();
-        } else {
-            mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
-            mListMoviesDefaultView.updateAdapter();
+        if (mListMoviesDefaultView.isAdded()) {
+            if (isFirstPage()) {
+                mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+                mListMoviesDefaultView.setupRecyclerView();
+            } else {
+                mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+                mListMoviesDefaultView.updateAdapter();
+            }
+
+            mListMoviesDefaultView.setRecyclerViewVisibility(View.VISIBLE);
+            mListMoviesDefaultView.setProgressVisibility(View.GONE);
         }
 
-        mListMoviesDefaultView.setRecyclerViewVisibility(View.VISIBLE);
-        mListMoviesDefaultView.setProgressVisibility(View.GONE);
+
     }
 
     private boolean isFirstPage() {

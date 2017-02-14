@@ -29,28 +29,32 @@ public class PerfilEstatisticasPresenterImpl implements PerfilEstatisticasPresen
     }
 
     public void initUpdates() {
-        mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
-        long profileID = mProfileDB.getProfileID();
 
-        Log.i(TAG, mProfileDB.getCountry() + " " + mProfileDB.getBirthday() + " " + mProfileDB.getGenrer());
+        if (mPerfilEstatisticasView.isAdded()) {
+            mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
+            long profileID = mProfileDB.getProfileID();
 
-        mPerfilEstatisticasView.setDadosPessoais(mProfileDB.getCountry(), mProfileDB.getBirthday(), mProfileDB.getGenrer());
-        mPerfilEstatisticasView.setDescricao(mProfileDB.getDescricao());
-        mPerfilEstatisticasView.setTotalHorasAssistidas(mProfileRepository.getTotalHoursWatched(profileID));
-        mPerfilEstatisticasView.setTotalFilmesAssistidos((int) mProfileRepository.getTotalMovies(profileID));
-        mPerfilEstatisticasView.configurateGraphic(mProfileRepository.getAllGenrersSaved(profileID));
+            Log.i(TAG, mProfileDB.getCountry() + " " + mProfileDB.getBirthday() + " " + mProfileDB.getGenrer());
 
-        mPerfilEstatisticasView.setTotalsMovies(mProfileRepository.getTotalMoviesWatched(profileID), mProfileRepository.getTotalFavorites(profileID),
-                                                mProfileRepository.getTotalMoviesWantSee(profileID), mProfileRepository.getTotalMoviesDontWantSee(profileID));
+            mPerfilEstatisticasView.setDadosPessoais(mProfileDB.getCountry(), mProfileDB.getBirthday(), mProfileDB.getGenrer());
+            mPerfilEstatisticasView.setDescricao(mProfileDB.getDescricao());
+            mPerfilEstatisticasView.setTotalHorasAssistidas(mProfileRepository.getTotalHoursWatched(profileID));
+            mPerfilEstatisticasView.setTotalFilmesAssistidos((int) mProfileRepository.getTotalMovies(profileID));
+            mPerfilEstatisticasView.configurateGraphic(mProfileRepository.getAllGenrersSaved(profileID));
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                if (mPerfilEstatisticasView.isAdded()) {
-                    mPerfilEstatisticasView.setProgressVisibility(View.GONE);
-                    mPerfilEstatisticasView.setContainerPrincipalVisibility(View.VISIBLE);
+            mPerfilEstatisticasView.setTotalsMovies(mProfileRepository.getTotalMoviesWatched(profileID), mProfileRepository.getTotalFavorites(profileID),
+                    mProfileRepository.getTotalMoviesWantSee(profileID), mProfileRepository.getTotalMoviesDontWantSee(profileID));
+
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    if (mPerfilEstatisticasView.isAdded()) {
+                        mPerfilEstatisticasView.setProgressVisibility(View.GONE);
+                        mPerfilEstatisticasView.setContainerPrincipalVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        }, 2000);
+            }, 2000);
+        }
+
     }
 
     @Override

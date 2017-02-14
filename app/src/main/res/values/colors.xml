@@ -61,4 +61,5 @@
     <color name="nav_drawer_center_color">#6d4caf</color>
     <color name="nav_drawer_end_color">#392e7d</color>
     <color name="nav_drawer_start_color">#9581c7</color>
+    <color name="collection_background">#9575cd</color>
 </resources>

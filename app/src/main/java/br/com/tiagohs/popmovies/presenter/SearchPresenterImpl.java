@@ -116,23 +116,27 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     @Override
     public void onSearchMoviesRequestSucess(GenericListResponse<Movie> response) {
-        mMovieCurrentPage = response.getPage();
-        mMovieTotalPages = response.getTotalPage();
-        mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.GONE);
 
-        if (mIsNewMovieSearch) {
-            if (response.getResults().isEmpty()) {
-                mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
-                setupResponseMovies(new ArrayList<Movie>());
+        if (mSearchMoviesView.isAdded()) {
+            mMovieCurrentPage = response.getPage();
+            mMovieTotalPages = response.getTotalPage();
+            mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.GONE);
+
+            if (mIsNewMovieSearch) {
+                if (response.getResults().isEmpty()) {
+                    mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
+                    setupResponseMovies(new ArrayList<Movie>());
+                } else {
+                    setupResponseMovies(response.getResults());
+                }
             } else {
-                setupResponseMovies(response.getResults());
+                mSearchMoviesView.addAllMovies(response.getResults(), hasMoreMoviePages());
+                mSearchMoviesView.updateAdapter();
             }
-        } else {
-            mSearchMoviesView.addAllMovies(response.getResults(), hasMoreMoviePages());
-            mSearchMoviesView.updateAdapter();
+
+            mSearchMoviesView.setProgressVisibility(View.GONE);
         }
 
-        mSearchMoviesView.setProgressVisibility(View.GONE);
     }
 
     public void getMovieDetails(int movieID, boolean buttonStage, String tag) {
@@ -160,41 +164,47 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     @Override
     public void onSearchMoviesRequestError(VolleyError error) {
-        mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
-        mSearchMoviesView.setProgressVisibility(View.GONE);
 
-        if (error.networkResponse != null) {
-            switch (error.networkResponse.statusCode) {
-                case 422:
-                    setupResponseMovies(new ArrayList<Movie>());
-                    break;
-                default:
-                    noConnection();
+        if (mSearchMoviesView.isAdded()) {
+            mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
+            mSearchMoviesView.setProgressVisibility(View.GONE);
+
+            if (error.networkResponse != null) {
+                switch (error.networkResponse.statusCode) {
+                    case 422:
+                        setupResponseMovies(new ArrayList<Movie>());
+                        break;
+                    default:
+                        noConnection();
+                }
             }
         }
-
 
     }
 
     @Override
     public void onSearchPersonRequestSucess(GenericListResponse<PersonFind> personFind) {
-        mPersonCurrentPage = personFind.getPage();
-        mPersonTotalPages = personFind.getTotalPage();
-        mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.GONE);
 
-        if (mIsNewPersonSearch) {
-            if (personFind.getResults().isEmpty()) {
-                mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
-                setupResponsePerson(new ArrayList<PersonFind>());
+        if (mSearchPersonsView.isAdded()) {
+            mPersonCurrentPage = personFind.getPage();
+            mPersonTotalPages = personFind.getTotalPage();
+            mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.GONE);
+
+            if (mIsNewPersonSearch) {
+                if (personFind.getResults().isEmpty()) {
+                    mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
+                    setupResponsePerson(new ArrayList<PersonFind>());
+                } else {
+                    setupResponsePerson(personFind.getResults());
+                }
             } else {
-                setupResponsePerson(personFind.getResults());
+                mSearchPersonsView.addAllPersons(personFind.getResults(), hasMorePersonPages());
+                mSearchPersonsView.updateAdapter();
             }
-        } else {
-            mSearchPersonsView.addAllPersons(personFind.getResults(), hasMorePersonPages());
-            mSearchPersonsView.updateAdapter();
+
+            mSearchPersonsView.setProgressVisibility(View.GONE);
         }
 
-        mSearchPersonsView.setProgressVisibility(View.GONE);
     }
 
     private boolean hasMorePersonPages() {
@@ -208,18 +218,22 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     @Override
     public void onSearchPersonRequestError(VolleyError error) {
-        mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
-        mSearchPersonsView.setProgressVisibility(View.GONE);
 
-        if (error.networkResponse != null) {
-            switch (error.networkResponse.statusCode) {
-                case 422:
-                    setupResponsePerson(new ArrayList<PersonFind>());
-                    break;
-                default:
-                    noConnection();
+        if (mSearchPersonsView.isAdded()) {
+            mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
+            mSearchPersonsView.setProgressVisibility(View.GONE);
+
+            if (error.networkResponse != null) {
+                switch (error.networkResponse.statusCode) {
+                    case 422:
+                        setupResponsePerson(new ArrayList<PersonFind>());
+                        break;
+                    default:
+                        noConnection();
+                }
             }
         }
+
     }
 
     @Override
@@ -233,12 +247,16 @@ public class SearchPresenterImpl implements SearchPresenter, SearchPersonInterce
 
     @Override
     public void onResponse(MovieDetails movie) {
-        if (mButtonStage)
-            mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
-                    movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
-        else
-            mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
+
+        if (mSearchMoviesView.isAdded()) {
+            if (mButtonStage)
+                mMovieRepository.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
+                        movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
+                        Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
+                        MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())));
+            else
+                mMovieRepository.deleteMovieByServerID(movie.getId(), mProfileID);
+        }
+
     }
 }

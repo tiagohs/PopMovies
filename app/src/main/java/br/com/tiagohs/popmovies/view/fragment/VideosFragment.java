@@ -74,18 +74,21 @@ public class VideosFragment extends BaseFragment implements VideosView, MovieVid
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
-        mPresenter.setView(this);
 
         mTranslations = (ArrayList<Translation>) getArguments().getSerializable(ARG_TRANSLATION);
         mMovieID = getArguments().getInt(ARG_MOVIE_ID, 0);
+    }
 
-        Log.i(TAG, "Empty: " + mTranslations.isEmpty());
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.setView(this);
 
         mPresenter.getVideos(mMovieID, mTranslations, TAG);
-
     }
 
     public void onUpdateUI(List<Video> videos, boolean hasMorePages) {

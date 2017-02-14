@@ -56,9 +56,15 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getApplicationComponent().inject(this);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getApplicationComponent().inject(this);
+
 
         mSearchPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
         mSearchPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());

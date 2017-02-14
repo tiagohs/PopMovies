@@ -33,27 +33,30 @@ public class PerfilEditPresenterImpl implements PerfilEditPresenter {
     }
 
     public void getProfileInfo() {
-        mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
 
-        if (!ViewUtils.isEmptyValue(mProfileDB.getUser().getNome())) {
-            mPerfilEditView.setName(mProfileDB.getUser().getNome());
+        if (mPerfilEditView.isAdded()) {
+            mProfileDB = mProfileRepository.findProfileByUserUsername(mUsername);
+
+            if (!ViewUtils.isEmptyValue(mProfileDB.getUser().getNome())) {
+                mPerfilEditView.setName(mProfileDB.getUser().getNome());
+            }
+
+            if (!ViewUtils.isEmptyValue(mProfileDB.getDescricao())) {
+                mPerfilEditView.setDescricao(mProfileDB.getDescricao());
+            }
+
+            if (!ViewUtils.isEmptyValue(mProfileDB.getCountry())) {
+                mPerfilEditView.setCountry(mProfileDB.getCountry());
+            }
+
+            if (mProfileDB.getBirthday() != null)
+                mPerfilEditView.setBirthday(mProfileDB.getBirthday());
+
+            if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
+                mPerfilEditView.setPhoto(mProfileDB.getUser().getPicturePath());
+            else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
+                mPerfilEditView.setLocalPhoto();
         }
-
-        if (!ViewUtils.isEmptyValue(mProfileDB.getDescricao())) {
-            mPerfilEditView.setDescricao(mProfileDB.getDescricao());
-        }
-
-        if (!ViewUtils.isEmptyValue(mProfileDB.getCountry())) {
-            mPerfilEditView.setCountry(mProfileDB.getCountry());
-        }
-
-        if (mProfileDB.getBirthday() != null)
-            mPerfilEditView.setBirthday(mProfileDB.getBirthday());
-
-        if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-            mPerfilEditView.setPhoto(mProfileDB.getUser().getPicturePath());
-        else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
-            mPerfilEditView.setLocalPhoto();
 
     }
 

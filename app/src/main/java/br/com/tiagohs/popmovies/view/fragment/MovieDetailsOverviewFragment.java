@@ -181,16 +181,17 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
-        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
-        mPresenter.setView(this);
-
         mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.setMovieRepository(new MovieRepositoryImpl(getContext()));
+        mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
+        mPresenter.setView(this);
+
         init();
     }
 
@@ -312,34 +313,20 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
     private void updateUI() {
 
         mMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelMovieNomeacoes.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mSinopseMovie.setText(ViewUtils.isEmptyValue(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
-        mSinopseMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
-        mAdultMovie.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mTituloOriginal.setText(mMovie.getOriginalTitle());
-        mTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelTituloOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mIdiomaOriginal.setText(ViewUtils.isEmptyValue(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
-        mIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelIdiomaOriginal.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mOcamento.setText(mMovie.getBudget() != 0 ? MovieUtils.formatCurrency(mMovie.getBudget()) : getString(R.string.nao_disponivel));
-        mOcamento.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelOcamento.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mReceita.setText(mMovie.getRevenue() != 0 ? MovieUtils.formatCurrency(mMovie.getRevenue()) : getString(R.string.nao_disponivel));
-        mReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-        mLabelReceita.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         mReleaseDateMundial.setText(ViewUtils.isEmptyValue(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, MovieUtils.formateDate(mMovie.getReleaseDate())));
-        mReleaseDateMundial.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
-
-        mReleaseDatePaisAtual.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "opensans.ttf"));
 
         ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleCountryISO().toUpperCase());
         if (mMovie.getReleases().contains(releaseTemp)) {
@@ -617,7 +604,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements Movies
 
     @Override
     public void onErrorGetRankings() {
-        ViewUtils.createToastMessage(getContext(), getString(R.string.error_rankings));
+        if (isAdded())
+            ViewUtils.createToastMessage(getContext(), getString(R.string.error_rankings));
     }
 
     @Override

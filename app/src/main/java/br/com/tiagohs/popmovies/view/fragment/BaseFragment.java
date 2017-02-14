@@ -41,6 +41,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getViewID(), container, false);
+        injectViews(view);
         return view;
     }
 
@@ -48,7 +49,6 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mProfileDB = PrefsUtils.getCurrentProfile(getActivity());
-        injectViews(view);
     }
 
     private void injectViews(View view) {
@@ -133,6 +133,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
+        if (mBinder != null)
+            mBinder.unbind();
 
         if (materialDialog != null)
             hideDialogProgress();

@@ -77,6 +77,7 @@ public class MovieDetailsMidiaPresenterImpl implements MovieDetailsMidiaPresente
 
     @Override
     public void onVideoRequestSucess(VideosResponse videosResponse) {
+
         if (mView.isAdded()) {
 
             if(!isLastSearch) {

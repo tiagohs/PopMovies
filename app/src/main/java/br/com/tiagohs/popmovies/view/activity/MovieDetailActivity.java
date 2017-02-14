@@ -386,40 +386,43 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsVie
     }
 
     private void shareMovie() {
-        mProgressShare.setVisibility(View.VISIBLE);
 
-        if (isInternetConnected() && mMovie != null) {
-            final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
-            ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
-            ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
-            TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
-            TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
-            EllipsizingTextView sinopseMovie = (EllipsizingTextView) view.findViewById(R.id.movie_sinopse);
+        if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content))) {
+            mProgressShare.setVisibility(View.VISIBLE);
 
-            ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
-            ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
-            titleMovie.setText(mMovie.getTitle());
-            yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
-            sinopseMovie.setText(mMovie.getOverview());
-            sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
+            if (isInternetConnected() && mMovie != null) {
+                final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
+                ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
+                ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
+                TextView titleMovie = (TextView) view.findViewById(R.id.movie_title);
+                TextView yearMovie = (TextView) view.findViewById(R.id.movie_year);
+                EllipsizingTextView sinopseMovie = (EllipsizingTextView) view.findViewById(R.id.movie_sinopse);
 
-            mMovieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
+                ImageUtils.load(this, mMovie.getPosterPath(), posterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
+                ImageUtils.loadWithBlur(this, mMovie.getBackdropPath(), backgroundMovie, ImageSize.BACKDROP_300);
+                titleMovie.setText(mMovie.getTitle());
+                yearMovie.setText(String.valueOf(mMovie.getYearRelease()));
+                sinopseMovie.setText(mMovie.getOverview());
+                sinopseMovie.setTypeface(Typeface.createFromAsset(getAssets(), "opensans.ttf"));
 
-                    if (!isDestroyed()) {
-                        mProgressShare.setVisibility(View.GONE);
+                mMovieShareContainer = (LinearLayout) view.findViewById(R.id.share_movie_container);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
 
-                        mImageToShare = ViewUtils.getBitmapFromView(mMovieShareContainer);
+                        if (!isDestroyed()) {
+                            mProgressShare.setVisibility(View.GONE);
 
-                        if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
+                            mImageToShare = ViewUtils.getBitmapFromView(mMovieShareContainer);
+
                             createShareIntent(mImageToShare);
-                    }
+                        }
 
-                    mProgressShare.setVisibility(View.GONE);
-                }
-            }, 4000);
+                        mProgressShare.setVisibility(View.GONE);
+                    }
+                }, 4000);
+            }
         }
+
 
     }
 

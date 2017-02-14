@@ -44,18 +44,16 @@ public class WebViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         if (isInternetConnected()) {
             configurateWebView();
             startUrl();
-        } else {
+        } else
             onError(R.string.error_no_internet);
-        }
 
     }
-
 
     private void configurateWebView() {
         mWebView.setWebChromeClient(createChromeCliente());
@@ -74,8 +72,11 @@ public class WebViewFragment extends BaseFragment {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                if (newProgress < 100)
-                    mWebViewProgress.setProgress(newProgress);
+                if (newProgress < 100) {
+                    if (isAdded())
+                        mWebViewProgress.setProgress(newProgress);
+                }
+
 
             }
         };
@@ -134,16 +135,20 @@ public class WebViewFragment extends BaseFragment {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            mWebViewProgress.setVisibility(View.VISIBLE);
-            if (isAdded())
+
+            if (isAdded()) {
+                mWebViewProgress.setVisibility(View.VISIBLE);
                 getWebViewActivity().setActionBarSubTitle(mWebView.getUrl());
+            }
+
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            mWebViewProgress.setVisibility(View.GONE);
+
             if (isAdded()) {
+                mWebViewProgress.setVisibility(View.GONE);
                 getWebViewActivity().setActionBarSubTitle(view.getTitle());
             }
         }

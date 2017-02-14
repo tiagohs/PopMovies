@@ -123,7 +123,6 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
-        mPresenter.setView(this);
 
         mSort = (Sort) getArguments().getSerializable(ARG_PERSON_SORT);
         mPersonCredit = (ArrayList<PersonListDTO>) getArguments().getSerializable(ARG_PERSONS);
@@ -132,6 +131,13 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.setView(this);
 
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -142,12 +148,6 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
             });
         }
 
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         init();
     }
 

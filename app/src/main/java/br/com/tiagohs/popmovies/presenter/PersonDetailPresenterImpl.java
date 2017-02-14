@@ -73,7 +73,7 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, Respons
     @Override
     public void onResponse(PersonInfo personInfo) {
 
-        if (!mPersonDetailView.isDestroyed()) {
+        if (mPersonDetailView.isAdded()) {
 
             if (ViewUtils.isEmptyValue(personInfo.getBiography()) && isFirstSearch) {
                 isFirstSearch = false;

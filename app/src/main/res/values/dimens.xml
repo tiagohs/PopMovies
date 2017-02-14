@@ -112,5 +112,6 @@
     <dimen name="movie_detail_button_width">90dp</dimen>
     <dimen name="movie_detail_page_min_width">125dp</dimen>
     <dimen name="movie_detail_icon_padding">5dp</dimen>
+    <dimen name="movie_detail_icon_medium_height">40dp</dimen>
 
 </resources>

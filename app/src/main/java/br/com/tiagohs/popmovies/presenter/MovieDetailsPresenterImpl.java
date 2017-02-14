@@ -128,26 +128,30 @@ public class MovieDetailsPresenterImpl implements MovieDetailsPresenter, VideoIn
 
     @Override
     public void onMovieDetailsRequestSucess(MovieDetails movieDetails) {
-        if (movieDetails.getVideos().isEmpty())
-            getVideos(movieDetails);
 
-        movieDetails.setFavorite(mMovieRepository.isFavoriteMovie(mProfileID, movieDetails.getId()));
+        if (mMovieDetailsView.isAdded()) {
+            if (movieDetails.getVideos().isEmpty())
+                getVideos(movieDetails);
 
-        if (mMovieRepository.isWachedMovie(mProfileID, movieDetails.getId()))
-            mMovieDetailsView.setJaAssistido();
-        else if (mMovieRepository.isWantSeeMovie(mProfileID, movieDetails.getId()))
-            movieDetails.setStatusDB(MovieDB.STATUS_WANT_SEE);
-        else if (mMovieRepository.isDontWantSeeMovie(mProfileID, movieDetails.getId()))
-            movieDetails.setStatusDB(MovieDB.STATUS_DONT_WANT_SEE);
+            movieDetails.setFavorite(mMovieRepository.isFavoriteMovie(mProfileID, movieDetails.getId()));
 
-        if (movieDetails.getRuntime() == 0)
-            mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);
+            if (mMovieRepository.isWachedMovie(mProfileID, movieDetails.getId()))
+                mMovieDetailsView.setJaAssistido();
+            else if (mMovieRepository.isWantSeeMovie(mProfileID, movieDetails.getId()))
+                movieDetails.setStatusDB(MovieDB.STATUS_WANT_SEE);
+            else if (mMovieRepository.isDontWantSeeMovie(mProfileID, movieDetails.getId()))
+                movieDetails.setStatusDB(MovieDB.STATUS_DONT_WANT_SEE);
 
-        mMovieDetailsView.setupDirectorsRecyclerView(DTOUtils.createDirectorsItemsListDTO(movieDetails.getCrew()));
-        mMovieDetailsView.updateUI(movieDetails);
-        mMovieDetailsView.setupTabs();
-        mMovieDetailsView.setProgressVisibility(View.GONE);
-        mMovieDetailsView.setTabsVisibility(View.VISIBLE);
+            if (movieDetails.getRuntime() == 0)
+                mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);
+
+            mMovieDetailsView.setupDirectorsRecyclerView(DTOUtils.createDirectorsItemsListDTO(movieDetails.getCrew()));
+            mMovieDetailsView.updateUI(movieDetails);
+            mMovieDetailsView.setupTabs();
+            mMovieDetailsView.setProgressVisibility(View.GONE);
+            mMovieDetailsView.setTabsVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
