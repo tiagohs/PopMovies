@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/tomatoes_consensus_container"
@@ -13,16 +14,16 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp">
 
-        <TextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textColor="@color/primary_text"
             android:id="@+id/aspas"
             android:textSize="80dp"
             android:text="@string/aspas"
-            android:fontFamily="sans-serif-condensed"/>
+            app:font="@string/font_times_new_roman"/>
 
-        <TextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary_text"
@@ -33,7 +34,8 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/aspas"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="23dp"/>
+            android:layout_marginTop="23dp"
+            app:font="@string/font_open_sans"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -22,6 +22,11 @@ public class ProfileDB {
 
     }
 
+    public ProfileDB(UserDB user, String country) {
+        this.user = user;
+        this.country = country;
+    }
+
     public List<MovieDB> getFilmes() {
         return filmes;
     }

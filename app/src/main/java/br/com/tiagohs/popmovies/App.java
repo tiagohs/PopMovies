@@ -11,16 +11,19 @@ import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 import com.squareup.picasso.LruCache;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import io.fabric.sdk.android.Fabric;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.Executors;
+
+import br.com.tiagohs.popmovies.dragger.components.DaggerPopMoviesComponent;
+import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
+import br.com.tiagohs.popmovies.dragger.modules.AppModule;
+import br.com.tiagohs.popmovies.dragger.modules.NetModule;
+import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application {
@@ -42,7 +45,10 @@ public class App extends Application {
         super.onCreate();
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
-        mPopMoviesComponent = DaggerPopMoviesComponent.builder().build();
+        mPopMoviesComponent = DaggerPopMoviesComponent.builder()
+                              .appModule(new AppModule(this))
+                              .netModule(new NetModule("http://api.themoviedb.org/3/"))
+                              .build();
 
         instance = this;
         initPicasso();

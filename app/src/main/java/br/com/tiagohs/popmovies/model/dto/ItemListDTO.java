@@ -1,18 +1,12 @@
 package br.com.tiagohs.popmovies.model.dto;
 
-import java.util.Map;
-
-import br.com.tiagohs.popmovies.model.credits.MediaCredit;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 
-/**
- * Created by Tiago Henrique on 04/09/2016.
- */
 public class ItemListDTO {
     private int itemID;
     private String nameItem;
     private Sort typeItem;
-    private Map<String, String> mParamenters;
+    private DiscoverDTO mDiscoverDTO;
 
     public ItemListDTO(int itemID) {
         this.itemID = itemID;
@@ -23,17 +17,17 @@ public class ItemListDTO {
         this.nameItem = nameItem;
     }
 
-    public ItemListDTO(int itemID, String nameItem, Sort typeItem, Map<String, String> paramenters) {
+    public ItemListDTO(int itemID, String nameItem, Sort typeItem, DiscoverDTO discoverDTO) {
         this.itemID = itemID;
         this.nameItem = nameItem;
         this.typeItem = typeItem;
-        this.mParamenters = paramenters;
+        this.mDiscoverDTO = discoverDTO;
     }
 
-    public ItemListDTO(String nameItem, Sort typeItem, Map<String, String> paramenters) {
+    public ItemListDTO(String nameItem, Sort typeItem, DiscoverDTO discoverDTO) {
         this.nameItem = nameItem;
         this.typeItem = typeItem;
-        this.mParamenters = paramenters;
+        this.mDiscoverDTO = discoverDTO;
     }
 
     public ItemListDTO(String nameItem, Sort typeItem) {
@@ -68,12 +62,12 @@ public class ItemListDTO {
         this.typeItem = typeItem;
     }
 
-    public Map<String, String> getParamenters() {
-        return mParamenters;
+    public DiscoverDTO getDiscoverDTO() {
+        return mDiscoverDTO;
     }
 
-    public void setParamenters(Map<String, String> paramenters) {
-        mParamenters = paramenters;
+    public void setDiscoverDTO(DiscoverDTO discoverDTO) {
+        mDiscoverDTO = discoverDTO;
     }
 
     @Override

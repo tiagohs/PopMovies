@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/margin_default_medium"
-    android:layout_marginRight="@dimen/margin_default_medium"
     android:layout_marginTop="@dimen/margin_default_medium">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_default_medium"
+        android:layout_marginRight="@dimen/margin_default_medium">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/imdb_reviews_riple"
@@ -51,6 +51,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="@dimen/margin_default_min"
+        android:layout_marginLeft="@dimen/margin_default_medium"
+        android:layout_marginRight="@dimen/margin_default_medium"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:layout_gravity="center">
@@ -93,6 +95,7 @@
         android:layout_marginTop="@dimen/margin_default_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_default_medium"
         android:orientation="vertical"/>
 
 </LinearLayout>

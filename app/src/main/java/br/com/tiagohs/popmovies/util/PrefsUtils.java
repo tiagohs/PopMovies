@@ -47,4 +47,5 @@ public class PrefsUtils {
         complexPreferences.clearObject();
         complexPreferences.commit();
     }
+
 }

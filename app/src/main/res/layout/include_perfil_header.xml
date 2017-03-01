@@ -18,7 +18,7 @@
 
         <include layout="@layout/include_circle_picture_large" />
 
-        <br.com.tiagohs.popmovies.view.PopTextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:layout_gravity="center"
             android:textColor="@color/primary_text"
             android:id="@+id/name_perfil"

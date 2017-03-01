@@ -1,98 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/imdb_reviews_riple"
-        app:mrl_rippleColor="@color/colorAccent"
-        android:layout_marginBottom="@dimen/margin_default_medium"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/movie_detail_button_review_margin"
+        android:layout_marginRight="@dimen/movie_detail_button_review_margin"
         android:layout_marginTop="@dimen/margin_default_medium"
-        app:mrl_rippleOverlay="true"
-        android:layout_weight="1">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:padding="5dp"
-            android:orientation="horizontal"
+        <Button
+            android:id="@+id/imdb_reviews"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_default_min"
+            android:layout_marginRight="@dimen/margin_default_medium"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:drawableLeft="@mipmap/ic_imdb_icon"
+            android:textColor="@drawable/button_default_text_color"
+            android:text="@string/movie_detail_imdb_reviews"
+            android:background="@drawable/button_default"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_imdb_icon"
-                android:layout_weight="0.2"/>
-
-            <br.com.tiagohs.popmovies.view.PopTextView
-                android:id="@+id/label_imdb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/txt_size_large"
-                android:text="@string/movie_detail_imdb_reviews"
-                app:font="@string/font_open_sans_bold"
-                android:layout_weight="0.7"/>
-
-            <br.com.tiagohs.popmovies.view.PopTextView
-                android:id="@+id/label_imdb_extra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/txt_size_large"
-                android:gravity="left"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.1"
-                app:font="@string/font_open_sans_bold"
-                android:text=">"/>
-
-        </LinearLayout>
-
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/tomatoes_reviews_riple"
-        app:mrl_rippleColor="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mrl_rippleOverlay="true"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:padding="5dp"
-            android:orientation="horizontal"
+        <Button
+            android:id="@+id/tomatoes_reviews"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_default_min"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:drawableLeft="@mipmap/ic_tomatoes"
+            android:textColor="@color/secondary_text"
+            android:text="@string/movie_detail_tomatoes_reviews"
+            android:background="@drawable/button_default"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_tomatoes"
-                android:layout_weight="0.2"/>
-
-            <br.com.tiagohs.popmovies.view.PopTextView
-                android:id="@+id/label_tomatoes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/txt_size_large"
-                android:text="@string/movie_detail_tomatoes_reviews"
-                app:font="@string/font_open_sans_bold"
-                android:layout_weight="0.7"/>
-
-            <br.com.tiagohs.popmovies.view.PopTextView
-                android:id="@+id/label_tomatoes_extra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/txt_size_large"
-                android:gravity="left"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.1"
-                app:font="@string/font_open_sans_bold"
-                android:text=">"/>
-
-        </LinearLayout>
-
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </LinearLayout>
 
 </merge>

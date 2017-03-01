@@ -60,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:maxWidth="@dimen/movie_detail_button_width"
                 android:layout_height="@dimen/movie_detail_button_height"
+                android:layout_marginRight="@dimen/margin_default_min"
                 android:layout_gravity="center"
                 style="@style/ButtonsUserOptions"
                 android:text="@string/imdb"/>
@@ -80,6 +81,7 @@
                 android:maxWidth="@dimen/movie_detail_button_width"
                 android:layout_height="@dimen/movie_detail_button_height"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margin_default_min"
                 style="@style/ButtonsUserOptions"
                 android:text="@string/filmow"/>
 
@@ -99,6 +101,7 @@
                 android:layout_height="@dimen/movie_detail_button_height"
                 android:maxWidth="@dimen/movie_detail_button_width"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margin_default_min"
                 style="@style/ButtonsUserOptions"
                 android:text="@string/wiki"/>
 

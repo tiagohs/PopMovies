@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:minHeight="30dp"/>
 
-        <br.com.tiagohs.popmovies.view.PopTextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:id="@+id/sinopse_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

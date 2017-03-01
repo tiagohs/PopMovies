@@ -30,7 +30,7 @@
             android:orientation="vertical"
             android:layout_weight="0.7">
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_titulo_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"/>
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_titulo_original"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -65,14 +65,14 @@
             android:orientation="vertical"
             android:layout_weight="0.7">
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_date_mundial"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"/>
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_date_pais_atual"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
             android:orientation="vertical"
             android:layout_weight="0.7">
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_nomeacoes"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -106,12 +106,13 @@
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans" />
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_nomeacoes"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_default_min"
                 style="@style/MovieDetailsTextView"
+                android:text="@string/nao_disponivel"
                 app:font="@string/font_open_sans" />
 
         </LinearLayout>
@@ -132,7 +133,7 @@
             android:orientation="vertical"
             android:layout_weight="0.7" >
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_orcamento_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -140,16 +141,17 @@
                 app:font="@string/font_open_sans"
                 android:text="@string/movie_details_orcamento_title"/>
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_receita_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_below="@id/label_movie_details_orcamento_original"
+                android:layout_marginTop="@dimen/margin_default_min"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"
                 android:text="@string/movie_details_receita_title"/>
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_orcamento_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -158,7 +160,7 @@
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans" />
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_receita_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -189,7 +191,7 @@
             android:orientation="vertical"
             android:layout_weight="0.7">
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_idioma_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -197,7 +199,7 @@
                 app:font="@string/font_open_sans"
                 android:text="@string/movie_details_idioma_title"/>
 
-            <br.com.tiagohs.popmovies.view.PopTextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_idioma_original"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -326,14 +328,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/elenco_nao_encontrado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 android:text="@string/elenco_no_data"
-                />
+                app:font="@string/font_open_sans" />
 
         </FrameLayout>
     </LinearLayout>
@@ -381,13 +383,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/equipe_tecnica_nao_encontrada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:text="@string/equipe_no_data" />
+                android:text="@string/equipe_no_data"
+                app:font="@string/font_open_sans"/>
 
         </FrameLayout>
 

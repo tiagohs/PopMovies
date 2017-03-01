@@ -14,8 +14,8 @@
             android:id="@+id/container_principal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default_min"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/margin_default_min"
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -58,7 +58,7 @@
                     android:minHeight="@dimen/recycler_view_min_height"
                     android:layout_gravity="center|center_horizontal"/>
 
-                <br.com.tiagohs.popmovies.view.PopTextView
+                <br.com.tiagohs.popmovies.ui.tools.PopTextView
                     android:id="@+id/videos_nao_encontrado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,6 +67,13 @@
                     app:font="@string/font_open_sans"
                     android:text="@string/videos_no_data"
                     />
+
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/videos_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/recycler_view_min_height"
+                    app:matProg_barColor="@color/colorAccent"
+                    app:matProg_progressIndeterminate="true" />
             </FrameLayout>
 
 
@@ -102,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <br.com.tiagohs.popmovies.view.PopTextView
+                <br.com.tiagohs.popmovies.ui.tools.PopTextView
                     android:id="@+id/wallpaper_nao_encontrado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,6 +126,13 @@
                     android:layout_marginLeft="@dimen/margin_default_medium"
                     android:layout_marginRight="@dimen/margin_default_medium"
                     android:layout_gravity="center|center_horizontal"/>
+
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/images_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/recycler_view_min_height"
+                    app:matProg_barColor="@color/colorAccent"
+                    app:matProg_progressIndeterminate="true" />
 
             </FrameLayout>
 

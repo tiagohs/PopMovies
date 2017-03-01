@@ -6,8 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,17 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
-import br.com.tiagohs.popmovies.view.activity.HomeActivity;
-import br.com.tiagohs.popmovies.view.activity.LoginActivity;
-import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
-import br.com.tiagohs.popmovies.view.activity.WallpapersDetailActivity;
+import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
 
 public class ViewUtils {
 

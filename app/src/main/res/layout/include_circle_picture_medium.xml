@@ -18,8 +18,7 @@
             android:id="@+id/image_circle"
             android:layout_width="@dimen/picture_circle_medium_image"
             android:layout_height="@dimen/picture_circle_medium_image"
-            android:layout_gravity="center"
-            android:src="@drawable/img_1"/>
+            android:layout_gravity="center"/>
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/progress_image_circle"

@@ -19,13 +19,17 @@ import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 
 public class DTOUtils {
+    private static final String DIRECTOR = "Directing";
 
     public static List<MovieListDTO> createMovieListDTO(List<Movie> movies) {
         List<MovieListDTO> moviesDTO = new ArrayList<>();
 
-        for (Movie movie : movies) {
-            if (movie.getPosterPath() != null)
-                moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
+        MovieListDTO movieListDTO;
+        for (Movie m : movies) {
+            if (m.getPosterPath() != null) {
+                movieListDTO = new MovieListDTO(m.getId(), m.getTitle(), m.getPosterPath(), m.getVoteAverage());
+                moviesDTO.add(movieListDTO);
+            }
         }
 
         return moviesDTO;
@@ -34,9 +38,13 @@ public class DTOUtils {
     public static List<MovieListDTO> createMovieDetailsListDTO(List<MovieDetails> movies) {
         List<MovieListDTO> moviesDTO = new ArrayList<>();
 
+        MovieListDTO movieListDTO;
         for (Movie movie : movies) {
-            if (movie.getPosterPath() != null)
-                moviesDTO.add(new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage()));
+            if (movie.getPosterPath() != null) {
+                movieListDTO = new MovieListDTO(movie.getId(), movie.getTitle(), movie.getPosterPath(), movie.getVoteAverage());
+                moviesDTO.add(movieListDTO);
+            }
+
         }
 
         return moviesDTO;
@@ -46,8 +54,11 @@ public class DTOUtils {
     public static List<ItemListDTO> createKeywordsItemsListDTO(List<Keyword> keywords) {
         List<ItemListDTO> list = new ArrayList<>();
 
-        for (Keyword k : keywords)
-            list.add(new ItemListDTO(k.getId(), k.getName()));
+        ItemListDTO itemListDTO;
+        for (Keyword k : keywords) {
+            itemListDTO = new ItemListDTO(k.getId(), k.getName());
+            list.add(itemListDTO);
+        }
 
         return list;
     }
@@ -55,46 +66,60 @@ public class DTOUtils {
     public static List<ItemListDTO> createDirectorsItemsListDTO(List<MediaCreditCrew> crews) {
         List<ItemListDTO> list = new ArrayList<>();
 
+        ItemListDTO itemListDTO;
         for (MediaCreditCrew crew : crews) {
-            if (crew.getDepartment().equals("Directing") && !list.contains(new ItemListDTO(crew.getId())))
-                list.add(new ItemListDTO(crew.getId(), crew.getName()));
+            itemListDTO = new ItemListDTO(crew.getId(), crew.getName());
+            if (crew.getDepartment().equals(DIRECTOR) && !list.contains(itemListDTO))
+                list.add(itemListDTO);
         }
 
         return list;
     }
 
     public static List<PersonListDTO> createCastPersonListDTO(List<MediaCreditCast> cast) {
-        List<PersonListDTO> personListDTO = new ArrayList<>();
+        List<PersonListDTO> personListDTOs = new ArrayList<>();
 
-        for (MediaCreditCast c : cast)
-            personListDTO.add(new PersonListDTO(c.getId(), c.getArtworkPath(), c.getName(), c.getCharacter()));
+        PersonListDTO personListDTO;
+        for (MediaCreditCast c : cast) {
+            personListDTO = new PersonListDTO(c.getId(), c.getArtworkPath(), c.getName(), c.getCharacter());
+            personListDTOs.add(personListDTO);
+        }
 
-        return personListDTO;
+        return personListDTOs;
     }
 
     public static List<PersonListDTO> createCrewPersonListDTO(List<MediaCreditCrew> cast) {
-        List<PersonListDTO> personListDTO = new ArrayList<>();
+        List<PersonListDTO> personListDTOs = new ArrayList<>();
 
-        for (MediaCreditCrew c : cast)
-            personListDTO.add(new PersonListDTO(c.getId(), c.getArtworkPath(), c.getName(), c.getDepartment()));
+        PersonListDTO personListDTO;
+        for (MediaCreditCrew c : cast) {
+            personListDTO = new PersonListDTO(c.getId(), c.getArtworkPath(), c.getName(), c.getDepartment());
+            personListDTOs.add(personListDTO);
+        }
 
-        return personListDTO;
+        return personListDTOs;
     }
 
     public static List<PersonListDTO> createPersonListDTO(List<PersonFind> persons) {
-        List<PersonListDTO> personListDTO = new ArrayList<>();
+        List<PersonListDTO> personListDTOs = new ArrayList<>();
 
-        for (PersonFind c : persons)
-            personListDTO.add(new PersonListDTO(c.getId(), c.getProfilePath(), c.getName(), ""));
+        PersonListDTO personListDTO;
+        for (PersonFind c : persons) {
+            personListDTO = new PersonListDTO(c.getId(), c.getProfilePath(), c.getName(), "");
+            personListDTOs.add(personListDTO);
+        }
 
-        return personListDTO;
+        return personListDTOs;
     }
 
     public static List<ItemListDTO> createGenresItemsListDTO(List<Genre> genres) {
         List<ItemListDTO> list = new ArrayList<>();
 
-        for (Genre g : genres)
-            list.add(new ItemListDTO(g.getId(), g.getName()));
+        ItemListDTO itemListDTO;
+        for (Genre g : genres) {
+            itemListDTO = new ItemListDTO(g.getId(), g.getName());
+            list.add(itemListDTO);
+        }
 
         return list;
     }
@@ -103,9 +128,12 @@ public class DTOUtils {
         numTotalImages = images.size() <= numTotalImages ? images.size() : numTotalImages;
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
+        ImageDTO imageDTO;
+        Artwork image;
         for (int cont = 0; cont < numTotalImages; cont++) {
-            Artwork image = images.get(cont);
-            imageDTOs.add(new ImageDTO(person.getId(), image.getId(), image.getFilePath()));
+            image = images.get(cont);
+            imageDTO = new ImageDTO(person.getId(), image.getId(), image.getFilePath());
+            imageDTOs.add(imageDTO);
         }
 
         return imageDTOs;
@@ -114,8 +142,10 @@ public class DTOUtils {
     public static List<ImageDTO> createPersonImagesBackgroundDTO(PersonInfo person, int numImages, List<ArtworkMedia> images) {
         List<ImageDTO> imageDTOs = new ArrayList<>();
 
+        ImageDTO imageDTO;
         for (Artwork ar : images) {
-            imageDTOs.add(new ImageDTO(person.getId(), ar.getId(), ar.getFilePath()));
+            imageDTO = new ImageDTO(person.getId(), ar.getId(), ar.getFilePath());
+            imageDTOs.add(imageDTO);
         }
 
         return imageDTOs;
@@ -125,8 +155,9 @@ public class DTOUtils {
         int numMovies = movies.size() < maxSize ? movies.size() : maxSize;
         List<MovieListDTO> moviesMovieListDTO = new ArrayList<>();
 
+        MovieListDTO c;
         for (int cont = 0; cont < numMovies; cont++) {
-            MovieListDTO c = movies.get(cont);
+            c = movies.get(cont);
 
             if (moviesMovieListDTO.contains(c))
                 continue;

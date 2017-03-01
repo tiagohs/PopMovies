@@ -1,7 +1,5 @@
 package br.com.tiagohs.popmovies.model.db;
 
-import android.graphics.Bitmap;
-
 public class UserDB {
     public static final int LOGIN_FACEBOOK = 0;
     public static final int LOGIN_TWITTER = 1;
@@ -13,7 +11,6 @@ public class UserDB {
     private String nome;
     private String username;
     private String email;
-    private String senha;
     private String picturePath;
     private String token;
     private int typePhoto;
@@ -25,18 +22,28 @@ public class UserDB {
     public UserDB() {
     }
 
-    public UserDB(int userID, String nome, String username, String email, String senha, String picturePath, String token, int typePhoto, int typeLogin, boolean isLogged, String localPicture) {
+    public UserDB(int userID, String nome, String username, String email, String picturePath, String token, int typePhoto, int typeLogin, boolean isLogged, String localPicture) {
         this.userID = userID;
         this.nome = nome;
         this.username = username;
         this.email = email;
-        this.senha = senha;
         this.picturePath = picturePath;
         this.token = token;
         this.typePhoto = typePhoto;
         this.typeLogin = typeLogin;
         this.isLogged = isLogged;
         mLocalPicture = localPicture;
+    }
+
+    public UserDB(String nome, String username, String email, String picturePath, String token, int typePhoto, int typeLogin, boolean isLogged) {
+        this.nome = nome;
+        this.username = username;
+        this.email = email;
+        this.picturePath = picturePath;
+        this.token = token;
+        this.typePhoto = typePhoto;
+        this.typeLogin = typeLogin;
+        this.isLogged = isLogged;
     }
 
     public long getProfileID() {
@@ -93,14 +100,6 @@ public class UserDB {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getPicturePath() {

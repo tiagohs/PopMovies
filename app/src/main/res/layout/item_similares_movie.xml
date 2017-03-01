@@ -8,8 +8,8 @@
     android:layout_margin="@dimen/card_movie_margin">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/item_movie_fixo_width"
+        android:layout_height="@dimen/recycler_view_min_height"
         android:src="@drawable/img_1"
         android:scaleType="centerCrop"
         android:transitionName="@string/poster_movie"

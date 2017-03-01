@@ -400,5 +400,13 @@
     <string name="movie_details_idioma_title">Idioma Original</string>
     <string name="equipe_no_data">Sem informações sobre a equipe no momento.</string>
     <string name="elenco_no_data">Sem informações sobre o elenco no momento.</string>
+    <string name="movie_details_dont_want_see_marked">Marcado como \'Não quero ver\'</string>
+    <string name="movie_details_dont_want_see_no_marked">Desmarcado como \'Não quero ver\'</string>
+    <string name="movie_details_want_see_marked">Marcado como \'Quero ver\'</string>
+    <string name="movie_details_want_see_desmarked">Desmarcado como \'Quero ver\'</string>
+    <string name="movie_details_favorite_marked">Marcado como Favorito</string>
+    <string name="movie_details_favorite_no_marked">Desmarcado como Favorito</string>
+    <string name="perfil_estatisticas_graphic_genres_title">Seus Gêneros Favoritos!</string>
+    <string name="wallpapers_dialog_size">Tamanho da imagem</string>
 
 </resources>

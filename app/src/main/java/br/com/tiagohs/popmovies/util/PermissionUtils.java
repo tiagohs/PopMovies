@@ -2,12 +2,10 @@ package br.com.tiagohs.popmovies.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.view.activity.MovieDetailActivity;
 
 public class PermissionUtils {
     public static final String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,

@@ -13,7 +13,7 @@
         android:id="@+id/coordenation_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="br.com.tiagohs.popmovies.view.activity.GenresActivity">
+        tools:context="br.com.tiagohs.popmovies.ui.view.activity.GenresActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/movie_detail_app_bar"
@@ -47,7 +47,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:listPreferredItemHeightSmall="40dp"
         app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/activity_navigation_drawer_drawer" />
+        app:menu="@menu/activity_navigation_drawer_drawer"
+        android:textSize="@dimen/txt_size_medium"/>
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">24dp</dimen>
+
+    <dimen name="txt_size_small">22sp</dimen>
+    <dimen name="txt_size_medium">24sp</dimen>
+    <dimen name="txt_size_large">28sp</dimen>
+
+    <dimen name="margin_default_min">10dp</dimen>
+    <dimen name="margin_default_medium">15dp</dimen>
+
+    <dimen name="recycler_view_min_height">350dp</dimen>
+    <dimen name="item_movie_fixo_width">250dp</dimen>
+
+    <!-- Navigation View -->
+    <dimen name="nav_header_vertical_spacing">24dp</dimen>
+    <dimen name="nav_header_height">210dp</dimen>
+
+
+    <!-- Circle Pictures -->
+    <dimen name="picture_circle_cardview_elevation">12dp</dimen>
+    <dimen name="picture_circle_medium_cardview">120dp</dimen>
+    <dimen name="picture_circle_medium_cardview_radius">60dp</dimen>
+    <dimen name="picture_circle_medium_image">150dp</dimen>
+    <dimen name="picture_circle_medium_frame">130dp</dimen>
+
+    <dimen name="picture_circle_large_cardview">160dp</dimen>
+    <dimen name="picture_circle_large_cardview_radius">80dp</dimen>
+    <dimen name="picture_circle_large_image">210dp</dimen>
+    <dimen name="picture_circle_large_frame">210dp</dimen>
+
+    <dimen name="picture_circle_small_cardview">100dp</dimen>
+    <dimen name="picture_circle_small_cardview_radius">50dp</dimen>
+    <dimen name="picture_circle_small_image">120dp</dimen>
+    <dimen name="picture_circle_small_frame">130dp</dimen>
+
+    <!-- Home -->
+    <dimen name="destaques_min_height">60dp</dimen>
+
+
+</resources>

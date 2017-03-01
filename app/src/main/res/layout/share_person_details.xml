@@ -39,7 +39,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
 
-                <br.com.tiagohs.popmovies.view.PopTextView
+                <br.com.tiagohs.popmovies.ui.tools.PopTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <br.com.tiagohs.popmovies.view.PopTextView
+                    <br.com.tiagohs.popmovies.ui.tools.PopTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
@@ -64,7 +64,7 @@
 
                 </LinearLayout>
 
-                <br.com.tiagohs.popmovies.view.EllipsizingTextView
+                <br.com.tiagohs.popmovies.ui.tools.EllipsizingTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/person_descricao"

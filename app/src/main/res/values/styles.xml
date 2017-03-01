@@ -102,6 +102,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:text">@string/label_mais</item>
+        <item name="android:textSize">@dimen/txt_size_medium</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:layout_weight">0.15</item>
     </style>

@@ -3,7 +3,6 @@ package br.com.tiagohs.popmovies.util;
 import android.content.Context;
 import android.icu.text.NumberFormat;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,14 +13,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.GenreDB;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
+import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 
@@ -58,6 +55,18 @@ public class MovieUtils {
         }
 
         return genreDBs;
+    }
+
+    public static String formatIncludeLanguages(List<Translation> translations) {
+        StringBuilder languages = new StringBuilder();
+
+        for (Translation translation : translations) {
+            languages.append(translation.getLanguage());
+            languages.append(",");
+        }
+
+        return languages.toString();
+
     }
 
     public static int getYearByDate(String dateString) {

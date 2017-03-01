@@ -9,11 +9,4 @@
         android:icon="@drawable/ic_save"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/menu_share"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_share"
-        android:title="@string/menu_compartilhar"
-        app:showAsAction="always"/>
-
 </menu>

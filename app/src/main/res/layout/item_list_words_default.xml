@@ -21,9 +21,9 @@
         <TextView
             android:id="@+id/movie_deails_item_default_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="@dimen/destaques_min_height"
             android:textColor="@android:color/white"
-            android:textSize="14dp"
+            android:textSize="@dimen/txt_size_medium"
             android:gravity="center"/>
 
     </com.balysv.materialripple.MaterialRippleLayout>

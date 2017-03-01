@@ -33,7 +33,7 @@
             android:layout_marginRight="@dimen/include_movie_detail_icon_margin"
             android:src="@drawable/ic_data"/>
 
-        <br.com.tiagohs.popmovies.view.PopTextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:id="@+id/ano_lancamento_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_marginRight="@dimen/include_movie_detail_icon_margin"
             android:src="@drawable/ic_relogio"/>
 
-        <br.com.tiagohs.popmovies.view.PopTextView
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:id="@+id/duracao_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
