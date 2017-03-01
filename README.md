@@ -2,20 +2,22 @@
 <p>Uma rede social de filmes relativamente simples, onde você pode:</p>
 
 <ul>
-<li>Marcar quais filmes você já assistiu;</li>
-<li>Marcar seus filmes favoritos;</li>
+<li>Marcar seus filmes favoritos, quais filmes você já assistiu, os que quer assistir e os que não quer ver nunca;</li>
 <li>Obter Rankings no IMDB, Rotten Tomatoes e Metascore;</li>
 <li>Obter reviews do IMDB, Rotten Tomatoes e da Comunidade TMDB;</li>
-<li>Obter informações sobre os atores, diretores e produtores de cada filme;</li>
+<li>Obter informações sobre os atores, diretores e produtores, incluindo suas filmografias;</li>
 <li>Assistir trailers originais, legendados ou dublados;</li>
-<li>Visualizar e baixar Walpapers de vários filmes;</li>
+<li>Visualizar e baixar Walpapers de vários filmes em diversas Qualidades;</li>
 </ul>
 
 <p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
 ###Base de Dados:
 </br>
-<a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.
+<ul>
+<li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
+<li><a href="https://github.com/jvanbaarsen/omdb"><b>OMDB API</b></a> - The OMDb API is a free web service to obtain movie information, all content and images on the site are contributed and maintained by our users.</li>
+</ul>
 </br>
 ###Padrões de Projetos Adotados:
 
@@ -26,6 +28,9 @@
 ###Libaries utilizadas nesse Projeto:
 
 <ul>
+<li><a href="https://github.com/ReactiveX/RxAndroid">RxAndroid</a> - RxJava bindings for Android </li>
+<li><a href="https://github.com/ReactiveX/RxJava">RxJava</a> - Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM. </li>
+<li><a href="https://github.com/square/retrofit">Retrofit</a> - Type-safe HTTP client for Android and Java by Square, Inc.</li>
 <li><a href="https://github.com/square/dagger">Dagger</a> - A fast dependency injector for Android and Java.</li>
 <li><a href="https://github.com/JakeWharton/butterknife">Butterknife</a> - Bind Android views and callbacks to fields and methods.</li>
 <li><a href="https://github.com/square/picasso">Picasso</a> - A powerful image downloading and caching library for Android .</li>
@@ -35,7 +40,6 @@
 </a> - A beautiful, fluid, and customizable dialogs API. </li>
 <li><a href="https://github.com/jd-alexander/LikeButton">LikeButton</a> - Twitter's heart animation for Android. </li>
 <li><a href="https://github.com/square/okhttp">okhttp</a> - An HTTP+HTTP/2 client for Android and Java applications. </li>
-<li><a href="https://android.googlesource.com/platform/frameworks/volley">Volley</a> - Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster. </li>
 <li><a href="https://github.com/balysv/material-ripple">Material Riple</a> - Android L Ripple effect wrapper for Views. </li>
 <li><a href="https://github.com/lopspower/CircularImageView">CircularImageView</a> - Create circular ImageView in Android in the simplest way possible. </li>
 <li><a href="https://github.com/amulyakhare/TextDrawable">TextDrawable</a> - This light-weight library provides images with letter/text like the Gmail app. It extends the Drawable class thus can be used with existing/custom/network ImageView classes. Also included is a fluent interface for creating drawables and a customizable ColorGenerator. </li>
