@@ -85,12 +85,19 @@ public class SearchMoviesFragment extends BaseFragment implements SearchCallback
     }
 
     public void updateAdapter() {
+        mSearchAdapter.setList(mListMovies);
         mSearchAdapter.notifyDataSetChanged();
     }
 
     private void setupAdapter() {
-        mSearchAdapter = new SearchMovieAdapter(getActivity(), mListMovies, this, mSearchPresenter);
-        mResultsRecyclerView.setAdapter(mSearchAdapter);
+
+        if (mSearchAdapter == null) {
+            mSearchAdapter = new SearchMovieAdapter(getActivity(), mListMovies, this, mSearchPresenter);
+            mResultsRecyclerView.setAdapter(mSearchAdapter);
+        } else
+            updateAdapter();
+
+
     }
 
     private RecyclerView.OnScrollListener createOnScrollListener() {

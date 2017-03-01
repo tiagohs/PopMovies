@@ -100,6 +100,8 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
             public void onError(Throwable e) {
                 mSearchMoviesView.setNenhumFilmeEncontradoVisibility(View.VISIBLE);
                 mSearchMoviesView.setProgressVisibility(View.GONE);
+
+                setupResponseMovies(new ArrayList<Movie>());
             }
 
             @Override
@@ -171,6 +173,8 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
             public void onError(Throwable e) {
                 mSearchPersonsView.setNenhumaPessoaEncontradoVisibility(View.VISIBLE);
                 mSearchPersonsView.setProgressVisibility(View.GONE);
+
+                setupResponsePerson(new ArrayList<PersonFind>());
             }
 
             @Override

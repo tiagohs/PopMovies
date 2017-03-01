@@ -27,12 +27,9 @@ import butterknife.BindView;
 public class SearchPersonsFragment extends BaseFragment implements SearchCallback, SearchContract.SearchPersonsView, PersonCallbacks {
     private static final String TAG = SearchPersonsFragment.class.getSimpleName();
 
-    @BindView(R.id.list_person_recycler_view)
-    RecyclerView mResultsRecyclerView;
-    @BindView(R.id.search_progress)
-    ProgressWheel mProgress;
-    @BindView(R.id.nenhuma_pessoa_encontrado)
-    TextView mNenhumaPessoaEncontrado;
+    @BindView(R.id.list_person_recycler_view)       RecyclerView mResultsRecyclerView;
+    @BindView(R.id.search_progress)                 ProgressWheel mProgress;
+    @BindView(R.id.nenhuma_pessoa_encontrado)       TextView mNenhumaPessoaEncontrado;
 
     @Inject
     SearchContract.SearchPresenter mSearchPresenter;
@@ -124,12 +121,18 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     }
 
     private void setupAdapter() {
-        mSearchAdapter = new SearchPersonAdapter(getActivity(), mListPerson, this);
-        mResultsRecyclerView.setAdapter(mSearchAdapter);
+
+        if (mSearchAdapter == null) {
+            mSearchAdapter = new SearchPersonAdapter(getActivity(), mListPerson, this);
+            mResultsRecyclerView.setAdapter(mSearchAdapter);
+        } else
+            updateAdapter();
+
     }
 
     @Override
     public void updateAdapter() {
+        mSearchAdapter.setList(mListPerson);
         mSearchAdapter.notifyDataSetChanged();
     }
 

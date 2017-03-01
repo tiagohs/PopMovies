@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="@dimen/margin_default_medium"
+    android:layout_marginBottom="@dimen/margin_default_medium">
 
     <include
         android:layout_width="wrap_content"
@@ -15,17 +15,16 @@
         android:id="@+id/person_poster"
         layout="@layout/include_circle_picture_small" />
 
-    <TextView
+    <br.com.tiagohs.popmovies.ui.tools.PopTextView
         android:id="@+id/person_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textSize="16dp"
-        android:text="Tiago Henrique"
+        android:textSize="@dimen/txt_size_medium"
         android:maxLines="1"
         android:layout_centerVertical="true"
-        android:fontFamily="sans-serif"
         android:textColor="@color/primary_text"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/person_poster"/>
+        android:layout_marginLeft="@dimen/margin_default_medium"
+        android:layout_toRightOf="@id/person_poster"
+        app:font="@string/font_open_sans"/>
 
 </RelativeLayout>
