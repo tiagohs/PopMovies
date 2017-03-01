@@ -49,7 +49,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_imdb"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -69,7 +69,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_filmow"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -89,7 +89,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_wiki"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -109,7 +109,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_pagina_inicial"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"

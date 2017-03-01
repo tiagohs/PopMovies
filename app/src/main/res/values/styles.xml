@@ -228,7 +228,7 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/secondary_text</item>
         <item name="android:padding">@dimen/margin_default_medium</item>
-        <item name="android:textSize">@dimen/txt_size_small</item>
+        <item name="android:textSize">@dimen/button_user_txt_size</item>
     </style>
 
     <style name="MovieDetailsTextView">
@@ -237,5 +237,6 @@
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/txt_size_medium</item>
     </style>
+
 
 </resources>

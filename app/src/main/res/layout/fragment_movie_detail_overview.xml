@@ -15,7 +15,10 @@
         android:clickable="true"
         android:orientation="vertical">
 
-        <include layout="@layout/include_movie_detail_overview_buttons" />
+        <include
+            layout="@layout/include_movie_detail_overview_buttons" />
+
+        <View style="@style/DividerSmallStyle"/>
 
         <RelativeLayout
             android:id="@+id/rankings_container_geral"

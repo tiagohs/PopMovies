@@ -7,9 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin">
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/btn_quero_ver"
@@ -53,7 +51,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_imdb"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -72,7 +70,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_filmow"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -99,7 +97,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_wiki"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
@@ -118,7 +116,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/riple_pagina_inicial"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"

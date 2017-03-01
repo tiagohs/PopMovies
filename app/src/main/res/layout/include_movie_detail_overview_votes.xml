@@ -12,7 +12,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/imdb_riple"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="100dp"
@@ -68,7 +68,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/tomatoes_riple"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="100dp"
@@ -123,7 +123,7 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/metascore_riple"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="100dp"
