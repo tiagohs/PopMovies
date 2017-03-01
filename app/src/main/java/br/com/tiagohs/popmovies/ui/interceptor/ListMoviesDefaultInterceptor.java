@@ -34,8 +34,6 @@ public class ListMoviesDefaultInterceptor implements ListMoviesDefaultContract.L
     private MovieRepository mMovieRepository;
     private ProfileRepository mProfileRepository;
 
-    private long mTotalMovies;
-
     @Inject
     public ListMoviesDefaultInterceptor(MoviesMethod moviesMethod, PersonsMethod personsMethod,
                                         MovieRepository movieRepository, ProfileRepository profileRepository) {
@@ -159,7 +157,8 @@ public class ListMoviesDefaultInterceptor implements ListMoviesDefaultContract.L
 
                 genericListResponse.setResults(MovieUtils.convertMovieDBToMovie(movieDBs));
                 genericListResponse.setPage(currentPage);
-                genericListResponse.setTotalPage((int) Math.ceil(new Double(mTotalMovies) / new Double(6)));
+                genericListResponse.setTotalPage((int) Math.ceil(new Double(aLong) / new Double(6)));
+
                 return genericListResponse;
             }
         }).subscribeOn(Schedulers.io());
