@@ -13,7 +13,6 @@
 <p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
 ###Base de Dados:
-</br>
 <ul>
 <li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
 <li><a href="https://github.com/jvanbaarsen/omdb"><b>OMDB API</b></a> - The OMDb API is a free web service to obtain movie information, all content and images on the site are contributed and maintained by our users.</li>
