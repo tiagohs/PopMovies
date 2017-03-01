@@ -9,7 +9,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_person_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_default_medium"
+        android:layout_marginRight="@dimen/margin_default_medium"/>
 
     <com.pnikosis.materialishprogress.ProgressWheel
         android:visibility="gone"
