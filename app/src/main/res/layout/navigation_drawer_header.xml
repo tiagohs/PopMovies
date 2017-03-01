@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
@@ -46,6 +47,7 @@
                     android:id="@+id/nome_usuario"
                     android:textSize="@dimen/txt_size_medium"
                     android:layout_width="match_parent"
+                    android:text="tetetete"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -53,6 +55,7 @@
                     android:id="@+id/email_usuario"
                     android:paddingTop="@dimen/margin_default_min"
                     android:textSize="@dimen/txt_size_small"
+                    android:text="tetetete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

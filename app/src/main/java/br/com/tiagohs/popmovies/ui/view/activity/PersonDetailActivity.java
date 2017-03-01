@@ -37,6 +37,8 @@ import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.ui.view.fragment.PersonDetailFragment;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
@@ -95,7 +97,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
         mPersonDetailPresenter.onBindView(this);
 
-        if (savedInstanceState != null)
+        if (EmptyUtils.isNotNull(savedInstanceState))
             mArgPersonName = savedInstanceState.getString(ARG_NAME_PERSON);
 
         mPersonID = getIntent().getIntExtra(ARG_PERSON_ID, 0);
@@ -140,7 +142,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
                 mToolbar.setBackgroundColor(ViewUtils.getColorFromResource(getApplicationContext(), R.color.colorPrimary));
-                mToolbar.setTitle(mPerson != null ? mPerson.getName() : mArgPersonName);
+                mToolbar.setTitle(EmptyUtils.isNotNull(mPerson) ? mPerson.getName() : mArgPersonName);
                 setVisibilityFacebook(View.GONE);
                 setVisibilityTwitter(View.GONE);
                 setVisibilityInstagram(View.GONE);
@@ -150,9 +152,9 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
             public void onIdle(AppBarLayout appBarLayout) {
                 mToolbar.setBackground(ViewUtils.getDrawableFromResource(getApplicationContext(), R.drawable.background_action_bar_transparent));
                 mToolbar.setTitle("");
-                setVisibilityFacebook(mPerson.getExternalIDs().getFacebookId() != null ? View.VISIBLE : View.GONE);
-                setVisibilityTwitter(mPerson.getExternalIDs().getTwitterId() != null ? View.VISIBLE : View.GONE);
-                setVisibilityInstagram(mPerson.getExternalIDs().getInstagramID() != null ? View.VISIBLE : View.GONE);
+                setVisibilityFacebook(EmptyUtils.isNotNull(mPerson.getExternalIDs().getFacebookId()) ? View.VISIBLE : View.GONE);
+                setVisibilityTwitter(EmptyUtils.isNotNull(mPerson.getExternalIDs().getTwitterId()) ? View.VISIBLE : View.GONE);
+                setVisibilityInstagram(EmptyUtils.isNotNull(mPerson.getExternalIDs().getInstagramID()) ? View.VISIBLE : View.GONE);
             }
         };
     }
@@ -175,7 +177,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
         if (PermissionUtils.validatePermission(PersonDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content))) {
             mProgressShare.setVisibility(View.VISIBLE);
 
-            if (isInternetConnected() && mPerson != null) {
+            if (isInternetConnected() && EmptyUtils.isNotNull(mPerson)) {
                 View view = getLayoutInflater().inflate(R.layout.share_person_details, null);
                 ImageView personPerfil = (ImageView) view.findViewById(R.id.person_perfil);
                 TextView personName = (TextView) view.findViewById(R.id.person_name);
@@ -185,14 +187,14 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
                 ImageUtils.load(this, mPerson.getProfilePath(), personPerfil, mPerson.getName(), ImageSize.POSTER_185);
                 personName.setText(mPerson.getName());
 
-                if (mPerson.getBirthday() != null) {
+                if (EmptyUtils.isNotNull(mPerson.getBirthday())) {
                     int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
-                    personSubtitle.setText(getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
+                    personSubtitle.setText(getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
                 } else {
                     personSubtitle.setVisibility(View.GONE);
                 }
 
-                if (ViewUtils.isEmptyValue(mPerson.getBiography()))
+                if (EmptyUtils.isEmpty(mPerson.getBiography()))
                     personDescricao.setText(mDescricao);
                 else
                     personDescricao.setText(mPerson.getBiography());
@@ -232,7 +234,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
     public void createShareIntent(Bitmap imageToShare) {
         String imdbID = null;
 
-        if (mPerson.getImdbId() != null)
+        if (EmptyUtils.isNotNull(mPerson.getImdbId()))
             imdbID = getString(R.string.person_imdb, mPerson.getImdbId());
 
         ShareUtils.shareImageWithText(this, MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mPerson.getName() , null), imdbID);
@@ -301,7 +303,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mPerson != null)
+        if (EmptyUtils.isNotNull(mPerson))
             outState.putString(ARG_NAME_PERSON, mPerson.getName());
     }
 
@@ -336,7 +338,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
     @OnClick(R.id.background_person)
     public void onClickBackground() {
-        if (null != mPerson) {
+        if (EmptyUtils.isNotNull(mPerson)) {
             if (!mPerson.getTaggedImages().isEmpty())
                 onClickImage(DTOUtils.createPersonImagesBackgroundDTO(mPerson, mPerson.getImages().size(), mPerson.getTaggedImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
             else if (!mPerson.getImages().isEmpty())
@@ -347,7 +349,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
     @OnClick(R.id.image_circle)
     public void onClickProfileImage() {
-        if (null != mPerson) {
+        if (EmptyUtils.isNotNull(mPerson)) {
             if (!mPerson.getImages().isEmpty())
                 onClickImage(DTOUtils.createPersonImagesDTO(mPerson, mPerson.getImages().size(), mPerson.getImages()), new ImageDTO(mPerson.getId(), null, mPerson.getImages().get(0).getFilePath()));
         }
@@ -355,7 +357,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
     @OnClick(R.id.filmes_total_person_riple)
     public void onClickTotalFilmes() {
-        if (null != mPerson)
+        if (EmptyUtils.isNotNull(mPerson))
             startActivity(ListsDefaultActivity.newIntent(this, mPerson.getMoviesCarrer(), new ListActivityDTO(mPerson.getId(), mPerson.getName(), getString(R.string.carreira), Sort.LIST_DEFAULT, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
@@ -369,7 +371,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
     @OnClick(R.id.fotos_total_person_riple)
     public void onClickTotalFotos() {
-        if (null != mPerson) {
+        if (EmptyUtils.isNotNull(mPerson)) {
             List<Artwork> list = getTotalPersonImages();
 
             if (!getTotalPersonImages().isEmpty())

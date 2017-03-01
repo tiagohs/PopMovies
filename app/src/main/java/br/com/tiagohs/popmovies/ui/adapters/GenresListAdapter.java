@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,7 +53,6 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Ge
     }
 
     class GenresActivityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         @BindView(R.id.genre_background)    ImageView mGenresBackground;
         @BindView(R.id.title_genre)         TextView mTitleGenres;
         @BindView(R.id.card_view)           CardView mCardView;
@@ -66,8 +64,6 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Ge
 
             itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
-
-            mTitleGenres.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
         }
 
         public void bindGenero(Genre gene) {

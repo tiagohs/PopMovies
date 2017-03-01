@@ -18,6 +18,7 @@ import br.com.tiagohs.popmovies.database.PopMoviesContract;
 import br.com.tiagohs.popmovies.database.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -58,7 +59,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
 
                     db = mDatabaseManager.openDatabase();
 
-                    if (movieDatabase != null) {
+                    if (EmptyUtils.isNotNull(movieDatabase)) {
                         db.update(PopMoviesContract.MoviesEntry.TABLE_NAME, values, SQLHelper.MovieSQL.WHERE_MOVIE_BY_SERVER_ID, new String[]{String.valueOf(movie.getIdServer()), String.valueOf(movie.getProfileID())});
                     } else {
                         movieID = db.insert(PopMoviesContract.MoviesEntry.TABLE_NAME, "", values);
@@ -120,7 +121,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
             public void subscribe(ObservableEmitter<Movie> observableEmitter) {
                 Movie movie = findMovieDatabase(where, values);
 
-                if (movie != null)
+                if (EmptyUtils.isNotNull(movie))
                     observableEmitter.onNext(movie);
 
                 observableEmitter.onComplete();
@@ -158,7 +159,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
                         .map(new Function<Movie, Boolean>() {
                             @Override
                             public Boolean apply(Movie movie) throws Exception {
-                                return movie != null;
+                                return EmptyUtils.isNotNull(movie);
                             }
                         });
     }
@@ -168,7 +169,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
                 .map(new Function<Movie, Boolean>() {
                     @Override
                     public Boolean apply(Movie movie) throws Exception {
-                        return movie != null;
+                        return EmptyUtils.isNotNull(movie);
                     }
                 });
     }
@@ -178,7 +179,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
                 .map(new Function<Movie, Boolean>() {
                     @Override
                     public Boolean apply(Movie movie) throws Exception {
-                        return movie != null;
+                        return EmptyUtils.isNotNull(movie);
                     }
                 });
     }
@@ -188,7 +189,7 @@ public class MovieRepositoryImpl implements MovieRepository  {
                 .map(new Function<Movie, Boolean>() {
                     @Override
                     public Boolean apply(Movie movie) throws Exception {
-                        return movie != null;
+                        return EmptyUtils.isNotNull(movie);
                     }
                 });
     }

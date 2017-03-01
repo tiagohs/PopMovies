@@ -5,8 +5,8 @@ import java.util.List;
 
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 /**
@@ -30,14 +30,14 @@ public class PerfilEstatisticasContract {
         Observable<List<GenrerMoviesDTO>> getAllGenrersSaved(long profileID);
     }
 
-    public interface PerfilEstatisticasPresenter extends BasePresenter<PerfilEstatisticasView> {
+    public interface PerfilEstatisticasPresenter extends IPresenter<PerfilEstatisticasView> {
 
         void initUpdates(String username);
 
     }
 
 
-    public interface PerfilEstatisticasView extends BaseView {
+    public interface PerfilEstatisticasView extends IView {
 
         void setTotalHorasAssistidas(long duracaoTotal);
         void setTotalFilmesAssistidos(int totalFilmesAssistidos);

@@ -33,8 +33,7 @@ public class WallpaperPagerAdapter extends PagerAdapter {
     public WallpaperPagerAdapter(Activity context, List<ImageDTO> imageDTOs, TypeShowImage typeShowImage) {
         mContext = context;
         mImageDTOs = imageDTOs;
-        this.mTypeShowImage = typeShowImage;
-
+        mTypeShowImage = typeShowImage;
 
     }
 
@@ -59,14 +58,6 @@ public class WallpaperPagerAdapter extends PagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return super.getItemPosition(object);
-    }
-
-    public PhotoView getCurrentImageView() {
-        return mWallpaperImage;
-    }
-
-    public ImageDTO getCurrentImage() {
-        return mCurrentImage;
     }
 
     @Override

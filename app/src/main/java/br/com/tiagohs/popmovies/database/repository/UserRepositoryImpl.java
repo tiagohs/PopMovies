@@ -15,6 +15,7 @@ import br.com.tiagohs.popmovies.database.DatabaseManager;
 import br.com.tiagohs.popmovies.database.PopMoviesContract;
 import br.com.tiagohs.popmovies.database.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.UserDB;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -42,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
                 try {
                     ContentValues values = getUserContentValues(user);
 
-                    boolean userJaExistente = findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())}) != null;
+                    boolean userJaExistente = EmptyUtils.isNotNull(findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())}));
                     db = mDatabaseManager.openDatabase();
 
                     if (userJaExistente)
@@ -104,7 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
             public void subscribe(ObservableEmitter<UserDB> observableEmitter) {
                 UserDB user = findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username, String.valueOf(profileID)});
 
-                if (null != user)
+                if (EmptyUtils.isNotNull(user))
                     observableEmitter.onNext(user);
 
                 observableEmitter.onComplete();

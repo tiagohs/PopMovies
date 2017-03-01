@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.ui.contracts.PerfilEditContract;
 import br.com.tiagohs.popmovies.model.dto.ImageSaveDTO;
-import br.com.tiagohs.popmovies.util.ImageIntentPicker;
+import br.com.tiagohs.popmovies.ui.tools.ImageIntentPicker;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -100,6 +100,12 @@ public class PerfilEditFragment extends BaseFragment implements PerfilEditContra
         configurePhotoPerfil();
 
         mPresenter.getProfileInfo(PrefsUtils.getCurrentProfile(getContext()).getUser().getUsername());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
     }
 
     @Override

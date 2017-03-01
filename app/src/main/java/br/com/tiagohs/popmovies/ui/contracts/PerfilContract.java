@@ -5,8 +5,8 @@ import java.util.List;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 /**
@@ -19,15 +19,15 @@ public class PerfilContract {
 
         Observable<ProfileDB> findProfileByUserUsername(String username);
         Observable<List<MovieDB>> findAllMoviesDB(long profileID);
-        Observable<ImageResponse> getMovieImagens(int movieID);
+        Observable<ImageResponse> getMovieImagens(long profileID);
     }
 
-    public interface PerfilPresenter extends BasePresenter<PerfilView> {
+    public interface PerfilPresenter extends IPresenter<PerfilView> {
 
         void initUpdates(String username);
     }
 
-    public interface PerfilView extends BaseView {
+    public interface PerfilView extends IView {
 
         void setNamePerfil(String nameUser);
         void setImagePerfil(String imagePath);

@@ -32,6 +32,7 @@ import br.com.tiagohs.popmovies.ui.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.ui.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.ui.adapters.VideoAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -99,7 +100,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getPopMoviesComponent().inject(this);
 
-        if (savedInstanceState != null) {
+        if (EmptyUtils.isNotNull(savedInstanceState)) {
             isVideosSearched = savedInstanceState.getBoolean(ARG_IS_VIDEO_SEARCHED);
             mTotalImages = (ArrayList<ImageDTO>) savedInstanceState.getSerializable(ARG_IMAGES_SAVED);
             mMovieDetails = (MovieDetails) savedInstanceState.getSerializable(ARG_MOVIE_SAVED);
@@ -145,7 +146,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         else
             mPresenter.getVideos(mMovieDetails.getId(), mMovieDetails.getOriginalLanguage());
 
-        if (mTotalImages != null)
+        if (EmptyUtils.isNotNull(mTotalImages))
             setupImageAdapter();
         else
             mPresenter.getImagens(mMovieDetails.getId());
@@ -171,9 +172,9 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
         if (isVideosSearched)
             outState.putBoolean(ARG_IS_VIDEO_SEARCHED, isVideosSearched);
-        if (mTotalImages != null)
+        if (EmptyUtils.isNotNull(mTotalImages))
             outState.putSerializable(ARG_IMAGES_SAVED, (ArrayList<ImageDTO>) mTotalImages);
-        if (mMovieDetails != null)
+        if (EmptyUtils.isNotNull(mMovieDetails))
             outState.putSerializable(ARG_MOVIE_SAVED, mMovieDetails);
     }
 

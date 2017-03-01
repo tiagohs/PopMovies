@@ -14,42 +14,24 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class GenresPresenter implements GenresContract.GenresPresenter {
+public class GenresPresenter extends BasePresenter<GenresContract.GenresView, GenresContract.GenresInterceptor> implements GenresContract.GenresPresenter {
     private static final String TAG = GenresPresenter.class.getSimpleName();
-
-    private GenresContract.GenresView mGenresView;
-    private GenresInterceptor mGenresInterceptor;
-
-    private CompositeDisposable mSubscribers;
 
     @Inject
     public GenresPresenter(GenresInterceptor genresInterceptor, CompositeDisposable subscribes) {
-        mGenresInterceptor = genresInterceptor;
-
-        mSubscribers = subscribes;
-    }
-
-    @Override
-    public void onBindView(GenresContract.GenresView view) {
-        this.mGenresView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
-        mGenresView = null;
+        super(genresInterceptor, subscribes);
     }
 
     @Override
     public void getGenres() {
-        mGenresView.setProgressVisibility(View.VISIBLE);
+        mView.setProgressVisibility(View.VISIBLE);
 
-        if (mGenresView.isInternetConnected()) {
-            mGenresInterceptor.getGenres()
+        if (mView.isInternetConnected()) {
+            mInterceptor.getGenres()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(onObserver());
         } else
-            mGenresView.onErrorNoConnection();
+            mView.onErrorNoConnection();
 
     }
 
@@ -62,13 +44,13 @@ public class GenresPresenter implements GenresContract.GenresPresenter {
 
             @Override
             public void onNext(List<Genre> genres) {
-                mGenresView.updateView(genres);
-                mGenresView.setProgressVisibility(View.GONE);
+                mView.updateView(genres);
+                mView.setProgressVisibility(View.GONE);
             }
 
             @Override
             public void onError(Throwable e) {
-                mGenresView.onErrorInServer();
+                mView.onErrorInServer();
             }
 
             @Override

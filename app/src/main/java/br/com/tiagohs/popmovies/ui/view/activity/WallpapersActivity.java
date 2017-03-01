@@ -12,6 +12,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.ui.view.fragment.WallpapersFragment;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
 
@@ -43,7 +44,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
         mToolbar.setTitle(mPageTitle);
 
-        if (mPageSubtitle != null)
+        if (EmptyUtils.isNotNull(mPageSubtitle))
             mToolbar.setSubtitle(mPageSubtitle);
 
         startFragment(R.id.content_fragment, WallpapersFragment.newInstance(mWallpapers));

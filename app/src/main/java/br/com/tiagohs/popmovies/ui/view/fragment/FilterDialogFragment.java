@@ -32,14 +32,12 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.FilterValuesDTO;
 import br.com.tiagohs.popmovies.model.dto.SortByItemDTO;
-import br.com.tiagohs.popmovies.util.LocaleUtils;
-import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.ui.callbacks.FiltersMoviesCallbacks;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FilterDialogFragment extends DialogFragment {
-    private static final String ARG_TYPE_LIST = "typeList";
 
     private static final int MIN_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 5;
     private static final int MAX_YEAR = 1890;
@@ -54,8 +52,6 @@ public class FilterDialogFragment extends DialogFragment {
     @BindView(R.id.nota_comunidade_seekbar)     CrystalSeekbar mNotaComunidade;
     @BindView(R.id.min_nota_text_view)          TextView mNotaInicial;
 
-
-    private ListType mTypeList;
     private SimpleDateFormat mDateFormatter;
     private DatePickerDialog mFromDatePickerDialog;
     private DatePickerDialog mToDatePickerDialog;
@@ -63,9 +59,8 @@ public class FilterDialogFragment extends DialogFragment {
     private FilterValuesDTO mFilterValuesDTO;
     private FiltersMoviesCallbacks mFiltersMoviesCallbacks;
 
-    public static FilterDialogFragment newInstance(ListType typeList) {
+    public static FilterDialogFragment newInstance() {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LIST, typeList);
 
         FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
         filterDialogFragment.setArguments(bundle);
@@ -92,8 +87,6 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mTypeList = (ListType) getArguments().getSerializable(ARG_TYPE_LIST);
 
         setStyle(STYLE_NORMAL, getActivity().getApplicationInfo().theme);
     }

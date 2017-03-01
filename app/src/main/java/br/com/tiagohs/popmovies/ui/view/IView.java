@@ -1,6 +1,6 @@
 package br.com.tiagohs.popmovies.ui.view;
 
-public interface BaseView {
+public interface IView {
 
     void setProgressVisibility(int visibityState);
 

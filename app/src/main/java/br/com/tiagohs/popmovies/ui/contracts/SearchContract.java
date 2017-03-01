@@ -10,9 +10,9 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 public class SearchContract {
@@ -36,7 +36,7 @@ public class SearchContract {
         Observable<Movie> findMovieByServerID(int serverID, long profileID);
     }
 
-    public interface SearchPresenter extends BasePresenter, Serializable {
+    public interface SearchPresenter extends IPresenter<SearchContract.SearchMoviesView>, Serializable {
 
         void searchMovies(String query,
                           Boolean includeAdult,
@@ -58,7 +58,7 @@ public class SearchContract {
         void setPersonView(SearchPersonsView searchPersonsView);
     }
 
-    public interface SearchMoviesView extends BaseView {
+    public interface SearchMoviesView extends IView {
 
         void onMovieSelected(int movieID, ImageView posterMovie);
 
@@ -70,7 +70,7 @@ public class SearchContract {
         void updateAdapter();
     }
 
-    public interface SearchPersonsView extends BaseView  {
+    public interface SearchPersonsView extends IView {
 
         void setListPersons(List<PersonFind> listPersons, boolean hasMorePages);
         void addAllPersons(List<PersonFind> listPersons, boolean hasMorePages);

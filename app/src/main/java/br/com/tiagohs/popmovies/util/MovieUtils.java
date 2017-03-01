@@ -3,13 +3,10 @@ package br.com.tiagohs.popmovies.util;
 import android.content.Context;
 import android.icu.text.NumberFormat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -18,13 +15,11 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.GenreDB;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
-import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.movie.Genre;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 
 public class MovieUtils {
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    private static Calendar c = Calendar.getInstance();
+
 
     public static List<Movie> convertMovieDBToMovie(List<MovieDB> moviesDB) {
         List<Movie> movies = new ArrayList<>();
@@ -57,31 +52,6 @@ public class MovieUtils {
         return genreDBs;
     }
 
-    public static String formatIncludeLanguages(List<Translation> translations) {
-        StringBuilder languages = new StringBuilder();
-
-        for (Translation translation : translations) {
-            languages.append(translation.getLanguage());
-            languages.append(",");
-        }
-
-        return languages.toString();
-
-    }
-
-    public static int getYearByDate(String dateString) {
-        Date date = null;
-
-        try {
-            date = formatter.parse(dateString);
-        } catch (ParseException e) {
-            return 0;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.YEAR);
-    }
 
     public static void sortMoviesByDate(List<CarrerMoviesDTO> movieListDTO) {
         Collections.sort(movieListDTO, new Comparator<CarrerMoviesDTO>() {
@@ -90,34 +60,6 @@ public class MovieUtils {
             }
         });
     }
-
-    public static String getDateDayWeek(int dayWeek) {
-        c.set(Calendar.DAY_OF_WEEK, dayWeek);
-        return formatter.format(c.getTime());
-    }
-
-    public static String getDateToday() {
-        Calendar c = Calendar.getInstance();
-        return formatter.format(c.getTime());
-    }
-
-    public static String getCurrentYear() {
-        Calendar c = Calendar.getInstance();
-        return String.valueOf(c.get(Calendar.YEAR));
-    }
-
-    public static String getDateBefore(int numDays) {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, -numDays);
-        return formatter.format(c.getTime());
-    }
-
-    public static String getDateAfter(int numDays) {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, numDays);
-        return formatter.format(c.getTime());
-    }
-
 
     public static String formatCurrency(long currency) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -151,33 +93,6 @@ public class MovieUtils {
 
     public static int getAge(Calendar calendar) {
         return getAge(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    public static String formateDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            return dateString;
-        }
-
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        return dateFormat.format(date);
-    }
-
-    public static Calendar formateStringToCalendar(String dateString) {
-        Calendar cal = Calendar.getInstance();
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            cal.setTime(sdf.parse(dateString));
-        } catch (ParseException e) {
-            return Calendar.getInstance();
-        }
-
-        return cal;
     }
 
     public static int[] getAllGenrerIDs() {

@@ -4,6 +4,7 @@
     <string name="facebook_app_id">1628004524169901</string>
     <string name="app_name">PopMovies</string>
     <string name="font_open_sans">opensans.ttf</string>
+    <string name="font_open_sans_italic">openSansItalic.ttf</string>
     <string name="font_open_sans_bold">openSansBold.ttf</string>
     <string name="font_times_new_roman">TimesNewRoman.ttf</string>
 
@@ -408,5 +409,18 @@
     <string name="movie_details_favorite_no_marked">Desmarcado como Favorito</string>
     <string name="perfil_estatisticas_graphic_genres_title">Seus Gêneros Favoritos!</string>
     <string name="wallpapers_dialog_size">Tamanho da imagem</string>
+    <string name="list_movies_long_click_favorite_marked">Marcado como Favorito</string>
+    <string name="list_movies_long_click_watched_marked">Marcado como Assistido</string>
+    <string name="list_movies_long_click_want_see_marked">Marcado como Quero ver</string>
+    <string name="list_movies_long_click_dont_want_see_marked">Marcado como Não Quero ver</string>
+    <string name="list_movies_long_click_dont_want_see_will_marked">Marcar como não quero ver</string>
+    <string name="list_movies_long_click_want_see_will_marked">Marcar como quero ver</string>
+    <string name="list_movies_long_click_watched_will_marked">Marcar como Assistido</string>
+    <string name="list_movies_long_click_favorite_will_marked">Marcar como Favorito</string>
+    <string name="list_movies_long_click_opcoes_title">Opções</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="movie_details_watched_marked">Marcado como Assistido</string>
+    <string name="movie_details_watched_dont_marked">Desmarcado como Assistido</string>
+    <string name="image_picker_title">Selecione a fonte da imagem</string>
 
 </resources>

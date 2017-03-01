@@ -24,16 +24,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.PerfilEstatisticasContract;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.ui.contracts.PerfilEstatisticasContract;
+import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
-import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -92,6 +92,12 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !mIsEstatisticasLoaded ) {
@@ -129,17 +135,17 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     public void setDadosPessoais(String pais, Calendar birthday, String genero) {
         int idade;
 
-        if (birthday != null && !ViewUtils.isEmptyValue(genero)) {
+        if (EmptyUtils.isNotNull(birthday) && !EmptyUtils.isEmpty(genero)) {
             idade = MovieUtils.getAge(birthday);
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_idade_genero,
                     pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_idade, idade), genero));
-        } else if (birthday != null && ViewUtils.isEmptyValue(genero)) {
+        } else if (EmptyUtils.isNotNull(birthday) && EmptyUtils.isEmpty(genero)) {
             idade = MovieUtils.getAge(birthday);
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_idade,
                     pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_idade, idade)));
-        } else if (birthday == null && !ViewUtils.isEmptyValue(genero)) {
+        } else if (!EmptyUtils.isNotNull(birthday) && !EmptyUtils.isEmpty(genero)) {
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_genero, pais, genero));
-        } else if (pais != null) {
+        } else if (EmptyUtils.isNotNull(pais)) {
                 mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais, pais));
         }
 
@@ -162,7 +168,7 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     }
 
     public void setDescricao(String descricao) {
-        if (descricao != null)
+        if (EmptyUtils.isNotNull(descricao))
             mDescricaoDadosPessoais.setText(descricao);
         else
             mDescricaoDadosPessoais.setText(R.string.nao_ha_descicao);

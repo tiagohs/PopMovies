@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
-
     private List<ImageDTO> mImages;
     private List<ImageDTO> mTotalImagens;
     private Context mContext;

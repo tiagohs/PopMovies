@@ -23,7 +23,7 @@ public class SearchTabAdapter extends FragmentPagerAdapter {
     public SearchTabAdapter(FragmentManager fm, String[] tabNames) {
         super(fm);
 
-        this.mTabsNames = tabNames;
+        mTabsNames = tabNames;
         mSearchMovieFragment = SearchMoviesFragment.newInstace();
     }
 

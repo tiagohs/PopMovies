@@ -76,8 +76,6 @@ public class WebViewFragment extends BaseFragment {
                     if (isAdded())
                         mWebViewProgress.setProgress(newProgress);
                 }
-
-
             }
         };
     }
@@ -118,8 +116,7 @@ public class WebViewFragment extends BaseFragment {
                 getWebViewActivity().finish();
                 return true;
             case R.id.menu_open_navegador:
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(mUrl)));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl)));
                 return true;
             default:
                 return false;

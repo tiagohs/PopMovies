@@ -1,26 +1,26 @@
-package br.com.tiagohs.popmovies.util;
+package br.com.tiagohs.popmovies.ui.tools;
 
-    import android.app.Activity;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.content.pm.ResolveInfo;
-    import android.content.res.AssetFileDescriptor;
-    import android.database.Cursor;
-    import android.graphics.Bitmap;
-    import android.graphics.BitmapFactory;
-    import android.graphics.Matrix;
-    import android.media.ExifInterface;
-    import android.net.Uri;
-    import android.os.Parcelable;
-    import android.provider.MediaStore;
-    import android.util.Log;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 
-    import java.io.File;
-    import java.io.FileNotFoundException;
-    import java.util.ArrayList;
-    import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
-    import br.com.tiagohs.popmovies.model.dto.ImageSaveDTO;
+import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.model.dto.ImageSaveDTO;
 
 /**
      * Author: Mario Velasco Casquero
@@ -50,7 +50,7 @@ package br.com.tiagohs.popmovies.util;
 
             if (intentList.size() > 0) {
                 chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1),
-                        "Selecione a fonte da imagem: ");
+                        context.getString(R.string.image_picker_title));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
             }
 
@@ -64,7 +64,6 @@ package br.com.tiagohs.popmovies.util;
                 Intent targetedIntent = new Intent(intent);
                 targetedIntent.setPackage(packageName);
                 list.add(targetedIntent);
-                Log.d(TAG, "Intent: " + intent.getAction() + " package: " + packageName);
             }
             return list;
         }
@@ -72,7 +71,6 @@ package br.com.tiagohs.popmovies.util;
 
         public static ImageSaveDTO getImageFromResult(Context context, int resultCode,
                                                       Intent imageReturnedIntent) {
-            Log.d(TAG, "getImageFromResult, resultCode: " + resultCode);
             Bitmap bm = null;
             File imageFile = getTempFile(context);
             if (resultCode == Activity.RESULT_OK) {
@@ -85,8 +83,6 @@ package br.com.tiagohs.popmovies.util;
                 } else {            /** ALBUM **/
                     selectedImage = imageReturnedIntent.getData();
                 }
-                Log.d(TAG, "selectedImage: " + selectedImage);
-
                 bm = getImageResized(context, selectedImage);
                 int rotation = getRotation(context, selectedImage, isCamera);
                 bm = rotate(bm, rotation);
@@ -116,8 +112,6 @@ package br.com.tiagohs.popmovies.util;
             Bitmap actuallyUsableBitmap = BitmapFactory.decodeFileDescriptor(
                     fileDescriptor.getFileDescriptor(), null, options);
 
-            Log.d(TAG, options.inSampleSize + " sample method bitmap ... " +
-                    actuallyUsableBitmap.getWidth() + " " + actuallyUsableBitmap.getHeight());
 
             return actuallyUsableBitmap;
         }
@@ -131,7 +125,6 @@ package br.com.tiagohs.popmovies.util;
             int i = 0;
             do {
                 bm = decodeBitmap(context, selectedImage, sampleSizes[i]);
-                Log.d(TAG, "resizer: new bitmap width = " + bm.getWidth());
                 i++;
             } while (bm.getWidth() < minWidthQuality && i < sampleSizes.length);
             return bm;
@@ -145,7 +138,6 @@ package br.com.tiagohs.popmovies.util;
             } else {
                 rotation = getRotationFromGallery(context, imageUri);
             }
-            Log.d(TAG, "Image rotation: " + rotation);
             return rotation;
         }
 

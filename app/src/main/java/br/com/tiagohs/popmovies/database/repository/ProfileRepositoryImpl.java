@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.database.PopMoviesContract;
 import br.com.tiagohs.popmovies.database.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import io.reactivex.Observable;
@@ -56,7 +57,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                 try {
                     ContentValues values = getProfileContentValues(profile);
 
-                    boolean userJaExistente = findProfileDatabase(SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, profile.getUser().getUsername()) != null;
+                    boolean userJaExistente = EmptyUtils.isNotNull(findProfileDatabase(SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, profile.getUser().getUsername()));
                     db = mDatabaseManager.openDatabase();
 
                     if (userJaExistente)
@@ -126,7 +127,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             public void subscribe(ObservableEmitter<ProfileDB> observableEmitter) throws Exception {
                 ProfileDB profile = findProfileDatabase(SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, username);
 
-                if (null != profile)
+                if (EmptyUtils.isNotNull(profile))
                     observableEmitter.onNext(profile);
 
                 observableEmitter.onComplete();
@@ -296,7 +297,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             profile.setCountry(c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_COUNTRY)));
 
             String birthdayString = c.getString(c.getColumnIndex(PopMoviesContract.ProfileEntry.COLUMN_BIRTHDAY));
-            if (birthdayString != null) {
+            if (EmptyUtils.isNotNull(birthdayString)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(mDateFormat.parse(birthdayString));
                 profile.setBirthday(calendar);
@@ -314,7 +315,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         ContentValues values = new ContentValues();
 
         values.put(PopMoviesContract.ProfileEntry.COLUMN_DESCRIPTION, profile.getDescricao());
-        if (profile.getBirthday() != null)
+        if (EmptyUtils.isNotNull(profile.getBirthday()))
             values.put(PopMoviesContract.ProfileEntry.COLUMN_BIRTHDAY, mDateFormat.format(profile.getBirthday().getTime()));
 
         values.put(PopMoviesContract.ProfileEntry.COLUMN_COUNTRY, profile.getCountry());

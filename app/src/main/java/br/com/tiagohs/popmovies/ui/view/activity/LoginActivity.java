@@ -3,9 +3,7 @@ package br.com.tiagohs.popmovies.ui.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,16 +38,15 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.ui.contracts.LoginContract;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
-import br.com.tiagohs.popmovies.util.ServerUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.LoginView {
+public class LoginActivity extends BaseActivity implements LoginContract.LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final String USER_ID_KEY = "id";
@@ -84,21 +81,20 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        PermissionUtils.validate(this, 0);
+        PermissionUtils.validate(this);
 
         onStartConfigurateLoginSDKs();
 
-        if (PrefsUtils.getCurrentUser(LoginActivity.this) != null) {
+        if (EmptyUtils.isNotNull(PrefsUtils.getCurrentUser(LoginActivity.this))) {
             startActivity(HomeActivity.newIntent(LoginActivity.this));
             finish();
         }
 
         ((App) getApplication()).getPopMoviesComponent().inject(this);
 
+        super.onCreate(savedInstanceState);
         mPresenter.onBindView(this);
 
-        setContentView(R.layout.activity_login);
         onSetupFacebook();
         onSetupTwitter();
     }
@@ -109,16 +105,30 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         mPresenter.onUnbindView();
     }
 
+    @Override
+    protected int getActivityBaseViewID() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected View.OnClickListener onSnackbarClickListener() {
+        return  new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSnackbar.dismiss();
+            }
+        };
+    }
+
+    @Override
+    protected int getMenuLayoutID() {
+        return 0;
+    }
+
     public void onStartConfigurateLoginSDKs() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig), new Crashlytics());
-    }
-
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        ButterKnife.bind(this);
     }
 
     private void onSetupFacebook() {
@@ -265,11 +275,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         mPresenter.onSaveProfile(mUsername, mEmail, mName, mTypeLogin, mToken, mPathFoto, UserDB.PHOTO_ONLINE);
     }
 
-    @Override
-    public boolean isInternetConnected() {
-        return ServerUtils.isNetworkConnected(this);
-    }
-
     public void onSaveInSharedPreferences(ProfileDB profileDB) {
         PrefsUtils.setCurrentProfile(profileDB, this);
         PrefsUtils.setCurrentUser(profileDB.getUser(), this);
@@ -289,4 +294,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         mLoginTwitterButton.setVisibility(visibility);
     }
 
+    @Override
+    public void setProgressVisibility(int visibityState) {
+
+    }
+
+    @Override
+    public boolean isAdded() {
+        return isDestroyed();
+    }
 }

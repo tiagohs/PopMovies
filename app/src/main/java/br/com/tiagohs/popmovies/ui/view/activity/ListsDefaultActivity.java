@@ -22,6 +22,7 @@ import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.ui.view.fragment.FilterDialogFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.ListPersonsDefaultFragment;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
@@ -101,7 +102,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     @Override
     protected int getMenuLayoutID() {
 
-        if (null != mListActivityDTO.getSortList()) {
+        if (EmptyUtils.isNotNull(mListActivityDTO.getSortList())) {
             if (mListActivityDTO.getSortList().equals(Sort.ASSISTIDOS) || mListActivityDTO.getSortList().equals(Sort.FAVORITE) ||
                     mListActivityDTO.getSortList().equals(Sort.QUERO_VER) || mListActivityDTO.getSortList().equals(Sort.NAO_QUERO_VER) ||
                     mListActivityDTO.getSortList().equals(Sort.LIST_DEFAULT))
@@ -149,7 +150,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
         switch (item.getItemId()) {
             case R.id.menu_filter:
-                FilterDialogFragment filter = FilterDialogFragment.newInstance(mListActivityDTO.getListType());
+                FilterDialogFragment filter = FilterDialogFragment.newInstance();
                 filter.show(getSupportFragmentManager().beginTransaction(), getString(R.string.filter_title));
                 return true;
         }
@@ -186,7 +187,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     public void onFilterReset() {
         mDiscoverFilterDTO = null;
 
-        if (null != mOriginalSort) {
+        if (EmptyUtils.isNotNull(mOriginalSort)) {
             switch (mOriginalSort) {
                 case GENEROS:
                 case KEYWORDS:

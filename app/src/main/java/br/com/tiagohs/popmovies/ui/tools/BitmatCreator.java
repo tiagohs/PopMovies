@@ -1,4 +1,4 @@
-package br.com.tiagohs.popmovies.util;
+package br.com.tiagohs.popmovies.ui.tools;
 
 import android.content.Context;
 import android.content.res.Resources;

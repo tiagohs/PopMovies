@@ -8,31 +8,29 @@
     android:id="@+id/video_item_card_view"
     android:layout_gravity="center"
     android:layout_margin="@dimen/card_movie_margin"
-    android:elevation="5dp">
+    android:elevation="@dimen/margin_default_min">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:layout_height="170dp">
+        android:layout_height="@dimen/videos_back_height">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imagem_video"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:src="@drawable/img_1"
-                android:scaleType="centerCrop"
-                android:id="@+id/imagem_video"/>
+                android:layout_height="@dimen/videos_image_height"
+                android:scaleType="centerCrop" />
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_play"
                 android:id="@+id/play"
+                android:layout_width="@dimen/videos_image_play_width"
+                android:layout_height="@dimen/videos_image_play_width"
+                android:src="@drawable/ic_play"
                 android:background="@color/background_play"
-                android:backgroundTint="@color/background_play"
                 android:layout_centerInParent="true"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
@@ -53,14 +51,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
+                android:id="@+id/title_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:fontFamily="sans-serif-light"
-                android:id="@+id/title_video"
-                android:textSize="12sp"
-                android:textColor="@color/secondary_text"/>
+                android:textSize="@dimen/txt_size_small"
+                android:textColor="@color/secondary_text"
+                app:font="@string/font_open_sans"/>
 
         </LinearLayout>
 

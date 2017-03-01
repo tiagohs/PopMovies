@@ -13,30 +13,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class ListPersonsDefaultPresenter implements ListPersonsDefaultContract.ListPersonsDefaultPresenter {
-
-    private ListPersonsDefaultContract.ListPersonsDefaultView mView;
-    private ListPersonsDefaultContract.ListPersonsDefaultInterceptor mInterceptor;
+public class ListPersonsDefaultPresenter extends BasePresenter<ListPersonsDefaultContract.ListPersonsDefaultView, ListPersonsDefaultContract.ListPersonsDefaultInterceptor> implements ListPersonsDefaultContract.ListPersonsDefaultPresenter {
 
     private int mCurrentPage;
     private int mTotalPages;
 
-    private CompositeDisposable mSubscribes;
-
     public ListPersonsDefaultPresenter(ListPersonsDefaultContract.ListPersonsDefaultInterceptor listPersonsDefaultInterceptor, CompositeDisposable subscribes) {
-        mInterceptor = listPersonsDefaultInterceptor;
-        mSubscribes = subscribes;
-    }
-
-    @Override
-    public void onBindView(ListPersonsDefaultContract.ListPersonsDefaultView view) {
-        mView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mView = null;
-        mSubscribes.clear();
+        super(listPersonsDefaultInterceptor, subscribes);
     }
 
     public void getPersons() {
@@ -50,23 +33,11 @@ public class ListPersonsDefaultPresenter implements ListPersonsDefaultContract.L
 
     }
 
-    private void noConnectionError() {
-
-        if (mView.isAdded())
-            mView.onErrorNoConnection();
-
-        mView.setProgressVisibility(View.GONE);
-
-        if (mCurrentPage == 0) {
-            mView.setRecyclerViewVisibility(View.GONE);
-        }
-    }
-
     public Observer<GenericListResponse<PersonFind>> onObserve() {
         return new Observer<GenericListResponse<PersonFind>>() {
             @Override
             public void onSubscribe(Disposable d) {
-                mSubscribes.add(d);
+                mSubscribers.add(d);
             }
 
             @Override
@@ -83,9 +54,7 @@ public class ListPersonsDefaultPresenter implements ListPersonsDefaultContract.L
             }
 
             @Override
-            public void onComplete() {
-
-            }
+            public void onComplete() {}
         };
 
     }

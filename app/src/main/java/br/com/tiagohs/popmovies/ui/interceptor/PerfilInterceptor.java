@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.ui.interceptor;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,8 @@ import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.response.ImageResponse;
 import br.com.tiagohs.popmovies.server.methods.MoviesMethod;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class PerfilInterceptor implements PerfilContract.PerfilInterceptor {
@@ -41,7 +44,26 @@ public class PerfilInterceptor implements PerfilContract.PerfilInterceptor {
     }
 
     @Override
-    public Observable<ImageResponse> getMovieImagens(int movieID) {
+    public Observable<ImageResponse> getMovieImagens(final long profileID) {
+        return findAllMoviesDB(profileID)
+                .flatMap(new Function<List<MovieDB>, ObservableSource<ImageResponse>>() {
+                    @Override
+                    public ObservableSource<ImageResponse> apply(List<MovieDB> movieDBs) throws Exception {
+
+                        if (!movieDBs.isEmpty()) {
+                            int index = new Random().nextInt(movieDBs.size());
+                            return getMovieImagens(movieDBs.get(index).getIdServer());
+                        }
+
+                        return getMovieImagens(0);
+
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    private Observable<ImageResponse> getMovieImagens(int movieID) {
         return mMoviesMethod.getMovieImagens(movieID)
                             .subscribeOn(Schedulers.io());
     }

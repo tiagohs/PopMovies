@@ -2,22 +2,11 @@ package br.com.tiagohs.popmovies;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.Volley;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.OkUrlFactory;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import br.com.tiagohs.popmovies.dragger.components.DaggerPopMoviesComponent;
 import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
@@ -25,26 +14,22 @@ import br.com.tiagohs.popmovies.dragger.modules.AppModule;
 import br.com.tiagohs.popmovies.dragger.modules.NetModule;
 import io.fabric.sdk.android.Fabric;
 
-
 public class App extends Application {
-
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = " jdkgQcLjuDjupwwKRbtUoIAwE";
-    private static final String TWITTER_SECRET = "XaXjpdRIQTybYvGYH8p9FesYKwNcJ8glGxo02XT96FwgNNtgNI";
 
     public static final String TAG = App.class.getSimpleName();
     private static App instance;
 
     private PopMoviesComponent mPopMoviesComponent;
-    private RequestQueue mRequestQueue;
 
     private LruCache picassoCache;
     
     @Override
     public void onCreate() {
         super.onCreate();
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
         mPopMoviesComponent = DaggerPopMoviesComponent.builder()
                               .appModule(new AppModule(this))
                               .netModule(new NetModule("http://api.themoviedb.org/3/"))
@@ -82,39 +67,4 @@ public class App extends Application {
         return instance;
     }
 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
-        }
-        return mRequestQueue;
-    }
-
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        req.setTag(tag);
-        getRequestQueue().add(req);
-    }
-
-    public void cancelAll(String tag) {
-        Log.i(TAG, "Cancell!" + tag);
-        mRequestQueue.cancelAll(tag);
-    }
-
-    private class OkHttpStack extends HurlStack {
-
-        private final OkUrlFactory okUrlFactory;
-
-        public OkHttpStack() {
-            this(new OkUrlFactory(new OkHttpClient()));
-        }
-        public OkHttpStack(OkUrlFactory okUrlFactory) {
-            if (okUrlFactory == null) {
-                throw new NullPointerException("Client must not be null.");
-            }
-            this.okUrlFactory = okUrlFactory;
-        }
-        @Override
-        protected HttpURLConnection createConnection(URL url) throws IOException {
-            return okUrlFactory.open(url);
-        }
-    }
 }

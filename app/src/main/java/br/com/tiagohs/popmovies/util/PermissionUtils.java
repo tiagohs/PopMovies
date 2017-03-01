@@ -19,7 +19,7 @@ public class PermissionUtils {
     public static final String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                                              Manifest.permission.READ_EXTERNAL_STORAGE};
 
-    public static boolean validate(Activity context, int requestCode) {
+    public static boolean validate(Activity context) {
         List<String> list = new ArrayList<>();
 
         for (String permission : permissions) {

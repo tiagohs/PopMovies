@@ -17,10 +17,8 @@ import butterknife.BindView;
 
 public class PerfilFragment extends BaseFragment {
 
-    @BindView(R.id.tabLayout)
-    TabLayout mTabPerfil;
-    @BindView(R.id.perfil_view_pager)
-    ViewPager mPerfilViewPager;
+    @BindView(R.id.tabLayout)           TabLayout mTabPerfil;
+    @BindView(R.id.perfil_view_pager)   ViewPager mPerfilViewPager;
 
     public static PerfilFragment newInstance() {
         PerfilFragment perfilFragment = new PerfilFragment();

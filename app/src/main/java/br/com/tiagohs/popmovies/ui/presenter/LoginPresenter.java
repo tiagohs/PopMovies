@@ -10,29 +10,13 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginPresenter implements LoginContract.LoginPresenter {
-
-    private LoginContract.LoginView mLoginView;
-    private LoginContract.LoginInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribes;
+public class LoginPresenter extends BasePresenter<LoginContract.LoginView, LoginContract.LoginInterceptor> implements LoginContract.LoginPresenter {
 
     private ProfileDB mProfileDB;
 
     public LoginPresenter(LoginContract.LoginInterceptor interceptor, CompositeDisposable subscribes) {
-        mInterceptor = interceptor;
-        mSubscribes = subscribes;
-    }
+        super(interceptor, subscribes);
 
-    @Override
-    public void onBindView(LoginContract.LoginView view) {
-        mLoginView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribes.clear();
-        mLoginView = null;
     }
 
     @Override
@@ -43,7 +27,7 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
                     .subscribe(new Observer<ProfileDB>() {
                         @Override
                         public void onSubscribe(Disposable disposable) {
-                            mSubscribes.add(disposable);
+                            mSubscribers.add(disposable);
                         }
 
                         @Override
@@ -59,7 +43,7 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
                             if (null == mProfileDB)
                                 onNewProfile(username, email, name, typeLogin, token, pathFoto, typePhoto);
                             else
-                                mLoginView.onSaveInSharedPreferences(mProfileDB);
+                                mView.onSaveInSharedPreferences(mProfileDB);
                         }
                     });
     }
@@ -68,10 +52,10 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
         UserDB userDB = new UserDB(name, username, email, pathFoto, token, typePhoto, typeLogin, true);
         ProfileDB profileDB = new ProfileDB(userDB, LocaleUtils.getLocaleCountryName());
 
-        mSubscribes.add(mInterceptor.saveProfile(profileDB)
+        mSubscribers.add(mInterceptor.saveProfile(profileDB)
                    .observeOn(AndroidSchedulers.mainThread())
                    .subscribe());
 
-        mLoginView.onSaveInSharedPreferences(profileDB);
+        mView.onSaveInSharedPreferences(profileDB);
     }
 }

@@ -93,7 +93,6 @@ dependencies {
     //Rede
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
-    compile 'com.android.volley:volley:1.0.0'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.3'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.3'

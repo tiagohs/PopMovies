@@ -14,6 +14,7 @@ import android.view.View;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.ui.adapters.SearchTabAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.SearchCallback;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import butterknife.BindView;
 
 public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
@@ -40,10 +41,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        if (savedInstanceState != null) {
+        if (EmptyUtils.isNotNull(savedInstanceState)) {
             mQuery = savedInstanceState.getString(ARG_QUERY);
 
-            if (mSearchView != null)
+            if (EmptyUtils.isNotNull(mSearchView))
                 mSearchView.setQuery(mQuery, false);
 
         }
@@ -112,7 +113,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setFocusable(true);
-        mSearchView.setQuery(mQuery != null ? mQuery : "", false);
+        mSearchView.setQuery(EmptyUtils.isNotNull(mQuery) ? mQuery : "", false);
 
         return true;
     }
@@ -142,7 +143,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     public boolean onQueryTextSubmit(String query) {
         mSearchView.clearFocus();
 
-        if (mCallback != null && query != null)
+        if (EmptyUtils.isNotNull(mCallback) && EmptyUtils.isNotNull(query != null))
             mCallback.onQueryChanged(query, true);
         return true;
     }
@@ -151,7 +152,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     public boolean onQueryTextChange(String newText) {
         mQuery = newText;
 
-        if (mCallback != null && mQuery != null)
+        if (EmptyUtils.isNotNull(mCallback) && EmptyUtils.isNotNull(mQuery))
             mCallback.onQueryChanged(newText, true);
 
         return true;

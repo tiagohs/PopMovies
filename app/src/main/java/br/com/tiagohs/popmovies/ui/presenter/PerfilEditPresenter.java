@@ -3,37 +3,21 @@ package br.com.tiagohs.popmovies.ui.presenter;
 
 import java.util.Calendar;
 
-import br.com.tiagohs.popmovies.ui.contracts.PerfilEditContract;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
-import br.com.tiagohs.popmovies.util.ViewUtils;
+import br.com.tiagohs.popmovies.ui.contracts.PerfilEditContract;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
-public class PerfilEditPresenter implements PerfilEditContract.PerfilEditPresenter {
+public class PerfilEditPresenter extends BasePresenter<PerfilEditContract.PerfilEditView, PerfilEditContract.PerfilEditInterceptor> implements PerfilEditContract.PerfilEditPresenter {
     private static final String TAG = PerfilEditPresenter.class.getSimpleName();
 
-    private PerfilEditContract.PerfilEditView mPerfilEditView;
-    private PerfilEditContract.PerfilEditInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribers;
     private ProfileDB mProfileDB;
 
     public PerfilEditPresenter(PerfilEditContract.PerfilEditInterceptor interceptor, CompositeDisposable subscribers) {
-        mInterceptor = interceptor;
-        mSubscribers = subscribers;
-    }
-
-    @Override
-    public void onBindView(PerfilEditContract.PerfilEditView view) {
-        mPerfilEditView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
-        mPerfilEditView = null;
+        super(interceptor, subscribers);
     }
 
     public void getProfileInfo(String username) {
@@ -50,46 +34,46 @@ public class PerfilEditPresenter implements PerfilEditContract.PerfilEditPresent
     }
 
     private void onPerfilReceived() {
-        if (!ViewUtils.isEmptyValue(mProfileDB.getUser().getNome())) {
-            mPerfilEditView.setName(mProfileDB.getUser().getNome());
+        if (!EmptyUtils.isEmpty(mProfileDB.getUser().getNome())) {
+            mView.setName(mProfileDB.getUser().getNome());
         }
 
-        if (!ViewUtils.isEmptyValue(mProfileDB.getDescricao())) {
-            mPerfilEditView.setDescricao(mProfileDB.getDescricao());
+        if (!EmptyUtils.isEmpty(mProfileDB.getDescricao())) {
+            mView.setDescricao(mProfileDB.getDescricao());
         }
 
-        if (!ViewUtils.isEmptyValue(mProfileDB.getCountry())) {
-            mPerfilEditView.setCountry(mProfileDB.getCountry());
+        if (!EmptyUtils.isEmpty(mProfileDB.getCountry())) {
+            mView.setCountry(mProfileDB.getCountry());
         }
 
-        if (mProfileDB.getBirthday() != null)
-            mPerfilEditView.setBirthday(mProfileDB.getBirthday());
+        if (EmptyUtils.isNotNull(mProfileDB.getBirthday()))
+            mView.setBirthday(mProfileDB.getBirthday());
 
         if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-            mPerfilEditView.setPhoto(mProfileDB.getUser().getPicturePath());
+            mView.setPhoto(mProfileDB.getUser().getPicturePath());
         else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
-            mPerfilEditView.setLocalPhoto();
+            mView.setLocalPhoto();
     }
 
     @Override
     public void save(String name, Calendar birthday, String country, String gender, String descricao, String photo) {
 
-        if (!ViewUtils.isEmptyValue(name))
+        if (!EmptyUtils.isEmpty(name))
             mProfileDB.getUser().setNome(name);
 
-        if (birthday != null)
+        if (EmptyUtils.isNotNull(birthday))
             mProfileDB.setBirthday(birthday);
 
-        if (!ViewUtils.isEmptyValue(country))
+        if (!EmptyUtils.isEmpty(country))
             mProfileDB.setCountry(country);
 
-        if (!ViewUtils.isEmptyValue(gender))
+        if (!EmptyUtils.isEmpty(gender))
             mProfileDB.setGenrer(gender);
 
-        if (!ViewUtils.isEmptyValue(descricao))
+        if (!EmptyUtils.isEmpty(descricao))
             mProfileDB.setDescricao(descricao);
 
-        if (!ViewUtils.isEmptyValue(photo)) {
+        if (!EmptyUtils.isEmpty(photo)) {
             mProfileDB.getUser().setLocalPicture(photo);
             mProfileDB.getUser().setTypePhoto(UserDB.PHOTO_LOCAL);
         }

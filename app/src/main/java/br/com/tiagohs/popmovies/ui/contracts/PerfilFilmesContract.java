@@ -1,17 +1,17 @@
 package br.com.tiagohs.popmovies.ui.contracts;
 
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 public class PerfilFilmesContract {
 
-    public interface PerfilFilmesPresenter extends BasePresenter<PerfilFilmesView> {
+    public interface PerfilFilmesPresenter extends IPresenter<PerfilFilmesView> {
 
         void updateMoviesContainers(long profileID);
     }
 
-    public interface PerfilFilmesView extends BaseView {
+    public interface PerfilFilmesView extends IView {
 
         void hasMoviesWantSee(boolean hasMoviesWantSee);
         void hasMoviesDontWantSee(boolean hasMoviesDontWantSee);

@@ -3,8 +3,8 @@ package br.com.tiagohs.popmovies.ui.contracts;
 import java.util.Calendar;
 
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 /**
@@ -19,14 +19,14 @@ public class PerfilEditContract {
         Observable<Long> saveProfile(ProfileDB profile);
     }
 
-    public interface PerfilEditPresenter extends BasePresenter<PerfilEditView> {
+    public interface PerfilEditPresenter extends IPresenter<PerfilEditView> {
 
         void getProfileInfo(String username);
         void save(String name, Calendar birthday, String country, String gender, String descricao, String photo);
 
     }
 
-    public interface PerfilEditView extends BaseView {
+    public interface PerfilEditView extends IView {
 
         void setName(String name);
         void setBirthday(Calendar birthday);

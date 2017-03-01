@@ -26,6 +26,8 @@ import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieVideosCallbacks;
 import br.com.tiagohs.popmovies.ui.adapters.VideoAdapter;
+import br.com.tiagohs.popmovies.ui.tools.EndlessRecyclerView;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import butterknife.BindView;
 
 public class VideosFragment extends BaseFragment implements VideosContract.VideosView, MovieVideosCallbacks {
@@ -64,10 +66,6 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
         return videosFragment;
     }
 
-    public VideosFragment() {
-        mVideos = new ArrayList<>();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +73,7 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
 
         mTranslations = (ArrayList<Translation>) getArguments().getSerializable(ARG_TRANSLATION);
         mMovieID = getArguments().getInt(ARG_MOVIE_ID, 0);
+        mVideos = new ArrayList<>();
     }
 
     @Override
@@ -84,6 +83,12 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
         mPresenter.onBindView(this);
 
         mPresenter.getVideos(mMovieID, mTranslations);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
     }
 
     public void onUpdateUI(List<Video> videos, boolean hasMorePages) {
@@ -145,7 +150,7 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(
                 getActivity(), BuildConfig.GOOGLE_KEY, videoKey, startTimeMillis, autoplay, lightboxMode);
 
-        if (intent != null) {
+        if (EmptyUtils.isNotNull(intent)) {
             if (isAuthResolveIntent(intent)) {
                 startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
             } else {
@@ -157,7 +162,7 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
 
     private boolean isAuthResolveIntent(Intent intent) {
         List<ResolveInfo> resolveInfo = getContext().getPackageManager().queryIntentActivities(intent, 0);
-        return resolveInfo != null && !resolveInfo.isEmpty();
+        return EmptyUtils.isNotNull(resolveInfo) && !resolveInfo.isEmpty();
     }
 
     private RecyclerView.OnScrollListener createOnScrollListener() {

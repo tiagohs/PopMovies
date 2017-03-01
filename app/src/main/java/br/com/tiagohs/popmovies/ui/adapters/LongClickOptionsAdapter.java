@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,13 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.ListMoviesDefaultContract;
 import br.com.tiagohs.popmovies.model.Item;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.ui.callbacks.LongClickCallbacks;
+import br.com.tiagohs.popmovies.ui.contracts.ListMoviesDefaultContract;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -65,7 +65,7 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
                 .subscribe(new Consumer<Movie>() {
                     @Override
                     public void accept(Movie movie) throws Exception {
-                        if (null != movie) {
+                        if (EmptyUtils.isNotNull(movie)) {
 
                             if (movie.getStatusDB() == MovieDB.STATUS_WATCHED) {
                                 mIsToSave = mIsWatched = true;
@@ -117,7 +117,6 @@ public class LongClickOptionsAdapter  extends RecyclerView.Adapter<LongClickOpti
 
             ButterKnife.bind(this, itemView);
 
-            mItemText.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mItemRiple.setOnClickListener(this);
 
         }

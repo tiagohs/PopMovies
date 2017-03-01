@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="@dimen/perfil_picture_height"
     android:layout_gravity="bottom|center">
 
     <LinearLayout
@@ -12,23 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|center"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/margin_default_medium"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
         <include layout="@layout/include_circle_picture_large" />
 
         <br.com.tiagohs.popmovies.ui.tools.PopTextView
-            android:layout_gravity="center"
-            android:textColor="@color/primary_text"
             android:id="@+id/name_perfil"
-            android:text="Tiago Henrique"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/primary_text"
+            android:layout_marginTop="@dimen/perfil_name_txt_size"
             app:font="@string/font_open_sans_bold"
-            android:textSize="19dp"/>
+            android:textSize="@dimen/txt_size_large"/>
     </LinearLayout>
 
 </LinearLayout>

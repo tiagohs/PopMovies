@@ -29,10 +29,6 @@ public class MoviesMethod {
         this.mSharedPreferenceManager = sharedPreferenceManager;
     }
 
-    public Observable<MovieResponse> getPopularMovies(int currentPage) {
-        return mMoviesService.getPopularMovies(String.valueOf(currentPage), mSharedPreferenceManager.getDefaultLanguage());
-    }
-
     public Observable<MovieDetails> getMovieDetails(int movieID,
                                 String[] appendToResponse) {
         return mMoviesService.getMovieDetails(String.valueOf(movieID), UrlUtils.formatAppendToResponse(appendToResponse), mSharedPreferenceManager.getDefaultLanguage());

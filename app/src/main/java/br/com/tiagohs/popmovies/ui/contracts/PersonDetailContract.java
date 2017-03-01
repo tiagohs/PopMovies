@@ -1,8 +1,8 @@
 package br.com.tiagohs.popmovies.ui.contracts;
 
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 public class PersonDetailContract {
@@ -10,15 +10,14 @@ public class PersonDetailContract {
     public interface PersonDetailInterceptor {
 
         Observable<PersonInfo> getPersonDetails(int personID, String[] appendToResponse);
-        Observable<PersonInfo> getPersonDetails(int personID, String[] appendToResponse, String language);
     }
 
-    public interface PersonDetailPresenter extends BasePresenter<PersonDetailView> {
+    public interface PersonDetailPresenter extends IPresenter<PersonDetailView> {
 
         void getPersonDetails(int personID);
     }
 
-    public interface PersonDetailView extends BaseView {
+    public interface PersonDetailView extends IView {
 
         void updateImages();
         void updateAditionalInfo(int totalFilmes, int totalFotos);

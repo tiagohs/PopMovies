@@ -4,30 +4,23 @@ import android.view.View;
 
 import java.util.Calendar;
 
-import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
+import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SubMethod;
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 
-public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsPresenter {
+public class MovieDetailsPresenter extends BasePresenter<MovieDetailsContract.MovieDetailsView, MovieDetailsContract.MovieDetailsInterceptor> implements MovieDetailsContract.MovieDetailsPresenter {
     private static final String TAG = MovieDetailsPresenter.class.getSimpleName();
 
-    private final String US_LOCALE = "en-US";
-
-    private MovieDetailsContract.MovieDetailsView mMovieDetailsView;
-    private MovieDetailsContract.MovieDetailsInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribers;
 
     private long mProfileID;
 
@@ -36,19 +29,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
             SubMethod.VIDEOS.getValue(), SubMethod.TRANSLATIONS.getValue()};
 
     public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsInterceptor movieDetailsInterceptor, CompositeDisposable compositeDisposable) {
-        mInterceptor = movieDetailsInterceptor;
-        mSubscribers = compositeDisposable;
-    }
-
-    @Override
-    public void onBindView(MovieDetailsContract.MovieDetailsView view) {
-        this.mMovieDetailsView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
-        mMovieDetailsView = null;
+        super(movieDetailsInterceptor, compositeDisposable);
     }
 
     public void setProfileID(long profileID) {
@@ -57,36 +38,17 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     @Override
     public void getMovieDetails(int movieID) {
-        mMovieDetailsView.setProgressVisibility(View.VISIBLE);
+        mView.setProgressVisibility(View.VISIBLE);
 
-        Observable<MovieDetails> mFirst = mInterceptor.getMovieDetails(movieID, mMovieParameters);
-        Observable<MovieDetails> mSecond = mInterceptor.getMovieDetails(movieID, mMovieParameters, US_LOCALE);
+        if (mView.isInternetConnected()) {
+            mInterceptor.getMovieDetails(movieID, mMovieParameters)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(onMovieDetailsObserver());
 
-        if (mMovieDetailsView.isInternetConnected()) {
-            Observable.zip(mFirst, mSecond, onCheckEmptyValuesMovieDetails())
-                      .observeOn(AndroidSchedulers.mainThread())
-                      .subscribe(onMovieDetailsObserver());
-
-            mMovieDetailsView.setTabsVisibility(View.GONE);
+            mView.setTabsVisibility(View.GONE);
         } else
             noConnectionError();
 
-    }
-
-    private BiFunction<MovieDetails, MovieDetails, MovieDetails> onCheckEmptyValuesMovieDetails() {
-        return new BiFunction<MovieDetails, MovieDetails, MovieDetails>() {
-            @Override
-            public MovieDetails apply(MovieDetails movieDetails, MovieDetails movieDetails2) throws Exception {
-
-                if (ViewUtils.isEmptyValue(movieDetails.getOverview()))
-                    movieDetails.setOverview(movieDetails2.getOverview());
-
-                if (movieDetails.getRuntime() == 0)
-                    movieDetails.setRuntime(movieDetails2.getRuntime());
-
-                return movieDetails;
-            }
-        };
     }
 
     private Observer<MovieDetails> onMovieDetailsObserver() {
@@ -103,7 +65,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
             @Override
             public void onError(Throwable e) {
-                mMovieDetailsView.onErrorInServer();
+                mView.onErrorInServer();
             }
 
             @Override
@@ -113,97 +75,65 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     public void onMovieDetailsRequestSucess(final MovieDetails movieDetails) {
 
-        if (mMovieDetailsView.isAdded()) {
+        if (mView.isAdded()) {
             if (movieDetails.getVideos().isEmpty())
                 getVideos(movieDetails);
-
-            mInterceptor.isFavoriteMovie(mProfileID, movieDetails.getId())
+            try {
+                mSubscribers.add(mInterceptor.isFavoriteMovie(mProfileID, movieDetails.getId())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(onObserverFavorite(movieDetails));
+                        .subscribe(onObserverFavorite(movieDetails)));
 
-            mInterceptor.isWachedMovie(mProfileID, movieDetails.getId())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onObserverWached());
+                mSubscribers.add(mInterceptor.isWachedMovie(mProfileID, movieDetails.getId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(onObserverWached()));
 
-            mInterceptor.isWantSeeMovie(mProfileID, movieDetails.getId())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onObserverUsersOption(movieDetails, MovieDB.STATUS_WANT_SEE));
+                mSubscribers.add(mInterceptor.isWantSeeMovie(mProfileID, movieDetails.getId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(onObserverUsersOption(movieDetails, MovieDB.STATUS_WANT_SEE)));
 
-            mInterceptor.isWantSeeMovie(mProfileID, movieDetails.getId())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onObserverUsersOption(movieDetails, MovieDB.STATUS_DONT_WANT_SEE));
+                mSubscribers.add(mInterceptor.isWantSeeMovie(mProfileID, movieDetails.getId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(onObserverUsersOption(movieDetails, MovieDB.STATUS_DONT_WANT_SEE)));
+            } catch (Exception ex) {}
 
             if (movieDetails.getRuntime() == 0)
-                mMovieDetailsView.setDuracaoMovieVisibility(View.GONE);
+                mView.setDuracaoMovieVisibility(View.GONE);
 
-            mMovieDetailsView.setupDirectorsRecyclerView(DTOUtils.createDirectorsItemsListDTO(movieDetails.getCrew()));
-            mMovieDetailsView.updateUI(movieDetails);
-            mMovieDetailsView.setupTabs();
-            mMovieDetailsView.setProgressVisibility(View.GONE);
-            mMovieDetailsView.setTabsVisibility(View.VISIBLE);
+            mView.setupDirectorsRecyclerView(DTOUtils.createDirectorsItemsListDTO(movieDetails.getCrew()));
+            mView.updateUI(movieDetails);
+            mView.setupTabs();
+            mView.setProgressVisibility(View.GONE);
+            mView.setTabsVisibility(View.VISIBLE);
         }
 
     }
 
-    private Observer<Boolean> onObserverFavorite(final MovieDetails movieDetails) {
-        return new Observer<Boolean>() {
+    private Consumer<Boolean> onObserverFavorite(final MovieDetails movieDetails) {
+        return new Consumer<Boolean>() {
             @Override
-            public void onSubscribe(Disposable d) {
-                mSubscribers.add(d);
+            public void accept(Boolean aBoolean) throws Exception {
+                movieDetails.setFavorite(aBoolean);
             }
-
-            @Override
-            public void onNext(Boolean value) {
-                movieDetails.setFavorite(value);
-            }
-
-            @Override
-            public void onError(Throwable e) {}
-
-            @Override
-            public void onComplete() {}
         };
     }
 
-    private Observer<Boolean> onObserverWached() {
-        return new Observer<Boolean>() {
+    private Consumer<Boolean> onObserverWached() {
+        return new Consumer<Boolean>() {
             @Override
-            public void onSubscribe(Disposable d) {
-                mSubscribers.add(d);
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean)
+                    mView.setJaAssistido();
             }
-
-            @Override
-            public void onNext(Boolean value) {
-                if (value)
-                    mMovieDetailsView.setJaAssistido();
-            }
-
-            @Override
-            public void onError(Throwable e) {}
-
-            @Override
-            public void onComplete() {}
         };
     }
 
-    private Observer<Boolean> onObserverUsersOption(final MovieDetails movieDetails, final int status) {
-        return new Observer<Boolean>() {
+    private Consumer<Boolean> onObserverUsersOption(final MovieDetails movieDetails, final int status) {
+        return new Consumer<Boolean>() {
             @Override
-            public void onSubscribe(Disposable d) {
-                mSubscribers.add(d);
-            }
-
-            @Override
-            public void onNext(Boolean value) {
-                if (value)
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean)
                     movieDetails.setStatusDB(status);
             }
-
-            @Override
-            public void onError(Throwable e) {}
-
-            @Override
-            public void onComplete() {}
         };
     }
 
@@ -213,8 +143,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
         if (buttonStage) {
             mSubscribers.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
                                     movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                    Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                    DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
 
@@ -226,17 +156,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     }
 
-    private void noConnectionError() {
-        if (mMovieDetailsView.isAdded()) {
-            mMovieDetailsView.onErrorNoConnection();
-            mMovieDetailsView.setProgressVisibility(View.GONE);
-        }
-
-    }
-
     public void getVideos(MovieDetails movie) {
 
-        if (mMovieDetailsView.isInternetConnected()) {
+        if (mView.isInternetConnected()) {
             mInterceptor.getMovieVideos(movie.getId(), movie.getOriginalLanguage())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(onVideosObserver());
@@ -255,14 +177,14 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
             @Override
             public void onNext(VideosResponse videosResponse) {
                 if (!videosResponse.getVideos().isEmpty())
-                    mMovieDetailsView.updateVideos(videosResponse);
+                    mView.updateVideos(videosResponse);
                 else
-                    mMovieDetailsView.setPlayButtonVisibility(View.GONE);
+                    mView.setPlayButtonVisibility(View.GONE);
             }
 
             @Override
             public void onError(Throwable e) {
-                mMovieDetailsView.onErrorInServer();
+                mView.onErrorInServer();
             }
 
             @Override

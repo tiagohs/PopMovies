@@ -7,6 +7,7 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.renderscript.Allocation;
@@ -23,10 +24,14 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.ui.tools.BitmatCreator;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
@@ -74,20 +79,58 @@ public class ImageUtils {
         return actuallyUsableBitmap;
     }
 
-    public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
+    private static void load(Context context, ImageView imageView, String url, Integer path,
+                             Drawable placeholderDrawable, Integer placeholderPath,
+                             Drawable errorDrawable, Integer errorPath, boolean isToFit,
+                             Transformation transformation, Callback callback) {
+
+        Picasso loader = Picasso.with(context);
+        RequestCreator request = null;
+
+        if (EmptyUtils.isNotNull(url))
+            request = loader.load(url);
+        else if (EmptyUtils.isNotNull(path))
+            request = loader.load(path);
+
+        if (EmptyUtils.isNotNull(placeholderDrawable))
+            request.placeholder(placeholderDrawable);
+        else if (EmptyUtils.isNotNull(placeholderPath))
+            request.placeholder(placeholderPath);
+
+        if (EmptyUtils.isNotNull(errorDrawable))
+            request.error(errorDrawable);
+        else if (EmptyUtils.isNotNull(errorPath))
+            request.error(errorPath);
+
+        if (EmptyUtils.isNotNull(transformation))
+            request.transform(transformation);
+
+        if (isToFit)
+            request.fit();
+
+        if (EmptyUtils.isNotNull(callback))
+            request.into(imageView, callback);
+        else
+            request.into(imageView);
+    }
+
+    public static TextDrawable createTextDrawable(String text, boolean isRetangulo) {
         ColorGenerator generator = ColorGenerator.MATERIAL;
 
-        TextDrawable drawable1 = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4)
-                .endConfig()
-                .buildRound(String.valueOf(name.charAt(0)), generator.getRandomColor());
+        TextDrawable.IShapeBuilder configBuilder = TextDrawable.builder()
+                                                                .beginConfig()
+                                                                .withBorder(4)
+                                                                .endConfig();
 
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + path)
-                .placeholder(drawable1)
-                .error(drawable1)
-                .into(imageView);
+        if (isRetangulo)
+            return configBuilder.buildRoundRect(String.valueOf(text.charAt(0)), generator.getRandomColor(), 10);
+        else
+        return configBuilder.buildRound(String.valueOf(text.charAt(0)), generator.getRandomColor());
+
+    }
+    public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
+        Drawable placeholderAndError = createTextDrawable(name, false);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
 
     }
 
@@ -95,110 +138,71 @@ public class ImageUtils {
         progress.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.GONE);
 
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .placeholder(placeholder)
-                .error(imageError)
-                .into(imageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                progress.setVisibility(View.GONE);
-                                imageView.setVisibility(View.VISIBLE);
-                            }
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path),
+                null, null, placeholder, null,
+                imageError, false, null, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            progress.setVisibility(View.GONE);
+                                            imageView.setVisibility(View.VISIBLE);
+                                        }
 
-                            @Override
-                            public void onError() {
-                                progress.setVisibility(View.GONE);
-                                imageView.setVisibility(View.VISIBLE);
-                            }
-                });
+                                        @Override
+                                        public void onError() {
+                                            progress.setVisibility(View.GONE);
+                                            imageView.setVisibility(View.VISIBLE);
+                                        }
+                                    });
 
     }
 
     public static void loadWithRevealAnimation(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null,
+             imageError, false, null, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            if (!((Activity) context).isDestroyed()) {
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                                    int cx = (imageView.getLeft() + imageView.getRight()) / 2;
+                                                    int cy = (imageView.getTop() + imageView.getBottom()) / 2;
+                                                    int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight());
 
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .error(imageError)
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        if (!((Activity) context).isDestroyed()) {
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                                int cx = (imageView.getLeft() + imageView.getRight()) / 2;
-                                int cy = (imageView.getTop() + imageView.getBottom()) / 2;
-                                int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight());
+                                                    Animator anim = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
+                                                    anim.start();
+                                                }
+                                            }
 
-                                Animator anim = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
-                                anim.start();
-                            }
-                        }
+                                        }
 
-                    }
+                                        @Override
+                                        public void onError() {
 
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+                                        }
+                                    });
     }
 
     public static void load(Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .error(imageError)
-                .into(imageView);
+
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null, imageError, false, null, null);
 
     }
 
     public static void load(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-
-        TextDrawable drawable1 = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4)
-                .endConfig()
-                .buildRoundRect(String.valueOf(name.charAt(0)), generator.getRandomColor(), 10);
-
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .placeholder(drawable1)
-                .error(drawable1)
-                .into(imageView);
+        Drawable placeholderAndError = createTextDrawable(name, true);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
     }
 
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-
-        TextDrawable drawable1 = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4)
-                .endConfig()
-                .buildRoundRect(String.valueOf(name.charAt(0)), generator.getRandomColor(), 10);
-
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .placeholder(drawable1)
-                .transform(new BlurTransformation(context))
-                .error(drawable1)
-                .into(imageView);
+        Drawable placeholderAndError = createTextDrawable(name, true);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, new BlurTransformation(context), null);
     }
 
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, ImageSize imageSize) {
-
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .transform(new BlurTransformation(context))
-                .into(imageView);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null, null, false, new BlurTransformation(context), null);
     }
 
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
-
-        Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/" + imageSize.getSize() + "/" + path)
-                .transform(new BlurTransformation(context))
-                .error(imageError)
-                .into(imageView);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null, imageError, false, new BlurTransformation(context), null);
     }
 
     public static void load(Context context, int pathImg, int placeholder, ImageView imageView) {
@@ -207,11 +211,7 @@ public class ImageUtils {
     }
 
     public static void loadWithBlur(Context context, int pathImg, ImageView imageView) {
-        Picasso.with(context)
-                .load(pathImg)
-                .fit()
-                .transform(new BlurTransformation(context))
-                .into(imageView);
+        load(context, imageView, null, pathImg, null, null, null, null, true, new BlurTransformation(context), null);
     }
 
     public static void load(Context context, String url, int placeholder, int imageError, final ImageView imageView, final ProgressWheel progressbar) {
@@ -219,23 +219,20 @@ public class ImageUtils {
 
         ViewCompat.setElevation(imageView, 12);
 
-        Picasso.with(context)
-                .load(url)
-                .placeholder(placeholder)
-                .error(imageError)
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
+        load(context, imageView, url, null, null, placeholder, null,
+                imageError, false, null, new Callback() {
+                                                @Override
+                                                public void onSuccess() {
+                                                    progressbar.setVisibility(View.GONE);
+                                                    imageView.setVisibility(View.VISIBLE);
+                                                }
 
-                    @Override
-                    public void onError() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-                });
+                                                @Override
+                                                public void onError() {
+                                                    progressbar.setVisibility(View.GONE);
+                                                    imageView.setVisibility(View.VISIBLE);
+                                                }
+                                            });
     }
 
     private static final float BITMAP_SCALE = 0.4f;

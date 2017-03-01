@@ -5,6 +5,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 
 public class AnimationsUtils {
 
@@ -16,24 +17,12 @@ public class AnimationsUtils {
         return fadeIn;
     }
 
-    public static Animation createFadeOutAnimation(int duration) {
-        Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setStartOffset(duration);
-        fadeOut.setDuration(duration);
+    public static void creatScaleUpAnimation(View view, int duration) {
 
-        return fadeOut;
-    }
-
-    public static void creatScaleUpAnimation(View view) {
-
-        view.animate()
-                    .setStartDelay(100 * 10)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .alpha(1)
-                    .scaleX(1)
-                    .scaleY(1);
-
+        ScaleAnimation fade_in =  new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        fade_in.setDuration(duration);     // animation duration in milliseconds
+        fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+        view.startAnimation(fade_in);
 
     }
 }

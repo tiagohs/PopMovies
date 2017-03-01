@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Tiago Henrique on 04/09/2016.
- */
 public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapter.ListMoviesViewHolder> {
     private List<CarrerMoviesDTO> list;
     private Context mContext;
@@ -49,7 +45,7 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(mLayoutMovieResID, parent, false);
 
-        return new ListMoviesViewHolder(mContext, view);
+        return new ListMoviesViewHolder(view);
     }
 
     @Override
@@ -72,9 +68,8 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
 
         private CarrerMoviesDTO mMovie;
 
-        public ListMoviesViewHolder(final Context context, View itemView) {
+        public ListMoviesViewHolder(View itemView) {
             super(itemView);
-            mContext = context;
 
             itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
@@ -84,22 +79,14 @@ public class CarrerMoviesAdapter extends RecyclerView.Adapter<CarrerMoviesAdapte
             mMovie = movie;
 
             if (mFragment.isAdded()) {
-                Typeface openSans = Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf");
 
                 mTitle.setText(movie.getTitle());
-                mTitle.setTypeface(openSans);
-
                 mTitleOriginal.setText(movie.getOriginalTitle());
-                mTitle.setTypeface(openSans);
-
                 mYear.setText(String.valueOf(movie.getYearRelease()));
-                mYear.setTypeface(openSans);
-
                 mCharacter.setText(mMovie.getCreditType().equals(CreditType.CAST) ?
                         mContext.getResources().getString(R.string.person_carrer_movie_character, movie.getCharacter()) :
                         mContext.getResources().getString(R.string.person_carrer_movie_departamento, movie.getDepartment()));
 
-                mCharacter.setTypeface(openSans);
                 ImageUtils.loadByCircularImage(mContext, movie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_92);
             }
          }

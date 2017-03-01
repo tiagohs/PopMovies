@@ -142,7 +142,6 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                     })
                     .show();
         } else {
-            mProgress.setVisibility(View.VISIBLE);
             onCheckPermissionsToSave();
         }
 
@@ -188,6 +187,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     }
 
     private void onQualitySelected(String size) {
+        mProgress.setVisibility(View.VISIBLE);
+
         DownloadManager mgr = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         String path = "";
         String nameImage = "";

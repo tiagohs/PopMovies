@@ -13,7 +13,6 @@ public class TabPerfilAdapter extends FragmentPagerAdapter {
 
     public TabPerfilAdapter(FragmentManager fm) {
         super(fm);
-
     }
 
     @Override

@@ -3,8 +3,6 @@ package br.com.tiagohs.popmovies.ui.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,17 +18,19 @@ import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
-import br.com.tiagohs.popmovies.util.DTOUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
-import br.com.tiagohs.popmovies.util.enumerations.ListType;
-import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.ui.adapters.ImageAdapter;
+import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
-import br.com.tiagohs.popmovies.ui.adapters.ImageAdapter;
-import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
+import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -56,10 +56,6 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private String mAreasAtuacao;
     private List<ImageDTO> mTotalImagesDTO;
     private List<MovieListDTO> mListKnowForDTO;
-
-    public PersonDetailResumoFragment() {
-
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -107,7 +103,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     public void updatePersonInfo() {
-        mCidadeNatal.setText(mPerson.getPlaceOfBirth() != null ? mPerson.getPlaceOfBirth() : "--");
+        mCidadeNatal.setText(EmptyUtils.isNotNull(mPerson.getPlaceOfBirth()) ? mPerson.getPlaceOfBirth() : "--");
 
         updateGenero();
         updateDataNascimento();
@@ -139,7 +135,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateDataNascimento() {
         int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
         mDataNascimento.setText(mPerson.getBirthday() != null && mPerson.getBirthday() != "" ?
-                getString(R.string.data_nascimento_formatado, MovieUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age) :
+                getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age) :
                 "--");
     }
 
@@ -148,21 +144,9 @@ public class PersonDetailResumoFragment extends BaseFragment  {
         if (!mPerson.getMovieCredits().getCast().isEmpty() || !mPerson.getMovieCredits().getCrew().isEmpty()) {
             mListKnowForDTO = DTOUtils.createPersonKnowForMoviesDTO(mPerson.getMoviesCarrer(), NUM_MAX_KNOW_FOR_MOVIES);
 
-            addFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+            startFragment(R.id.container_conhecido_por, ListMoviesDefaultFragment.newInstance(Sort.LIST_DEFAULT, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mListKnowForDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
         } else
             mKnowForContainer.setVisibility(View.GONE);
-    }
-
-    private void addFragment(int id, Fragment fragment) {
-        FragmentManager fm = getChildFragmentManager();
-        Fragment f = fm.findFragmentById(id);
-
-        if (f == null) {
-            fm.beginTransaction()
-                    .add(id, fragment)
-                    .commit();
-        }
-
     }
 
     private void updateAreasAtuacoes() {
@@ -171,7 +155,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     }
 
     private void updateDescricao() {
-        String descricao = ViewUtils.isEmptyValue(mPerson.getBiography())
+        String descricao = EmptyUtils.isEmpty(mPerson.getBiography())
                 ? ViewUtils.createDefaultPersonBiography(mPerson.getName(), mAreasAtuacao,
                 mListKnowForDTO.isEmpty() ? new ArrayList<MovieListDTO>() : mListKnowForDTO)
                 : mPerson.getBiography();

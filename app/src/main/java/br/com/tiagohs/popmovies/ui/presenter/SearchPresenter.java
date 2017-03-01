@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.ui.contracts.SearchContract;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
+import br.com.tiagohs.popmovies.ui.contracts.SearchContract;
+import br.com.tiagohs.popmovies.util.DateUtils;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.SearchType;
 import io.reactivex.Observable;
@@ -21,18 +23,15 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
-public class SearchPresenter implements SearchContract.SearchPresenter {
+public class SearchPresenter extends BasePresenter<SearchContract.SearchMoviesView, SearchContract.SearchInterceptor> implements SearchContract.SearchPresenter {
 
     private SearchContract.SearchMoviesView mSearchMoviesView;
     private SearchContract.SearchPersonsView mSearchPersonsView;
-    private SearchContract.SearchInterceptor mInterceptor;
 
     private int mMovieCurrentPage;
     private int mMovieTotalPages;
     private int mPersonCurrentPage;
     private int mPersonTotalPages;
-
-    private CompositeDisposable mSubscribers;
 
     private boolean mIsNewMovieSearch;
     private boolean mIsNewPersonSearch;
@@ -42,24 +41,13 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
     private boolean mButtonStage;
 
     public SearchPresenter(SearchContract.SearchInterceptor searchMoviesInterceptor, CompositeDisposable subscribers) {
-        mInterceptor = searchMoviesInterceptor;
-        mSubscribers = subscribers;
+        super(searchMoviesInterceptor, subscribers);
 
         mMovieCurrentPage = mPersonCurrentPage = 1;
     }
 
     public void setProfileID(long profileID) {
         mProfileID = profileID;
-    }
-
-    @Override
-    public void onBindView(Object view) {
-
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
     }
 
     public void setMovieView(SearchContract.SearchMoviesView searchMoviesView) {
@@ -80,7 +68,7 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(onObserverMovies());
         } else
-            noConnection();
+            noConnectionError();
 
     }
 
@@ -133,14 +121,6 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
 
     }
 
-
-    private void noConnection() {
-        if (mSearchMoviesView.isAdded())
-            mSearchMoviesView.onErrorNoConnection();
-
-        mSearchMoviesView.setProgressVisibility(View.GONE);
-    }
-
     public void searchPersons(String query, Boolean includeAdult, String tag,
                               SearchType searchType, boolean isNewSearch) {
         mIsNewPersonSearch = isNewSearch;
@@ -153,7 +133,7 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
                         .subscribe(onObserverPerson());
 
         } else
-            noConnection();
+            noConnectionError();
 
     }
 
@@ -215,7 +195,7 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
                         .subscribe(onMoviesDetailsObserver());
 
         } else {
-            noConnection();
+            noConnectionError();
         }
     }
 
@@ -233,9 +213,9 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
 
             @Override
             public void onError(Throwable e) {
-                if (mSearchMoviesView != null)
+                if (EmptyUtils.isNotNull(mSearchMoviesView))
                     mSearchMoviesView.onErrorInServer();
-                else if (mSearchPersonsView != null) {
+                else if (EmptyUtils.isNotNull(mSearchPersonsView)) {
                     mSearchPersonsView.onErrorInServer();
                 }
             }
@@ -253,8 +233,8 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
             if (mButtonStage) {
                 mSubscribers.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
                                                         movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                                                        Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                                        MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                                        Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                                        DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe());
             } else {
@@ -271,7 +251,7 @@ public class SearchPresenter implements SearchContract.SearchPresenter {
                             .map(new Function<Movie, Boolean>() {
                                 @Override
                                 public Boolean apply(Movie movie) throws Exception {
-                                    return movie != null;
+                                    return EmptyUtils.isNotNull(movie);
                                 }
                             });
     }

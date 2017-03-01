@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,9 +77,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public void bindVideo(Video video) {
             this.mVideo = video;
+
             ImageUtils.load(mContext, mContext.getString(R.string.youtube_link, mVideo.getKey()), R.drawable.placeholder_images_default, R.drawable.video_error,  mThumbnailVideo, mProgress);
             mTitleVideo.setText(mVideo.getName());
-            mTitleVideo.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
         }
 
         @Override

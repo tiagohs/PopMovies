@@ -23,7 +23,9 @@ import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.ui.adapters.PersonAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.ui.contracts.ListPersonsDefaultContract;
+import br.com.tiagohs.popmovies.ui.tools.EndlessRecyclerView;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
 
@@ -138,7 +140,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
         mPresenter.onBindView(this);
 
-        if (mSwipeRefreshLayout != null) {
+        if (EmptyUtils.isNotNull(mSwipeRefreshLayout)) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -150,15 +152,21 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         init();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
+    }
+
     private void init() {
-        if (mSort != null)
+        if (EmptyUtils.isNotNull(mSort))
             mPresenter.getPersons();
         else {
             setupRecyclerView();
             setProgressVisibility(View.GONE);
         }
 
-        if (mSwipeRefreshLayout != null)
+        if (EmptyUtils.isNotNull(mSwipeRefreshLayout))
             mSwipeRefreshLayout.setRefreshing(false);
     }
 

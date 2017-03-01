@@ -17,7 +17,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="@dimen/margin_default_min">
 
             <ImageView
                 android:id="@+id/item_icon"
@@ -25,13 +25,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_assitir_eye_black"/>
 
-            <TextView
+            <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/item_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:text="Marcar como Favorito"/>
+                android:layout_marginLeft="@dimen/margin_default_medium"
+                app:font="@string/font_open_sans" />
+            
         </LinearLayout>
 
     </com.balysv.materialripple.MaterialRippleLayout>

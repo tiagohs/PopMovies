@@ -1,12 +1,12 @@
-package br.com.tiagohs.popmovies.util;
+package br.com.tiagohs.popmovies.ui.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.icu.text.DisplayContext;
-import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * Created by Tiago on 17/12/2016.

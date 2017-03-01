@@ -12,6 +12,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.media.Translation;
 import br.com.tiagohs.popmovies.ui.view.fragment.VideosFragment;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 
 public class VideosActivity extends BaseActivity {
     private static final String TAG = VideosActivity.class.getSimpleName();
@@ -47,7 +48,7 @@ public class VideosActivity extends BaseActivity {
 
         mToolbar.setTitle(mPageTitle);
 
-        if (mPageSubtitle != null)
+        if (EmptyUtils.isNotNull(mPageSubtitle))
             mToolbar.setSubtitle(mPageSubtitle);
 
         startFragment(R.id.content_fragment, VideosFragment.newInstance(mMovieID, mTranslations));

@@ -41,6 +41,7 @@
     <dimen name="recycler_view_min_height">150dp</dimen>
     <dimen name="margin_divider_small">1dp</dimen>
     <dimen name="item_movie_fixo_width">100dp</dimen>
+    <dimen name="item_person_fixo_width">100dp</dimen>
 
     <!-- Circle Pictures -->
     <dimen name="picture_circle_cardview_elevation">12dp</dimen>
@@ -57,7 +58,7 @@
     <dimen name="picture_circle_small_image">90dp</dimen>
     <dimen name="picture_circle_small_frame">100dp</dimen>
 
-    <!-- Perfil -->
+    <!-- Edit Perfil -->
     <dimen name="perfil_camera_width">60dp</dimen>
     <dimen name="perfil_camera_height">30dp</dimen>
     <dimen name="edit_perfil_option_heigh">50dp</dimen>
@@ -71,15 +72,20 @@
     <dimen name="login_logo_margin_bottom">60dp</dimen>
     <dimen name="txt_login_app_name">30sp</dimen>
 
-
     <!-- Perfil -->
     <dimen name="perfil_background_height">280dp</dimen>
     <dimen name="perfil_header_height">120dp</dimen>
+    <dimen name="perfil_picture_height">180dp</dimen>
+    <dimen name="perfil_name_txt_size">19sp</dimen>
 
     <!-- Person Perfil Detail -->
     <dimen name="person_detail_perfil_height">350dp</dimen>
     <dimen name="person_detail_header_height">130dp</dimen>
     <dimen name="person_detail_progress_height">6dp</dimen>
+    <dimen name="person_detail_total_filmes_txt_size">35sp</dimen>
+    <dimen name="person_detail_social_width">40dp</dimen>
+    <dimen name="person_detail_movies_height">72dp</dimen>
+    <dimen name="person_detail_name_txt_size">30sp</dimen>
 
     <!-- Home -->
     <dimen name="destaques_min_height">30dp</dimen>
@@ -117,5 +123,36 @@
     <dimen name="movie_detail_button_review_margin">16dp</dimen>
     <dimen name="button_user_txt_size">12sp</dimen>
 
+    <!-- Genres -->
+    <dimen name="genres_item_radius">8dp</dimen>
+    <dimen name="genres_item_height">280dp</dimen>
+    <dimen name="genres_item_txt_size">28sp</dimen>
 
+    <!-- Search -->
+    <dimen name="search_movie_image_back_width">70dp</dimen>
+    <dimen name="search_movie_image_back_height">110dp</dimen>
+    <dimen name="search_movie_image_width">70dp</dimen>
+    <dimen name="search_movie_image_height">90dp</dimen>
+    <dimen name="search_movie_txt_margin_top">20dp</dimen>
+    <dimen name="search_movie_user_btn_width">40dp</dimen>
+    <dimen name="search_movie_txt_max_width">200dp</dimen>
+    <dimen name="search_movie_genres_height">22dp</dimen>
+    <dimen name="search_movie_title_height">30dp</dimen>
+
+    <!-- Videos -->
+    <dimen name="videos_back_height">170dp</dimen>
+    <dimen name="videos_image_height">130dp</dimen>
+    <dimen name="videos_image_play_width">50dp</dimen>
+
+    <!-- Wallpapers -->
+    <dimen name="wallpapers_item_margin">2dp</dimen>
+    <dimen name="wallpapers_item_image_height">150dp</dimen>
+
+    <!-- Share -->
+    <dimen name="share_movie_width">350dp</dimen>
+    <dimen name="share_movie_height">200dp</dimen>
+    <dimen name="share_movie_image_width">118dp</dimen>
+    <dimen name="share_movie_image_height">155dp</dimen>
+    <dimen name="share_sociais_images_margin">20dp</dimen>
+    <dimen name="share_sociais_image_width">15dp</dimen>
 </resources>

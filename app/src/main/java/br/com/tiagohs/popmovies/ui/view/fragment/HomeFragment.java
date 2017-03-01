@@ -16,16 +16,16 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
-import br.com.tiagohs.popmovies.util.LocaleUtils;
-import br.com.tiagohs.popmovies.util.MovieUtils;
-import br.com.tiagohs.popmovies.util.enumerations.ItemType;
-import br.com.tiagohs.popmovies.util.enumerations.ListType;
-import br.com.tiagohs.popmovies.util.enumerations.Sort;
+import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
+import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
 import br.com.tiagohs.popmovies.ui.view.activity.GenresActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.LancamentosSemanaActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
-import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
-import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.util.DateUtils;
+import br.com.tiagohs.popmovies.util.LocaleUtils;
+import br.com.tiagohs.popmovies.util.enumerations.ItemType;
+import br.com.tiagohs.popmovies.util.enumerations.ListType;
+import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -70,8 +70,8 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
         listDTOs.add(new ItemListDTO(ID_KEYWORD_BRAZILIAN, getString(R.string.brasileiros), Sort.KEYWORDS, new DiscoverDTO()));
 
         discoverDTO = new DiscoverDTO();
-        discoverDTO.setReleaseDateGte(MovieUtils.getDateBefore(365));
-        discoverDTO.setReleaseDateLte(MovieUtils.getDateToday());
+        discoverDTO.setReleaseDateGte(DateUtils.getDateBefore(365));
+        discoverDTO.setReleaseDateLte(DateUtils.getDateToday());
         discoverDTO.setVoteAvaregeGte(String.valueOf(6.5));
         discoverDTO.setSortBy("popularity.desc");
 
@@ -99,8 +99,8 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEmCartazFragment() {
         mEmCartazDiscoverDTO = new DiscoverDTO();
 
-        mEmCartazDiscoverDTO.setReleaseDateGte(MovieUtils.getDateBefore(31));
-        mEmCartazDiscoverDTO.setReleaseDateLte(MovieUtils.getDateToday());
+        mEmCartazDiscoverDTO.setReleaseDateGte(DateUtils.getDateBefore(31));
+        mEmCartazDiscoverDTO.setReleaseDateLte(DateUtils.getDateToday());
         mEmCartazDiscoverDTO.setRegion(LocaleUtils.getLocaleCountryISO());
         mEmCartazDiscoverDTO.setWithReleaseType("2|3");
         mEmCartazDiscoverDTO.setSortBy("popularity.desc");
@@ -111,7 +111,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEmBreveFragment() {
         mEmBreveDiscoverDTO = new DiscoverDTO();
 
-        mEmBreveDiscoverDTO.setPrimaryReleaseDateGte(MovieUtils.getDateAfter(7));
+        mEmBreveDiscoverDTO.setPrimaryReleaseDateGte(DateUtils.getDateAfter(7));
         mEmBreveDiscoverDTO.setSortBy("popularity.desc");
 
         return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mEmBreveDiscoverDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
@@ -120,8 +120,8 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private Fragment createEstreiasFragment() {
         mEstreiasDiscoverDTO = new DiscoverDTO();
 
-        mEstreiasDiscoverDTO.setReleaseDateGte(MovieUtils.getDateDayWeek(Calendar.SUNDAY));
-        mEstreiasDiscoverDTO.setReleaseDateLte(MovieUtils.getDateDayWeek(Calendar.SATURDAY));
+        mEstreiasDiscoverDTO.setReleaseDateGte(DateUtils.getDateDayWeek(Calendar.SUNDAY));
+        mEstreiasDiscoverDTO.setReleaseDateLte(DateUtils.getDateDayWeek(Calendar.SATURDAY));
         mEstreiasDiscoverDTO.setRegion(LocaleUtils.getLocaleCountryISO());
         mEstreiasDiscoverDTO.setWithReleaseType("2|3");
         mEstreiasDiscoverDTO.setSortBy("popularity.desc");

@@ -55,15 +55,9 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     }
 
     class ElencoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.nome_profissional_movie)
-        TextView mNomeTextView;
-
-        @BindView(R.id.subtitulo_item_person_movie)
-        TextView mSubtituloTextView;
-
-        @BindView(R.id.image_circle)
-        ImageView mImagemPerson;
+        @BindView(R.id.nome_profissional_movie)         TextView mNomeTextView;
+        @BindView(R.id.subtitulo_item_person_movie)     TextView mSubtituloTextView;
+        @BindView(R.id.image_circle)                    ImageView mImagemPerson;
 
         private PersonListDTO mPerson;
 

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
+import br.com.tiagohs.popmovies.ui.tools.ComplexPreferences;
 
 public class PrefsUtils {
     public static final String USER_PREFS_ID = "user_prefs";

@@ -15,25 +15,17 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 
-public class MovieDetailsMidiaPresenter implements MovieDetailsMidiaContract.MovieDetailsMidiaPresenter {
+public class MovieDetailsMidiaPresenter extends BasePresenter<MovieDetailsMidiaContract.MovieDetailsMidiaView, MovieDetailsMidiaContract.MovieDetailsMidiaInterceptor> implements MovieDetailsMidiaContract.MovieDetailsMidiaPresenter {
     private final String US_LOCALE = "en-US";
 
-    private MovieDetailsMidiaContract.MovieDetailsMidiaView mView;
-    private MovieDetailsMidiaContract.MovieDetailsMidiaInterceptor mInterceptor;
-
     private List<Video> mFinalVideosReponse;
-    private String mLanguageDefault;
-
-    private CompositeDisposable mSubscribers;
 
     public MovieDetailsMidiaPresenter(MovieDetailsMidiaContract.MovieDetailsMidiaInterceptor interceptor, CompositeDisposable subscribers) {
-        mInterceptor = interceptor;
-        mSubscribers = subscribers;
+        super(interceptor, subscribers);
     }
 
     @Override
     public void getVideos(int movieID, String language) {
-        mLanguageDefault = language;
         mFinalVideosReponse = new ArrayList<>();
 
         mView.setVideosProgressVisibility(View.VISIBLE);
@@ -51,8 +43,14 @@ public class MovieDetailsMidiaPresenter implements MovieDetailsMidiaContract.Mov
                             })
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribe(onVideoObserver());
-        } else
+        } else {
             noConnectionError();
+
+            mView.setProgressVisibility(View.GONE);
+            mView.setVideosProgressVisibility(View.GONE);
+            mView.setImagesProgressVisibility(View.GONE);
+        }
+
 
     }
 
@@ -78,15 +76,6 @@ public class MovieDetailsMidiaPresenter implements MovieDetailsMidiaContract.Mov
             @Override
             public void onComplete() {}
         };
-    }
-
-    private void noConnectionError() {
-        if (mView.isAdded())
-            mView.onErrorNoConnection();
-
-        mView.setProgressVisibility(View.GONE);
-        mView.setVideosProgressVisibility(View.GONE);
-        mView.setImagesProgressVisibility(View.GONE);
     }
 
     @Override
@@ -125,17 +114,6 @@ public class MovieDetailsMidiaPresenter implements MovieDetailsMidiaContract.Mov
 
             }
         };
-    }
-
-    @Override
-    public void onBindView(MovieDetailsMidiaContract.MovieDetailsMidiaView view) {
-        this.mView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
-        mView = null;
     }
 
 }

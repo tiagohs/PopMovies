@@ -12,43 +12,27 @@ import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContract.MovieDetailsOverviewPresenter {
+public class MovieDetailsOverviewPresenter extends BasePresenter<MovieDetailsOverviewContract.MoviesDetailsOverviewView, MovieDetailsOverviewContract.MovieDetailsOverviewInterceptor> implements MovieDetailsOverviewContract.MovieDetailsOverviewPresenter {
     private static final String TAG = MovieDetailsOverviewPresenter.class.getSimpleName();
-
-    private MovieDetailsOverviewContract.MovieDetailsOverviewInterceptor mInterceptor;
-    private MovieDetailsOverviewContract.MoviesDetailsOverviewView mMoviesDetailsOverviewView;
-
-    private CompositeDisposable mSubscribes;
 
     private long mProfileID;
 
     public MovieDetailsOverviewPresenter(MovieDetailsOverviewContract.MovieDetailsOverviewInterceptor movieDetailsOverviewInterceptor, CompositeDisposable subscribes) {
-        mInterceptor = movieDetailsOverviewInterceptor;
-        mSubscribes = subscribes;
-    }
-
-    @Override
-    public void onBindView(MovieDetailsOverviewContract.MoviesDetailsOverviewView view) {
-        mMoviesDetailsOverviewView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribes.clear();
-        mMoviesDetailsOverviewView = null;
+        super(movieDetailsOverviewInterceptor, subscribes);
     }
 
     @Override
     public void getMoviesRankings(String imdbID) {
-        mMoviesDetailsOverviewView.setRankingProgressVisibility(View.VISIBLE);
+        mView.setRankingProgressVisibility(View.VISIBLE);
 
-        if (mMoviesDetailsOverviewView.isInternetConnected()) {
+        if (mView.isInternetConnected()) {
             mInterceptor.getMovieRankings(imdbID)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(onRankingsObserver());
@@ -62,7 +46,7 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
         return new Observer<RankingResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
-                mSubscribes.add(d);
+                mSubscribers.add(d);
             }
 
             @Override
@@ -72,11 +56,11 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
 
             @Override
             public void onError(Throwable e) {
-                mMoviesDetailsOverviewView.onErrorGetRankings();
-                mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
-                mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
-                mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
-                mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.GONE);
+                mView.onErrorGetRankings();
+                mView.setRankingProgressVisibility(View.GONE);
+                mView.setRankingContainerVisibility(View.GONE);
+                mView.setTomatoesConsensusContainerVisibility(View.GONE);
+                mView.setTomatoesReviewsVisibility(View.GONE);
             }
 
             @Override
@@ -88,45 +72,45 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
 
     public void onResponse(RankingResponse response) {
 
-        if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.setRankingContainerVisibility(View.VISIBLE);
+        if (mView.isAdded()) {
+            mView.setRankingContainerVisibility(View.VISIBLE);
 
-            mMoviesDetailsOverviewView.setMovieRankings(response);
+            mView.setMovieRankings(response);
 
             if (isEmpty(response.getImdbRanting()))
-                mMoviesDetailsOverviewView.setImdbRakingContainerVisibility(View.GONE);
+                mView.setImdbRakingContainerVisibility(View.GONE);
             else
-                mMoviesDetailsOverviewView.updateIMDB(response.getImdbRanting(), response.getImdbVotes());
+                mView.updateIMDB(response.getImdbRanting(), response.getImdbVotes());
 
             if (isEmpty(response.getTomatoRating())) {
-                mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
-                mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.GONE);
+                mView.setTomatoesRakingContainerVisibility(View.GONE);
+                mView.setTomatoesReviewsVisibility(View.GONE);
             } else
-                mMoviesDetailsOverviewView.updateTomatoes(response.getTomatoRating(), response.getTomatoReviews());
+                mView.updateTomatoes(response.getTomatoRating(), response.getTomatoReviews());
 
             if (isEmpty(response.getMetascoreRating()))
-                mMoviesDetailsOverviewView.setMetascoreRakingContainerVisibility(View.GONE);
+                mView.setMetascoreRakingContainerVisibility(View.GONE);
             else
-                mMoviesDetailsOverviewView.updateMetascore(response.getMetascoreRating());
+                mView.updateMetascore(response.getMetascoreRating());
 
             if (isEmpty(response.getTomatoConsensus()))
-                mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.GONE);
+                mView.setTomatoesConsensusContainerVisibility(View.GONE);
             else {
-                mMoviesDetailsOverviewView.setTomatoesConsensusContainerVisibility(View.VISIBLE);
-                mMoviesDetailsOverviewView.updateTomatoesConsensus(response.getTomatoConsensus());
+                mView.setTomatoesConsensusContainerVisibility(View.VISIBLE);
+                mView.updateTomatoesConsensus(response.getTomatoConsensus());
             }
 
             if (response.getTomatoURL() == null)
-                mMoviesDetailsOverviewView.setTomatoesRakingContainerVisibility(View.GONE);
+                mView.setTomatoesRakingContainerVisibility(View.GONE);
             else
-                mMoviesDetailsOverviewView.setTomatoesReviewsVisibility(View.VISIBLE);
+                mView.setTomatoesReviewsVisibility(View.VISIBLE);
 
             if (isEmpty(response.getImdbRanting()) && isEmpty(response.getTomatoRating()) && isEmpty(response.getMetascoreRating())) {
-                mMoviesDetailsOverviewView.setRankingContainerVisibility(View.GONE);
+                mView.setRankingContainerVisibility(View.GONE);
             }
 
-            mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
-            mMoviesDetailsOverviewView.updateNomeacoes(response.getAwards());
+            mView.setRankingProgressVisibility(View.GONE);
+            mView.updateNomeacoes(response.getAwards());
         }
 
     }
@@ -134,7 +118,7 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
     @Override
     public void getMovieCollections(int collectionID) {
 
-        if (mMoviesDetailsOverviewView.isInternetConnected()) {
+        if (mView.isInternetConnected()) {
             mInterceptor.getMovieCollections(collectionID)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(onCollectionsObserver());
@@ -148,24 +132,22 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
         return new Observer<List<Movie>>() {
             @Override
             public void onSubscribe(Disposable d) {
-                mSubscribes.add(d);
+                mSubscribers.add(d);
             }
 
             @Override
             public void onNext(List<Movie> movies) {
-                mMoviesDetailsOverviewView.setCollections(movies);
+                mView.setCollections(movies);
             }
 
             @Override
             public void onError(Throwable e) {
-                mMoviesDetailsOverviewView.onErrorInServer();
-                mMoviesDetailsOverviewView.setCollectionsVisibility(View.GONE);
+                mView.onErrorInServer();
+                mView.setCollectionsVisibility(View.GONE);
             }
 
             @Override
-            public void onComplete() {
-
-            }
+            public void onComplete() {}
         };
     }
 
@@ -173,26 +155,18 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
         this.mProfileID = profileID;
     }
 
-    private void noConnectionError() {
-        if (mMoviesDetailsOverviewView.isAdded()) {
-            mMoviesDetailsOverviewView.onErrorNoConnection();
-            mMoviesDetailsOverviewView.setRankingProgressVisibility(View.GONE);
-        }
-
-    }
-
     @Override
     public void onClickWantSee(MovieDetails movie, boolean buttonStage) {
 
         if (buttonStage) {
-            mSubscribes.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
+            mSubscribers.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
                                     movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                    Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                    DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
         } else {
-            mSubscribes.add(mInterceptor.deleteMovieByServerID(movie.getId(), mProfileID)
+            mSubscribers.add(mInterceptor.deleteMovieByServerID(movie.getId(), mProfileID)
                        .observeOn(AndroidSchedulers.mainThread())
                        .subscribe());
         }
@@ -203,14 +177,14 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
     public void onClickDontWantSee(MovieDetails movie, boolean buttonStage) {
 
         if (buttonStage) {
-            mSubscribes.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_DONT_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
+            mSubscribers.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_DONT_WANT_SEE, movie.getRuntime(), movie.getPosterPath(),
                                     movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                    Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                    DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
         } else {
-            mSubscribes.add(mInterceptor.deleteMovieByServerID(movie.getId(), mProfileID)
+            mSubscribers.add(mInterceptor.deleteMovieByServerID(movie.getId(), mProfileID)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe());
         }
@@ -218,10 +192,10 @@ public class MovieDetailsOverviewPresenter implements MovieDetailsOverviewContra
     }
 
     public void setMovieFavorite(MovieDetails movie) {
-        mSubscribes.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
+        mSubscribers.add(mInterceptor.saveMovie(new MovieDB(movie.getId(), MovieDB.STATUS_WATCHED, movie.getRuntime(), movie.getPosterPath(),
                                 movie.getTitle(), movie.isFavorite(), movie.getVoteCount(), mProfileID,
-                                Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe());
     }

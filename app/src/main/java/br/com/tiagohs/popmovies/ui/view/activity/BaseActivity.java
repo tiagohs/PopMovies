@@ -24,15 +24,15 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import br.com.tiagohs.popmovies.App;
-import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
@@ -42,7 +42,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Nullable @BindView(R.id.toolbar)             Toolbar mToolbar;
-              @BindView(R.id.coordenation_layout) CoordinatorLayout mCoordinatorLayout;
+    @Nullable @BindView(R.id.coordenation_layout) CoordinatorLayout mCoordinatorLayout;
     @Nullable @BindView(R.id.drawer_layout)       DrawerLayout mDrawerLayout;
     @Nullable @BindView(R.id.nav_view)            NavigationView mNavigationView;
 
@@ -58,12 +58,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         mProfileDB = PrefsUtils.getCurrentProfile(this);
 
-        onSetupActionBar();
+        if (EmptyUtils.isNotNull(mToolbar))
+            onSetupActionBar();
+
         onSetupNavigationDrawer();
     }
 
     private void onSetupNavigationDrawer() {
-        if (null != mNavigationView) {
+        if (EmptyUtils.isNotNull(mNavigationView)) {
             mNavigationView.setNavigationItemSelectedListener(this);
             View view = mNavigationView.getHeaderView(0);
 
@@ -251,12 +253,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     protected void setActivityTitle(String title) {
-        if (!ViewUtils.isEmptyValue(title))
+        if (!EmptyUtils.isEmpty(title))
             mToolbar.setTitle(title);
     }
 
     protected void setActivitySubtitle(String subtitle) {
-        if (!ViewUtils.isEmptyValue(subtitle))
+        if (!EmptyUtils.isEmpty(subtitle))
             mToolbar.setSubtitle(subtitle);
     }
 

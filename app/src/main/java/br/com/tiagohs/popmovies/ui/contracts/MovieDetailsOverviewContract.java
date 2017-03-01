@@ -7,8 +7,8 @@ import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 public class MovieDetailsOverviewContract {
@@ -23,7 +23,7 @@ public class MovieDetailsOverviewContract {
 
     }
 
-    public interface MovieDetailsOverviewPresenter extends BasePresenter<MoviesDetailsOverviewView> {
+    public interface MovieDetailsOverviewPresenter extends IPresenter<MoviesDetailsOverviewView> {
 
         void getMoviesRankings(String imdbID);
         void getMovieCollections(int collectionID);
@@ -37,7 +37,7 @@ public class MovieDetailsOverviewContract {
         void onClickDontWantSee(MovieDetails movie, boolean buttonStage);
     }
 
-    public interface MoviesDetailsOverviewView extends BaseView {
+    public interface MoviesDetailsOverviewView extends IView {
 
         void setMovie(MovieDetails movie);
         void setMovieRankings(RankingResponse movieRankings);

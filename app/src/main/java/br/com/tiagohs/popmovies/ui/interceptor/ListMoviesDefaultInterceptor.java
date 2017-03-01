@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.model.response.MovieResponse;
 import br.com.tiagohs.popmovies.model.response.PersonMoviesResponse;
 import br.com.tiagohs.popmovies.server.methods.MoviesMethod;
 import br.com.tiagohs.popmovies.server.methods.PersonsMethod;
+import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import io.reactivex.Observable;
@@ -110,8 +111,8 @@ public class ListMoviesDefaultInterceptor implements ListMoviesDefaultContract.L
     public Observable<Long> saveMovie(MovieDetails movie, boolean isFavorite, int status, long profileID) {
         return mMovieRepository.saveMovie(new MovieDB(movie.getId(), status, movie.getRuntime(), movie.getPosterPath(),
                                                     movie.getTitle(), isFavorite, movie.getVoteCount(), profileID,
-                                                    Calendar.getInstance(), MovieUtils.formateStringToCalendar(movie.getReleaseDate()),
-                                                    MovieUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
+                                                    Calendar.getInstance(), DateUtils.formateStringToCalendar(movie.getReleaseDate()),
+                                                    DateUtils.getYearByDate(movie.getReleaseDate()), MovieUtils.genreToGenreDB(movie.getGenres())))
                                 .subscribeOn(Schedulers.io());
     }
 

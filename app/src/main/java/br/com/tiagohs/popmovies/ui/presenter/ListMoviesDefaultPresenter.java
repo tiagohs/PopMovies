@@ -15,11 +15,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.ListMoviesDefaultPresenter {
-
+public class ListMoviesDefaultPresenter extends BasePresenter<ListMoviesDefaultContract.ListMoviesDefaultView, ListMoviesDefaultContract.ListMoviesDefaultInterceptor> implements ListMoviesDefaultContract.ListMoviesDefaultPresenter {
     private static final String TAG = ListMoviesDefaultPresenter.class.getSimpleName();
-
-    private ListMoviesDefaultContract.ListMoviesDefaultView mListMoviesDefaultView;
 
     private int mCurrentPage;
     private int mTotalPages;
@@ -37,21 +34,10 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
     private int mPosition;
     private long mProfileID;
 
-    private ListMoviesDefaultContract.ListMoviesDefaultInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribes;
-
     public ListMoviesDefaultPresenter(ListMoviesDefaultContract.ListMoviesDefaultInterceptor listMoviesDefaultInterceptor, CompositeDisposable subscribes) {
+        super(listMoviesDefaultInterceptor, subscribes);
+
         mCurrentPage = 0;
-        mSubscribes = subscribes;
-
-        mInterceptor = listMoviesDefaultInterceptor;
-    }
-
-    @Override
-    public void onBindView(ListMoviesDefaultContract.ListMoviesDefaultView view) {
-        mListMoviesDefaultView = view;
-
     }
 
     public void setProfileID(long profileID) {
@@ -66,18 +52,18 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
 
     @Override
     public void getMovies(int id, Sort typeList, String tag, DiscoverDTO discoverDTO) {
-        mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
+        mView.setProgressVisibility(View.VISIBLE);
 
         mId = id;
         mTypeList = typeList;
         mDiscoverDTO = discoverDTO;
 
-        if (mListMoviesDefaultView.isInternetConnected()) {
+        if (mView.isInternetConnected()) {
             onCreateObservable(id, typeList, mDiscoverDTO)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(onObserverMovies());
 
-            mListMoviesDefaultView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
+            mView.setRecyclerViewVisibility(isFirstPage() ? View.GONE : View.VISIBLE);
         } else {
             noConnectionError();
         }
@@ -119,7 +105,7 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
         return new Observer<GenericListResponse<Movie>>() {
                            @Override
                            public void onSubscribe(Disposable d) {
-                               mSubscribes.add(d);
+                               mSubscribers.add(d);
                            }
 
                            @Override
@@ -129,13 +115,11 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
 
                            @Override
                            public void onError(Throwable e) {
-                               e.printStackTrace();
-                               mListMoviesDefaultView.onErrorInServer();
+                               mView.onErrorInServer();
                            }
 
                            @Override
-                           public void onComplete() {
-                           }
+                           public void onComplete() {}
                        };
 
     }
@@ -147,37 +131,40 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
         this.mPosition = position;
         this.dontIsFavorite = dontIsFavorite;
 
-        if (mListMoviesDefaultView.isInternetConnected()) {
-            mListMoviesDefaultView.showDialogProgress();
+        if (mView.isInternetConnected()) {
+            mView.showDialogProgress();
             mInterceptor.getMovieDetails(movieID, new String[]{})
                                          .observeOn(AndroidSchedulers.mainThread())
-                                         .subscribe(new Observer<MovieDetails>() {
-                                             @Override
-                                             public void onSubscribe(Disposable d) {
-                                                mSubscribes.add(d);
-                                             }
-
-                                             @Override
-                                             public void onNext(MovieDetails value) {
-                                                 onMovieDetailsReceived(value);
-                                             }
-
-                                             @Override
-                                             public void onError(Throwable e) {
-                                                mListMoviesDefaultView.onErrorInServer();
-                                             }
-
-                                             @Override
-                                             public void onComplete() {}
-                                         });
+                                         .subscribe(onMovieDetailsObserver());
 
         } else {
             noConnectionError();
         }
     }
 
+    private Observer<MovieDetails> onMovieDetailsObserver() {
+        return new Observer<MovieDetails>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                mSubscribers.add(d);
+            }
+
+            @Override
+            public void onNext(MovieDetails value) {
+                onMovieDetailsReceived(value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.onErrorSaveMovie();
+            }
+
+            @Override
+            public void onComplete() {}
+        };
+    }
+
     public void onMovieDetailsReceived(MovieDetails movie) {
-        long id = 0;
         boolean isDelete = false;
 
         if (dontIsFavorite) { //Removendo um Favorito
@@ -185,55 +172,55 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
                                          .observeOn(AndroidSchedulers.mainThread())
                                          .subscribe(onSavedMovie());
 
-            mListMoviesDefaultView.onDeleteSaveSucess();
+            mView.onDeleteSaveSucess();
             isDelete = true;
         } else if (isSaved) { //Removendo um Filme Assistido
             mInterceptor.saveMovie(movie, isFavorite, mStatus, mProfileID)
                                          .observeOn(AndroidSchedulers.mainThread())
                                          .subscribe(onSavedMovie());
 
-            mListMoviesDefaultView.onSucessSaveMovie();
+            mView.onSucessSaveMovie();
         } else if ((!isSaved) && isFavorite) { //Adicionando um filme favorito
             mInterceptor.saveMovie(movie, isFavorite, mStatus, mProfileID)
                                          .observeOn(AndroidSchedulers.mainThread())
                                          .subscribe(onSavedMovie());
 
-            mListMoviesDefaultView.onSucessSaveMovie();
+            mView.onSucessSaveMovie();
         } else { //Senão, é pra deletar
-            mSubscribes.add(mInterceptor.deleteMovie(movie, mProfileID)
+            mSubscribers.add(mInterceptor.deleteMovie(movie, mProfileID)
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe());
 
-            mListMoviesDefaultView.onDeleteSaveSucess();
+            mView.onDeleteSaveSucess();
             isDelete = true;
         }
 
         if (isDelete)
-            mListMoviesDefaultView.notifyMovieRemoved(mPosition);
+            mView.notifyMovieRemoved(mPosition);
         else {
             mListIndex = 0;
             getMovies(mId, mTypeList, TAG, mDiscoverDTO);
         }
 
-        mListMoviesDefaultView.hideDialogProgress();
+        mView.hideDialogProgress();
     }
 
     private Observer<Long> onSavedMovie() {
         return new Observer<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                mSubscribes.add(d);
+                mSubscribers.add(d);
             }
 
             @Override
             public void onNext(Long value) {
                 if (value == -1)
-                    mListMoviesDefaultView.onErrorSaveMovie();
+                    mView.onErrorSaveMovie();
             }
 
             @Override
             public void onError(Throwable e) {
-                mListMoviesDefaultView.onErrorSaveMovie();
+                mView.onErrorSaveMovie();
             }
 
             @Override
@@ -243,47 +230,29 @@ public class ListMoviesDefaultPresenter implements ListMoviesDefaultContract.Lis
         };
     }
 
-    @Override
-    public void onUnbindView() {
-        mSubscribes.clear();
-        mListMoviesDefaultView = null;
-    }
-
     private Observable<GenericListResponse<Movie>> getMoviesDB(Sort typeList) {
-        mListMoviesDefaultView.setProgressVisibility(View.VISIBLE);
-        mListMoviesDefaultView.setRecyclerViewVisibility(mListIndex == 0 ? View.GONE : View.VISIBLE);
+        mView.setProgressVisibility(View.VISIBLE);
+        mView.setRecyclerViewVisibility(mListIndex == 0 ? View.GONE : View.VISIBLE);
 
         return mInterceptor.getMovieDB(typeList, mProfileID, ++mCurrentPage)
                            .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private void noConnectionError() {
-
-        if (mListMoviesDefaultView.isAdded())
-            mListMoviesDefaultView.onErrorNoConnection();
-
-        mListMoviesDefaultView.setProgressVisibility(View.GONE);
-
-        if (mCurrentPage == 0) {
-            mListMoviesDefaultView.setRecyclerViewVisibility(View.GONE);
-        }
     }
 
     public void onResponse(GenericListResponse<Movie> response) {
         mCurrentPage = response.getPage();
         mTotalPages = response.getTotalPage();
 
-        if (mListMoviesDefaultView.isAdded()) {
+        if (mView.isAdded()) {
             if (isFirstPage()) {
-                mListMoviesDefaultView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
-                mListMoviesDefaultView.setupRecyclerView();
+                mView.setListMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+                mView.setupRecyclerView();
             } else {
-                mListMoviesDefaultView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
-                mListMoviesDefaultView.updateAdapter();
+                mView.addAllMovies(DTOUtils.createMovieListDTO(response.getResults()), hasMorePages());
+                mView.updateAdapter();
             }
 
-            mListMoviesDefaultView.setRecyclerViewVisibility(View.VISIBLE);
-            mListMoviesDefaultView.setProgressVisibility(View.GONE);
+            mView.setRecyclerViewVisibility(View.VISIBLE);
+            mView.setProgressVisibility(View.GONE);
         }
 
     }

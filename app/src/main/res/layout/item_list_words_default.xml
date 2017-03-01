@@ -9,12 +9,12 @@
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/movie_deails_item_default_riple"
-        app:mrl_rippleColor="@color/itemBackgroundRiple"
         android:layout_width="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/margin_default_min"
+        app:mrl_rippleColor="@color/itemBackgroundRiple"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="@dimen/margin_default_min"
+        android:paddingRight="@dimen/margin_default_min"
         android:background="@drawable/background_item_words_default"
         app:mrl_rippleOverlay="true">
 

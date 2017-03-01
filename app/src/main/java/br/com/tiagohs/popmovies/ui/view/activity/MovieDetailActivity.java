@@ -52,6 +52,7 @@ import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.ui.tools.AppBarMovieListener;
 import br.com.tiagohs.popmovies.ui.tools.EllipsizingTextView;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
@@ -72,9 +73,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailsContract.MovieDetailsView,
-        MovieVideosCallbacks, ImagesCallbacks,
-        PersonCallbacks, ReviewCallbacks, MovieFavoriteCallback,
-        ListMoviesCallbacks, ListWordsCallbacks, MovieWantSeeCallback, MovieDontWantSeeCallback {
+                                                                 MovieVideosCallbacks, ImagesCallbacks,
+                                                                 PersonCallbacks, ReviewCallbacks, MovieFavoriteCallback,
+                                                                 ListMoviesCallbacks, ListWordsCallbacks, MovieWantSeeCallback, MovieDontWantSeeCallback {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
@@ -87,6 +88,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     private static final String MOVIE = "movie";
     private static final String START = "start";
     private static final String EXTRA_MOVIE_ID = "br.com.tiagohs.popmovies.movie";
+    private static final int IMAGE_SCALE_UP_ANIMATION_DURATION = 500;
 
     @BindView(R.id.movie_detail_app_bar)          AppBarLayout mAppBarLayout;
     @BindView(R.id.poster_movie)                  ImageView mPosterMovie;
@@ -202,13 +204,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         this.mMovie = movie;
         mJaAssistiButton.show();
 
-        if (mMovie.getBackdropPath() != null)
+        if (EmptyUtils.isNotNull(mMovie.getBackdropPath()))
             ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
         else {
             ImageUtils.loadWithBlur(this, R.drawable.background_image, mBackgroundMovie);
         }
 
         ImageUtils.load(this, mMovie.getPosterPath(), mPosterMovie, mMovie.getTitle(), ImageSize.POSTER_185);
+        AnimationsUtils.creatScaleUpAnimation(mPosterMovie, IMAGE_SCALE_UP_ANIMATION_DURATION);
 
         mTitleMovie.setText(mMovie.getTitle());
         mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
@@ -257,8 +260,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     @OnClick({R.id.play_image_movie_principal, R.id.background_movie})
     public void onClickBackgroundMovie() {
-        if (null != mMovie) {
-            if (isInternetConnected() && null != mMovie.getVideos()) {
+        if (EmptyUtils.isNotNull(mMovie)) {
+            if (isInternetConnected() && EmptyUtils.isNotNull(mMovie.getVideos())) {
                 if (!mMovie.getVideos().isEmpty())
                     inflateVideoPlayer(mMovie.getVideos().get(0).getKey());
             }
@@ -301,7 +304,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(
                 this, BuildConfig.GOOGLE_KEY, videoKey, startTimeMillis, autoplay, lightboxMode);
 
-        if (intent != null) {
+        if (EmptyUtils.isNotNull(intent)) {
             if (isAuthResolveIntent(intent)) {
                 startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
             } else {
@@ -313,7 +316,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     private boolean isAuthResolveIntent(Intent intent) {
         List<ResolveInfo> resolveInfo = this.getPackageManager().queryIntentActivities(intent, 0);
-        return resolveInfo != null && !resolveInfo.isEmpty();
+        return EmptyUtils.isNotNull(resolveInfo) && !resolveInfo.isEmpty();
     }
 
     @Override
@@ -366,7 +369,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         if (PermissionUtils.validatePermission(MovieDetailActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content))) {
             mProgressShare.setVisibility(View.VISIBLE);
 
-            if (isInternetConnected() && mMovie != null) {
+            if (isInternetConnected() && EmptyUtils.isNotNull(mMovie)) {
                 final View view = getLayoutInflater().inflate(R.layout.share_movie_details, null);
                 ImageView posterMovie = (ImageView) view.findViewById(R.id.movie_poster);
                 ImageView backgroundMovie = (ImageView) view.findViewById(R.id.movie_background);
@@ -414,7 +417,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     public void createShareIntent(Bitmap imageToShare) {
         String imdbID = null;
 
-        if (null != mMovie.getImdbID())
+        if (EmptyUtils.isNotNull(mMovie.getImdbID()))
             imdbID = getString(R.string.movie_imdb, mMovie.getImdbID());
 
         ShareUtils.shareImageWithText(this, MediaStore.Images.Media.insertImage(getContentResolver(), imageToShare, mMovie.getTitle() , null), imdbID);
@@ -423,7 +426,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     @OnClick(R.id.poster_movie)
     public void onClickPosterMovie() {
-        if (null != mMovie) {
+        if (EmptyUtils.isNotNull(mMovie)) {
             if (!mMovie.getImages().isEmpty())
                 onClickImage(getImageDTO(mMovie.getImages().size()), new ImageDTO(mMovie.getId(), null, mMovie.getPosterPath()));
         }

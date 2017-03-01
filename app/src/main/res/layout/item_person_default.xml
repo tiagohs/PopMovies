@@ -2,10 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="100dp"
+    android:layout_width="@dimen/item_person_fixo_width"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/margin_default_medium">
 
     <include android:id="@+id/person_image"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:textSize="12dp"
+        android:textSize="@dimen/txt_size_small"
         android:maxLines="1"
         android:marqueeRepeatLimit ="marquee_forever"
         android:ellipsize="marquee"

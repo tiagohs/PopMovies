@@ -7,91 +7,87 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_gravity="center"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="@dimen/margin_default_min">
 
     <FrameLayout
         android:id="@+id/movie_poster"
-        android:layout_width="70dp"
-        android:layout_height="110dp">
+        android:layout_width="@dimen/search_movie_image_back_width"
+        android:layout_height="@dimen/search_movie_image_back_height">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:src="@drawable/img_1"
+            android:id="@+id/poster_movie"
+            android:layout_width="@dimen/search_movie_image_width"
+            android:layout_height="@dimen/search_movie_image_height"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:elevation="5dp"
-            android:transitionName="@string/poster_movie"
-            android:id="@+id/poster_movie"/>
+            android:elevation="@dimen/margin_default_min"
+            android:transitionName="@string/poster_movie" />
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/list_item_movies_progress"
-            android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/search_movie_image_width"
+            android:layout_height="@dimen/search_movie_image_height"
             android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             app:matProg_barColor="@color/colorAccent"
             app:matProg_progressIndeterminate="true" />
+
     </FrameLayout>
 
-    <TextView
+    <br.com.tiagohs.popmovies.ui.tools.PopTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/movie_ano_lancamento"
-        android:textSize="12dp"
-        android:layout_marginTop="20dp"
-        android:text="2016"
+        android:textSize="@dimen/txt_size_small"
+        android:layout_marginTop="@dimen/search_movie_txt_margin_top"
         android:textColor="@color/colorPrimary"
-        android:layout_toRightOf="@id/movie_poster"
-        android:layout_marginLeft="10dp" />
+        android:layout_toEndOf="@id/movie_poster"
+        android:layout_marginStart="@dimen/margin_default_medium"
+        app:font="@string/font_open_sans"/>
 
-    <TextView
-        android:textSize="16dp"
-        android:textColor="@color/primary_text"
+    <br.com.tiagohs.popmovies.ui.tools.PopTextView
         android:id="@+id/title_movie"
         android:layout_width="wrap_content"
-        android:layout_height="30dip"
+        android:layout_height="@dimen/search_movie_title_height"
+        android:textSize="@dimen/txt_size_large"
+        android:textColor="@color/primary_text"
         android:maxLines="1"
-        android:text="Deadpool"
-        android:maxWidth="200dp"
-        android:layout_marginLeft="10dp"
+        android:maxWidth="@dimen/search_movie_txt_max_width"
+        android:layout_marginStart="@dimen/margin_default_medium"
         android:ellipsize="end"
         android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollHorizontally="true"
-        android:layout_toRightOf="@id/movie_poster"
-        android:layout_below="@id/movie_ano_lancamento"/>
+        android:layout_toEndOf="@id/movie_poster"
+        android:layout_below="@id/movie_ano_lancamento"
+        app:font="@string/font_open_sans"/>
 
-    <TextView
-        android:textSize="12dp"
-        android:textColor="@color/secondary_text"
+    <br.com.tiagohs.popmovies.ui.tools.PopTextView
         android:id="@+id/geners_movie"
-        android:fontFamily="sans-serif"
-        android:textStyle="italic"
-        android:text="Ação, Aventura, Comédia"
         android:layout_width="wrap_content"
-        android:maxWidth="200dp"
-        android:layout_height="22dip"
+        android:layout_height="@dimen/search_movie_genres_height"
+        android:textSize="@dimen/txt_size_small"
+        android:textColor="@color/secondary_text"
+        android:maxWidth="@dimen/search_movie_txt_max_width"
         android:maxLines="1"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollHorizontally="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/movie_poster"
-        android:layout_below="@id/title_movie"/>
+        android:layout_marginStart="@dimen/margin_default_medium"
+        android:layout_toEndOf="@id/movie_poster"
+        android:layout_below="@id/title_movie"
+        app:font="@string/font_open_sans_italic"/>
 
     <ImageView
         android:id="@+id/movies_ja_assisti"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/search_movie_user_btn_width"
+        android:layout_height="@dimen/search_movie_user_btn_width"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_assitir_eye_yellow"
         android:background="@android:color/transparent"/>

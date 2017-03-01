@@ -1,9 +1,5 @@
 package br.com.tiagohs.popmovies.util;
 
-/**
- * Created by Tiago on 26/02/2017.
- */
-
 public class UrlUtils {
 
     public static String formatAppendToResponse(final String[] appendToResponse) {

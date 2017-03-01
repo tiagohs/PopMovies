@@ -17,13 +17,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class VideosPresenter implements VideosContract.VideosPresenter {
+public class VideosPresenter extends BasePresenter<VideosContract.VideosView, VideosContract.VideoInterceptor> implements VideosContract.VideosPresenter {
     private static final String TAG = VideosPresenter.class.getSimpleName();
 
-    private VideosContract.VideosView mVideosView;
-    private VideosContract.VideoInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribes;
+    private static final int NUM_MAX_VIDEOS_BY_PAGE = 12;
+    private static final int NUM_MAX_LANGUAGES = 20;
 
     private List<List<Video>> mVideos;
 
@@ -33,19 +31,18 @@ public class VideosPresenter implements VideosContract.VideosPresenter {
     private int mTotalPages;
 
     public VideosPresenter(VideosContract.VideoInterceptor videoInterceptor, CompositeDisposable compositeDisposable) {
+        super(videoInterceptor, compositeDisposable);
+
         mCurrentPage = 0;
         mFinalVideos = new ArrayList<>();
-
-        mInterceptor = videoInterceptor;
-        mSubscribes = compositeDisposable;
     }
 
     @Override
     public void getVideos(int movieID, List<Translation> translations) {
 
-        if (mVideosView.isInternetConnected()) {
+        if (mView.isInternetConnected()) {
             List<Observable<List<Video>>> observables = new ArrayList<>();
-            int numMaxTranslation = translations.size() < 20 ? translations.size() : 20;
+            int numMaxTranslation = translations.size() < NUM_MAX_LANGUAGES ? translations.size() : NUM_MAX_LANGUAGES;
 
             for (int cont = 0; cont < numMaxTranslation; cont++) {
                 observables.add(mInterceptor.getMovieVideos(movieID, translations.get(cont).getLanguage() + "-" + translations.get(cont).getCountry()));
@@ -70,7 +67,7 @@ public class VideosPresenter implements VideosContract.VideosPresenter {
         return new Observer<List<Video>>() {
             @Override
             public void onSubscribe(Disposable d) {
-                mSubscribes.add(d);
+                mSubscribers.add(d);
             }
 
             @Override
@@ -85,41 +82,24 @@ public class VideosPresenter implements VideosContract.VideosPresenter {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-                mVideosView.onErrorInServer();
+                mView.onErrorInServer();
             }
 
             @Override
             public void onComplete() {
-                mVideos = ListUtils.partition(mFinalVideos, 12);
+                mVideos = ListUtils.partition(mFinalVideos, NUM_MAX_VIDEOS_BY_PAGE);
                 mTotalPages = mVideos.size();
 
                 if (mTotalPages > 0)
-                    mVideosView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
+                    mView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
                 else
-                    mVideosView.onUpdateUI(mFinalVideos, mCurrentPage < mTotalPages);
+                    mView.onUpdateUI(mFinalVideos, mCurrentPage < mTotalPages);
             }
         };
     }
 
-    private void noConnectionError() {
-        if (mVideosView.isAdded()) {
-            mVideosView.onErrorNoConnection();
-        }
-    }
-
-    @Override
-    public void onBindView(VideosContract.VideosView view) {
-        mVideosView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribes.clear();
-        mVideosView = null;
-    }
-
     public void getVideosByPage() {
-        mVideosView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
+        mView.onUpdateUI(mVideos.get(mCurrentPage++), mCurrentPage < mTotalPages);
     }
 
 }

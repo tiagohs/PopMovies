@@ -14,6 +14,7 @@ import br.com.tiagohs.popmovies.database.DatabaseManager;
 import br.com.tiagohs.popmovies.database.PopMoviesContract;
 import br.com.tiagohs.popmovies.database.SQLHelper;
 import br.com.tiagohs.popmovies.model.db.GenreDB;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -51,7 +52,7 @@ public class GenreRepositoryImpl implements GenreRepository {
                 try {
                     ContentValues values = getGenresContentValues(genre, movieID);
 
-                    boolean genreJaExistente = findDatabase(SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genre.getGenrerID()), String.valueOf(movieID)}) != null;
+                    boolean genreJaExistente = EmptyUtils.isNotNull(findDatabase(SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genre.getGenrerID()), String.valueOf(movieID)}));
 
                     if (genreJaExistente)
                         db.update(PopMoviesContract.GenreEntry.TABLE_NAME, values, SQLHelper.GenreSQL.WHERE_USER_BY_GENRE_ID, new String[]{String.valueOf(genreID), String.valueOf(movieID)});
@@ -77,7 +78,7 @@ public class GenreRepositoryImpl implements GenreRepository {
             public void subscribe(ObservableEmitter<GenreDB> observableEmitter) throws Exception {
                 GenreDB genre = findDatabase(where, values);
 
-                if (null != genre)
+                if (EmptyUtils.isNotNull(genre))
                     observableEmitter.onNext(genre);
 
                 observableEmitter.onComplete();

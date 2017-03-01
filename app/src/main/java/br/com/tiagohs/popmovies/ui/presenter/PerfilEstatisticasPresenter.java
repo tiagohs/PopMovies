@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.presenter;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -15,20 +14,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
-public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.PerfilEstatisticasPresenter {
+public class PerfilEstatisticasPresenter extends BasePresenter<PerfilEstatisticasContract.PerfilEstatisticasView, PerfilEstatisticasContract.PerfilEstatisticasInterceptor> implements PerfilEstatisticasContract.PerfilEstatisticasPresenter {
     private static final String TAG = PerfilEstatisticasPresenter.class.getSimpleName();
 
     private static final int DELAY = 2000;
 
-    private PerfilEstatisticasContract.PerfilEstatisticasView mPerfilEstatisticasView;
-    private PerfilEstatisticasContract.PerfilEstatisticasInterceptor mInterceptor;
-
-    private CompositeDisposable mSubscribers;
-
     @Inject
     public PerfilEstatisticasPresenter(PerfilEstatisticasContract.PerfilEstatisticasInterceptor interceptor, CompositeDisposable subscribers) {
-        mInterceptor = interceptor;
-        mSubscribers = subscribers;
+        super(interceptor, subscribers);
     }
 
     public void initUpdates(String username) {
@@ -44,36 +37,29 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
 
     }
 
-    @Override
-    public void onBindView(PerfilEstatisticasContract.PerfilEstatisticasView view) {
-        mPerfilEstatisticasView = view;
-    }
-
-    @Override
-    public void onUnbindView() {
-        mSubscribers.clear();
-        mPerfilEstatisticasView = null;
-    }
-
     private void onProfileReceived(ProfileDB profile) {
         long profileID = profile.getProfileID();
 
-        mPerfilEstatisticasView.setDadosPessoais(profile.getCountry(), profile.getBirthday(), profile.getGenrer());
-        mPerfilEstatisticasView.setDescricao(profile.getDescricao());
+        mView.setDadosPessoais(profile.getCountry(), profile.getBirthday(), profile.getGenrer());
+        mView.setDescricao(profile.getDescricao());
 
-        getAllGenrersSaved(profileID);
-        getTotalHoursWatched(profileID);
-        getTotalMovies(profileID);
-        getTotalMoviesWatched(profileID);
-        getTotalFavorites(profileID);
-        getTotalMoviesDontWantSee(profileID);
-        getTotalMoviesWantSee(profileID);
+        try {
+            getAllGenrersSaved(profileID);
+            getTotalHoursWatched(profileID);
+            getTotalMovies(profileID);
+            getTotalMoviesWatched(profileID);
+            getTotalFavorites(profileID);
+            getTotalMoviesDontWantSee(profileID);
+            getTotalMoviesWantSee(profileID);
+        } catch (Exception ex) {
+
+        }
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                if (mPerfilEstatisticasView.isAdded()) {
-                    mPerfilEstatisticasView.setProgressVisibility(View.GONE);
-                    mPerfilEstatisticasView.setContainerPrincipalVisibility(View.VISIBLE);
+                if (mView.isAdded()) {
+                    mView.setProgressVisibility(View.GONE);
+                    mView.setContainerPrincipalVisibility(View.VISIBLE);
                 }
             }
         }, DELAY);
@@ -86,8 +72,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<List<GenrerMoviesDTO>>() {
                     @Override
                     public void accept(List<GenrerMoviesDTO> genrers) {
-                        Log.i(TAG, "Total: " + genrers.size());
-                        mPerfilEstatisticasView.configurateGraphic(genrers);
+                        mView.configurateGraphic(genrers);
                     }
                 }));
     }
@@ -98,7 +83,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) {
-                          mPerfilEstatisticasView.setTotalHorasAssistidas(aLong);
+                            mView.setTotalHorasAssistidas(aLong);
                         }
                     }));
     }
@@ -109,7 +94,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) {
-                        mPerfilEstatisticasView.setTotalFilmesAssistidos(aLong.intValue());
+                        mView.setTotalFilmesAssistidos(aLong.intValue());
                     }
                 }));
     }
@@ -120,7 +105,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        mPerfilEstatisticasView.setTotalMoviesWatched(aLong);
+                        mView.setTotalMoviesWatched(aLong);
                     }
                 }));
     }
@@ -131,7 +116,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) {
-                     mPerfilEstatisticasView.setTotalMoviesFavorite(aLong);
+                        mView.setTotalMoviesFavorite(aLong);
 
                     }
                 }));
@@ -143,7 +128,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) {
-                      mPerfilEstatisticasView.setTotalMoviesWanSee(aLong);
+                        mView.setTotalMoviesWanSee(aLong);
                     }
                 }));
     }
@@ -154,7 +139,7 @@ public class PerfilEstatisticasPresenter implements PerfilEstatisticasContract.P
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) {
-                       mPerfilEstatisticasView.setTotalMoviesDontWanSee(aLong);
+                        mView.setTotalMoviesDontWanSee(aLong);
                     }
                 }));
     }

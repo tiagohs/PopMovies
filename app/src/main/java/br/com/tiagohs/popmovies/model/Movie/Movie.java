@@ -3,14 +3,10 @@ package br.com.tiagohs.popmovies.model.movie;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
-import br.com.tiagohs.popmovies.util.MovieUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
 
 
 public class Movie extends MediaBasic implements Serializable {
@@ -168,7 +164,7 @@ public class Movie extends MediaBasic implements Serializable {
     }
 
     public int getYearRelease() {
-        return MovieUtils.getYearByDate(releaseDate);
+        return DateUtils.getYearByDate(releaseDate);
     }
 
     @Override

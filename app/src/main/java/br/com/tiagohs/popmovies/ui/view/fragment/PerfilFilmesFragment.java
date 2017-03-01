@@ -54,6 +54,12 @@ public class PerfilFilmesFragment extends BaseFragment implements PerfilFilmesCo
         mPresenter.updateMoviesContainers(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
+    }
+
     public void hasMovies(boolean hasMovies, int idContainer, Fragment fragment, TextView textView) {
         if (hasMovies)
             startFragment(idContainer, fragment);

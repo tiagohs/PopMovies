@@ -21,6 +21,7 @@ import br.com.tiagohs.popmovies.model.dto.CarrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.ui.adapters.CarrerMoviesAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.ui.tools.EndlessRecyclerView;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 import butterknife.BindView;
@@ -72,6 +73,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         mPersonInfo = (PersonInfo) getArguments().getSerializable(ARG_PERSON);
+        mCarrerList = new ArrayList<>();
     }
 
     @Override
@@ -84,7 +86,6 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     }
 
     private void initUpdates() {
-        mCarrerList = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mPersonMoviesRecyclerView.setLayoutManager(mLayoutManager);
         mPersonMoviesRecyclerView.addOnScrollListener(createOnScrollListener());

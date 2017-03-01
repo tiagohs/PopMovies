@@ -431,7 +431,7 @@
                         android:text="@string/aspas"
                         app:font="@string/font_open_sans" />
 
-                    <TextView
+                    <br.com.tiagohs.popmovies.ui.tools.PopTextView
                         android:id="@+id/descricao_dados_pessoais"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -440,6 +440,7 @@
                         android:textColor="@color/secondary_text"
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/aspas"
+                        app:font="@string/font_open_sans"
                         android:layout_marginLeft="@dimen/margin_default_min"
                         android:layout_marginTop="@dimen/activity_horizontal_margin"/>
 
@@ -466,12 +467,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/genres_graphic_height"/>
 
-                        <TextView
+                        <br.com.tiagohs.popmovies.ui.tools.PopTextView
                             android:id="@+id/graph_nao_ha_dados"
                             android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            app:font="@string/font_open_sans"
                             android:text="@string/perfil_estatisticas_no_data_to_genres_graphic"/>
                     </FrameLayout>
 

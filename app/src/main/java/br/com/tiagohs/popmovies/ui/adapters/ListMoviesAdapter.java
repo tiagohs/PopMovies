@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.ListMoviesDefaultContract;
 import br.com.tiagohs.popmovies.model.Item;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.ui.callbacks.LongClickCallbacks;
+import br.com.tiagohs.popmovies.ui.contracts.ListMoviesDefaultContract;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
-import br.com.tiagohs.popmovies.ui.callbacks.LongClickCallbacks;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,7 +34,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
     private Context mContext;
     private ListMoviesCallbacks mCallbacks;
     private int mLayoutMovieResID;
-    ListMoviesDefaultContract.ListMoviesDefaultPresenter mPresenter;
+    private ListMoviesDefaultContract.ListMoviesDefaultPresenter mPresenter;
 
     public ListMoviesAdapter(Context context, List<MovieListDTO> list, ListMoviesCallbacks callbacks, int layoutMovieResID, ListMoviesDefaultContract.ListMoviesDefaultPresenter presenter) {
         this.list = list;
@@ -109,18 +108,18 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
             list.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
 
             List<Item> listItems = new ArrayList<>();
-            listItems.add(new Item("Marcado como Favorito", "Marcar como Favorito", R.drawable.ic_long_click_favorite_clicked, R.drawable.ic_long_click_favorite_normal, android.R.color.holo_red_dark));
-            listItems.add(new Item("Marcado como Assistido", "Marcar como Assistido", R.drawable.ic_long_click_assistido_clicked, R.drawable.ic_long_click_assistido_normal, android.R.color.holo_green_dark));
-            listItems.add(new Item("Marcado como Quero ver", "Marcar como Quero ver", R.drawable.ic_long_click_quero_ver_clicked, R.drawable.ic_long_click_quero_ver_normal, R.color.yellow));
-            listItems.add(new Item("Marcado como Não Quero ver", "Marcar como Não Quero ver", R.drawable.ic_long_click_nao_quero_ver_clicked, R.drawable.ic_long_click_nao_quero_ver_normal, R.color.colorAccent));
+            listItems.add(new Item(mContext.getString(R.string.list_movies_long_click_favorite_marked), mContext.getString(R.string.list_movies_long_click_favorite_will_marked), R.drawable.ic_long_click_favorite_clicked, R.drawable.ic_long_click_favorite_normal, android.R.color.holo_red_dark));
+            listItems.add(new Item(mContext.getString(R.string.list_movies_long_click_watched_marked), mContext.getString(R.string.list_movies_long_click_watched_will_marked), R.drawable.ic_long_click_assistido_clicked, R.drawable.ic_long_click_assistido_normal, android.R.color.holo_green_dark));
+            listItems.add(new Item(mContext.getString(R.string.list_movies_long_click_want_see_marked), mContext.getString(R.string.list_movies_long_click_want_see_will_marked), R.drawable.ic_long_click_quero_ver_clicked, R.drawable.ic_long_click_quero_ver_normal, R.color.yellow));
+            listItems.add(new Item(mContext.getString(R.string.list_movies_long_click_dont_want_see_marked), mContext.getString(R.string.list_movies_long_click_dont_want_see_will_marked), R.drawable.ic_long_click_nao_quero_ver_clicked, R.drawable.ic_long_click_nao_quero_ver_normal, R.color.colorAccent));
 
             list.setAdapter(new LongClickOptionsAdapter(mContext, listItems, mMovie.getMovieID(), mPresenter, this));
 
             new MaterialDialog.Builder(mContext)
                                     .customView(list, true)
-                                    .title("Opções")
-                                    .positiveText("Ok")
-                                    .negativeText("Cancelar")
+                                    .title(mContext.getString(R.string.list_movies_long_click_opcoes_title))
+                                    .positiveText(mContext.getString(R.string.btn_ok))
+                                    .negativeText(mContext.getString(R.string.btn_cancelar))
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

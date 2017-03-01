@@ -17,10 +17,6 @@ import retrofit2.http.Url;
 
 public interface MoviesService {
 
-    @GET("movie/popular?")
-    Observable<MovieResponse> getPopularMovies(@Query("page") String currentPage,
-                                               @Query("language") String language);
-
     @GET("movie/{movie_id}?")
     Observable<MovieDetails> getMovieDetails(@Path("movie_id") String movieID,
                                              @Query("append_to_response") String appendToResponse,

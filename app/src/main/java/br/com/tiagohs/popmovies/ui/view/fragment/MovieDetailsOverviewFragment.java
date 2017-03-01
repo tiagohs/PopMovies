@@ -36,6 +36,8 @@ import br.com.tiagohs.popmovies.model.response.RankingResponse;
 import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieWatchedCallback;
 import br.com.tiagohs.popmovies.util.DTOUtils;
+import br.com.tiagohs.popmovies.util.DateUtils;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -182,6 +184,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
         init();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onUnbindView();
+    }
+
     private void init() {
 
         initRankings();
@@ -196,7 +204,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
 
     private void initRankings() {
 
-        if (ViewUtils.isEmptyValue(mMovie.getImdbID())) {
+        if (EmptyUtils.isEmpty(mMovie.getImdbID())) {
             setImdbRakingContainerVisibility(View.GONE);
             setTomatoesRakingContainerVisibility(View.GONE);
             setMetascoreRakingContainerVisibility(View.GONE);
@@ -297,26 +305,26 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     }
 
     public void updateNomeacoes(String response) {
-        mMovieNomeacoes.setText(ViewUtils.isEmptyValue(response) ? getString(R.string.nao_disponivel) : response);
+        mMovieNomeacoes.setText(EmptyUtils.isEmpty(response) ? getString(R.string.nao_disponivel) : response);
     }
 
     private void onUpdateUI() {
 
-        setPaginaInicialVisibility(ViewUtils.isEmptyValue(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
+        setPaginaInicialVisibility(EmptyUtils.isEmpty(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
 
-        mSinopseMovie.setText(ViewUtils.isEmptyValue(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
+        mSinopseMovie.setText(EmptyUtils.isEmpty(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
 
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
 
         mTituloOriginal.setText(mMovie.getOriginalTitle());
 
-        mIdiomaOriginal.setText(ViewUtils.isEmptyValue(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
+        mIdiomaOriginal.setText(EmptyUtils.isEmpty(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
 
         mOcamento.setText(mMovie.getBudget() != 0 ? MovieUtils.formatCurrency(mMovie.getBudget()) : getString(R.string.nao_disponivel));
 
         mReceita.setText(mMovie.getRevenue() != 0 ? MovieUtils.formatCurrency(mMovie.getRevenue()) : getString(R.string.nao_disponivel));
 
-        mReleaseDateMundial.setText(ViewUtils.isEmptyValue(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, MovieUtils.formateDate(mMovie.getReleaseDate())));
+        mReleaseDateMundial.setText(EmptyUtils.isEmpty(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, DateUtils.formateDate(mMovie.getReleaseDate())));
 
         ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleCountryISO().toUpperCase());
         if (mMovie.getReleases().contains(releaseTemp)) {
@@ -324,7 +332,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
 
             for (ReleaseDate r : releaseDate) {
                 if (r.getType().equals(ReleaseType.THEATRICAL)) {
-                    mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), MovieUtils.formateDate(r.getReleaseDate())));
+                    mReleaseDatePaisAtual.setText(getString(R.string.movie_data_lancamento_pais_origem, LocaleUtils.getLocaleCountryName(), DateUtils.formateDate(r.getReleaseDate())));
                     break;
                 }
             }

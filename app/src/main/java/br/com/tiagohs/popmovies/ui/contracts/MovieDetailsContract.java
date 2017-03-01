@@ -6,8 +6,8 @@ import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.ItemListDTO;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 public class MovieDetailsContract {
@@ -29,14 +29,14 @@ public class MovieDetailsContract {
 
     }
 
-    public interface MovieDetailsPresenter extends BasePresenter<MovieDetailsView> {
+    public interface MovieDetailsPresenter extends IPresenter<MovieDetailsView> {
 
         void getMovieDetails(int movieID);
         void onClickJaAssisti(MovieDetails movie, boolean buttonStage);
         void setProfileID(long profileID);
     }
 
-    public interface MovieDetailsView extends BaseView {
+    public interface MovieDetailsView extends IView {
 
         void setupDirectorsRecyclerView(List<ItemListDTO> list);
         void setupTabs();

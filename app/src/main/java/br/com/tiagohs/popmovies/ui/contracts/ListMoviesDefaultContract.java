@@ -7,9 +7,9 @@ import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 /**
@@ -18,7 +18,7 @@ import io.reactivex.Observable;
 
 public class ListMoviesDefaultContract {
 
-    public interface ListMoviesDefaultPresenter extends BasePresenter<ListMoviesDefaultView> {
+    public interface ListMoviesDefaultPresenter extends IPresenter<ListMoviesDefaultView> {
 
         void getMovies(int id, Sort typeList, String tag, DiscoverDTO discoverDTO);
         void getMovieDetails(int movieID, boolean isSaved, boolean isFavorite, boolean dontIsFavorite, int status, String tag, int position);
@@ -28,7 +28,7 @@ public class ListMoviesDefaultContract {
         Observable<Movie> isJaAssistido(int movieID);
     }
 
-    public interface ListMoviesDefaultView extends BaseView {
+    public interface ListMoviesDefaultView extends IView {
 
         void hideDialogProgress();
         void showDialogProgress();

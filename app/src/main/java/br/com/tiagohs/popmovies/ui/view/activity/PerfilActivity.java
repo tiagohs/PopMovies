@@ -46,7 +46,7 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
     @BindView(R.id.picture_container)               LinearLayout mPictureContainer;
     @BindView(R.id.perfil_app_bar)                  AppBarLayout mAppBarLayout;
 
-    @Inject()
+    @Inject
     PerfilContract.PerfilPresenter mPerfilPresenter;
 
     private ProfileDB mProfile;

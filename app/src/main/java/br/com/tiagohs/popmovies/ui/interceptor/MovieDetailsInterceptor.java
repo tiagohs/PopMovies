@@ -2,16 +2,19 @@ package br.com.tiagohs.popmovies.ui.interceptor;
 
 import javax.inject.Inject;
 
-import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.database.repository.MovieRepository;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.server.methods.MoviesMethod;
+import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
 public class MovieDetailsInterceptor implements MovieDetailsContract.MovieDetailsInterceptor {
+    private final String US_LOCALE = "en-US";
 
     private MoviesMethod mMoviesMethod;
     private MovieRepository mMovieRepository;
@@ -24,8 +27,23 @@ public class MovieDetailsInterceptor implements MovieDetailsContract.MovieDetail
 
     @Override
     public Observable<MovieDetails> getMovieDetails(int movieID, String[] appendToResponse) {
-        return mMoviesMethod.getMovieDetails(movieID, appendToResponse)
-                .subscribeOn(Schedulers.io());
+        Observable<MovieDetails> mCurrentLanguageMovieDetails = mMoviesMethod.getMovieDetails(movieID, appendToResponse);
+        Observable<MovieDetails> mUsLanguageMovieDetails = mMoviesMethod.getMovieDetails(movieID, appendToResponse, US_LOCALE);
+
+        return Observable.zip(mCurrentLanguageMovieDetails, mUsLanguageMovieDetails, new BiFunction<MovieDetails, MovieDetails, MovieDetails>() {
+                                    @Override
+                                    public MovieDetails apply(MovieDetails movieDetails, MovieDetails movieDetails2) throws Exception {
+
+                                        if (EmptyUtils.isEmpty(movieDetails.getOverview()))
+                                            movieDetails.setOverview(movieDetails2.getOverview());
+
+                                        if (movieDetails.getRuntime() == 0)
+                                            movieDetails.setRuntime(movieDetails2.getRuntime());
+
+                                        return movieDetails;
+                                    }
+                                })
+                          .subscribeOn(Schedulers.io());
     }
 
     @Override

@@ -24,6 +24,8 @@ import br.com.tiagohs.popmovies.ui.contracts.ListMoviesDefaultContract;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.ui.tools.EndlessRecyclerView;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
@@ -102,7 +104,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, int fragmentLayoutId, List<MovieListDTO> listMovies, Bundle arguments) {
 
-        if (arguments != null) {
+        if (EmptyUtils.isNotNull(arguments)) {
             arguments.putSerializable(ARG_LIST_MOVIES, (ArrayList<MovieListDTO>) listMovies);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
@@ -116,7 +118,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static ListMoviesDefaultFragment newInstance(Sort typeList, int fragmentLayoutId, int layoutID, Bundle arguments) {
 
-        if (arguments != null) {
+        if (EmptyUtils.isNotNull(arguments)) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_SORT, typeList);
@@ -129,7 +131,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, int fragmentLayoutId, DiscoverDTO discoverDTO, Bundle arguments) {
 
-        if (arguments != null) {
+        if (EmptyUtils.isNotNull(arguments)) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_DISCOVERY_DTO, discoverDTO);
@@ -143,7 +145,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static ListMoviesDefaultFragment newInstance(int id, Sort typeList, int layoutID, int fragmentLayoutId, DiscoverDTO discoverDTO, Bundle arguments) {
 
-        if (arguments != null) {
+        if (EmptyUtils.isNotNull(arguments)) {
             arguments.putInt(ARG_ID, id);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
@@ -215,7 +217,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
             mPresenter.getMovies(mID, mTypeList, TAG, mDiscoverDTO);
         }
 
-        if (mSwipeRefreshLayout != null)
+        if (EmptyUtils.isNotNull(mSwipeRefreshLayout))
             mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -236,7 +238,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
         mPresenter.setProfileID(PrefsUtils.getCurrentProfile(getContext()).getProfileID());
 
-        if (mSwipeRefreshLayout != null) {
+        if (EmptyUtils.isNotNull(mSwipeRefreshLayout)) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -291,7 +293,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     public void updateAdapter() {
 
         if (!mListMovies.isEmpty()) {
-            if (mListMoviesAdapter != null) {
+            if (EmptyUtils.isNotNull(mListMoviesAdapter)) {
                 mListMoviesAdapter.setList(mListMovies);
                 mListMoviesAdapter.notifyDataSetChanged();
             } else

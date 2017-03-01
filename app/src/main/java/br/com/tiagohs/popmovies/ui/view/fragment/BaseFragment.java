@@ -19,6 +19,7 @@ import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.ui.view.activity.BaseActivity;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
 import butterknife.ButterKnife;
@@ -134,13 +135,13 @@ public abstract class BaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        if (mBinder != null)
+        if (EmptyUtils.isNotNull(mBinder))
             mBinder.unbind();
 
-        if (materialDialog != null)
+        if (EmptyUtils.isNotNull(materialDialog))
             hideDialogProgress();
 
-        if (mSnackbar != null)
+        if (EmptyUtils.isNotNull(mSnackbar))
             mSnackbar.dismiss();
 
 

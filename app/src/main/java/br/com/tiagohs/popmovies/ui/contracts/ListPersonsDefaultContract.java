@@ -5,8 +5,8 @@ import java.util.List;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.model.person.PersonFind;
 import br.com.tiagohs.popmovies.model.response.GenericListResponse;
-import br.com.tiagohs.popmovies.ui.presenter.BasePresenter;
-import br.com.tiagohs.popmovies.ui.view.BaseView;
+import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
+import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
 /**
@@ -21,12 +21,12 @@ public class ListPersonsDefaultContract {
 
     }
 
-    public interface ListPersonsDefaultPresenter extends BasePresenter<ListPersonsDefaultView> {
+    public interface ListPersonsDefaultPresenter extends IPresenter<ListPersonsDefaultView> {
 
         void getPersons();
     }
 
-    public interface ListPersonsDefaultView extends BaseView {
+    public interface ListPersonsDefaultView extends IView {
 
         void setProgressVisibility(int visibityState);
         void setRecyclerViewVisibility(int visibilityState);

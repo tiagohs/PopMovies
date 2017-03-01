@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.ui.contracts.SearchContract;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.ui.tools.EndlessRecyclerView;
 import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.ui.adapters.SearchMovieAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.SearchCallback;

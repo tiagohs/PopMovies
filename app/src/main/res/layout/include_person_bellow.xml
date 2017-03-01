@@ -17,11 +17,12 @@
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/filmes_total_person_riple"
-            app:mrl_rippleColor="@color/secondary_text"
+            app:mrl_rippleColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
             android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textColor="@color/primary_text"
-                    android:textSize="35dp"/>
+                    android:textSize="@dimen/person_detail_total_filmes_txt_size"/>
 
                 <TextView
                     android:id="@+id/label_total_filmes"
@@ -45,8 +46,8 @@
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:textColor="@color/secondary_text"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15dp"/>
+                    android:layout_marginTop="@dimen/margin_default_min"
+                    android:textSize="@dimen/txt_size_medium"/>
 
             </LinearLayout>
         </com.balysv.materialripple.MaterialRippleLayout>
@@ -73,7 +74,7 @@
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textColor="@color/primary_text"
-                    android:textSize="35dp"/>
+                    android:textSize="@dimen/person_detail_total_filmes_txt_size"/>
 
                 <TextView
                     android:id="@+id/label_total_fotos"
@@ -82,8 +83,8 @@
                     android:gravity="center"
                     android:textColor="@color/secondary_text"
                     android:fontFamily="sans-serif-light"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15dp"/>
+                    android:layout_marginTop="@dimen/margin_default_min"
+                    android:textSize="@dimen/txt_size_medium"/>
 
             </LinearLayout>
         </com.balysv.materialripple.MaterialRippleLayout>

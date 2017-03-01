@@ -1,7 +1,6 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,8 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.SearchContract;
 import br.com.tiagohs.popmovies.model.movie.Movie;
+import br.com.tiagohs.popmovies.ui.contracts.SearchContract;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
@@ -89,23 +88,24 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
             ImageUtils.load(mContext, movie.getPosterPath(), mImageView, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.LOGO_185, mProgress);
 
             mTitleMovie.setText(mMovie.getTitle());
-            mTitleMovie.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
             mGeners.setText(MovieUtils.formatGeneres(mContext, mMovie.getGenreIDs()));
-            mGeners.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "openSansItalic.ttf"));
             mMovieAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
-            mMovieAnoLancamento.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "opensans.ttf"));
 
-            mPresenter.isJaAssistido(movie.getId())
-                      .observeOn(AndroidSchedulers.mainThread())
-                      .subscribe(new Consumer<Boolean>() {
-                          @Override
-                          public void accept(Boolean isWatched) throws Exception {
-                              if (isWatched) {
-                                  mIsWatchPressed = true;
-                                  mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, R.drawable.ic_assistido_green));
-                              }
-                          }
-                      });
+            try {
+                mPresenter.isJaAssistido(movie.getId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean isWatched) {
+                                if (isWatched) {
+                                    mIsWatchPressed = true;
+                                    mJaAssistiButton.setImageDrawable(ViewUtils.getDrawableFromResource(mContext, R.drawable.ic_assistido_green));
+                                }
+                            }
+                        });
+            } catch (Exception ex) {
+
+            }
 
             mJaAssistiButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,9 +115,9 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
                     mPresenter.getMovieDetails(mMovie.getId(), mIsWatchPressed, SearchMovieAdapter.class.getSimpleName());
 
                     if (mIsWatchPressed)
-                        updateState(R.drawable.ic_assistido_green, "Marcado como Assistido.");
+                        updateState(R.drawable.ic_assistido_green, mContext.getString(R.string.movie_details_watched_marked));
                     else
-                        updateState(R.drawable.ic_assitir_eye_yellow, "Desmarcado como Assistido.");
+                        updateState(R.drawable.ic_assitir_eye_yellow, mContext.getString(R.string.movie_details_watched_dont_marked));
                 }
             });
         }

@@ -10,9 +10,6 @@ import java.util.MissingResourceException;
 
 import br.com.tiagohs.popmovies.model.dto.LocaleDTO;
 
-/**
- * Created by Tiago Henrique on 04/09/2016.
- */
 public class LocaleUtils {
 
     public static Locale getLocaleAtual() {
