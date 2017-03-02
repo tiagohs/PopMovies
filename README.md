@@ -26,10 +26,10 @@
 ###Libaries utilizadas nesse Projeto:
 
 <ul>
-<li><a href="https://github.com/ReactiveX/RxAndroid">RxAndroid</a> - RxJava bindings for Android </li>
-<li><a href="https://github.com/ReactiveX/RxJava">RxJava</a> - Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM. </li>
-<li><a href="https://github.com/square/retrofit">Retrofit</a> - Type-safe HTTP client for Android and Java by Square, Inc.</li>
-<li><a href="https://github.com/square/dagger">Dagger</a> - A fast dependency injector for Android and Java.</li>
+<li><a href="https://github.com/ReactiveX/RxAndroid">RxAndroid 2</a> - RxJava bindings for Android </li>
+<li><a href="https://github.com/ReactiveX/RxJava">RxJava 2</a> - Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM. </li>
+<li><a href="https://github.com/square/retrofit">Retrofit 2</a> - Type-safe HTTP client for Android and Java by Square, Inc.</li>
+<li><a href="https://github.com/square/dagger">Dagger 2</a> - A fast dependency injector for Android and Java.</li>
 <li><a href="https://github.com/JakeWharton/butterknife">Butterknife</a> - Bind Android views and callbacks to fields and methods.</li>
 <li><a href="https://github.com/square/picasso">Picasso</a> - A powerful image downloading and caching library for Android .</li>
 <li><a href="https://github.com/google/gson">Gson</a> - A powerful image downloading and caching library for Android. </li>
