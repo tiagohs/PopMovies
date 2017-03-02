@@ -2,7 +2,9 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/picture_circle_container"
     android:layout_width="match_parent"
+    android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
@@ -11,6 +13,7 @@
         app:cardCornerRadius="@dimen/picture_circle_small_cardview_radius"
         android:layout_gravity="center"
         app:cardPreventCornerOverlap="false"
+        android:background="@android:color/transparent"
         android:shape="ring">
 
         <ImageView

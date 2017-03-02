@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "769423231247",
+    "project_id": "popmovies-141719"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769423231247:android:fe679ad475f74acf",
+        "android_client_info": {
+          "package_name": "br.com.tiagohs.popmovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769423231247-bra48d21715tfi4m4es23ffl8qf2kcgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tiagohs.popmovies",
+            "certificate_hash": "72d51ce7e81daa5e57cb17f1ec932bf6d7ac2d1f"
+          }
+        },
+        {
+          "client_id": "769423231247-ihqp473a3qjsqkt160bdb6bu14l5iitb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBorLMUetMx82sVlSLPwEMfZglKKV2RKqo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

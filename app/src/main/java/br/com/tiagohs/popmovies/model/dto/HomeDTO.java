@@ -1,12 +1,12 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-
-import java.util.Map;
 
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 
-public class HomeDTO {
+public class HomeDTO implements Parcelable {
     private String mTitle;
     private String mSubtitle;
     private Sort mTypeList;
@@ -51,4 +51,37 @@ public class HomeDTO {
         mFragment = fragment;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mTitle);
+        dest.writeString(this.mSubtitle);
+        dest.writeInt(this.mTypeList == null ? -1 : this.mTypeList.ordinal());
+        dest.writeValue(this.mFragment);
+    }
+
+    protected HomeDTO(Parcel in) {
+        this.mTitle = in.readString();
+        this.mSubtitle = in.readString();
+        int tmpMTypeList = in.readInt();
+        this.mTypeList = tmpMTypeList == -1 ? null : Sort.values()[tmpMTypeList];
+        this.mFragment = in.readParcelable(Fragment.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<HomeDTO> CREATOR = new Parcelable.Creator<HomeDTO>() {
+        @Override
+        public HomeDTO createFromParcel(Parcel source) {
+            return new HomeDTO(source);
+        }
+
+        @Override
+        public HomeDTO[] newArray(int size) {
+            return new HomeDTO[size];
+        }
+    };
 }

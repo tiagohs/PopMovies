@@ -29,6 +29,7 @@ import br.com.tiagohs.popmovies.model.dto.GenrerMoviesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.ui.contracts.PerfilEstatisticasContract;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -38,6 +39,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEstatisticasContract.PerfilEstatisticasView {
+
+    private static final int CONTAINER_PRINCIPAL_ANIMATION_DURATION = 1000;
 
     @BindView(R.id.total_anos)                          TextView mTotalAnosAssistidos;
     @BindView(R.id.label_total_anos)                    TextView mTotalAnosAssistidosLabel;
@@ -277,6 +280,10 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     }
 
     public void setContainerPrincipalVisibility(int visibility) {
+
+        if (visibility == View.VISIBLE)
+            mContainerPrincipal.setAnimation(AnimationsUtils.createFadeInAnimation(CONTAINER_PRINCIPAL_ANIMATION_DURATION));
+
         mContainerPrincipal.setVisibility(visibility);
     }
 

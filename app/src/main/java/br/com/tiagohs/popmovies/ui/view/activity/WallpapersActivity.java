@@ -27,7 +27,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
 
     public static Intent newIntent(Context context, List<ImageDTO> wallpapers, String pageTitle, String pageSubtitle) {
         Intent intent = new Intent(context, WallpapersActivity.class);
-        intent.putExtra(ARG_WALLPAPERS, (ArrayList<ImageDTO>) wallpapers);
+        intent.putParcelableArrayListExtra(ARG_WALLPAPERS, (ArrayList<ImageDTO>) wallpapers);
         intent.putExtra(ARG_TITLE_PAGE, pageTitle);
         intent.putExtra(ARG_SUBTITLE_PAGE, pageSubtitle);
 
@@ -38,7 +38,7 @@ public class WallpapersActivity extends BaseActivity implements ImagesCallbacks 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mWallpapers = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_WALLPAPERS);
+        mWallpapers = getIntent().getParcelableArrayListExtra(ARG_WALLPAPERS);
         mPageTitle = getIntent().getStringExtra(ARG_TITLE_PAGE);
         mPageSubtitle = getIntent().getStringExtra(ARG_SUBTITLE_PAGE);
 

@@ -20,10 +20,11 @@
  */
 package br.com.tiagohs.popmovies.model.credits;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-
-import java.io.Serializable;
 
 import br.com.tiagohs.popmovies.util.enumerations.CreditType;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
@@ -31,7 +32,7 @@ import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 /**
  * @author stuart.boston
  */
-public class CreditBasic implements Serializable {
+public class CreditBasic implements Parcelable {
 
     private static final long serialVersionUID = 100L;
 
@@ -126,4 +127,48 @@ public class CreditBasic implements Serializable {
         setCreditType(CreditType.CREW);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.creditType == null ? -1 : this.creditType.ordinal());
+        dest.writeInt(this.mediaType == null ? -1 : this.mediaType.ordinal());
+        dest.writeString(this.creditId);
+        dest.writeInt(this.id);
+        dest.writeString(this.artworkPath);
+        dest.writeString(this.character);
+        dest.writeString(this.department);
+        dest.writeString(this.job);
+    }
+
+    public CreditBasic() {
+    }
+
+    protected CreditBasic(Parcel in) {
+        int tmpCreditType = in.readInt();
+        this.creditType = tmpCreditType == -1 ? null : CreditType.values()[tmpCreditType];
+        int tmpMediaType = in.readInt();
+        this.mediaType = tmpMediaType == -1 ? null : MediaType.values()[tmpMediaType];
+        this.creditId = in.readString();
+        this.id = in.readInt();
+        this.artworkPath = in.readString();
+        this.character = in.readString();
+        this.department = in.readString();
+        this.job = in.readString();
+    }
+
+    public static final Parcelable.Creator<CreditBasic> CREATOR = new Parcelable.Creator<CreditBasic>() {
+        @Override
+        public CreditBasic createFromParcel(Parcel source) {
+            return new CreditBasic(source);
+        }
+
+        @Override
+        public CreditBasic[] newArray(int size) {
+            return new CreditBasic[size];
+        }
+    };
 }

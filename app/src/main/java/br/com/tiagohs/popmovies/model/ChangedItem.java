@@ -19,12 +19,13 @@
  */
 package br.com.tiagohs.popmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
-public class ChangedItem implements Serializable {
+public class ChangedItem implements Parcelable {
 
-    private static final long serialVersionUID = 100L;
     @JsonProperty("id")
     private String id;
     @JsonProperty("action")
@@ -86,4 +87,43 @@ public class ChangedItem implements Serializable {
         this.originalValue = originalValue;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.action);
+        dest.writeString(this.time);
+        dest.writeString(this.language);
+        dest.writeValue(this.value);
+        dest.writeValue(this.originalValue);
+    }
+
+    public ChangedItem() {
+    }
+
+    protected ChangedItem(Parcel in) {
+        this.id = in.readString();
+        this.action = in.readString();
+        this.time = in.readString();
+        this.language = in.readString();
+        this.value = in.readParcelable(Object.class.getClassLoader());
+        this.originalValue = in.readParcelable(Object.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ChangedItem> CREATOR = new Parcelable.Creator<ChangedItem>() {
+        @Override
+        public ChangedItem createFromParcel(Parcel source) {
+            return new ChangedItem(source);
+        }
+
+        @Override
+        public ChangedItem[] newArray(int size) {
+            return new ChangedItem[size];
+        }
+    };
 }

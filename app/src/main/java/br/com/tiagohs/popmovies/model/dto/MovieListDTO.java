@@ -1,10 +1,9 @@
 package br.com.tiagohs.popmovies.model.dto;
 
-import android.util.Log;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
-
-public class MovieListDTO implements Serializable {
+public class MovieListDTO implements Parcelable {
     private int mMovieID;
     private String creditID;
     private String movieName;
@@ -111,4 +110,43 @@ public class MovieListDTO implements Serializable {
     public int hashCode() {
         return super.hashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mMovieID);
+        dest.writeString(this.creditID);
+        dest.writeString(this.movieName);
+        dest.writeString(this.mPosterPath);
+        dest.writeString(this.voteAverage);
+        dest.writeByte(this.jaAssistido ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.favorito ? (byte) 1 : (byte) 0);
+    }
+
+    protected MovieListDTO(Parcel in) {
+        this.mMovieID = in.readInt();
+        this.creditID = in.readString();
+        this.movieName = in.readString();
+        this.mPosterPath = in.readString();
+        this.voteAverage = in.readString();
+        this.jaAssistido = in.readByte() != 0;
+        this.favorito = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<MovieListDTO> CREATOR = new Parcelable.Creator<MovieListDTO>() {
+        @Override
+        public MovieListDTO createFromParcel(Parcel source) {
+            return new MovieListDTO(source);
+        }
+
+        @Override
+        public MovieListDTO[] newArray(int size) {
+            return new MovieListDTO[size];
+        }
+    };
 }

@@ -26,14 +26,14 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.PerfilEditContract;
 import br.com.tiagohs.popmovies.model.dto.ImageSaveDTO;
+import br.com.tiagohs.popmovies.ui.callbacks.PerfilEditCallbacks;
+import br.com.tiagohs.popmovies.ui.contracts.PerfilEditContract;
 import br.com.tiagohs.popmovies.ui.tools.ImageIntentPicker;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.LocaleUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
-import br.com.tiagohs.popmovies.ui.callbacks.PerfilEditCallbacks;
 import butterknife.BindView;
 
 
@@ -237,8 +237,8 @@ public class PerfilEditFragment extends BaseFragment implements PerfilEditContra
         setEditTextValue(descricao, mEditDescricao);
     }
 
-    public void setPhoto(String path) {
-        ImageUtils.load(getContext(), path, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mPhotoPerfil, mProgressFotoPerfil);
+    public void setPhoto(String path, String name) {
+        ImageUtils.load(getContext(), path, name,  mPhotoPerfil, mProgressFotoPerfil);
     }
 
     @Override

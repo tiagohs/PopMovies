@@ -19,16 +19,17 @@
  */
 package br.com.tiagohs.popmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @JsonRootName("spoken_language")
-public class Language implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class Language implements Parcelable {
 
     @JsonProperty("iso_639_1")
     private String code;
@@ -71,4 +72,36 @@ public class Language implements Serializable {
                 .append(name)
                 .toHashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.code);
+        dest.writeString(this.name);
+    }
+
+    public Language() {
+    }
+
+    protected Language(Parcel in) {
+        this.code = in.readString();
+        this.name = in.readString();
+    }
+
+    public static final Parcelable.Creator<Language> CREATOR = new Parcelable.Creator<Language>() {
+        @Override
+        public Language createFromParcel(Parcel source) {
+            return new Language(source);
+        }
+
+        @Override
+        public Language[] newArray(int size) {
+            return new Language[size];
+        }
+    };
 }

@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.model.atwork.Artwork;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
@@ -43,14 +42,20 @@ import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
+import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.ui.callbacks.MovieDontWantSeeCallback;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieFavoriteCallback;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieVideosCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieWantSeeCallback;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieWatchedCallback;
 import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
+import br.com.tiagohs.popmovies.ui.callbacks.ReviewCallbacks;
+import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.ui.tools.AppBarMovieListener;
 import br.com.tiagohs.popmovies.ui.tools.EllipsizingTextView;
+import br.com.tiagohs.popmovies.ui.view.fragment.MovieDetailsFragment;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
@@ -64,11 +69,6 @@ import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
-import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
-import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
-import br.com.tiagohs.popmovies.ui.callbacks.MovieDontWantSeeCallback;
-import br.com.tiagohs.popmovies.ui.callbacks.ReviewCallbacks;
-import br.com.tiagohs.popmovies.ui.view.fragment.MovieDetailsFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -82,13 +82,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
     private static final int RECYCLER_VIEW_ORIENTATION = LinearLayoutManager.HORIZONTAL;
 
-
     private static final int TAB_SHOW_ANIMATION_DURATION = 2000;
+    private static final int IMAGE_SCALE_UP_ANIMATION_DURATION = 500;
 
     private static final String MOVIE = "movie";
     private static final String START = "start";
     private static final String EXTRA_MOVIE_ID = "br.com.tiagohs.popmovies.movie";
-    private static final int IMAGE_SCALE_UP_ANIMATION_DURATION = 500;
 
     @BindView(R.id.movie_detail_app_bar)          AppBarLayout mAppBarLayout;
     @BindView(R.id.poster_movie)                  ImageView mPosterMovie;
@@ -131,7 +130,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
         mJaAssistiButton.hide();
 
-        mMovieID = (int) getIntent().getSerializableExtra(EXTRA_MOVIE_ID);
+        mMovieID = getIntent().getIntExtra(EXTRA_MOVIE_ID, 0);
         mPresenter.getMovieDetails(mMovieID);
     }
 
@@ -217,7 +216,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
         mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
 
-
     }
 
     public void setupTabs() {
@@ -230,7 +228,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(MOVIE, mMovie);
+        outState.putParcelable(MOVIE, mMovie);
         outState.putBoolean(START, isStarted);
     }
 
@@ -317,12 +315,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     private boolean isAuthResolveIntent(Intent intent) {
         List<ResolveInfo> resolveInfo = this.getPackageManager().queryIntentActivities(intent, 0);
         return EmptyUtils.isNotNull(resolveInfo) && !resolveInfo.isEmpty();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
     }
 
     @Override
@@ -447,8 +439,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
 
     @Override
-    public void onClickImage(List<ImageDTO> imagens,  ImageDTO imageDTO) {
-        startActivity(WallpapersDetailActivity.newIntent(this, imagens, imageDTO, getString(R.string.wallpapers_title), mMovie.getTitle(), TypeShowImage.WALLPAPER_IMAGES));
+    public void onClickImage(final List<ImageDTO> imagens,  final ImageDTO imageDTO) {
+        startActivity(WallpapersDetailActivity.newIntent(MovieDetailActivity.this, imagens, imageDTO, getString(R.string.wallpapers_title), mMovie.getTitle(), TypeShowImage.WALLPAPER_IMAGES));
     }
 
     @Override

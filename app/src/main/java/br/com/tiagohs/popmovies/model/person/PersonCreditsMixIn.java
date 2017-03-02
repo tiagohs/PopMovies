@@ -19,6 +19,9 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -29,7 +32,7 @@ import br.com.tiagohs.popmovies.model.credits.CreditBasic;
 import br.com.tiagohs.popmovies.model.credits.CreditMovieBasic;
 import br.com.tiagohs.popmovies.model.credits.CreditTVBasic;
 
-public class PersonCreditsMixIn {
+public class PersonCreditsMixIn implements Parcelable {
 
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.NAME,
@@ -61,4 +64,31 @@ public class PersonCreditsMixIn {
         // Mixin empty class
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    }
+
+    public PersonCreditsMixIn() {
+    }
+
+    protected PersonCreditsMixIn(Parcel in) {
+    }
+
+    public static final Parcelable.Creator<PersonCreditsMixIn> CREATOR = new Parcelable.Creator<PersonCreditsMixIn>() {
+        @Override
+        public PersonCreditsMixIn createFromParcel(Parcel source) {
+            return new PersonCreditsMixIn(source);
+        }
+
+        @Override
+        public PersonCreditsMixIn[] newArray(int size) {
+            return new PersonCreditsMixIn[size];
+        }
+    };
 }

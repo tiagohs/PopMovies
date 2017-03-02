@@ -3,6 +3,7 @@ package br.com.tiagohs.popmovies.ui.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -38,6 +45,7 @@ import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.ui.contracts.LoginContract;
+import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
@@ -49,6 +57,8 @@ import retrofit2.Call;
 public class LoginActivity extends BaseActivity implements LoginContract.LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
+    private static final int GOOGLE_SIGN_IN = 100;
+
     private static final String USER_ID_KEY = "id";
     private static final String USER_NAME_KEY = "name";
     private static final String USER_EMAIL_KEY = "email";
@@ -56,6 +66,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     @BindView(R.id.login_facebook_button)               Button mLoginFacebookButton;
     @BindView(R.id.login_twitter_button)                Button mLoginTwitterButton;
+    @BindView(R.id.login_google_button)                 Button mLoginGoogleButton;
     @BindView(R.id.login_facebook_button_original)      LoginButton mLoginFacebookOriginalButton;
     @BindView(R.id.login_twitter_button_original)       TwitterLoginButton mLoginTwitterOriginalButton;
     @BindView(R.id.title_app)                           TextView mTitle;
@@ -64,8 +75,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
     LoginContract.LoginPresenter mPresenter;
 
     private CallbackManager mFacebookCallbackManager;
-
     private TwitterSession mSession;
+
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
+
     private String mUsername;
     private String mEmail;
     private String mName;
@@ -97,6 +111,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
         onSetupFacebook();
         onSetupTwitter();
+        onSetupGoogle();
     }
 
     @Override
@@ -152,6 +167,44 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             @Override
             public void onClick(View v) {
                 mLoginTwitterOriginalButton.performClick();
+                setGoogleButtonVisibility(View.GONE);
+                setTwitterButtonVisibility(View.GONE);
+                setFacebookButtonVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void onSetupGoogle() {
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_google_error));
+
+                        setGoogleButtonVisibility(View.VISIBLE);
+                        setTwitterButtonVisibility(View.VISIBLE);
+                        setFacebookButtonVisibility(View.VISIBLE);
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        mLoginGoogleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mGoogleApiClient.isConnected())
+                    mGoogleApiClient.disconnect();
+
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+
+                setGoogleButtonVisibility(View.GONE);
                 setTwitterButtonVisibility(View.GONE);
                 setFacebookButtonVisibility(View.GONE);
             }
@@ -187,6 +240,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                                     finish();
                                 } catch (Exception e) {
                                     ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
+                                    setGoogleButtonVisibility(View.VISIBLE);
                                     setFacebookButtonVisibility(View.VISIBLE);
                                     setTwitterButtonVisibility(View.VISIBLE);
                                 }
@@ -204,6 +258,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             @Override
             public void onCancel() {
                 ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_cancelled));
+                setGoogleButtonVisibility(View.VISIBLE);
                 setFacebookButtonVisibility(View.VISIBLE);
                 setTwitterButtonVisibility(View.VISIBLE);
             }
@@ -211,6 +266,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             @Override
             public void onError(FacebookException e) {
                 ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
+                setGoogleButtonVisibility(View.VISIBLE);
                 setFacebookButtonVisibility(View.VISIBLE);
                 setTwitterButtonVisibility(View.VISIBLE);
             }
@@ -234,6 +290,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                     @Override
                     public void failure(TwitterException e) {
                         ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                        setGoogleButtonVisibility(View.VISIBLE);
                         setTwitterButtonVisibility(View.VISIBLE);
                         setFacebookButtonVisibility(View.VISIBLE);
                     }
@@ -251,6 +308,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                             finish();
                         } catch (Exception e) {
                             ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                            setGoogleButtonVisibility(View.VISIBLE);
                             setTwitterButtonVisibility(View.VISIBLE);
                             setFacebookButtonVisibility(View.VISIBLE);
                         }
@@ -264,12 +322,38 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             @Override
             public void failure(TwitterException exception) {
                 ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                setGoogleButtonVisibility(View.VISIBLE);
                 setTwitterButtonVisibility(View.VISIBLE);
                 setFacebookButtonVisibility(View.VISIBLE);
             }
         };
     }
 
+    private void googleCallback(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            mUsername = acct.getEmail();
+            mName = acct.getDisplayName();
+            mToken = acct.getIdToken();
+
+            if (acct.getPhotoUrl() != null)
+                mPathFoto = acct.getPhotoUrl().toString();
+
+            mEmail = acct.getEmail();
+
+            setUserData();
+
+            startActivity(HomeActivity.newIntent(LoginActivity.this));
+            finish();
+        } else {
+            ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_google_error));
+
+            setGoogleButtonVisibility(View.VISIBLE);
+            setTwitterButtonVisibility(View.VISIBLE);
+            setFacebookButtonVisibility(View.VISIBLE);
+        }
+    }
 
     private void setUserData() {
         mPresenter.onSaveProfile(mUsername, mEmail, mName, mTypeLogin, mToken, mPathFoto, UserDB.PHOTO_ONLINE);
@@ -284,14 +368,35 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         mLoginTwitterOriginalButton.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GOOGLE_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            googleCallback(result);
+        }
     }
 
     private void setFacebookButtonVisibility(int visibility) {
-        mLoginFacebookButton.setVisibility(visibility);
+
+        if (visibility == View.VISIBLE)
+            AnimationsUtils.createShowCircularReveal(mLoginFacebookButton);
+        else
+            AnimationsUtils.createHideCircularReveal(mLoginFacebookButton);
     }
 
     private void setTwitterButtonVisibility(int visibility) {
-        mLoginTwitterButton.setVisibility(visibility);
+
+        if (visibility == View.VISIBLE)
+            AnimationsUtils.createShowCircularReveal(mLoginTwitterButton);
+        else
+            AnimationsUtils.createHideCircularReveal(mLoginTwitterButton);
+    }
+
+    private void setGoogleButtonVisibility(int visibility) {
+
+        if (visibility == View.VISIBLE)
+            AnimationsUtils.createShowCircularReveal(mLoginGoogleButton);
+        else
+            AnimationsUtils.createHideCircularReveal(mLoginGoogleButton);
     }
 
     @Override

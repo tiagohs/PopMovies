@@ -103,8 +103,7 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
 
     public void setBackground(String backgroundPath) {
         ImageUtils.loadWithBlur(this, backgroundPath, mBackgroundPerfil, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
-
-        }
+    }
 
     private AppBarMovieListener onOffsetChangedListener() {
         return new AppBarMovieListener() {
@@ -139,7 +138,7 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
     }
 
     public void setImagePerfil(String imagePath) {
-        ImageUtils.load(this, imagePath, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mImagePerfil, mProgressFotoPerfil);
+        ImageUtils.load(this, imagePath, mProfileDB.getUser().getNome(),  mImagePerfil, mProgressFotoPerfil);
     }
 
     public void setLocalImagePerfil() {

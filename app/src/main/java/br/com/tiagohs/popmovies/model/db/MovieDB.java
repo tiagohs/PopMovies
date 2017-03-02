@@ -1,10 +1,13 @@
 package br.com.tiagohs.popmovies.model.db;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Calendar;
 import java.util.List;
 
-public class MovieDB {
+public class MovieDB implements Parcelable {
     public static final int STATUS_WATCHED = 0;
     public static final int STATUS_WANT_SEE = 1;
     public static final int STATUS_DONT_WANT_SEE = 2;
@@ -146,4 +149,53 @@ public class MovieDB {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeInt(this.idServer);
+        dest.writeInt(this.status);
+        dest.writeInt(this.runtime);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.title);
+        dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
+        dest.writeDouble(this.vote);
+        dest.writeLong(this.profileID);
+        dest.writeSerializable(this.dateSaved);
+        dest.writeSerializable(this.releaseDate);
+        dest.writeInt(this.releaseYear);
+        dest.writeTypedList(this.genres);
+    }
+
+    protected MovieDB(Parcel in) {
+        this.id = in.readLong();
+        this.idServer = in.readInt();
+        this.status = in.readInt();
+        this.runtime = in.readInt();
+        this.posterPath = in.readString();
+        this.title = in.readString();
+        this.favorite = in.readByte() != 0;
+        this.vote = in.readDouble();
+        this.profileID = in.readLong();
+        this.dateSaved = (Calendar) in.readSerializable();
+        this.releaseDate = (Calendar) in.readSerializable();
+        this.releaseYear = in.readInt();
+        this.genres = in.createTypedArrayList(GenreDB.CREATOR);
+    }
+
+    public static final Parcelable.Creator<MovieDB> CREATOR = new Parcelable.Creator<MovieDB>() {
+        @Override
+        public MovieDB createFromParcel(Parcel source) {
+            return new MovieDB(source);
+        }
+
+        @Override
+        public MovieDB[] newArray(int size) {
+            return new MovieDB[size];
+        }
+    };
 }

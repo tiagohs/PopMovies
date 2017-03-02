@@ -49,7 +49,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
 
     public static PersonDetailCarrerFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_PERSON, personInfo);
+        bundle.putParcelable(ARG_PERSON, personInfo);
 
         PersonDetailCarrerFragment personDetailCarrerFragment = new PersonDetailCarrerFragment();
         personDetailCarrerFragment.setArguments(bundle);
@@ -72,7 +72,7 @@ public class PersonDetailCarrerFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPersonInfo = (PersonInfo) getArguments().getSerializable(ARG_PERSON);
+        mPersonInfo = getArguments().getParcelable(ARG_PERSON);
         mCarrerList = new ArrayList<>();
     }
 

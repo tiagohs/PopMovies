@@ -1,12 +1,15 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Locale;
 
 /**
  * Created by Tiago on 22/01/2017.
  */
 
-public class LocaleDTO implements Comparable<LocaleDTO> {
+public class LocaleDTO implements Comparable<LocaleDTO>,Parcelable {
     private String displayCountryName;
     private String displayCountryLanguage;
     private String isoCountry;
@@ -84,4 +87,39 @@ public class LocaleDTO implements Comparable<LocaleDTO> {
         }
         return false;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.displayCountryName);
+        dest.writeString(this.displayCountryLanguage);
+        dest.writeString(this.isoCountry);
+        dest.writeString(this.isoLanguage);
+        dest.writeSerializable(this.locale);
+    }
+
+    protected LocaleDTO(Parcel in) {
+        this.displayCountryName = in.readString();
+        this.displayCountryLanguage = in.readString();
+        this.isoCountry = in.readString();
+        this.isoLanguage = in.readString();
+        this.locale = (Locale) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<LocaleDTO> CREATOR = new Parcelable.Creator<LocaleDTO>() {
+        @Override
+        public LocaleDTO createFromParcel(Parcel source) {
+            return new LocaleDTO(source);
+        }
+
+        @Override
+        public LocaleDTO[] newArray(int size) {
+            return new LocaleDTO[size];
+        }
+    };
 }

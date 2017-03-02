@@ -1,16 +1,14 @@
 package br.com.tiagohs.popmovies.model.movie;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.model.movie.Movie;
-
-public class CollectionDetails implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class CollectionDetails implements Parcelable {
 
     @JsonProperty("id")
     private int id;
@@ -72,4 +70,44 @@ public class CollectionDetails implements Serializable {
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.overview);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.backdropPath);
+        dest.writeTypedList(this.movies);
+    }
+
+    public CollectionDetails() {
+    }
+
+    protected CollectionDetails(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.overview = in.readString();
+        this.posterPath = in.readString();
+        this.backdropPath = in.readString();
+        this.movies = (ArrayList) in.createTypedArrayList(Movie.CREATOR);
+    }
+
+    public static final Parcelable.Creator<CollectionDetails> CREATOR = new Parcelable.Creator<CollectionDetails>() {
+        @Override
+        public CollectionDetails createFromParcel(Parcel source) {
+            return new CollectionDetails(source);
+        }
+
+        @Override
+        public CollectionDetails[] newArray(int size) {
+            return new CollectionDetails[size];
+        }
+    };
 }

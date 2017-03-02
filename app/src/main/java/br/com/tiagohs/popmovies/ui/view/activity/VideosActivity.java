@@ -29,7 +29,7 @@ public class VideosActivity extends BaseActivity {
 
     public static Intent newIntent(Context context, int movieID, List<Translation> translations, String pageTitle, String pageSubtitle) {
         Intent intent = new Intent(context, VideosActivity.class);
-        intent.putExtra(ARG_TRANSLATION, (ArrayList<Translation>) translations);
+        intent.putParcelableArrayListExtra(ARG_TRANSLATION, (ArrayList<Translation>) translations);
         intent.putExtra(ARG_MOVIE_ID, movieID);
         intent.putExtra(ARG_TITLE_PAGE, pageTitle);
         intent.putExtra(ARG_SUBTITLE_PAGE, pageSubtitle);
@@ -41,7 +41,7 @@ public class VideosActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTranslations = (ArrayList<Translation>) getIntent().getSerializableExtra(ARG_TRANSLATION);
+        mTranslations = getIntent().getParcelableArrayListExtra(ARG_TRANSLATION);
         mMovieID = getIntent().getIntExtra(ARG_MOVIE_ID, 0);
         mPageTitle = getIntent().getStringExtra(ARG_TITLE_PAGE);
         mPageSubtitle = getIntent().getStringExtra(ARG_SUBTITLE_PAGE);

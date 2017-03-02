@@ -19,12 +19,12 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
-public class ContentRating implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class ContentRating implements Parcelable {
 
     @JsonProperty("iso_3166_1")
     private String country;
@@ -47,4 +47,35 @@ public class ContentRating implements Serializable {
         this.rating = rating;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.country);
+        dest.writeString(this.rating);
+    }
+
+    public ContentRating() {
+    }
+
+    protected ContentRating(Parcel in) {
+        this.country = in.readString();
+        this.rating = in.readString();
+    }
+
+    public static final Parcelable.Creator<ContentRating> CREATOR = new Parcelable.Creator<ContentRating>() {
+        @Override
+        public ContentRating createFromParcel(Parcel source) {
+            return new ContentRating(source);
+        }
+
+        @Override
+        public ContentRating[] newArray(int size) {
+            return new ContentRating[size];
+        }
+    };
 }

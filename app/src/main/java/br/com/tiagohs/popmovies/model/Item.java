@@ -1,6 +1,9 @@
 package br.com.tiagohs.popmovies.model;
 
-public class Item {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Item implements Parcelable {
     public String mItemTextMarcado;
     public String mItemTextDesmarcado;
     public int mItemIconMarcado;
@@ -57,4 +60,39 @@ public class Item {
     public String toString() {
         return mItemTextMarcado;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mItemTextMarcado);
+        dest.writeString(this.mItemTextDesmarcado);
+        dest.writeInt(this.mItemIconMarcado);
+        dest.writeInt(this.mItemIconDesmarcado);
+        dest.writeInt(this.mColorID);
+    }
+
+    protected Item(Parcel in) {
+        this.mItemTextMarcado = in.readString();
+        this.mItemTextDesmarcado = in.readString();
+        this.mItemIconMarcado = in.readInt();
+        this.mItemIconDesmarcado = in.readInt();
+        this.mColorID = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel source) {
+            return new Item(source);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }

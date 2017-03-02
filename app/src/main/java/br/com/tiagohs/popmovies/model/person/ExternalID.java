@@ -19,16 +19,16 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
 /**
  *
  * @author Stuart
  */
-public class ExternalID implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class ExternalID implements Parcelable {
 
     @JsonProperty("id")
     private int id;
@@ -120,4 +120,50 @@ public class ExternalID implements Serializable {
     public void setInstagramID(String instagramID) {
         this.instagramID = instagramID;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.imdbId);
+        dest.writeString(this.freebaseMid);
+        dest.writeString(this.freebaseId);
+        dest.writeString(this.tvdbId);
+        dest.writeString(this.tvrageId);
+        dest.writeString(this.facebookId);
+        dest.writeString(this.twitterId);
+        dest.writeString(this.instagramID);
+    }
+
+    public ExternalID() {
+    }
+
+    protected ExternalID(Parcel in) {
+        this.id = in.readInt();
+        this.imdbId = in.readString();
+        this.freebaseMid = in.readString();
+        this.freebaseId = in.readString();
+        this.tvdbId = in.readString();
+        this.tvrageId = in.readString();
+        this.facebookId = in.readString();
+        this.twitterId = in.readString();
+        this.instagramID = in.readString();
+    }
+
+    public static final Parcelable.Creator<ExternalID> CREATOR = new Parcelable.Creator<ExternalID>() {
+        @Override
+        public ExternalID createFromParcel(Parcel source) {
+            return new ExternalID(source);
+        }
+
+        @Override
+        public ExternalID[] newArray(int size) {
+            return new ExternalID[size];
+        }
+    };
 }

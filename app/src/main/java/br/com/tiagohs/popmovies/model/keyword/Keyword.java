@@ -19,9 +19,10 @@
  */
 package br.com.tiagohs.popmovies.model.keyword;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import br.com.tiagohs.popmovies.model.IDNameAbstract;
 
@@ -29,8 +30,34 @@ import br.com.tiagohs.popmovies.model.IDNameAbstract;
  * @author stuart.boston
  */
 @JsonRootName("keyword")
-public class Keyword extends IDNameAbstract implements Serializable {
+public class Keyword extends IDNameAbstract implements Parcelable {
 
-    private static final long serialVersionUID = 100L;
     // Nothing to override from the base class.
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    }
+
+    public Keyword() {
+    }
+
+    protected Keyword(Parcel in) {
+    }
+
+    public static final Parcelable.Creator<Keyword> CREATOR = new Parcelable.Creator<Keyword>() {
+        @Override
+        public Keyword createFromParcel(Parcel source) {
+            return new Keyword(source);
+        }
+
+        @Override
+        public Keyword[] newArray(int size) {
+            return new Keyword[size];
+        }
+    };
 }

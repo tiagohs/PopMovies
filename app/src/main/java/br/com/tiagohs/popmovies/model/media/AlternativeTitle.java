@@ -19,19 +19,18 @@
  */
 package br.com.tiagohs.popmovies.model.media;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.io.Serializable;
-
 /**
  * @author Stuart
  */
-public class AlternativeTitle implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class AlternativeTitle implements Parcelable {
 
     @JsonProperty("iso_3166_1")
     private String country;
@@ -74,4 +73,36 @@ public class AlternativeTitle implements Serializable {
                 .append(title)
                 .toHashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.country);
+        dest.writeString(this.title);
+    }
+
+    public AlternativeTitle() {
+    }
+
+    protected AlternativeTitle(Parcel in) {
+        this.country = in.readString();
+        this.title = in.readString();
+    }
+
+    public static final Parcelable.Creator<AlternativeTitle> CREATOR = new Parcelable.Creator<AlternativeTitle>() {
+        @Override
+        public AlternativeTitle createFromParcel(Parcel source) {
+            return new AlternativeTitle(source);
+        }
+
+        @Override
+        public AlternativeTitle[] newArray(int size) {
+            return new AlternativeTitle[size];
+        }
+    };
 }

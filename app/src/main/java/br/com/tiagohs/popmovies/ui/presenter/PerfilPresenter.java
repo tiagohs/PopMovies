@@ -1,6 +1,5 @@
 package br.com.tiagohs.popmovies.ui.presenter;
 
-import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -44,8 +43,6 @@ public class PerfilPresenter extends BasePresenter<PerfilContract.PerfilView, Pe
         mView.setProfile(profile);
 
         getRandomBackground(profile);
-
-        Log.i(TAG, "P " + profile.getUser().getTypePhoto());
 
         if (profile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
             mView.setImagePerfil(profile.getUser().getPicturePath());

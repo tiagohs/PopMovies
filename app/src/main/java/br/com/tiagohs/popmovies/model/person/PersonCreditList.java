@@ -19,15 +19,18 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.CreditBasic;
 
-public class PersonCreditList<T extends CreditBasic> implements Serializable {
+public class PersonCreditList<T extends CreditBasic> implements Parcelable {
 
     private static final long serialVersionUID = 101L;
 
@@ -61,4 +64,38 @@ public class PersonCreditList<T extends CreditBasic> implements Serializable {
     public void setCrew(List<T> crew) {
         this.crew = crew;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeTypedList(this.cast);
+        dest.writeTypedList(this.crew);
+    }
+
+    public PersonCreditList() {
+    }
+
+    protected PersonCreditList(Parcel in) {
+        this.id = in.readInt();
+        this.cast = (ArrayList) in.createTypedArrayList(T.CREATOR);
+        this.crew = (ArrayList) in.createTypedArrayList(T.CREATOR);
+    }
+
+    public static final Parcelable.Creator<PersonCreditList> CREATOR = new Parcelable.Creator<PersonCreditList>() {
+        @Override
+        public PersonCreditList createFromParcel(Parcel source) {
+            return new PersonCreditList(source);
+        }
+
+        @Override
+        public PersonCreditList[] newArray(int size) {
+            return new PersonCreditList[size];
+        }
+    };
 }

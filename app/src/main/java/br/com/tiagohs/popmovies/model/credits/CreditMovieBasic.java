@@ -21,14 +21,12 @@ package br.com.tiagohs.popmovies.model.credits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
 /**
  * @author stuart.boston
  */
-public class CreditMovieBasic extends CreditBasic implements Serializable {
+public class CreditMovieBasic extends CreditBasic {
 
     private static final long serialVersionUID = 100L;
 
@@ -137,5 +135,10 @@ public class CreditMovieBasic extends CreditBasic implements Serializable {
         }
         return false;
 
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

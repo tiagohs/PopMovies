@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress_image_circle);
 
             if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-                ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  fotoPerfil, progress);
+                ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), mProfileDB.getUser().getNome(), R.drawable.placeholder_images_default,  fotoPerfil, progress);
             else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
                 fotoPerfil.setImageBitmap(ImageUtils.getBitmapFromPath(mProfileDB.getUser().getLocalPicture(), this));
 

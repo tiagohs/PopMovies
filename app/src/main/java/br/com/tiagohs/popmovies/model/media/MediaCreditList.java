@@ -19,6 +19,9 @@
  */
 package br.com.tiagohs.popmovies.model.media;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Collections;
@@ -30,7 +33,7 @@ import br.com.tiagohs.popmovies.model.credits.MediaCreditCrew;
 /**
  * @author stuart.boston
  */
-public class MediaCreditList implements Serializable {
+public class MediaCreditList implements Serializable, Parcelable {
 
     private static final long serialVersionUID = 100L;
 
@@ -75,4 +78,39 @@ public class MediaCreditList implements Serializable {
         this.guestStars = guestStars;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeTypedList(this.cast);
+        dest.writeTypedList(this.guestStars);
+        dest.writeTypedList(this.crew);
+    }
+
+    public MediaCreditList() {
+    }
+
+    protected MediaCreditList(Parcel in) {
+        this.id = in.readInt();
+        this.cast = in.createTypedArrayList(MediaCreditCast.CREATOR);
+        this.guestStars = in.createTypedArrayList(MediaCreditCast.CREATOR);
+        this.crew = in.createTypedArrayList(MediaCreditCrew.CREATOR);
+    }
+
+    public static final Parcelable.Creator<MediaCreditList> CREATOR = new Parcelable.Creator<MediaCreditList>() {
+        @Override
+        public MediaCreditList createFromParcel(Parcel source) {
+            return new MediaCreditList(source);
+        }
+
+        @Override
+        public MediaCreditList[] newArray(int size) {
+            return new MediaCreditList[size];
+        }
+    };
 }

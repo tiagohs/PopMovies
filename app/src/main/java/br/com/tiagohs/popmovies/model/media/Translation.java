@@ -19,8 +19,11 @@
  */
 package br.com.tiagohs.popmovies.model.media;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,9 +32,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * @author Stuart
  */
-public class Translation implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class Translation implements Parcelable {
 
     @JsonProperty("english_name")
     private String englishName;
@@ -101,4 +102,40 @@ public class Translation implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.englishName);
+        dest.writeString(this.language);
+        dest.writeString(this.name);
+        dest.writeString(this.country);
+    }
+
+    public Translation() {
+    }
+
+    protected Translation(Parcel in) {
+        this.englishName = in.readString();
+        this.language = in.readString();
+        this.name = in.readString();
+        this.country = in.readString();
+    }
+
+    public static final Parcelable.Creator<Translation> CREATOR = new Parcelable.Creator<Translation>() {
+        @Override
+        public Translation createFromParcel(Parcel source) {
+            return new Translation(source);
+        }
+
+        @Override
+        public Translation[] newArray(int size) {
+            return new Translation[size];
+        }
+    };
 }

@@ -37,7 +37,7 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
 
     private boolean hasMorePages;
     private String mQuery;
-    private List<PersonFind> mListPerson = new ArrayList<>();
+    private List<PersonFind> mListPerson;
 
     private SearchPersonAdapter mSearchAdapter;
     private LinearLayoutManager mLinearLayout;
@@ -51,6 +51,8 @@ public class SearchPersonsFragment extends BaseFragment implements SearchCallbac
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+
+        mListPerson = new ArrayList<>();
     }
 
     @Override

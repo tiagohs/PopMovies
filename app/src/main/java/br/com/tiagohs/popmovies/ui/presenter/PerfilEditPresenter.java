@@ -50,7 +50,7 @@ public class PerfilEditPresenter extends BasePresenter<PerfilEditContract.Perfil
             mView.setBirthday(mProfileDB.getBirthday());
 
         if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-            mView.setPhoto(mProfileDB.getUser().getPicturePath());
+            mView.setPhoto(mProfileDB.getUser().getPicturePath(), mProfileDB.getUser().getNome());
         else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
             mView.setLocalPhoto();
     }

@@ -19,12 +19,13 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
@@ -35,9 +36,7 @@ import br.com.tiagohs.popmovies.model.tv.TVEpisodeBasic;
 /**
  * @author stuart.boston
  */
-public class PersonFind extends PersonBasic implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class PersonFind extends PersonBasic {
 
     @JsonProperty("adult")
     private Boolean adult;
@@ -81,4 +80,39 @@ public class PersonFind extends PersonBasic implements Serializable {
         this.knownFor = knownFor;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.adult);
+        dest.writeValue(this.popularity);
+        dest.writeTypedList(this.knownFor);
+    }
+
+    public PersonFind() {
+    }
+
+    protected PersonFind(Parcel in) {
+        super(in);
+        this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.popularity = (Float) in.readValue(Float.class.getClassLoader());
+        this.knownFor = in.createTypedArrayList(MediaBasic.CREATOR);
+    }
+
+    public static final Creator<PersonFind> CREATOR = new Creator<PersonFind>() {
+        @Override
+        public PersonFind createFromParcel(Parcel source) {
+            return new PersonFind(source);
+        }
+
+        @Override
+        public PersonFind[] newArray(int size) {
+            return new PersonFind[size];
+        }
+    };
 }

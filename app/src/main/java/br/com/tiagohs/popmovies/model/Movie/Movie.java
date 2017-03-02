@@ -1,15 +1,17 @@
 package br.com.tiagohs.popmovies.model.movie;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
 import br.com.tiagohs.popmovies.util.DateUtils;
 
 
-public class Movie extends MediaBasic implements Serializable {
+public class Movie extends MediaBasic {
 
     @JsonProperty("poster_path")
     private String posterPath;
@@ -182,4 +184,45 @@ public class Movie extends MediaBasic implements Serializable {
     public int hashCode() {
         return super.hashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.overview);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.originalTitle);
+        dest.writeList(this.genreIDs);
+        dest.writeString(this.originalLanguage);
+        dest.writeString(this.title);
+        dest.writeString(this.backdropPath);
+        dest.writeByte(this.video ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isJaAssistido ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.statusDB);
+    }
+
+    protected Movie(Parcel in) {
+        super(in);
+        this.posterPath = in.readString();
+        this.overview = in.readString();
+        this.releaseDate = in.readString();
+        this.originalTitle = in.readString();
+        this.genreIDs = new ArrayList<Integer>();
+        in.readList(this.genreIDs, Integer.class.getClassLoader());
+        this.originalLanguage = in.readString();
+        this.title = in.readString();
+        this.backdropPath = in.readString();
+        this.video = in.readByte() != 0;
+        this.favorite = in.readByte() != 0;
+        this.isJaAssistido = in.readByte() != 0;
+        this.statusDB = in.readInt();
+    }
+
 }

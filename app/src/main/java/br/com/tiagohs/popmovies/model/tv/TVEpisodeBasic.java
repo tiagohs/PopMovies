@@ -19,6 +19,8 @@
  */
 package br.com.tiagohs.popmovies.model.tv;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -31,7 +33,7 @@ import br.com.tiagohs.popmovies.util.enumerations.MediaType;
  *
  * @author stuart.boston
  */
-public class TVEpisodeBasic extends MediaBasic implements Serializable {
+public class TVEpisodeBasic extends MediaBasic {
 
     private static final long serialVersionUID = 100L;
 
@@ -110,4 +112,44 @@ public class TVEpisodeBasic extends MediaBasic implements Serializable {
         this.showId = showId;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.airDate);
+        dest.writeInt(this.seasonNumber);
+        dest.writeInt(this.episodeNumber);
+        dest.writeString(this.name);
+        dest.writeString(this.overview);
+        dest.writeString(this.stillPath);
+        dest.writeString(this.showId);
+    }
+
+    protected TVEpisodeBasic(Parcel in) {
+        super(in);
+        this.airDate = in.readString();
+        this.seasonNumber = in.readInt();
+        this.episodeNumber = in.readInt();
+        this.name = in.readString();
+        this.overview = in.readString();
+        this.stillPath = in.readString();
+        this.showId = in.readString();
+    }
+
+    public static final Creator<TVEpisodeBasic> CREATOR = new Creator<TVEpisodeBasic>() {
+        @Override
+        public TVEpisodeBasic createFromParcel(Parcel source) {
+            return new TVEpisodeBasic(source);
+        }
+
+        @Override
+        public TVEpisodeBasic[] newArray(int size) {
+            return new TVEpisodeBasic[size];
+        }
+    };
 }

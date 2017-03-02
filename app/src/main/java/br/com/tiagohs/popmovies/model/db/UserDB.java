@@ -1,6 +1,9 @@
 package br.com.tiagohs.popmovies.model.db;
 
-public class UserDB {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserDB implements Parcelable {
     public static final int LOGIN_FACEBOOK = 0;
     public static final int LOGIN_TWITTER = 1;
 
@@ -133,4 +136,50 @@ public class UserDB {
     public void setLogged(boolean logged) {
         isLogged = logged;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.userID);
+        dest.writeString(this.nome);
+        dest.writeString(this.username);
+        dest.writeString(this.email);
+        dest.writeString(this.picturePath);
+        dest.writeString(this.token);
+        dest.writeInt(this.typePhoto);
+        dest.writeInt(this.typeLogin);
+        dest.writeByte(this.isLogged ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.profileID);
+        dest.writeString(this.mLocalPicture);
+    }
+
+    protected UserDB(Parcel in) {
+        this.userID = in.readInt();
+        this.nome = in.readString();
+        this.username = in.readString();
+        this.email = in.readString();
+        this.picturePath = in.readString();
+        this.token = in.readString();
+        this.typePhoto = in.readInt();
+        this.typeLogin = in.readInt();
+        this.isLogged = in.readByte() != 0;
+        this.profileID = in.readLong();
+        this.mLocalPicture = in.readString();
+    }
+
+    public static final Parcelable.Creator<UserDB> CREATOR = new Parcelable.Creator<UserDB>() {
+        @Override
+        public UserDB createFromParcel(Parcel source) {
+            return new UserDB(source);
+        }
+
+        @Override
+        public UserDB[] newArray(int size) {
+            return new UserDB[size];
+        }
+    };
 }

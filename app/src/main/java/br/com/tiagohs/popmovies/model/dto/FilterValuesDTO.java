@@ -1,9 +1,12 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class FilterValuesDTO {
+public class FilterValuesDTO implements Parcelable {
     private String sortBy;
     private boolean includeAdult;
     private String releaseYear;
@@ -97,4 +100,45 @@ public class FilterValuesDTO {
     public void setVoteAverageLte(String voteAverageLte) {
         this.voteAverageLte = voteAverageLte;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.sortBy);
+        dest.writeByte(this.includeAdult ? (byte) 1 : (byte) 0);
+        dest.writeString(this.releaseYear);
+        dest.writeString(this.primaryRelaseDateGte);
+        dest.writeString(this.primaryRelaseDateLte);
+        dest.writeString(this.voteAverageGte);
+        dest.writeString(this.voteAverageLte);
+        dest.writeSerializable(this.formater);
+    }
+
+    protected FilterValuesDTO(Parcel in) {
+        this.sortBy = in.readString();
+        this.includeAdult = in.readByte() != 0;
+        this.releaseYear = in.readString();
+        this.primaryRelaseDateGte = in.readString();
+        this.primaryRelaseDateLte = in.readString();
+        this.voteAverageGte = in.readString();
+        this.voteAverageLte = in.readString();
+        this.formater = (SimpleDateFormat) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<FilterValuesDTO> CREATOR = new Parcelable.Creator<FilterValuesDTO>() {
+        @Override
+        public FilterValuesDTO createFromParcel(Parcel source) {
+            return new FilterValuesDTO(source);
+        }
+
+        @Override
+        public FilterValuesDTO[] newArray(int size) {
+            return new FilterValuesDTO[size];
+        }
+    };
 }

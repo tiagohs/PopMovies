@@ -19,9 +19,11 @@
  */
 package br.com.tiagohs.popmovies.model.tv;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
@@ -32,9 +34,7 @@ import br.com.tiagohs.popmovies.util.enumerations.MediaType;
  *
  * @author stuart.boston
  */
-public class TVBasic extends MediaBasic implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class TVBasic extends MediaBasic {
 
     @JsonProperty("name")
     private String name;
@@ -141,4 +141,51 @@ public class TVBasic extends MediaBasic implements Serializable {
         this.overview = overview;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeString(this.backdropPath);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.originalName);
+        dest.writeString(this.firstAirDate);
+        dest.writeStringList(this.originCountry);
+        dest.writeFloat(this.rating);
+        dest.writeList(this.genreIds);
+        dest.writeString(this.originalLanguage);
+        dest.writeString(this.overview);
+    }
+
+    protected TVBasic(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.backdropPath = in.readString();
+        this.posterPath = in.readString();
+        this.originalName = in.readString();
+        this.firstAirDate = in.readString();
+        this.originCountry = in.createStringArrayList();
+        this.rating = in.readFloat();
+        this.genreIds = new ArrayList<Integer>();
+        in.readList(this.genreIds, Integer.class.getClassLoader());
+        this.originalLanguage = in.readString();
+        this.overview = in.readString();
+    }
+
+    public static final Creator<TVBasic> CREATOR = new Creator<TVBasic>() {
+        @Override
+        public TVBasic createFromParcel(Parcel source) {
+            return new TVBasic(source);
+        }
+
+        @Override
+        public TVBasic[] newArray(int size) {
+            return new TVBasic[size];
+        }
+    };
 }

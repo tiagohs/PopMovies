@@ -1,11 +1,12 @@
 package br.com.tiagohs.popmovies.model.dto;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 
-public class ListActivityDTO implements Serializable {
+public class ListActivityDTO implements Parcelable {
     private int id;
     private String nameActivity;
     private String subtitleActivity;
@@ -87,4 +88,43 @@ public class ListActivityDTO implements Serializable {
     public void setListType(ListType listType) {
         this.listType = listType;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.nameActivity);
+        dest.writeString(this.subtitleActivity);
+        dest.writeInt(this.mSortList == null ? -1 : this.mSortList.ordinal());
+        dest.writeInt(this.layoutID);
+        dest.writeInt(this.listType == null ? -1 : this.listType.ordinal());
+    }
+
+    protected ListActivityDTO(Parcel in) {
+        this.id = in.readInt();
+        this.nameActivity = in.readString();
+        this.subtitleActivity = in.readString();
+        int tmpMSortList = in.readInt();
+        this.mSortList = tmpMSortList == -1 ? null : Sort.values()[tmpMSortList];
+        this.layoutID = in.readInt();
+        int tmpListType = in.readInt();
+        this.listType = tmpListType == -1 ? null : ListType.values()[tmpListType];
+    }
+
+    public static final Parcelable.Creator<ListActivityDTO> CREATOR = new Parcelable.Creator<ListActivityDTO>() {
+        @Override
+        public ListActivityDTO createFromParcel(Parcel source) {
+            return new ListActivityDTO(source);
+        }
+
+        @Override
+        public ListActivityDTO[] newArray(int size) {
+            return new ListActivityDTO[size];
+        }
+    };
 }

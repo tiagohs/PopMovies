@@ -35,7 +35,7 @@ public class SQLHelper {
     public static final String SQL_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS " + PopMoviesContract.UserEntry.TABLE_NAME + " (" +
             PopMoviesContract.UserEntry._ID + " INTEGER PRIMARY KEY," +
             PopMoviesContract.UserEntry.COLUMN_NAME + " TEXT, " +
-            PopMoviesContract.UserEntry.COLUMN_TOKEN + " TEXT UNIQUE NOT NULL, " +
+            PopMoviesContract.UserEntry.COLUMN_TOKEN + " TEXT, " +
             PopMoviesContract.UserEntry.COLUMN_TYPE_LOGIN + " TEXT, " +
             PopMoviesContract.UserEntry.COLUMN_USERNAME + " TEXT UNIQUE, " +
             PopMoviesContract.UserEntry.COLUMN_PICTURE_PATH + " TEXT, " +

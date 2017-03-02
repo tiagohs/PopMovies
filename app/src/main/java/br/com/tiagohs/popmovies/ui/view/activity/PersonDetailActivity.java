@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,6 +37,7 @@ import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.person.PersonInfo;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.ui.view.fragment.PersonDetailFragment;
+import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
@@ -60,6 +62,9 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
     private static final String ARG_PERSON_ID = "br.com.tiagohs.popmovies.person_id";
     private static final String ARG_NAME_PERSON = "br.com.tiagohs.popmovies.name_person";
 
+    private static final int CONTAINER_PERSON_NUMBERS_ANIMATION_DURATION = 1000;
+    private static final int IMAGE_SCALE_UP_ANIMATION_DURATION = 500;
+
     @BindView(R.id.progress_person_details)     ProgressBar mPersonProgressBar;
     @BindView(R.id.total_filmes)                TextView mTotalFilmes;
     @BindView(R.id.total_fotos)                 TextView mTotalPhotos;
@@ -73,6 +78,9 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
     @BindView(R.id.twitter_riple)               MaterialRippleLayout mTwitterRiple;
     @BindView(R.id.instagram_riple)             MaterialRippleLayout mInstagramRiple;
     @BindView(R.id.share_progress)              ProgressWheel mProgressShare;
+    @BindView(R.id.person_numbers_container)    LinearLayout mPersonNumbersContainer;
+    @BindView(R.id.picture_circle_container)
+    FrameLayout mPictureContainer;
 
     @Inject
     PersonDetailContract.PersonDetailPresenter mPersonDetailPresenter;
@@ -102,6 +110,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
         mPersonID = getIntent().getIntExtra(ARG_PERSON_ID, 0);
 
+        mPictureContainer.setVisibility(View.GONE);
         mPersonDetailPresenter.getPersonDetails(mPersonID);
     }
 
@@ -265,6 +274,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
             });
 
             ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
+
+            AnimationsUtils.creatScaleUpAnimation(mPictureContainer, IMAGE_SCALE_UP_ANIMATION_DURATION);
+            mPictureContainer.setVisibility(View.VISIBLE);
+
     }
 
     public void setVisibilityFacebook(int visibility) {
@@ -289,6 +302,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
         mLabelTotalFotos.setText(getResources().getQuantityString(R.plurals.number_of_fotos_person, totalFotos));
         mTotalPhotos.setText(String.valueOf(totalFotos));
 
+        mPersonNumbersContainer.setAnimation(AnimationsUtils.createFadeInAnimation(CONTAINER_PERSON_NUMBERS_ANIMATION_DURATION));
+        mPersonNumbersContainer.setVisibility(View.VISIBLE);
     }
 
     public void setupTabs() {

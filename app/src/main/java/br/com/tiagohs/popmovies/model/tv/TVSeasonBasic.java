@@ -19,17 +19,17 @@
  */
 package br.com.tiagohs.popmovies.model.tv;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
 /**
  * TV Favorite information
  *
  * @author stuart.boston
  */
-public class TVSeasonBasic implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class TVSeasonBasic implements Parcelable {
 
     @JsonProperty("id")
     private int id = -1;
@@ -82,4 +82,41 @@ public class TVSeasonBasic implements Serializable {
         this.episodeCount = episodeCount;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.airDate);
+        dest.writeString(this.posterPath);
+        dest.writeInt(this.seasonNumber);
+        dest.writeInt(this.episodeCount);
+    }
+
+    public TVSeasonBasic() {
+    }
+
+    protected TVSeasonBasic(Parcel in) {
+        this.id = in.readInt();
+        this.airDate = in.readString();
+        this.posterPath = in.readString();
+        this.seasonNumber = in.readInt();
+        this.episodeCount = in.readInt();
+    }
+
+    public static final Parcelable.Creator<TVSeasonBasic> CREATOR = new Parcelable.Creator<TVSeasonBasic>() {
+        @Override
+        public TVSeasonBasic createFromParcel(Parcel source) {
+            return new TVSeasonBasic(source);
+        }
+
+        @Override
+        public TVSeasonBasic[] newArray(int size) {
+            return new TVSeasonBasic[size];
+        }
+    };
 }

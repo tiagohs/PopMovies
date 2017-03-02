@@ -19,16 +19,15 @@
  */
 package br.com.tiagohs.popmovies.model.movie;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import java.io.Serializable;
-
 import br.com.tiagohs.popmovies.util.enumerations.ReleaseType;
 
-public class ReleaseDate implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class ReleaseDate implements Parcelable {
 
     @JsonProperty("certification")
     private String certification;
@@ -82,4 +81,42 @@ public class ReleaseDate implements Serializable {
         this.releaseType = ReleaseType.fromInteger(type);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.certification);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.note);
+        dest.writeString(this.language);
+        dest.writeInt(this.releaseType == null ? -1 : this.releaseType.ordinal());
+    }
+
+    public ReleaseDate() {
+    }
+
+    protected ReleaseDate(Parcel in) {
+        this.certification = in.readString();
+        this.releaseDate = in.readString();
+        this.note = in.readString();
+        this.language = in.readString();
+        int tmpReleaseType = in.readInt();
+        this.releaseType = tmpReleaseType == -1 ? null : ReleaseType.values()[tmpReleaseType];
+    }
+
+    public static final Parcelable.Creator<ReleaseDate> CREATOR = new Parcelable.Creator<ReleaseDate>() {
+        @Override
+        public ReleaseDate createFromParcel(Parcel source) {
+            return new ReleaseDate(source);
+        }
+
+        @Override
+        public ReleaseDate[] newArray(int size) {
+            return new ReleaseDate[size];
+        }
+    };
 }

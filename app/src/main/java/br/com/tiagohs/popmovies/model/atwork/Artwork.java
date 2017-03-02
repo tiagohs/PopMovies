@@ -19,13 +19,14 @@
  */
 package br.com.tiagohs.popmovies.model.atwork;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import java.io.Serializable;
 
 import br.com.tiagohs.popmovies.util.enumerations.ArtworkType;
 
@@ -34,9 +35,7 @@ import br.com.tiagohs.popmovies.util.enumerations.ArtworkType;
  *
  * @author Stuart
  */
-public class Artwork implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class Artwork implements Parcelable {
 
     @JsonProperty("id")
     private String id;
@@ -171,4 +170,53 @@ public class Artwork implements Serializable {
                 .append(artworkType)
                 .toHashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeFloat(this.aspectRatio);
+        dest.writeString(this.filePath);
+        dest.writeInt(this.height);
+        dest.writeString(this.language);
+        dest.writeInt(this.width);
+        dest.writeFloat(this.voteAverage);
+        dest.writeInt(this.voteCount);
+        dest.writeString(this.flag);
+        dest.writeInt(this.artworkType == null ? -1 : this.artworkType.ordinal());
+    }
+
+    public Artwork() {
+    }
+
+    protected Artwork(Parcel in) {
+        this.id = in.readString();
+        this.aspectRatio = in.readFloat();
+        this.filePath = in.readString();
+        this.height = in.readInt();
+        this.language = in.readString();
+        this.width = in.readInt();
+        this.voteAverage = in.readFloat();
+        this.voteCount = in.readInt();
+        this.flag = in.readString();
+        int tmpArtworkType = in.readInt();
+        this.artworkType = tmpArtworkType == -1 ? null : ArtworkType.values()[tmpArtworkType];
+    }
+
+    public static final Parcelable.Creator<Artwork> CREATOR = new Parcelable.Creator<Artwork>() {
+        @Override
+        public Artwork createFromParcel(Parcel source) {
+            return new Artwork(source);
+        }
+
+        @Override
+        public Artwork[] newArray(int size) {
+            return new Artwork[size];
+        }
+    };
 }

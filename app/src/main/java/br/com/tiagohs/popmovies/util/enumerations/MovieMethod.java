@@ -54,4 +54,6 @@ public enum MovieMethod {
         }
         throw new IllegalArgumentException("Method must not be null");
     }
+
+
 }

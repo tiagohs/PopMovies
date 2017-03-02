@@ -1,5 +1,8 @@
 package br.com.tiagohs.popmovies.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import br.com.tiagohs.popmovies.util.enumerations.ArtworkType;
 /**
  * Created by Tiago Henrique on 24/08/2016.
  */
-public class ImageResponse  {
+public class ImageResponse implements Parcelable {
 
     @JsonProperty("id")
     private int id;
@@ -114,4 +117,42 @@ public class ImageResponse  {
             artwork.setArtworkType(type);
         }
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeTypedList(this.backdrops);
+        dest.writeTypedList(this.posters);
+        dest.writeTypedList(this.profiles);
+        dest.writeTypedList(this.stills);
+    }
+
+    public ImageResponse() {
+    }
+
+    protected ImageResponse(Parcel in) {
+        this.id = in.readInt();
+        this.backdrops = in.createTypedArrayList(Artwork.CREATOR);
+        this.posters = in.createTypedArrayList(Artwork.CREATOR);
+        this.profiles = in.createTypedArrayList(Artwork.CREATOR);
+        this.stills = in.createTypedArrayList(Artwork.CREATOR);
+    }
+
+    public static final Parcelable.Creator<ImageResponse> CREATOR = new Parcelable.Creator<ImageResponse>() {
+        @Override
+        public ImageResponse createFromParcel(Parcel source) {
+            return new ImageResponse(source);
+        }
+
+        @Override
+        public ImageResponse[] newArray(int size) {
+            return new ImageResponse[size];
+        }
+    };
 }

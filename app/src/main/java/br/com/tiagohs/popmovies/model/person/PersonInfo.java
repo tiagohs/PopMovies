@@ -19,12 +19,14 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -48,7 +50,7 @@ import br.com.tiagohs.popmovies.util.enumerations.PeopleMethod;
 /**
  * @author stuart.boston
  */
-public class PersonInfo extends PersonBasic implements Serializable {
+public class PersonInfo extends PersonBasic {
 
     private static final long serialVersionUID = 100L;
 
@@ -73,7 +75,7 @@ public class PersonInfo extends PersonBasic implements Serializable {
     @JsonProperty("popularity")
     private float popularity;
     private Gender gender;
-    private final Set<PeopleMethod> methods = EnumSet.noneOf(PeopleMethod.class);
+    private Set<PeopleMethod> methods = EnumSet.noneOf(PeopleMethod.class);
 
 
     private List<MovieListDTO> moviesCarrer = Collections.emptyList();
@@ -324,4 +326,82 @@ public class PersonInfo extends PersonBasic implements Serializable {
 
     //</editor-fold>
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeLong(this.birthdayDate != null ? this.birthdayDate.getTime() : -1);
+        dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
+        dest.writeStringList(this.alsoKnownAs);
+        dest.writeString(this.biography);
+        dest.writeString(this.birthday);
+        dest.writeString(this.deathday);
+        dest.writeString(this.homepage);
+        dest.writeString(this.imdbId);
+        dest.writeString(this.placeOfBirth);
+        dest.writeFloat(this.popularity);
+        dest.writeInt(this.gender == null ? -1 : this.gender.ordinal());
+        dest.writeValue(this.methods);
+        dest.writeTypedList(this.moviesCarrer);
+        dest.writeList(this.changes);
+        dest.writeParcelable(this.externalIDs, flags);
+        dest.writeTypedList(this.images);
+        dest.writeTypedList(this.taggedImages);
+        dest.writeParcelable(this.movieCredits, flags);
+        dest.writeParcelable(this.tvCredits, flags);
+        dest.writeTypedList(this.castCombined);
+        dest.writeTypedList(this.crewCombined);
+        dest.writeTypedList(this.movieCombinedCredits);
+        dest.writeTypedList(this.tvCombinedCredits);
+    }
+
+    public PersonInfo() {
+    }
+
+    protected PersonInfo(Parcel in) {
+        super(in);
+        long tmpBirthdayDate = in.readLong();
+        this.birthdayDate = tmpBirthdayDate == -1 ? null : new Date(tmpBirthdayDate);
+        this.adult = in.readByte() != 0;
+        this.alsoKnownAs = in.createStringArrayList();
+        this.biography = in.readString();
+        this.birthday = in.readString();
+        this.deathday = in.readString();
+        this.homepage = in.readString();
+        this.imdbId = in.readString();
+        this.placeOfBirth = in.readString();
+        this.popularity = in.readFloat();
+        int tmpGender = in.readInt();
+        this.gender = tmpGender == -1 ? null : Gender.values()[tmpGender];
+        this.methods = in.readParcelable(Set.class.getClassLoader());
+        this.moviesCarrer = in.createTypedArrayList(MovieListDTO.CREATOR);
+        this.changes = new ArrayList<ChangeKeyItem>();
+        in.readList(this.changes, ChangeKeyItem.class.getClassLoader());
+        this.externalIDs = in.readParcelable(ExternalID.class.getClassLoader());
+        this.images = in.createTypedArrayList(Artwork.CREATOR);
+        this.taggedImages = in.createTypedArrayList(ArtworkMedia.CREATOR);
+        this.movieCredits = in.readParcelable(PersonCreditList.class.getClassLoader());
+        this.tvCredits = in.readParcelable(PersonCreditList.class.getClassLoader());
+        this.castCombined = (ArrayList) in.createTypedArrayList(CreditMovieBasic.CREATOR);
+        this.crewCombined = (ArrayList) in.createTypedArrayList(CreditMovieBasic.CREATOR);
+        this.movieCombinedCredits = (ArrayList) in.createTypedArrayList(CreditMovieBasic.CREATOR);
+        this.tvCombinedCredits = (ArrayList) in.createTypedArrayList(CreditMovieBasic.CREATOR);
+    }
+
+    public static final Creator<PersonInfo> CREATOR = new Creator<PersonInfo>() {
+        @Override
+        public PersonInfo createFromParcel(Parcel source) {
+            return new PersonInfo(source);
+        }
+
+        @Override
+        public PersonInfo[] newArray(int size) {
+            return new PersonInfo[size];
+        }
+    };
 }

@@ -46,6 +46,8 @@ public class UserRepositoryImpl implements UserRepository {
                     boolean userJaExistente = EmptyUtils.isNotNull(findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())}));
                     db = mDatabaseManager.openDatabase();
 
+                    Log.i(TAG, "Ja existe: " + userJaExistente + "Username: " + user.getUsername() + " profile> " + user.getProfileID());
+
                     if (userJaExistente)
                         db.update(PopMoviesContract.UserEntry.TABLE_NAME, values, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())});
                     else {
@@ -103,7 +105,10 @@ public class UserRepositoryImpl implements UserRepository {
         return Observable.create(new ObservableOnSubscribe<UserDB>() {
             @Override
             public void subscribe(ObservableEmitter<UserDB> observableEmitter) {
+
                 UserDB user = findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username, String.valueOf(profileID)});
+
+                Log.i(TAG, "Find, username: " + username + " - Profile: " + profileID + " user> " + user);
 
                 if (EmptyUtils.isNotNull(user))
                     observableEmitter.onNext(user);

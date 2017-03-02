@@ -19,6 +19,8 @@
  */
 package br.com.tiagohs.popmovies.model.credits;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
@@ -26,7 +28,7 @@ import java.io.Serializable;
  *
  * @author Stuart.Boston
  */
-public class MediaCreditCrew extends MediaCredit implements Serializable {
+public class MediaCreditCrew extends MediaCredit {
 
     private static final long serialVersionUID = 100L;
 
@@ -51,4 +53,37 @@ public class MediaCreditCrew extends MediaCredit implements Serializable {
         this.job = job;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.department);
+        dest.writeString(this.job);
+    }
+
+    public MediaCreditCrew() {
+    }
+
+    protected MediaCreditCrew(Parcel in) {
+        super(in);
+        this.department = in.readString();
+        this.job = in.readString();
+    }
+
+    public static final Creator<MediaCreditCrew> CREATOR = new Creator<MediaCreditCrew>() {
+        @Override
+        public MediaCreditCrew createFromParcel(Parcel source) {
+            return new MediaCreditCrew(source);
+        }
+
+        @Override
+        public MediaCreditCrew[] newArray(int size) {
+            return new MediaCreditCrew[size];
+        }
+    };
 }

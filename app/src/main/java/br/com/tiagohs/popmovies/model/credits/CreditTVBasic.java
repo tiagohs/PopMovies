@@ -19,16 +19,16 @@
  */
 package br.com.tiagohs.popmovies.model.credits;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import android.os.Parcel;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
 /**
  * @author stuart.boston
  */
-public class CreditTVBasic extends CreditBasic implements Serializable {
+public class CreditTVBasic extends CreditBasic {
 
     private static final long serialVersionUID = 100L;
 
@@ -77,4 +77,38 @@ public class CreditTVBasic extends CreditBasic implements Serializable {
         this.originalName = originalName;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.episodeCount);
+        dest.writeString(this.firstAirDate);
+        dest.writeString(this.name);
+        dest.writeString(this.originalName);
+    }
+
+    protected CreditTVBasic(Parcel in) {
+        super(in);
+        this.episodeCount = in.readInt();
+        this.firstAirDate = in.readString();
+        this.name = in.readString();
+        this.originalName = in.readString();
+    }
+
+    public static final Creator<CreditTVBasic> CREATOR = new Creator<CreditTVBasic>() {
+        @Override
+        public CreditTVBasic createFromParcel(Parcel source) {
+            return new CreditTVBasic(source);
+        }
+
+        @Override
+        public CreditTVBasic[] newArray(int size) {
+            return new CreditTVBasic[size];
+        }
+    };
 }

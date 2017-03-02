@@ -29,7 +29,7 @@ public class WallpapersFragment extends BaseFragment {
 
     public static WallpapersFragment newInstance(List<ImageDTO> wallpapers) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_WALLPAPERS, (ArrayList<ImageDTO>) wallpapers);
+        bundle.putParcelableArrayList(ARG_WALLPAPERS, (ArrayList<ImageDTO>) wallpapers);
 
         WallpapersFragment wallpapersFragment = new WallpapersFragment();
         wallpapersFragment.setArguments(bundle);
@@ -41,7 +41,7 @@ public class WallpapersFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mWallpapers = (ArrayList<ImageDTO>) getArguments().getSerializable(ARG_WALLPAPERS);
+        mWallpapers = getArguments().getParcelableArrayList(ARG_WALLPAPERS);
     }
 
     @Override

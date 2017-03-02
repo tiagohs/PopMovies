@@ -32,7 +32,7 @@ public class MovieDetailsFragment extends BaseFragment {
 
     public static MovieDetailsFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_MOVIE, movie);
+        bundle.putParcelable(ARG_MOVIE, movie);
 
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
         movieDetailsFragment.setArguments(bundle);
@@ -44,7 +44,7 @@ public class MovieDetailsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+        mMovie = getArguments().getParcelable(ARG_MOVIE);
 
         mViewPager.setAdapter(new MovieDetailsAdapter(getChildFragmentManager(), mMovie, getResources().getStringArray(R.array.movie_detail_tab_array)));
         mTabLayout.setupWithViewPager(mViewPager);

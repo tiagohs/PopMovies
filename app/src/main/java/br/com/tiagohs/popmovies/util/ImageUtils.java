@@ -1,6 +1,5 @@
 package br.com.tiagohs.popmovies.util;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -16,7 +15,6 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -91,6 +89,8 @@ public class ImageUtils {
             request = loader.load(url);
         else if (EmptyUtils.isNotNull(path))
             request = loader.load(path);
+        else
+            request = loader.load("http://image.tmdb.org/t/p/0");
 
         if (EmptyUtils.isNotNull(placeholderDrawable))
             request.placeholder(placeholderDrawable);
@@ -162,14 +162,7 @@ public class ImageUtils {
                                         @Override
                                         public void onSuccess() {
                                             if (!((Activity) context).isDestroyed()) {
-                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                                                    int cx = (imageView.getLeft() + imageView.getRight()) / 2;
-                                                    int cy = (imageView.getTop() + imageView.getBottom()) / 2;
-                                                    int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight());
-
-                                                    Animator anim = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
-                                                    anim.start();
-                                                }
+                                                AnimationsUtils.createShowCircularReveal(imageView);
                                             }
 
                                         }
@@ -233,6 +226,49 @@ public class ImageUtils {
                                                     imageView.setVisibility(View.VISIBLE);
                                                 }
                                             });
+    }
+
+    public static void load(Context context, String url, String name, final ImageView imageView, final ProgressWheel progressbar) {
+        progressbar.setVisibility(View.VISIBLE);
+        Drawable placeholderAndError = createTextDrawable(name, true);
+
+        ViewCompat.setElevation(imageView, 12);
+
+        load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
+                null, false, null, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressbar.setVisibility(View.GONE);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        progressbar.setVisibility(View.GONE);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+                });
+    }
+
+    public static void load(Context context, String url, String name, int imageError, final ImageView imageView, final ProgressWheel progressbar) {
+        progressbar.setVisibility(View.VISIBLE);
+        Drawable placeholderAndError = createTextDrawable(name, true);
+        ViewCompat.setElevation(imageView, 12);
+
+        load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
+                imageError, false, null, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressbar.setVisibility(View.GONE);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        progressbar.setVisibility(View.GONE);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     private static final float BITMAP_SCALE = 0.4f;

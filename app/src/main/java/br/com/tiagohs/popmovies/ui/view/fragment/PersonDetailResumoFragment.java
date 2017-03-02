@@ -81,7 +81,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
 
     public static PersonDetailResumoFragment newInstance(PersonInfo personInfo) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_PERSON, personInfo);
+        bundle.putParcelable(ARG_PERSON, personInfo);
 
         PersonDetailResumoFragment personDetailResumoFragment = new PersonDetailResumoFragment();
         personDetailResumoFragment.setArguments(bundle);
@@ -93,7 +93,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPerson = (PersonInfo) getArguments().getSerializable(ARG_PERSON);
+        mPerson = getArguments().getParcelable(ARG_PERSON);
     }
 
     @Override

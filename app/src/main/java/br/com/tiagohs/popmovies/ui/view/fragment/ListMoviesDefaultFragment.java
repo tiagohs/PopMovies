@@ -78,7 +78,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createLinearListArguments(int orientation, boolean reverseLayout) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putBoolean(ARG_REVERSE_LAYOUT, reverseLayout);
 
@@ -87,7 +87,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createGridListArguments(int colunas) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
         bundle.putInt(ARG_NUM_COLUNAS, colunas);
 
         return bundle;
@@ -95,7 +95,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
 
     public static Bundle createStaggeredListArguments(int spanCount, int orientation) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putInt(ARG_SPAN_COUNT, spanCount);
 
@@ -105,7 +105,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
     public static ListMoviesDefaultFragment newInstance(Sort typeList, int layoutID, int fragmentLayoutId, List<MovieListDTO> listMovies, Bundle arguments) {
 
         if (EmptyUtils.isNotNull(arguments)) {
-            arguments.putSerializable(ARG_LIST_MOVIES, (ArrayList<MovieListDTO>) listMovies);
+            arguments.putParcelableArrayList(ARG_LIST_MOVIES, (ArrayList<MovieListDTO>) listMovies);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
             arguments.putSerializable(ARG_SORT, typeList);
@@ -134,7 +134,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         if (EmptyUtils.isNotNull(arguments)) {
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
-            arguments.putSerializable(ARG_DISCOVERY_DTO, discoverDTO);
+            arguments.putParcelable(ARG_DISCOVERY_DTO, discoverDTO);
             arguments.putSerializable(ARG_SORT, typeList);
         }
 
@@ -149,7 +149,7 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
             arguments.putInt(ARG_ID, id);
             arguments.putInt(ARG_LAYOUT_ID, layoutID);
             arguments.putInt(ARG_FRAGMENT_LAYOUT_ID, fragmentLayoutId);
-            arguments.putSerializable(ARG_DISCOVERY_DTO, discoverDTO);
+            arguments.putParcelable(ARG_DISCOVERY_DTO, discoverDTO);
             arguments.putSerializable(ARG_SORT, typeList);
         }
 
@@ -171,13 +171,13 @@ public class ListMoviesDefaultFragment extends BaseFragment implements ListMovie
         mFragmentLayoutId = getArguments().getInt(ARG_FRAGMENT_LAYOUT_ID, R.layout.fragment_list_movies_default);
         mID = getArguments().getInt(ARG_ID);
         mTypeList = (Sort) getArguments().getSerializable(ARG_SORT);
-        mDiscoverDTO = (DiscoverDTO) getArguments().getSerializable(ARG_DISCOVERY_DTO);
+        mDiscoverDTO = getArguments().getParcelable(ARG_DISCOVERY_DTO);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
         mTypeListLayout = getArguments().getInt(ARG_TYPE_LAYOUT);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
         mLayoutID = getArguments().getInt(ARG_LAYOUT_ID, R.layout.item_similares_movie);
-        mListMoviesPararmeter = (ArrayList<MovieListDTO>) getArguments().getSerializable(ARG_LIST_MOVIES);
+        mListMoviesPararmeter = getArguments().getParcelableArrayList(ARG_LIST_MOVIES);
     }
 
     @Override

@@ -54,6 +54,15 @@
             android:contentDescription="@string/login_twitter_description"
             android:drawableLeft="@drawable/ic_twitter_logo" />
 
+        <Button
+            android:id="@+id/login_google_button"
+            style="@style/LoginButtonStyle"
+            android:textColor="@color/secondary_text"
+            android:background="@drawable/button_google"
+            android:text="@string/login_google_title"
+            android:contentDescription="@string/login_google_description"
+            android:drawableLeft="@drawable/ic_google_logo" />
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_facebook_button_original"
             android:layout_width="match_parent"

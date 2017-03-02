@@ -1,8 +1,9 @@
 package br.com.tiagohs.popmovies.model.dto;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class DiscoverDTO implements Serializable {
+public class DiscoverDTO implements Parcelable {
     private String mRegion;
     private String mReleaseDateGte;
     private String mReleaseDateLte;
@@ -120,4 +121,58 @@ public class DiscoverDTO implements Serializable {
     public void setAppendToResponse(String[] appendToResponse) {
         mAppendToResponse = appendToResponse;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mRegion);
+        dest.writeString(this.mReleaseDateGte);
+        dest.writeString(this.mReleaseDateLte);
+        dest.writeString(this.mPrimaryReleaseDateGte);
+        dest.writeString(this.mPrimaryRelaseDateLte);
+        dest.writeString(this.mReleaseYear);
+        dest.writeString(this.mSortBy);
+        dest.writeString(this.mWithReleaseType);
+        dest.writeStringArray(this.mAppendToResponse);
+        dest.writeString(this.mVoteAvaregeGte);
+        dest.writeValue(this.mWithGenres);
+        dest.writeValue(this.mWithKeywords);
+        dest.writeByte(this.mIncludeAdult ? (byte) 1 : (byte) 0);
+    }
+
+    public DiscoverDTO() {
+    }
+
+    protected DiscoverDTO(Parcel in) {
+        this.mRegion = in.readString();
+        this.mReleaseDateGte = in.readString();
+        this.mReleaseDateLte = in.readString();
+        this.mPrimaryReleaseDateGte = in.readString();
+        this.mPrimaryRelaseDateLte = in.readString();
+        this.mReleaseYear = in.readString();
+        this.mSortBy = in.readString();
+        this.mWithReleaseType = in.readString();
+        this.mAppendToResponse = in.createStringArray();
+        this.mVoteAvaregeGte = in.readString();
+        this.mWithGenres = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.mWithKeywords = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.mIncludeAdult = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<DiscoverDTO> CREATOR = new Parcelable.Creator<DiscoverDTO>() {
+        @Override
+        public DiscoverDTO createFromParcel(Parcel source) {
+            return new DiscoverDTO(source);
+        }
+
+        @Override
+        public DiscoverDTO[] newArray(int size) {
+            return new DiscoverDTO[size];
+        }
+    };
 }

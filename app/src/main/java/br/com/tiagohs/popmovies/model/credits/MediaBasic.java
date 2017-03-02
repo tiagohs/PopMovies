@@ -1,15 +1,18 @@
 package br.com.tiagohs.popmovies.model.credits;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
 
-public class MediaBasic implements Serializable {
+public class MediaBasic implements Parcelable {
 
     @JsonProperty("_id")
     private String _id;
@@ -205,5 +208,64 @@ public class MediaBasic implements Serializable {
     public void setShowId(String showId) {
         this.showId = showId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this._id);
+        dest.writeInt(this.id);
+        dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
+        dest.writeString(this.nama);
+        dest.writeInt(this.popularity);
+        dest.writeString(this.profilePath);
+        dest.writeTypedList(this.knowFor);
+        dest.writeString(this.voteAverage);
+        dest.writeLong(this.voteCount);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.airDate);
+        dest.writeInt(this.seasonNumber);
+        dest.writeInt(this.episodeNumber);
+        dest.writeString(this.overview);
+        dest.writeString(this.stillPath);
+        dest.writeString(this.showId);
+        dest.writeInt(this.mediaType == null ? -1 : this.mediaType.ordinal());
+    }
+
+    protected MediaBasic(Parcel in) {
+        this._id = in.readString();
+        this.id = in.readInt();
+        this.adult = in.readByte() != 0;
+        this.nama = in.readString();
+        this.popularity = in.readInt();
+        this.profilePath = in.readString();
+        this.knowFor = (ArrayList) in.createTypedArrayList(Movie.CREATOR);
+        this.voteAverage = in.readString();
+        this.voteCount = in.readLong();
+        this.posterPath = in.readString();
+        this.airDate = in.readString();
+        this.seasonNumber = in.readInt();
+        this.episodeNumber = in.readInt();
+        this.overview = in.readString();
+        this.stillPath = in.readString();
+        this.showId = in.readString();
+        int tmpMediaType = in.readInt();
+        this.mediaType = tmpMediaType == -1 ? null : MediaType.values()[tmpMediaType];
+    }
+
+    public static final Creator<MediaBasic> CREATOR = new Creator<MediaBasic>() {
+        @Override
+        public MediaBasic createFromParcel(Parcel source) {
+            return new MediaBasic(source);
+        }
+
+        @Override
+        public MediaBasic[] newArray(int size) {
+            return new MediaBasic[size];
+        }
+    };
 }
 

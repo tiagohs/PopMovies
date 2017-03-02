@@ -19,15 +19,14 @@
  */
 package br.com.tiagohs.popmovies.model.person;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.tiagohs.popmovies.model.tv.TVCredit;
 
-public class CreditInfo implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class CreditInfo implements Parcelable {
 
     @JsonProperty("id")
     private String id;
@@ -100,4 +99,45 @@ public class CreditInfo implements Serializable {
         this.media = media;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.creditType);
+        dest.writeString(this.department);
+        dest.writeString(this.job);
+        dest.writeString(this.mediaType);
+        dest.writeValue(this.person);
+        dest.writeValue(this.media);
+    }
+
+    public CreditInfo() {
+    }
+
+    protected CreditInfo(Parcel in) {
+        this.id = in.readString();
+        this.creditType = in.readString();
+        this.department = in.readString();
+        this.job = in.readString();
+        this.mediaType = in.readString();
+        this.person = (PersonBasic) in.readSerializable();
+        this.media = (TVCredit) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<CreditInfo> CREATOR = new Parcelable.Creator<CreditInfo>() {
+        @Override
+        public CreditInfo createFromParcel(Parcel source) {
+            return new CreditInfo(source);
+        }
+
+        @Override
+        public CreditInfo[] newArray(int size) {
+            return new CreditInfo[size];
+        }
+    };
 }

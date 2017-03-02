@@ -32,14 +32,17 @@ import br.com.tiagohs.popmovies.ui.view.activity.WallpapersActivity;
 import br.com.tiagohs.popmovies.ui.adapters.ImageAdapter;
 import br.com.tiagohs.popmovies.ui.adapters.VideoAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
+import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDetailsMidiaContract.MovieDetailsMidiaView {
     private static final String TAG = MovieDetailsMidiaFragment.class.getSimpleName();
-    private static final String ARG_MOVIE = "movie";
 
+    private static final int CONTAINER_PRINCIPAL_ANIMATION_DURATION = 1000;
+
+    private static final String ARG_MOVIE = "movie";
     private static final String ARG_MOVIE_SAVED = "moviesSaved";
     private static final String ARG_IS_VIDEO_SEARCHED = "isVideoSerched";
     private static final String ARG_IMAGES_SAVED = "imagesSaved";
@@ -71,7 +74,7 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
     public static MovieDetailsMidiaFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_MOVIE, movie);
+        bundle.putParcelable(ARG_MOVIE, movie);
 
         MovieDetailsMidiaFragment movieDetailsMidiaFragment = new MovieDetailsMidiaFragment();
         movieDetailsMidiaFragment.setArguments(bundle);
@@ -102,10 +105,10 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
 
         if (EmptyUtils.isNotNull(savedInstanceState)) {
             isVideosSearched = savedInstanceState.getBoolean(ARG_IS_VIDEO_SEARCHED);
-            mTotalImages = (ArrayList<ImageDTO>) savedInstanceState.getSerializable(ARG_IMAGES_SAVED);
-            mMovieDetails = (MovieDetails) savedInstanceState.getSerializable(ARG_MOVIE_SAVED);
+            mTotalImages = savedInstanceState.getParcelableArrayList(ARG_IMAGES_SAVED);
+            mMovieDetails = savedInstanceState.getParcelable(ARG_MOVIE_SAVED);
         } else {
-            mMovieDetails = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+            mMovieDetails = getArguments().getParcelable(ARG_MOVIE);
         }
 
 
@@ -133,6 +136,8 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
                 public void run() {
                     if (isAdded())
                         setProgressVisibility(View.GONE);
+
+                    mContainerPrincipal.setAnimation(AnimationsUtils.createFadeInAnimation(CONTAINER_PRINCIPAL_ANIMATION_DURATION));
                     mContainerPrincipal.setVisibility(View.VISIBLE);
                 }
             }, 2000);
@@ -173,9 +178,9 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
         if (isVideosSearched)
             outState.putBoolean(ARG_IS_VIDEO_SEARCHED, isVideosSearched);
         if (EmptyUtils.isNotNull(mTotalImages))
-            outState.putSerializable(ARG_IMAGES_SAVED, (ArrayList<ImageDTO>) mTotalImages);
+            outState.putParcelableArrayList(ARG_IMAGES_SAVED, (ArrayList<ImageDTO>) mTotalImages);
         if (EmptyUtils.isNotNull(mMovieDetails))
-            outState.putSerializable(ARG_MOVIE_SAVED, mMovieDetails);
+            outState.putParcelable(ARG_MOVIE_SAVED, mMovieDetails);
     }
 
 

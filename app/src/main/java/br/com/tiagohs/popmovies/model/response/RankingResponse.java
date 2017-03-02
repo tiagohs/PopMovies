@@ -5,13 +5,13 @@ package br.com.tiagohs.popmovies.model.response;
 
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class RankingResponse implements Serializable {
+public class RankingResponse implements Parcelable {
 
     @JsonProperty("Title")
     private String title;
@@ -410,4 +410,104 @@ public class RankingResponse implements Serializable {
     public void setError(@Nullable String error) {
         this.error = error;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.year);
+        dest.writeString(this.rated);
+        dest.writeString(this.released);
+        dest.writeString(this.runtime);
+        dest.writeString(this.genre);
+        dest.writeString(this.director);
+        dest.writeString(this.writer);
+        dest.writeString(this.country);
+        dest.writeString(this.actors);
+        dest.writeString(this.plot);
+        dest.writeString(this.language);
+        dest.writeString(this.awards);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.metascoreRating);
+        dest.writeString(this.imdbRanting);
+        dest.writeString(this.imdbVotes);
+        dest.writeString(this.imdbID);
+        dest.writeString(this.type);
+        dest.writeString(this.tomatoMeter);
+        dest.writeString(this.tomatoImage);
+        dest.writeString(this.tomatoRating);
+        dest.writeString(this.tomatoReviews);
+        dest.writeString(this.tomatoFresh);
+        dest.writeString(this.tomatoRotten);
+        dest.writeString(this.tomatoConsensus);
+        dest.writeString(this.tomatoUserMeter);
+        dest.writeString(this.tomatoUserRating);
+        dest.writeString(this.tomatoUserReviews);
+        dest.writeString(this.tomatoURL);
+        dest.writeString(this.dvdRelease);
+        dest.writeString(this.boxOffice);
+        dest.writeString(this.production);
+        dest.writeString(this.website);
+        dest.writeByte(this.response ? (byte) 1 : (byte) 0);
+        dest.writeString(this.error);
+    }
+
+    public RankingResponse() {
+    }
+
+    protected RankingResponse(Parcel in) {
+        this.title = in.readString();
+        this.year = in.readString();
+        this.rated = in.readString();
+        this.released = in.readString();
+        this.runtime = in.readString();
+        this.genre = in.readString();
+        this.director = in.readString();
+        this.writer = in.readString();
+        this.country = in.readString();
+        this.actors = in.readString();
+        this.plot = in.readString();
+        this.language = in.readString();
+        this.awards = in.readString();
+        this.posterPath = in.readString();
+        this.metascoreRating = in.readString();
+        this.imdbRanting = in.readString();
+        this.imdbVotes = in.readString();
+        this.imdbID = in.readString();
+        this.type = in.readString();
+        this.tomatoMeter = in.readString();
+        this.tomatoImage = in.readString();
+        this.tomatoRating = in.readString();
+        this.tomatoReviews = in.readString();
+        this.tomatoFresh = in.readString();
+        this.tomatoRotten = in.readString();
+        this.tomatoConsensus = in.readString();
+        this.tomatoUserMeter = in.readString();
+        this.tomatoUserRating = in.readString();
+        this.tomatoUserReviews = in.readString();
+        this.tomatoURL = in.readString();
+        this.dvdRelease = in.readString();
+        this.boxOffice = in.readString();
+        this.production = in.readString();
+        this.website = in.readString();
+        this.response = in.readByte() != 0;
+        this.error = in.readString();
+    }
+
+    public static final Parcelable.Creator<RankingResponse> CREATOR = new Parcelable.Creator<RankingResponse>() {
+        @Override
+        public RankingResponse createFromParcel(Parcel source) {
+            return new RankingResponse(source);
+        }
+
+        @Override
+        public RankingResponse[] newArray(int size) {
+            return new RankingResponse[size];
+        }
+    };
 }

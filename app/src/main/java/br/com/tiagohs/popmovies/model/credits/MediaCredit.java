@@ -19,16 +19,16 @@
  */
 package br.com.tiagohs.popmovies.model.credits;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
 /**
  *
  * @author Stuart.Boston
  */
-public class MediaCredit implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class MediaCredit implements Parcelable {
 
     @JsonProperty("credit_id")
     private String creditId;
@@ -81,4 +81,28 @@ public class MediaCredit implements Serializable {
 
         return false;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.creditId);
+        dest.writeInt(this.id);
+        dest.writeString(this.artworkPath);
+        dest.writeString(this.name);
+    }
+
+    public MediaCredit() {
+    }
+
+    protected MediaCredit(Parcel in) {
+        this.creditId = in.readString();
+        this.id = in.readInt();
+        this.artworkPath = in.readString();
+        this.name = in.readString();
+    }
+
 }

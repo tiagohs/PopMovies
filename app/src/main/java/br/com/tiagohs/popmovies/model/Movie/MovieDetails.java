@@ -1,12 +1,12 @@
 package br.com.tiagohs.popmovies.model.movie;
 
 
+import android.os.Parcel;
 import android.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -33,7 +33,7 @@ import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.model.review.Review;
 import br.com.tiagohs.popmovies.util.enumerations.MovieMethod;
 
-public class MovieDetails extends Movie implements Serializable  {
+public class MovieDetails extends Movie  {
 
     @JsonProperty("belongs_to_collection")
     private BelongsToCollection belongsToCollection;
@@ -61,7 +61,7 @@ public class MovieDetails extends Movie implements Serializable  {
     private String status;
 
     // AppendToResponse
-    private final Set<MovieMethod> methods = EnumSet.noneOf(MovieMethod.class);
+    private Set<MovieMethod> methods = EnumSet.noneOf(MovieMethod.class);
     // AppendToResponse Properties
     private List<AlternativeTitle> alternativeTitles = new ArrayList<>();
     private MediaCreditList credits = new MediaCreditList();
@@ -306,4 +306,85 @@ public class MovieDetails extends Movie implements Serializable  {
         methods.add(method);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.belongsToCollection, flags);
+        dest.writeLong(this.budget);
+        dest.writeTypedList(this.genres);
+        dest.writeString(this.homepage);
+        dest.writeString(this.imdbID);
+        dest.writeLong(this.revenue);
+        dest.writeList(this.productionCompanies);
+        dest.writeList(this.productionCountries);
+        dest.writeInt(this.runtime);
+        dest.writeList(this.spokenLanguages);
+        dest.writeString(this.tagline);
+        dest.writeString(this.status);
+        dest.writeValue(this.methods);
+        dest.writeTypedList(this.alternativeTitles);
+        dest.writeParcelable(this.credits, flags);
+        dest.writeTypedList(this.images);
+        dest.writeTypedList(this.keywords);
+        dest.writeList(this.releases);
+        dest.writeTypedList(this.videos);
+        dest.writeTypedList(this.translations);
+        dest.writeTypedList(this.similarMovies);
+        dest.writeList(this.reviews);
+        dest.writeList(this.changes);
+    }
+
+    public MovieDetails() {
+    }
+
+    protected MovieDetails(Parcel in) {
+        super(in);
+        this.belongsToCollection = in.readParcelable(BelongsToCollection.class.getClassLoader());
+        this.budget = in.readLong();
+        this.genres = in.createTypedArrayList(Genre.CREATOR);
+        this.homepage = in.readString();
+        this.imdbID = in.readString();
+        this.revenue = in.readLong();
+        this.productionCompanies = new ArrayList<ProductionCompany>();
+        in.readList(this.productionCompanies, ProductionCompany.class.getClassLoader());
+        this.productionCountries = new ArrayList<ProductionCountry>();
+        in.readList(this.productionCountries, ProductionCountry.class.getClassLoader());
+        this.runtime = in.readInt();
+        this.spokenLanguages = new ArrayList<Language>();
+        in.readList(this.spokenLanguages, Language.class.getClassLoader());
+        this.tagline = in.readString();
+        this.status = in.readString();
+        this.methods = in.readParcelable(Set.class.getClassLoader());
+        this.alternativeTitles = in.createTypedArrayList(AlternativeTitle.CREATOR);
+        this.credits = in.readParcelable(MediaCreditList.class.getClassLoader());
+        this.images = in.createTypedArrayList(Artwork.CREATOR);
+        this.keywords = in.createTypedArrayList(Keyword.CREATOR);
+        this.releases = new ArrayList<ReleaseInfo>();
+        in.readList(this.releases, ReleaseInfo.class.getClassLoader());
+        this.videos = in.createTypedArrayList(Video.CREATOR);
+        this.translations = in.createTypedArrayList(Translation.CREATOR);
+        this.similarMovies = in.createTypedArrayList(MovieDetails.CREATOR);
+        this.reviews = new ArrayList<Review>();
+        in.readList(this.reviews, Review.class.getClassLoader());
+        this.changes = new ArrayList<ChangeKeyItem>();
+        in.readList(this.changes, ChangeKeyItem.class.getClassLoader());
+    }
+
+    public static final Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
+        @Override
+        public MovieDetails createFromParcel(Parcel source) {
+            return new MovieDetails(source);
+        }
+
+        @Override
+        public MovieDetails[] newArray(int size) {
+            return new MovieDetails[size];
+        }
+    };
 }

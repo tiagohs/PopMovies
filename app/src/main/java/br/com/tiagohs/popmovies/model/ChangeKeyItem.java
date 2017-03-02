@@ -19,15 +19,16 @@
  */
 package br.com.tiagohs.popmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeKeyItem implements Serializable {
+public class ChangeKeyItem implements Parcelable {
 
-    private static final long serialVersionUID = 100L;
     @JsonProperty("key")
     private String key;
     @JsonProperty("items")
@@ -49,4 +50,35 @@ public class ChangeKeyItem implements Serializable {
         this.changedItems = changes;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.key);
+        dest.writeTypedList(this.changedItems);
+    }
+
+    public ChangeKeyItem() {
+    }
+
+    protected ChangeKeyItem(Parcel in) {
+        this.key = in.readString();
+        this.changedItems = in.createTypedArrayList(ChangedItem.CREATOR);
+    }
+
+    public static final Parcelable.Creator<ChangeKeyItem> CREATOR = new Parcelable.Creator<ChangeKeyItem>() {
+        @Override
+        public ChangeKeyItem createFromParcel(Parcel source) {
+            return new ChangeKeyItem(source);
+        }
+
+        @Override
+        public ChangeKeyItem[] newArray(int size) {
+            return new ChangeKeyItem[size];
+        }
+    };
 }

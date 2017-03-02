@@ -1,10 +1,13 @@
 package br.com.tiagohs.popmovies.model.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Tiago on 06/01/2017.
  */
 
-public class GenreDB {
+public class GenreDB implements Parcelable {
     private long id;
     private int genrerID;
     private String genrerName;
@@ -50,4 +53,35 @@ public class GenreDB {
     public void setGenrerName(String genrerName) {
         this.genrerName = genrerName;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeInt(this.genrerID);
+        dest.writeString(this.genrerName);
+    }
+
+    protected GenreDB(Parcel in) {
+        this.id = in.readLong();
+        this.genrerID = in.readInt();
+        this.genrerName = in.readString();
+    }
+
+    public static final Parcelable.Creator<GenreDB> CREATOR = new Parcelable.Creator<GenreDB>() {
+        @Override
+        public GenreDB createFromParcel(Parcel source) {
+            return new GenreDB(source);
+        }
+
+        @Override
+        public GenreDB[] newArray(int size) {
+            return new GenreDB[size];
+        }
+    };
 }

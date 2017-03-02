@@ -62,7 +62,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     public static Bundle createLinearListArguments(int orientation, boolean reverseLayout) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.LINEAR_LAYOUT);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putBoolean(ARG_REVERSE_LAYOUT, reverseLayout);
 
@@ -71,7 +71,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     public static Bundle createGridListArguments(int colunas) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.GRID_LAYOUT);
         bundle.putInt(ARG_NUM_COLUNAS, colunas);
 
         return bundle;
@@ -79,7 +79,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     public static Bundle createStaggeredListArguments(int spanCount, int orientation) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
+        bundle.putInt(ARG_TYPE_LAYOUT, ListsDefaultActivity.STAGGERED);
         bundle.putInt(ARG_ORIENTATION, orientation);
         bundle.putInt(ARG_SPAN_COUNT, spanCount);
 
@@ -90,7 +90,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         if (bundle == null)
             bundle = new Bundle();
 
-        bundle.putSerializable(ARG_PERSONS, (ArrayList<PersonListDTO>) persons);
+        bundle.putParcelableArrayList(ARG_PERSONS, (ArrayList<PersonListDTO>) persons);
 
         ListPersonsDefaultFragment listPersonsDefaultFragment = new ListPersonsDefaultFragment();
         listPersonsDefaultFragment.setArguments(bundle);
@@ -126,7 +126,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         getApplicationComponent().inject(this);
 
         mSort = (Sort) getArguments().getSerializable(ARG_PERSON_SORT);
-        mPersonCredit = (ArrayList<PersonListDTO>) getArguments().getSerializable(ARG_PERSONS);
+        mPersonCredit = getArguments().getParcelableArrayList(ARG_PERSONS);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
         mTypeListLayout = getArguments().getInt(ARG_TYPE_LAYOUT);
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);

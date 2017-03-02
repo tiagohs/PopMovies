@@ -1,11 +1,14 @@
 package br.com.tiagohs.popmovies.model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * Created by Tiago Henrique on 04/09/2016.
  */
-public class ImageDTO implements Serializable {
+public class ImageDTO implements Parcelable {
     private int movieID;
     private String imageID;
     private String imagePath;
@@ -56,4 +59,35 @@ public class ImageDTO implements Serializable {
         }
         return false;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.movieID);
+        dest.writeString(this.imageID);
+        dest.writeString(this.imagePath);
+    }
+
+    protected ImageDTO(Parcel in) {
+        this.movieID = in.readInt();
+        this.imageID = in.readString();
+        this.imagePath = in.readString();
+    }
+
+    public static final Parcelable.Creator<ImageDTO> CREATOR = new Parcelable.Creator<ImageDTO>() {
+        @Override
+        public ImageDTO createFromParcel(Parcel source) {
+            return new ImageDTO(source);
+        }
+
+        @Override
+        public ImageDTO[] newArray(int size) {
+            return new ImageDTO[size];
+        }
+    };
 }

@@ -19,8 +19,11 @@
  */
 package br.com.tiagohs.popmovies.model.media;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -29,9 +32,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author Stuart
  */
-public class Video implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class Video implements Parcelable {
 
     @JsonProperty("id")
     private String id;
@@ -143,4 +144,48 @@ public class Video implements Serializable {
                 .append(country)
                 .toHashCode();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.key);
+        dest.writeString(this.name);
+        dest.writeString(this.site);
+        dest.writeInt(this.size);
+        dest.writeString(this.type);
+        dest.writeString(this.language);
+        dest.writeString(this.country);
+    }
+
+    public Video() {
+    }
+
+    protected Video(Parcel in) {
+        this.id = in.readString();
+        this.key = in.readString();
+        this.name = in.readString();
+        this.site = in.readString();
+        this.size = in.readInt();
+        this.type = in.readString();
+        this.language = in.readString();
+        this.country = in.readString();
+    }
+
+    public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel source) {
+            return new Video(source);
+        }
+
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
 }

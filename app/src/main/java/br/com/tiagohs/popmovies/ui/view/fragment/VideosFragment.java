@@ -59,7 +59,7 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
     public static VideosFragment newInstance(int movieID, List<Translation> translations) {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_MOVIE_ID, movieID);
-        bundle.putSerializable(ARG_TRANSLATION, (ArrayList<Translation>) translations);
+        bundle.putParcelableArrayList(ARG_TRANSLATION, (ArrayList<Translation>) translations);
 
         VideosFragment videosFragment = new VideosFragment();
         videosFragment.setArguments(bundle);
@@ -71,7 +71,7 @@ public class VideosFragment extends BaseFragment implements VideosContract.Video
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mTranslations = (ArrayList<Translation>) getArguments().getSerializable(ARG_TRANSLATION);
+        mTranslations = getArguments().getParcelableArrayList(ARG_TRANSLATION);
         mMovieID = getArguments().getInt(ARG_MOVIE_ID, 0);
         mVideos = new ArrayList<>();
     }

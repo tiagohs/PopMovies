@@ -422,5 +422,8 @@
     <string name="movie_details_watched_marked">Marcado como Assistido</string>
     <string name="movie_details_watched_dont_marked">Desmarcado como Assistido</string>
     <string name="image_picker_title">Selecione a fonte da imagem</string>
+    <string name="login_google_title">Logar com o Google</string>
+    <string name="login_google_description">Realizar login utilizando o Google</string>
+    <string name="login_google_error">Erro ao realizar o login pelo google</string>
 
 </resources>

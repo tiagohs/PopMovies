@@ -66,7 +66,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     public static Intent newIntent(Context context, ListActivityDTO listDTO, List<PersonListDTO> persons) {
         Intent intent = new Intent(context, ListsDefaultActivity.class);
         intent.putExtra(ARG_FTO, listDTO);
-        intent.putExtra(ARG_PERSON_LIST, (ArrayList<PersonListDTO>) persons);
+        intent.putParcelableArrayListExtra(ARG_PERSON_LIST, (ArrayList<PersonListDTO>) persons);
 
         return intent;
     }
@@ -74,7 +74,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     public static Intent newIntent(Context context, List<MovieListDTO> movies, ListActivityDTO listDTO) {
         Intent intent = new Intent(context, ListsDefaultActivity.class);
         intent.putExtra(ARG_FTO, listDTO);
-        intent.putExtra(ARG_MOVIES_LIST, (ArrayList<MovieListDTO>) movies);
+        intent.putParcelableArrayListExtra(ARG_MOVIES_LIST, (ArrayList<MovieListDTO>) movies);
 
         return intent;
     }
@@ -83,10 +83,10 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mListActivityDTO = (ListActivityDTO) getIntent().getSerializableExtra(ARG_FTO);
-        mDiscoverDTO = (DiscoverDTO) getIntent().getSerializableExtra(ARG_DISCOVER_DTO);
-        mPersons = (ArrayList<PersonListDTO>) getIntent().getSerializableExtra(ARG_PERSON_LIST);
-        mMovies =  (ArrayList<MovieListDTO>) getIntent().getSerializableExtra(ARG_MOVIES_LIST);
+        mListActivityDTO = getIntent().getParcelableExtra(ARG_FTO);
+        mDiscoverDTO = getIntent().getParcelableExtra(ARG_DISCOVER_DTO);
+        mPersons = getIntent().getParcelableArrayListExtra(ARG_PERSON_LIST);
+        mMovies =  getIntent().getParcelableArrayListExtra(ARG_MOVIES_LIST);
 
         setActivityTitle(mListActivityDTO.getNameActivity());
         setActivitySubtitle(mListActivityDTO.getSubtitleActivity());

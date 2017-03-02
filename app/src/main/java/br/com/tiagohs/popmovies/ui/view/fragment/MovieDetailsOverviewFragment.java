@@ -132,7 +132,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
 
     public static MovieDetailsOverviewFragment newInstance(MovieDetails movie) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_MOVIE, movie);
+        bundle.putParcelable(ARG_MOVIE, movie);
 
         MovieDetailsOverviewFragment movieDetailsFragment = new MovieDetailsOverviewFragment();
         movieDetailsFragment.setArguments(bundle);
@@ -171,7 +171,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        mMovie = (MovieDetails) getArguments().getSerializable(ARG_MOVIE);
+        mMovie = getArguments().getParcelable(ARG_MOVIE);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package br.com.tiagohs.popmovies.model.dto;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import br.com.tiagohs.popmovies.R;
  * Created by Tiago Henrique on 09/10/2016.
  */
 
-public class SortByItemDTO {
+public class SortByItemDTO implements Parcelable {
     private String name;
     private String value;
 
@@ -61,4 +63,33 @@ public class SortByItemDTO {
 
         return list;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.value);
+    }
+
+    protected SortByItemDTO(Parcel in) {
+        this.name = in.readString();
+        this.value = in.readString();
+    }
+
+    public static final Parcelable.Creator<SortByItemDTO> CREATOR = new Parcelable.Creator<SortByItemDTO>() {
+        @Override
+        public SortByItemDTO createFromParcel(Parcel source) {
+            return new SortByItemDTO(source);
+        }
+
+        @Override
+        public SortByItemDTO[] newArray(int size) {
+            return new SortByItemDTO[size];
+        }
+    };
 }

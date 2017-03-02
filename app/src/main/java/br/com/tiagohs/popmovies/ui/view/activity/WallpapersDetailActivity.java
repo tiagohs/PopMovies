@@ -65,7 +65,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context context, List<ImageDTO> mImagens, ImageDTO positioImage, String pageTitle, String pageSubtitle, TypeShowImage typeShowImage) {
         Intent intent = new Intent(context, WallpapersDetailActivity.class);
-        intent.putExtra(ARG_IMAGES, (ArrayList<ImageDTO>) mImagens);
+        intent.putParcelableArrayListExtra(ARG_IMAGES, (ArrayList<ImageDTO>) mImagens);
         intent.putExtra(ARG_IMAGE_CURRENT, positioImage);
         intent.putExtra(ARG_WALLPAPERS_PAGE_TITLE, pageTitle);
         intent.putExtra(ARG_WALLPAPERS_PAGE_SUBTITLE, pageSubtitle);
@@ -78,6 +78,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpapers_detail);
+
         mBinder = ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
@@ -85,8 +86,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mImagens = (ArrayList<ImageDTO>) getIntent().getSerializableExtra(ARG_IMAGES);
-        mImageCurrent = (ImageDTO) getIntent().getSerializableExtra(ARG_IMAGE_CURRENT);
+        mImagens = getIntent().getParcelableArrayListExtra(ARG_IMAGES);
+        mImageCurrent = getIntent().getParcelableExtra(ARG_IMAGE_CURRENT);
         mPageTitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_TITLE);
         mPageSubtitle = getIntent().getStringExtra(ARG_WALLPAPERS_PAGE_SUBTITLE);
         mTypeShowImage = (TypeShowImage) getIntent().getSerializableExtra(ARG_TYPE_SHOW_IMAGE);

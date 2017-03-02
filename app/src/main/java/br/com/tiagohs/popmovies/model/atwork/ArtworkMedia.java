@@ -19,6 +19,8 @@
  */
 package br.com.tiagohs.popmovies.model.atwork;
 
+import android.os.Parcel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -27,10 +29,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.io.Serializable;
-
-import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.credits.MediaBasic;
+import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.tv.TVBasic;
 import br.com.tiagohs.popmovies.model.tv.TVEpisodeBasic;
 import br.com.tiagohs.popmovies.util.enumerations.MediaType;
@@ -39,9 +39,7 @@ import br.com.tiagohs.popmovies.util.enumerations.MediaType;
  *
  * @author Stuart
  */
-public class ArtworkMedia extends Artwork implements Serializable {
-
-    private static final long serialVersionUID = 100L;
+public class ArtworkMedia extends Artwork {
 
     private MediaType mediaType;
     @JsonTypeInfo(
@@ -100,4 +98,37 @@ public class ArtworkMedia extends Artwork implements Serializable {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.mediaType == null ? -1 : this.mediaType.ordinal());
+        dest.writeParcelable(this.media, flags);
+    }
+
+    public ArtworkMedia() {
+    }
+
+    protected ArtworkMedia(Parcel in) {
+        super(in);
+        int tmpMediaType = in.readInt();
+        this.mediaType = tmpMediaType == -1 ? null : MediaType.values()[tmpMediaType];
+        this.media = in.readParcelable(MediaBasic.class.getClassLoader());
+    }
+
+    public static final Creator<ArtworkMedia> CREATOR = new Creator<ArtworkMedia>() {
+        @Override
+        public ArtworkMedia createFromParcel(Parcel source) {
+            return new ArtworkMedia(source);
+        }
+
+        @Override
+        public ArtworkMedia[] newArray(int size) {
+            return new ArtworkMedia[size];
+        }
+    };
 }

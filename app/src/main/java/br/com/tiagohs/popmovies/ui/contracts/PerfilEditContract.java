@@ -7,10 +7,6 @@ import br.com.tiagohs.popmovies.ui.presenter.IPresenter;
 import br.com.tiagohs.popmovies.ui.view.IView;
 import io.reactivex.Observable;
 
-/**
- * Created by Tiago on 25/02/2017.
- */
-
 public class PerfilEditContract {
 
     public interface PerfilEditInterceptor {
@@ -32,7 +28,7 @@ public class PerfilEditContract {
         void setBirthday(Calendar birthday);
         void setCountry(String country);
         void setDescricao(String descricao);
-        void setPhoto(String path);
+        void setPhoto(String path, String name);
         void setLocalPhoto();
     }
 

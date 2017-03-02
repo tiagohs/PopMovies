@@ -1,13 +1,11 @@
 package br.com.tiagohs.popmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-/**
- * Created by Tiago Henrique on 24/08/2016.
- */
-public abstract class IDNameAbstract implements Serializable {
+public abstract class IDNameAbstract {
     @JsonProperty("id")
     private int id;
 
@@ -37,4 +35,5 @@ public abstract class IDNameAbstract implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 }
