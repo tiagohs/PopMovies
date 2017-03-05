@@ -30,7 +30,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     compileSdkVersion 25
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "br.com.tiagohs.popmovies"

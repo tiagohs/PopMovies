@@ -59,7 +59,7 @@ public class WallpapersFragment extends BaseFragment {
             noImages();
         else {
             mWallpapersRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.images_movie_detail_columns)));
-            mWallpapersRecyclerView.setAdapter(new ImageAdapter(getContext(), mWallpapers, (ImagesCallbacks) getActivity(), mWallpapers));
+            mWallpapersRecyclerView.setAdapter(new ImageAdapter(getContext(), mWallpapers, (ImagesCallbacks) getActivity(), mWallpapers, isTablet()));
             mProgress.setVisibility(View.GONE);
         }
 

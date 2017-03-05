@@ -39,6 +39,7 @@
     <dimen name="margin_default_medium">10dp</dimen>
     <dimen name="line_height">1dp</dimen>
     <dimen name="recycler_view_min_height">150dp</dimen>
+    <dimen name="recycler_view_person_min_height">150dp</dimen>
     <dimen name="margin_divider_small">1dp</dimen>
     <dimen name="item_movie_fixo_width">100dp</dimen>
     <dimen name="item_person_fixo_width">100dp</dimen>
@@ -86,6 +87,8 @@
     <dimen name="person_detail_social_width">40dp</dimen>
     <dimen name="person_detail_movies_height">72dp</dimen>
     <dimen name="person_detail_name_txt_size">30sp</dimen>
+    <dimen name="person_detail_button_height">40dp</dimen>
+    <dimen name="person_detail_button_width">120dp</dimen>
 
     <!-- Home -->
     <dimen name="destaques_min_height">30dp</dimen>
@@ -112,9 +115,10 @@
     <dimen name="include_movie_detail_image_height">145dp</dimen>
     <dimen name="include_movie_detail_icon_size">20dp</dimen>
     <dimen name="include_movie_detail_icon_margin">2dp</dimen>
-    <dimen name="include_movie_detail_title_size">20dp</dimen>
+    <dimen name="include_movie_detail_title_size">20sp</dimen>
     <dimen name="include_movie_detail_title_height">35dp</dimen>
     <dimen name="include_movie_detail_directors_height">30dp</dimen>
+    <dimen name="include_movie_detail_rankings_progress_height">120dp</dimen>
     <dimen name="movie_detail_button_height">40dp</dimen>
     <dimen name="movie_detail_button_width">90dp</dimen>
     <dimen name="movie_detail_page_min_width">125dp</dimen>
@@ -122,6 +126,10 @@
     <dimen name="movie_detail_icon_medium_height">40dp</dimen>
     <dimen name="movie_detail_button_review_margin">16dp</dimen>
     <dimen name="button_user_txt_size">12sp</dimen>
+    <dimen name="include_movie_details_cons_aspas">30sp</dimen>
+    <dimen name="include_movie_detail_rankings_height">100dp</dimen>
+    <dimen name="include_movie_detail_rankings_size">100dp</dimen>
+    <dimen name="include_movie_detail_rankings_metascore_txt_size">22sp</dimen>
 
     <!-- Genres -->
     <dimen name="genres_item_radius">8dp</dimen>
@@ -155,4 +163,8 @@
     <dimen name="share_movie_image_height">155dp</dimen>
     <dimen name="share_sociais_images_margin">20dp</dimen>
     <dimen name="share_sociais_image_width">15dp</dimen>
+
+
+
+
 </resources>

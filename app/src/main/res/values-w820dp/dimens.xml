@@ -17,4 +17,17 @@
     <!-- Navigation View -->
     <dimen name="nav_header_vertical_spacing">24dp</dimen>
     <dimen name="nav_header_height">210dp</dimen>
+
+    <!-- Movies Details -->
+    <dimen name="movie_detail_image_background_height">650dp</dimen>
+    <dimen name="include_movie_detail_image_width">200dp</dimen>
+    <dimen name="include_movie_detail_image_height">250dp</dimen>
+    <dimen name="include_movie_detail_height">260dp</dimen>
+    <dimen name="movie_detail_header_height">220dp</dimen>
+    <dimen name="include_movie_detail_title_size">40sp</dimen>
+    <dimen name="include_movie_detail_directors_height">60dp</dimen>
+    <dimen name="include_movie_detail_title_height">65dp</dimen>
+    <dimen name="froating_button_width">100dp</dimen>
+    <dimen name="froating_button_height">100dp</dimen>
+
 </resources>

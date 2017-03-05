@@ -127,6 +127,7 @@
         <br.com.tiagohs.popmovies.ui.tools.PopTextView
             android:id="@+id/descricao_person"
             android:layout_width="match_parent"
+            android:textSize="@dimen/txt_size_medium"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -148,15 +149,15 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/person_detail_button_width"
+                    android:layout_height="@dimen/person_detail_button_height"
+                    android:drawablePadding="@dimen/movie_detail_icon_padding"
                     android:layout_gravity="center"
                     android:id="@+id/btn_wiki"
                     android:drawableLeft="@drawable/ic_wiki"
                     android:background="@android:color/transparent"
                     android:textColor="@color/secondary_text"
-                    android:padding="10dp"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/txt_size_small"
                     android:text="@string/wiki"/>
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -170,14 +171,13 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/person_detail_button_height"
                     android:layout_gravity="center"
                     android:id="@+id/btn_imdb"
                     android:background="@android:color/transparent"
                     android:textColor="@color/secondary_text"
-                    android:padding="10dp"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/txt_size_medium"
                     android:text="@string/imdb"/>
 
             </com.balysv.materialripple.MaterialRippleLayout>

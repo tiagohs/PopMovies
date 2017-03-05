@@ -1,6 +1,7 @@
 package br.com.tiagohs.popmovies.ui.adapters;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import java.util.List;
 import br.com.tiagohs.popmovies.R;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
 import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
+import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import butterknife.BindView;
@@ -24,12 +26,16 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     private List<PersonListDTO> mElenco;
     private PersonCallbacks mCallbacks;
     private Fragment mFragment;
+    private boolean mIsTablet;
+    private int mLayoutID;
 
-    public PersonAdapter(Context context, Fragment fragment, List<PersonListDTO> cast, PersonCallbacks callbacks) {
+    public PersonAdapter(Context context, Fragment fragment, List<PersonListDTO> cast, PersonCallbacks callbacks, boolean isTablet, int layoutID) {
         this.mContext = context;
         this.mElenco = cast;
         this.mCallbacks = callbacks;
         this.mFragment = fragment;
+        this.mIsTablet = isTablet;
+        this.mLayoutID = layoutID;
     }
 
     public void setElenco(List<PersonListDTO> genre) {
@@ -39,7 +45,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     @Override
     public ElencoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.item_person_default, parent, false);
+        View view = layoutInflater.inflate(mLayoutID, parent, false);
 
         return new ElencoViewHolder(view);
     }
@@ -55,9 +61,9 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     }
 
     class ElencoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.nome_profissional_movie)         TextView mNomeTextView;
-        @BindView(R.id.subtitulo_item_person_movie)     TextView mSubtituloTextView;
-        @BindView(R.id.image_circle)                    ImageView mImagemPerson;
+        @BindView(R.id.nome_profissional_movie)                   TextView mNomeTextView;
+        @Nullable @BindView(R.id.subtitulo_item_person_movie)     TextView mSubtituloTextView;
+        @BindView(R.id.image_circle)                              ImageView mImagemPerson;
 
         private PersonListDTO mPerson;
 
@@ -72,9 +78,15 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
             this.mPerson = person;
 
             if (mFragment.isAdded()) {
-                ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, mPerson.getNamePerson(), ImageSize.PROFILE_185);
+                ImageUtils.loadByCircularImage(mContext, mPerson.getProfilePath(), mImagemPerson, mPerson.getNamePerson(), mIsTablet ? ImageSize.PROFILE_ORIGINAL : ImageSize.PROFILE_185);
+
+                if (mIsTablet)
+                    mImagemPerson.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
                 mNomeTextView.setText(mPerson.getNamePerson());
-                mSubtituloTextView.setText(mPerson.getSubtitulo());
+
+                if (EmptyUtils.isNotNull(mSubtituloTextView))
+                    mSubtituloTextView.setText(mPerson.getSubtitulo());
             }
 
         }

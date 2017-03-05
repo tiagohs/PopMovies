@@ -173,7 +173,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
             int columnCount = getResources().getInteger(R.integer.images_movie_detail_columns);
             mImagensRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
             mImagensRecyclerView.setNestedScrollingEnabled(false);
-            mImageAdapter = new ImageAdapter(getActivity(), imageDTOs, mImagesCallbacks, mTotalImagesDTO);
+            mImageAdapter = new ImageAdapter(getActivity(), imageDTOs, mImagesCallbacks, mTotalImagesDTO, isTablet());
             mImagensRecyclerView.setAdapter(mImageAdapter);
         } else
             mWallpapersContainer.setVisibility(View.GONE);

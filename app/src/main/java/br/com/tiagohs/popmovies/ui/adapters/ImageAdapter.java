@@ -24,12 +24,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private List<ImageDTO> mTotalImagens;
     private Context mContext;
     private ImagesCallbacks mCallbacks;
+    private boolean mIsTablet;
 
-    public ImageAdapter(Context context, List<ImageDTO> images, ImagesCallbacks callbacks, List<ImageDTO> totalImagens) {
+    public ImageAdapter(Context context, List<ImageDTO> images, ImagesCallbacks callbacks, List<ImageDTO> totalImagens, boolean isTablet) {
         this.mContext = context;
         this.mImages = images;
         this.mCallbacks = callbacks;
         this.mTotalImagens = totalImagens;
+        this.mIsTablet = isTablet;
     }
 
     public void setImages(List<ImageDTO> images) {
@@ -70,7 +72,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public void bindImage(ImageDTO image) {
             this.mImage = image;
 
-            ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_300, mProgress);
+            ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, mIsTablet ? ImageSize.BACKDROP_780 : ImageSize.BACKDROP_300, mProgress);
         }
 
         @Override

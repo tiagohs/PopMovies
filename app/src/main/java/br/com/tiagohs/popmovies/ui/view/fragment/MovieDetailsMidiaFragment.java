@@ -233,9 +233,9 @@ public class MovieDetailsMidiaFragment extends BaseFragment implements MovieDeta
     private void setupImageAdapter() {
 
         if (mMovieDetails.getImages().size() > 6)
-            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks, mTotalImages);
+            mImageAdapter = new ImageAdapter(getActivity(), getImageDTO(6), mImagesCallbacks, mTotalImages, isTablet());
         else
-            mImageAdapter = new ImageAdapter(getActivity(), mTotalImages, mImagesCallbacks, mTotalImages);
+            mImageAdapter = new ImageAdapter(getActivity(), mTotalImages, mImagesCallbacks, mTotalImages, isTablet());
 
         mImagesRecyclerView.setAdapter(mImageAdapter);
 

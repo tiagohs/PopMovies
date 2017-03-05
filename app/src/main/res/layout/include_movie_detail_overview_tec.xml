@@ -324,7 +324,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_elenco"
-                android:minHeight="@dimen/recycler_view_min_height"
+                android:minHeight="@dimen/recycler_view_person_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -379,7 +379,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container_equipe_tecnica"
-                android:minHeight="@dimen/recycler_view_min_height"
+                android:minHeight="@dimen/recycler_view_person_min_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -201,6 +201,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+    protected boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
+    }
+
     protected PopMoviesComponent getApplicationComponent() {
         return ((App) getApplication()).getPopMoviesComponent();
     }

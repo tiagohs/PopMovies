@@ -139,6 +139,9 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
 
     public void setImagePerfil(String imagePath) {
         ImageUtils.load(this, imagePath, mProfileDB.getUser().getNome(),  mImagePerfil, mProgressFotoPerfil);
+
+        if (isTablet())
+            mImagePerfil.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
     public void setLocalImagePerfil() {

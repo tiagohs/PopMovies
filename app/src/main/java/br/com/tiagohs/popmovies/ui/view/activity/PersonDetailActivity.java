@@ -273,7 +273,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
                 }
             });
 
-            ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), ImageSize.POSTER_154);
+            ImageUtils.loadByCircularImage(this, mPerson.getProfilePath(), mImagePerson, mPerson.getName(), isTablet() ? ImageSize.PROFILE_632 : ImageSize.PROFILE_185);
+
+            if (isTablet())
+                mImagePerson.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             AnimationsUtils.creatScaleUpAnimation(mPictureContainer, IMAGE_SCALE_UP_ANIMATION_DURATION);
             mPictureContainer.setVisibility(View.VISIBLE);

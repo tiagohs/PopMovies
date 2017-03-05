@@ -136,9 +136,9 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
                 break;
             case PERSON:
                 if (null == mPersons)
-                    fragment = ListPersonsDefaultFragment.newInstance(mListActivityDTO.getSortList(), ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                    fragment = ListPersonsDefaultFragment.newInstance(mListActivityDTO.getSortList(), R.layout.item_person_default, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 else
-                    fragment = ListPersonsDefaultFragment.newInstance(mPersons, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
+                    fragment = ListPersonsDefaultFragment.newInstance(mPersons, R.layout.item_person_default, ListMoviesDefaultFragment.createGridListArguments(getResources().getInteger(R.integer.movies_columns)));
                 break;
         }
 

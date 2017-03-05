@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:text="Tiago Henrique"
             android:textColor="@color/primary_text"
             android:layout_marginTop="@dimen/perfil_name_txt_size"
             app:font="@string/font_open_sans_bold"

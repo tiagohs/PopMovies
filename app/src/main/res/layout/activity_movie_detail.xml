@@ -122,11 +122,11 @@
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/froating_button_width"
+            android:layout_height="@dimen/froating_button_width"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/margin_default_min"
+            android:layout_marginRight="@dimen/margin_default_min"
             app:menu_icon="@drawable/ic_play_only"
             app:menu_colorNormal="@color/floating_normal"
             app:menu_colorPressed="@color/colorPrimary"
@@ -137,8 +137,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_googleplay"
-                app:fab_size="mini"
-                app:fab_label="Google Play"
+                app:fab_size="normal"
+                app:fab_label="@string/google_play"
                 app:fab_colorNormal="@color/colorPrimary"
                 app:fab_colorPressed="@color/floating_normal"
                 app:fab_colorRipple="@color/floating_riple"/>
@@ -148,8 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_netflix"
-                app:fab_size="mini"
-                app:fab_label="Netflix"
+                app:fab_size="normal"
+                app:fab_label="@string/netflix"
                 app:fab_colorNormal="@color/colorPrimary"
                 app:fab_colorPressed="@color/floating_normal"
                 app:fab_colorRipple="@color/floating_riple"/>
@@ -159,8 +159,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_amazon"
-                app:fab_size="mini"
-                app:fab_label="Amazon"
+                app:fab_size="normal"
+                app:fab_label="@string/amazon"
                 app:fab_colorNormal="@color/colorPrimary"
                 app:fab_colorPressed="@color/floating_normal"
                 app:fab_colorRipple="@color/floating_riple"/>

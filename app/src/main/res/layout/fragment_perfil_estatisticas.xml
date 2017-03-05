@@ -71,7 +71,7 @@
                                 android:gravity="center"
                                 android:text="20"
                                 android:textColor="@android:color/white"
-                                android:textSize="30dp"/>
+                                android:textSize="@dimen/txt_hours_watched_number"/>
 
                             <br.com.tiagohs.popmovies.ui.tools.PopTextView
                                 android:id="@+id/label_total_filmes"
@@ -311,6 +311,7 @@
                             android:id="@+id/total_movies_watched"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/txt_size_medium"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin_default_min"
                             app:font="@string/font_open_sans"/>
@@ -334,6 +335,7 @@
                             android:id="@+id/total_movies_favorites"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/txt_size_medium"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin_default_min"
                             app:font="@string/font_open_sans"/>
@@ -357,6 +359,7 @@
                             android:id="@+id/total_movies_want_see"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/txt_size_medium"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin_default_min"
                             app:font="@string/font_open_sans"/>
@@ -380,6 +383,7 @@
                             android:id="@+id/total_movies_dont_want_see"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/txt_size_medium"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin_default_min"
                             app:font="@string/font_open_sans"/>
@@ -408,6 +412,7 @@
                         android:id="@+id/resumo_dados_pessoais"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/txt_size_medium"
                         android:layout_marginLeft="@dimen/margin_default_min"
                         app:font="@string/font_open_sans"/>
 

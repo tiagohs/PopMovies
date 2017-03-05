@@ -58,6 +58,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getViewID();
 
+    protected boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
+    }
+
     public void showDialogProgress() {
         materialDialog = new MaterialDialog.Builder(getActivity())
                 .content(getString(R.string.progress_wait))

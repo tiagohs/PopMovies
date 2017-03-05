@@ -39,6 +39,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     private static final String ARG_ORIENTATION = "orientation";
     private static final String ARG_REVERSE_LAYOUT= "reverseLayout";
     private static final String ARG_SPAN_COUNT = "spanCount";
+    private static final String ARG_LAYOUTID = "layout_ID";
 
     @BindView(R.id.list_person_recycler_view)       RecyclerView mPersonsRecyclerView;
     @BindView(R.id.list_person_principal_progress)  ProgressWheel mPersonProgress;
@@ -57,6 +58,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     private int mOrientation;
     private int mTypeListLayout;
     private int mColunas;
+    private int mLayoutID;
     private int mSpanCount;
     private boolean mReverseLayout;
 
@@ -86,22 +88,24 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         return bundle;
     }
 
-    public static ListPersonsDefaultFragment newInstance(List<PersonListDTO> persons, Bundle bundle) {
+    public static ListPersonsDefaultFragment newInstance(List<PersonListDTO> persons, int layoutID, Bundle bundle) {
         if (bundle == null)
             bundle = new Bundle();
 
         bundle.putParcelableArrayList(ARG_PERSONS, (ArrayList<PersonListDTO>) persons);
+        bundle.putInt(ARG_LAYOUTID, layoutID);
 
         ListPersonsDefaultFragment listPersonsDefaultFragment = new ListPersonsDefaultFragment();
         listPersonsDefaultFragment.setArguments(bundle);
         return listPersonsDefaultFragment;
     }
 
-    public static ListPersonsDefaultFragment newInstance(Sort sortPerson, Bundle bundle) {
+    public static ListPersonsDefaultFragment newInstance(Sort sortPerson, int layoutID, Bundle bundle) {
         if (bundle == null)
             bundle = new Bundle();
 
         bundle.putSerializable(ARG_PERSON_SORT, sortPerson);
+        bundle.putInt(ARG_LAYOUTID, layoutID);
 
         ListPersonsDefaultFragment listPersonsDefaultFragment = new ListPersonsDefaultFragment();
         listPersonsDefaultFragment.setArguments(bundle);
@@ -129,6 +133,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
         mPersonCredit = getArguments().getParcelableArrayList(ARG_PERSONS);
         mColunas = getArguments().getInt(ARG_NUM_COLUNAS, 2);
         mTypeListLayout = getArguments().getInt(ARG_TYPE_LAYOUT);
+        mLayoutID = getArguments().getInt(ARG_LAYOUTID);
         mOrientation = getArguments().getInt(ARG_NUM_COLUNAS, LinearLayout.HORIZONTAL);
         mReverseLayout = getArguments().getBoolean(ARG_REVERSE_LAYOUT);
         mSpanCount = getArguments().getInt(ARG_SPAN_COUNT);
@@ -192,7 +197,7 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
 
     private void setupAdapter() {
         if (mPersonAdapter == null) {
-            mPersonAdapter = new PersonAdapter(getActivity(), this, mPersonCredit == null ? new ArrayList<PersonListDTO>() : mPersonCredit, mCallbacks);
+            mPersonAdapter = new PersonAdapter(getActivity(), this, mPersonCredit == null ? new ArrayList<PersonListDTO>() : mPersonCredit, mCallbacks, isTablet(), mLayoutID);
             mPersonsRecyclerView.setAdapter(mPersonAdapter);
         } else
             updateAdapter();

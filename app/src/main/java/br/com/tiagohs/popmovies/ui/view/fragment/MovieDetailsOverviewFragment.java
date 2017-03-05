@@ -257,12 +257,12 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
         if (mMovie.getCast().isEmpty()) {
             mElencoNaoEncontrado.setVisibility(View.VISIBLE);
         } else
-            startFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+            startFragment(R.id.container_elenco, ListPersonsDefaultFragment.newInstance(DTOUtils.createCastPersonListDTO(mMovie.getCast()), R.layout.item_person_movie_details, ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
 
         if (mMovie.getCrew().isEmpty()) {
             mEquipeNaoEncontrada.setVisibility(View.VISIBLE);
         } else
-            startFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
+            startFragment(R.id.container_equipe_tecnica, ListPersonsDefaultFragment.newInstance(DTOUtils.createCrewPersonListDTO(mMovie.getCrew()), R.layout.item_person_movie_details, ListPersonsDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false)));
 
     }
 
