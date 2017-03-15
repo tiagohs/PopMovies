@@ -12,6 +12,8 @@
 
 <p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
+![screen](../master/arts/gif.gif)
+
 ###Base de Dados:
 <ul>
 <li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
@@ -21,8 +23,6 @@
 <ul>
 <li><a href="http://antonioleiva.com/mvp-android">MVP</a> - Model View Presenter.</li>
 </ul>
-
-![screen](../master/arts/gif.gif)
 
 ###Libaries utilizadas nesse Projeto:
 
