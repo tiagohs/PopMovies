@@ -18,10 +18,11 @@
 <li><a href="https://github.com/jvanbaarsen/omdb"><b>OMDB API</b></a> - The OMDb API is a free web service to obtain movie information, all content and images on the site are contributed and maintained by our users.</li>
 </ul>
 ###Padrões de Projetos Adotados:
-
 <ul>
 <li><a href="http://antonioleiva.com/mvp-android">MVP</a> - Model View Presenter.</li>
 </ul>
+
+![screen](../master/arts/gif.gif)
 
 ###Libaries utilizadas nesse Projeto:
 
@@ -45,6 +46,12 @@
 <li><a href="https://github.com/pnikosis/materialish-progress">Material-ish Progress</a> - A material style progress wheel compatible with 2.3. </li>
 <li><a href="https://github.com/syedowaisali/crystal-range-seekbar">Crystal Range Seekbar</a> - An extended version of seekbar and range seekbar with basic and advanced customization. </li>
 </ul>
+
+## Screens
+
+![screen](../master/arts/Screenshot_1489538467.png)
+![screen](../master/arts/Screenshot_1489538429.png)
+![screen](../master/arts/Screenshot_1489538508.png)
 
 ###Desenvolvido por:
 
