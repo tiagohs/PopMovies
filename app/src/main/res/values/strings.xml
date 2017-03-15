@@ -1,54 +1,112 @@
 <resources>
 
-    <!-- Defaults -->
-    <string name="facebook_app_id">1628004524169901</string>
-    <string name="app_name">PopMovies</string>
-    <string name="font_open_sans">opensans.ttf</string>
-    <string name="font_open_sans_italic">openSansItalic.ttf</string>
-    <string name="font_open_sans_bold">openSansBold.ttf</string>
-    <string name="font_times_new_roman">TimesNewRoman.ttf</string>
+    <!-- Onde é usado? -->
+    <string name="buscar_by_ano_lancamento">Escolha o ano de lançamento:</string>
+    <string name="list_default">Lista Default</string>
 
-    <string name="movie_action_add_favourite">Add aos Favoritos</string>
-    <string name="progress_wait">Aguarde..</string>
-    <string name="tentar_novamente">TENTAR NOVAMENTE</string>
-    <string name="error_no_internet">Sem Conexão</string>
-    <string name="pop_movie_title_principal">PopMovies</string>
-    <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
-    <string name="title_original">Original:</string>
+    <!-- Fonts -->
+    <string name="font_open_sans" translatable="false">opensans.ttf</string>
+    <string name="font_open_sans_italic" translatable="false">openSansItalic.ttf</string>
+    <string name="font_open_sans_bold" translatable="false">openSansBold.ttf</string>
+    <string name="font_times_new_roman" translatable="false">TimesNewRoman.ttf</string>
+
+    <!-- Defaults -->
+    <string name="facebook_app_id" translatable="false">1628004524169901</string>
+
+    <string name="app_name" translatable="false">PopMovies</string>
+
+    <string name="poster_movie" translatable="false">poster_movie</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
     <string name="navigation_drawer_close">Fechar navigation drawer</string>
-    <string name="tab_populares">Populares</string>
-    <string name="tab_favoritos">Favoritos</string>
+    <string name="label_mais">Mais ></string>
+    <string name="less">Ler menos..</string>
+    <string name="more">Leia mais..</string>
+    <string name="image_picker_title">Selecione a fonte da imagem</string>
+    <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
+
+    <!-- Messages -->
+    <string name="movie_action_add_favourite">Add aos Favoritos</string>
+    <string name="progress_wait">Aguarde..</string>
+    <string name="tentar_novamente">Tentar Novamente</string>
+    <string name="nao_disponivel">Não disponível.</string>
+    <string name="loading">Carregando...</string>
+    <string name="no_movies_find">Nenhum filme encontrado.</string>
+    <string name="no_person_find">Nenhuma pessoa encontrada!</string>
+
+    <!-- Error Messages -->
+    <string name="error_no_internet">Sem Conexão</string>
+    <string name="imagens_error_load">Erro ao carregar as imagens</string>
+    <string name="videos_error_load">Erro ao carregar os vídeos</string>
+    <string name="person_detail_error">Erro no servidor</string>
+    <string name="error_no_server">Erro no servidor</string>
+    <string name="genre_error_network">Erro ao ao recuperar gêneros</string>
+    <string name="erro_unexpected">Erro inesperado</string>
+    <string name="error_save_movie">Erro ao salvar o filme</string>
+    <string name="error_loading_background">Erro ao carregar imagem de background</string>
+    <string name="login_facebook_cancelled">Login pelo facebook cancelado</string>
+    <string name="login_facebook_error">Erro ao realizar o login pelo facebook</string>
+    <string name="login_twitter_error">Erro ao realizar o login pelo twitter</string>
+    <string name="error_permission_save">Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso</string>
+    <string name="error_rankings">Erro ao carregar notas do IMDB e Tomatoes</string>
+    <string name="login_google_error">Erro ao realizar o login pelo google</string>
+
+    <!-- Sucess Messages -->
+    <string name="sucess_save_movie">Filme salvo com sucesso.</string>
+    <string name="sucess_data_saved">Dados salvos com sucesso</string>
+    <string name="sucess_image_saved">Imagem salva com sucesso</string>
+    <string name="sucess_delete_movie">Filme deletado com sucesso</string>
+
+    <!-- Options Menu and Navigation Drawer -->
     <string name="action_opcoes">Opções</string>
     <string name="action_procurar">Procurar</string>
-    <string name="movie_duracao">%1$d Min.</string>
-    <string name="nao_ha_sinopse">Não há uma sinopse em %1$s.</string>
-    <string name="nao_ha_biografia">Não há uma biografia disponíbel.</string>
-    <string name="person_carrer_movie_character">Personagem: %1$s</string>
-    <string name="person_carrer_movie_departamento">Departamento: %1$s</string>
-    <string name="label_mais">MAIS ></string>
-    <string name="wiki">WIKI</string>
-    <string name="tvrage">TVRAGE</string>
-    <string name="freebase">FREEBASE</string>
-    <string name="titles_movie_details_overview_similares">Similares</string>
-    <string name="titulo_original">Titulo Original:</string>
-    <string name="idioma_original">Idioma Original:</string>
-    <string name="orcamento">Orçamento:</string>
-    <string name="receita">Receita:</string>
-    <string name="titles_movie_detail_tecnico_cast">Elenco Principal</string>
-    <string name="titles_movie_detail_tecnico_crew">Equipe Técnica</string>
-    <string name="titles_movie_detail_tecnico_keywords">KEYWORDS</string>
-    <string name="data_nascimento_formatado">%1$s - %2$d</string>
-    <string name="imdb_votes">%1$s votos</string>
-    <string name="keyword_name">Keyword</string>
-    <string name="tomatoes_num_reviews">%1$s reviews</string>
-    <string name="conhecido_por_title_activity">Conhecido por..</string>
-    <string name="similares_title_activity">Similares</string>
-    <string name="wallpapers_title">Wallpapers</string>
-    <string name="discover">Discovers</string>
-    <string name="popular">Populares</string>
-    <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
+    <string name="action_settings">Opções</string>
+    <string name="action_recarregar">Atualizar</string>
+    <string name="action_save">Salvar</string>
+    <string name="menu_sobre">Sobre</string>
+    <string name="menu_sair">Sair</string>
+    <string name="menu_configuracoes">Configurações</string>
+    <string name="menu_assistidos">Assistidos</string>
+    <string name="menu_search">Procurar</string>
+    <string name="menu_atores">Atores</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_compartilhar">Compartilhar</string>
+    <string name="action_go_gallery">Ir para a Galeria</string>
+    <string name="menu_open_navegador">Abrir no Navegador</string>
+    <string name="sobre_title_actionbar">Sobre</string>
+    <string name="idioma_portugues">Português</string>
+    <string name="idioma_ingles">Inglês</string>
+    <string name="idioma_espanhol">Espanhol</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="edit_done">Salvar</string>
 
+    <!-- Tabs -->
+    <string name="tab_populares">Populares</string>
+    <string name="tab_favoritos">Favoritos</string>
+    <string name="tab_lancamentos">Lançamentos</string>
+    <string name="tab_midia">Midia</string>
+
+    <!-- Buttons -->
+    <string name="imdb">IMDB</string>
+    <string name="wiki">Wiki</string>
+    <string name="filmow">Filmow</string>
+    <string name="pagina_inicial">Página Inicial</string>
+    <string name="want_see_button">Quero Ver</string>
+    <string name="dont_want_see_button">Não quero ver</string>
+    <string name="btn_ok">Ok</string>
+    <string name="btn_no_thanks">Não, obrigado</string>
+    <string name="btn_aplicar">Aplicar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_reset">Resetar</string>
+    <string name="btn_nenhum">Nenhum</string>
+    <string name="btn_yes">Sim</string>
+    <string name="btn_no">Não</string>
+    <string name="tomatoes">Tomatoes</string>
+    <string name="metascore">Metascore</string>
+    <string name="google_play">Google Play</string>
+    <string name="netflix">Netflix</string>
+    <string name="amazon">Amazon</string>
+
+    <!-- Links -->
     <string name="facebook_link" translatable="false">https://www.facebook.com/%1$s</string>
     <string name="facebook_photo" translatable="false">https://graph.facebook.com/%1$s/picture?type=large</string>
     <string name="twitter_link_uri" translatable="false">twitter://user?screen_name=%1$s</string>
@@ -62,27 +120,11 @@
     <string name="filmow_url" translatable="false">https://filmow.com/buscar/?year_start=&amp;year_end=&amp;other_seen_user=&amp;other_want_see_user=&amp;q=%1$s&amp;order=boost</string>
     <string name="netflix_link" translatable="false">https://www.netflix.com/search?q=%1$s</string>
     <string name="google_play_link" translatable="false">https://play.google.com/store/search?q=%1$s&amp;c=movies&amp;hl=%2$s</string>
-
     <string name="imdb_reviews_link" translatable="false">https://www.imdb.com/title/%1$s/reviews</string>
     <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
     <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
     <string name="youtube_link" translatable="false">"https://img.youtube.com/vi/%1$s/0.jpg"</string>
-    <string name="lanc_date_min_max" translatable="false">%1$s - %2$s</string>
-
-    <string name="downloaded_image_perfil_name"  translatable="false">%1$d_perfil.jpg</string>
-    <string name="downloaded_image_name"  translatable="false">%1$d_image.jpg</string>
     <string name="url_image" translatable="false">http://image.tmdb.org/t/p/%1$s/%2$s</string>
-
-    <string name="collection">Franquia %1$s</string>
-
-
-
-
-
-    <string name="perfil_dados_pais">%1$s</string>
-    <string name="perfil_dados_pais_idade">%1$s, %2$s %3$s</string>
-    <string name="perfil_dados_pais_genero">%1$s- %2$s</string>
-    <string name="perfil_dados_pais_idade_genero">%1$s, %2$s %3$s - %4$s</string>
 
     <!-- Arrays -->
     <string-array name="person_gender">
@@ -102,31 +144,14 @@
         <item>Pessoas</item>
     </string-array>
 
-
-    <string-array name="sort_by_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
-
-
     <!-- Plurals -->
-    <plurals name="number_of_films_person">
-        <item quantity="one">FILME</item>
-        <item quantity="other">FILMES</item>
+    <plurals name="number_of_films">
+        <item quantity="one">Filme</item>
+        <item quantity="other">Filmes</item>
     </plurals>
     <plurals name="number_of_fotos_person">
-        <item quantity="one">FOTO</item>
-        <item quantity="other">FOTOS</item>
-    </plurals>
-    <plurals name="number_idade">
-        <item quantity="one">Ano</item>
-        <item quantity="other">Anos</item>
+        <item quantity="one">Foto</item>
+        <item quantity="other">Fotos</item>
     </plurals>
     <plurals name="number_of_year">
         <item quantity="one">Ano</item>
@@ -148,14 +173,9 @@
         <item quantity="one">Minuto</item>
         <item quantity="other">Minutos</item>
     </plurals>
-    <plurals name="number_of_filmes_assistidos">
-        <item quantity="one">Filme</item>
-        <item quantity="other">Filmes</item>
-    </plurals>
 
-    <string name="genres_title">Gêneros</string>
+    <!-- Genres -->
     <string name="genre_title">Gênero</string>
-
     <string name="genere_action">Ação</string>
     <string name="genere_adventure">Aventura</string>
     <string name="genere_animation">Animação</string>
@@ -175,27 +195,7 @@
     <string name="genere_thriller">Thriller</string>
     <string name="genere_war">Guerra</string>
     <string name="genere_western">Faroeste</string>
-    <string name="action_settings">Opções</string>
-    <string name="idioma_portugues">Português</string>
-    <string name="idioma_ingles">Inglês</string>
-    <string name="idioma_espanhol">Espanhol</string>
-    <string name="adult_movie">Não recomendado para menores de 18 anos.</string>
-    <string name="sinopse_movie">Sinopse</string>
-    <string name="title_original_movie">TITULO ORIGINAL:</string>
-    <string name="idioma_movie">IDIOMA:</string>
-    <string name="tab_lancamentos">Lançamentos</string>
-    <string name="poster_movie">poster_movie</string>
-    <string name="tab_midia">Midia</string>
-
-    <!-- Menus -->
-    <string name="menu_sobre">Sobre</string>
-    <string name="menu_sair">Sair</string>
-    <string name="menu_configuracoes">Configurações</string>
-    <string name="menu_assistidos">Assistidos</string>
-    <string name="menu_search">Procurar</string>
-    <string name="menu_atores">Atores</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_compartilhar">Compartilhar</string>
+    <string name="genres_outros">Outros</string>
 
     <!-- Activitys -->
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
@@ -204,171 +204,109 @@
     <string name="title_activity_main_novo">MainNovoActivity</string>
     <string name="title_activity_movies_by_genre">MoviesByGenreActivity</string>
     <string name="title_activity_actor_details">ActorDetailActivity</string>
+    <string name="title_activity_list_movies_default">ListMoviesDefaultActivity</string>
+    <string name="title_activity_list_persons_default">ListPersonsDefaultActivity</string>
+    <string name="title_activity_wallpapers_details">Wallpapers Activity</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="title_activity_testen">TestenActivity</string>
+    <string name="title_activity_videos_details">Videos Activity</string>
+
+    <!-- Activitys Titles -->
     <string name="titles_movie_detail_midia_videos">Vídeos e Trailers</string>
     <string name="titles_movie_detail_midia_imagens">Posters e Wallpapers</string>
+    <string name="title_activity_wallpapers">Wallpapers</string>
+    <string name="discover">Discovers</string>
+    <string name="popular">Populares</string>
+    <string name="company">Companies</string>
+    <string name="person">Pessoas</string>
+    <string name="title_activity_edit_perfil">Editar Perfil</string>
+    <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
+    <string name="wallpapers_title">Wallpapers</string>
+    <string name="title_activity_home">Home Activity</string>
+    <string name="carreira">Carreira</string>
+    <string name="persons_popular">Pessoas Populares</string>
+    <string name="person_directors">Diretores</string>
+    <string name="atores_atrizes">Atores e Atrizes</string>
+    <string name="filter_title">Filtrar</string>
+    <string name="videos">Vídeos e Trailers</string>
+    <string name="filter_dialog_title">Filtrar</string>
+    <string name="list_movies_long_click_opcoes_title">Opções</string>
+    <string name="wallpapers_dialog_size">Tamanho da imagem</string>
+    <string name="genres_title">Gêneros</string>
+    <string name="similares">Similares</string>
+    <string name="conhecido_por">Conhecido por</string>
+
+    <!-- Persmissions -->
+    <string name="permission_error_title">Importante</string>
+    <string name="permission_error_write_content">Precisamos da sua permissão de escrita para realizar essa ação</string>
+    <string name="share_title">PopMovies - Compartilhar</string>
+    <string name="wifi_dialog_title">Importante</string>
+    <string name="wifi_dialog_content">Você irá realizar um Download sem estar conectado ao Wi-fi, deseja continuar?</string>
+
+    <!-- Movie Details -->
+    <string name="title_original">Original:</string>
+    <string name="movie_duracao">%1$d Min.</string>
+    <string name="nao_ha_sinopse">Não há uma sinopse em %1$s.</string>
+    <string name="titles_movie_details_overview_similares">Similares</string>
+    <string name="titulo_original">Titulo Original:</string>
+    <string name="idioma_original">Idioma Original:</string>
+    <string name="orcamento">Orçamento:</string>
+    <string name="receita">Receita:</string>
+    <string name="aspas" translatable="false">\"</string>
+    <string name="movie_data_lancamento_mundial">Mundial: %1$s</string>
+    <string name="movie_data_lancamento_pais_origem" translatable="false">%1$s: %2$s</string>
+    <string name="adult_movie">Não recomendado para menores de 18 anos.</string>
+    <string name="sinopse_movie">Sinopse</string>
+    <string name="marked_watched">Marcado como assistido</string>
+    <string name="desmarked_watched">Desmarcado como assistido</string>
+    <string name="want_see">Quero Ver</string>
+    <string name="quero_ver">Quero Ver</string>
+    <string name="dont_want_see">Não quero ver</string>
+    <string name="movie_detail_tomatoes_reviews">Tomatoes Reviews</string>
+    <string name="movie_detail_imdb_reviews">IMDB Reviews</string>
+    <string name="movie_details_titulo_original_title">Título Original</string>
+    <string name="movie_details_permios_title">Prêmios e Nomeações</string>
+    <string name="movie_details_orcamento_title">Orçamento:</string>
+    <string name="movie_details_receita_title">Receita:</string>
+    <string name="movie_details_idioma_title">Idioma Original</string>
+    <string name="equipe_no_data">Sem informações sobre a equipe no momento.</string>
+    <string name="elenco_no_data">Sem informações sobre o elenco no momento.</string>
+    <string name="movie_details_dont_want_see_marked">Marcado como \'Não quero ver\'</string>
+    <string name="movie_details_dont_want_see_no_marked">Desmarcado como \'Não quero ver\'</string>
+    <string name="movie_details_want_see_marked">Marcado como \'Quero ver\'</string>
+    <string name="movie_details_want_see_desmarked">Desmarcado como \'Quero ver\'</string>
+    <string name="movie_details_favorite_marked">Marcado como Favorito</string>
+    <string name="movie_details_favorite_no_marked">Desmarcado como Favorito</string>
+    <string name="videos_no_data">Sem Vídeos disponíveis</string>
+    <string name="movie_details_cons_rotten_consensius" translatable="false">- Rotten Tomatoes.</string>
+    <string name="cast_title">Elenco Principal</string>
+    <string name="crew_title">Equipe Técnica</string>
+    <string name="keywords">Keywords</string>
+    <string name="data_nascimento_formatado" translatable="false">%1$s - %2$d</string>
+    <string name="lanc_date_min_max" translatable="false">%1$s - %2$s</string>
+    <string name="imdb_votes">%1$s votos</string>
+    <string name="collection">Franquia %1$s</string>
+
+    <!-- Person Details -->
+    <string name="nao_ha_biografia">Não há uma biografia disponíbel.</string>
+    <string name="person_carrer_movie_character">Personagem: %1$s</string>
+    <string name="person_carrer_movie_departamento">Departamento: %1$s</string>
+    <string name="perfil_dados_pais" translatable="false">%1$s</string>
+    <string name="perfil_dados_pais_idade" translatable="false">%1$s, %2$s %3$s</string>
+    <string name="perfil_dados_pais_genero" translatable="false">%1$s- %2$s</string>
+    <string name="perfil_dados_pais_idade_genero" translatable="false">%1$s, %2$s %3$s - %4$s</string>
+    <string name="tomatoes_num_reviews">%1$s reviews</string>
     <string name="person_nascimento">Data de Nascimento</string>
     <string name="cidade_natal">Cidade Natal</string>
     <string name="principais_areas">Principais áreas</string>
     <string name="genero_feminino">Feminino</string>
     <string name="genero_masculino">Masculino</string>
     <string name="genero_indefinido">Indefinido</string>
-    <string name="aspas">\"</string>
-    <string name="keywords">Keywords</string>
-    <string name="company">Companies</string>
-    <string name="nao_disponivel">Não disponível.</string>
-    <string name="loading">Carregando...</string>
-    <string name="action_recarregar">Atualizar</string>
-    <string name="movie_data_lancamento_mundial">Mundial: %1$s</string>
-    <string name="movie_data_lancamento_pais_origem">%1$s: %2$s</string>
-    <string name="action_save">Salvar</string>
-    <string name="action_go_gallery">Ir para a Galeria</string>
-    <string name="title_activity_wallpapers_details">Wallpapers Activity</string>
-    <string name="title_activity_wallpapers">Wallpapers</string>
-    <string name="person">Pessoas</string>
-    <string name="similares">Similares</string>
-    <string name="conhecido_por">Conhecido por</string>
-    <string name="imdb">IMDB</string>
-    <string name="menu_open_navegador">Abrir no Navegador</string>
-    <string name="conhecido_por_title">Conhecido Por..</string>
 
-
-    <string name="destaques_do_ano">Destaques do Ano</string>
-    <string name="mais_bem_avaliados">Mais bem Avaliados</string>
-    <string name="brasileiros">Brasileiros</string>
-    <string name="campeoes_bilheteria">Campeões de Bilheteria</string>
-    <string name="no_movies_find">Nenhum filme encontrado.</string>
-    <string name="buscar_by_ano_lancamento">Escolha o ano de lançamento:</string>
-    <string name="carreira">Carreira</string>
-    <string name="less">Ler menos..</string>
-    <string name="more">Leia mais..</string>
-    <string name="title_activity_list_movies_default">ListMoviesDefaultActivity</string>
-    <string name="title_activity_list_persons_default">ListPersonsDefaultActivity</string>
-    <string name="elenco_title_activity">Elenco</string>
-    <string name="equipe_tecnica_title">Equipe Técnica</string>
-    <string name="popularidade_maior">Popularidade (maior)</string>
-    <string name="popularidade_menor">Popularidade (menor)</string>
-    <string name="release_date_maior">Data de Lançamento (maior)</string>
-    <string name="release_date_menor">Data de Lançamento (menor)</string>
-    <string name="revenue_maior">Receita (maior)</string>
-    <string name="revenue_menor">Receita (menor)</string>
-    <string name="primary_release_date_maior">Data de Lançamento (maior)</string>
-    <string name="primary_release_date_menor">Data de Lançamento (menor)</string>
-    <string name="original_title_maior">Título (maior)</string>
-    <string name="original_title_menor">Título (menor)</string>
-    <string name="vote_average_maior">Nota Comunidade (maior)</string>
-    <string name="vote_average_menor">Nota (menor)</string>
-    <string name="vote_count_maior">Número de Votos (maior)</string>
-    <string name="vote_count_desc">Número de Votos (menor)</string>
-    <string name="persons_popular">Pessoas Populares</string>
-    <string name="person_directors">Diretores</string>
-    <string name="sobre_title_actionbar">Sobre</string>
-
-    <string name="title_activity_perfil">PerfilActivity</string>
-    <string name="title_activity_testen">TestenActivity</string>
+    <!-- Perfil Details -->
     <string name="assistidos">Assistidos</string>
-    <string name="atores_atrizes">Atores e Atrizes</string>
     <string name="favoritos">Favoritos</string>
     <string name="nao_ha_descicao">Você não possui uma Descrição ainda, clique no botão editar e adicione uma agora mesmo!</string>
-    <string name="list_default">Lista Default</string>
-    <string name="title_activity_videos_details">Videos Activity</string>
-    <string name="videos">Vídeos e Trailers</string>
-    <string name="filter_title">Filtrar</string>
-    <string name="login_facebook_cancelled">Login pelo facebook cancelado</string>
-    <string name="login_facebook_error">Erro ao realizar o login pelo facebook</string>
-    <string name="login_twitter_error">Erro ao realizar o login pelo twitter</string>
-    <string name="marked_watched">Marcado como assistido</string>
-    <string name="desmarked_watched">Desmarcado como assistido</string>
-    <string name="menu_perfil">Perfil</string>
-    <string name="no_person_find">Nenhuma pessoa encontrada!</string>
-    <string name="want_see">Quero Ver</string>
-    <string name="quero_ver">Quero Ver</string>
-    <string name="dont_want_see">Não quero ver</string>
-    <string name="genres_outros">Outros</string>
-
-    <string name="edit_done">Salvar</string>
-
-    <string name="permission_error_title">Importante</string>
-    <string name="btn_ok">Ok</string>
-    <string name="btn_no_thanks">Não, obrigado</string>
-    <string name="permission_error_write_content">Precisamos da sua permissão de escrita para realizar essa ação</string>
-
-    <!-- Editar Perfil -->
-    <string name="title_activity_edit_perfil">Editar Perfil</string>
-    <string name="edit_perfil_nome">Nome</string>
-    <string name="edit_perfil_decription_hint">Escreva algo sobre você...</string>
-    <string name="edit_perfil_decription_title">Descrição</string>
-    <string name="edit_perfil_birthday">Aniversário</string>
-    <string name="edit_perfil_nome_description">Entre com o seu nome</string>
-    <string name="edit_perfil_birthday_description">Escolha a sua data de nascimento</string>
-    <string name="edit_perfil_country_description">Escolha o seu país de origem</string>
-    <string name="edit_perfil_gender_description">Escolha o seu gênero</string>
-    <string name="edit_perfil_decription_description">Escreva algo sobre você</string>
-    <string name="edit_perfil_camera_description">Tire uma foto para o seu perfil</string>
-
-    <!-- Lançamentos da Semana -->
-    <string name="title_activity_lancamentos_semana">Lançamentos da Semana</string>
-    <string name="lanc_sem_btn_previous_week">Semana Anterior</string>
-    <string name="lanc_sem_btn_next_week">Próxima Semana</string>
-    <string name="lanc_sem_btn_previous_week_description">Visualizar filmes lançados na semana anterior</string>
-    <string name="lanc_sem_btn_next_week_description">Visualizar filmes lançados na próxima semana</string>
-
-    <!-- Login -->
-    <string name="login_facebook_title">Logar com o Facebook</string>
-    <string name="login_twitter_title">Logar com o Twitter</string>
-    <string name="login_facebook_description">Realizar login utilizando o facebook</string>
-    <string name="login_twitter_description">Realizar login utilizando o twitter</string>
-    <string name="wallpapers_no_data">Sem Wallpapers disponíveis.</string>
-
-    <!-- Filter Dialog -->
-    <string name="filter_dialog_conteudo_adulto">Conteúdo Adulto</string>
-    <string name="filter_dialog_conteudo_adulto_description">Incluir na pesquisa filmes para maiores de 18 anos</string>
-    <string name="filter_dialog_ordenar_por">Ordenar por</string>
-    <string name="filter_dialog_ano">Ano</string>
-    <string name="filter_dialog_data">Data de Lançamento</string>
-    <string name="filter_dialog_nota">Nota na Comunidade</string>
-    <string name="filter_dialog_data_inicial">Data Inicial</string>
-    <string name="filter_dialog_data_final">Data Final</string>
-
-    <!-- Home -->
-    <string name="title_activity_home">Home Activity</string>
-    <string name="estreias_semana">Estréias da Semana</string>
-    <string name="estreias_semana_subtitle">Os Lançamentos da Semana</string>
-    <string name="em_cartaz">Em Cartaz</string>
-    <string name="em_cartaz_subtitle">Filmes em cartaz no Brasil e no Mundo</string>
-    <string name="em_breve">Em Breve</string>
-    <string name="em_breve_subtitle">Em breve nos cinemas</string>
-    <string name="populares">Populares no PopMovies</string>
-    <string name="populares_subtitle">Os Filmes mais Populares</string>
-    <string name="imagens_error_load">Erro ao carregar as imagens</string>
-    <string name="videos_error_load">Erro ao carregar os vídeos</string>
-    <string name="person_detail_error">Erro no servidor</string>
-    <string name="genre_error_network">Erro ao ao recuperar gêneros</string>
-    <string name="error_no_server">Erro no servidor</string>
-    <string name="erro_unexpected">Erro inesperado</string>
-    <string name="error_save_movie">Erro ao salvar o filme</string>
-    <string name="sucess_save_movie">Filme salvo com sucesso.</string>
-    <string name="error_loading_background">Erro ao carregar imagem de background</string>
-    <string name="sucess_data_saved">Dados salvos com sucesso</string>
-    <string name="error_permission_save">Para você conseguir salvar as imagens no seu celular, é necessário que você autorize o App a fazer isso</string>
-    <string name="downloaded_baixando_content">Baixando Wallpaper</string>
-    <string name="downloaded_name_folder">/PopMovies Images</string>
-    <string name="sucess_image_saved">Imagem salva com sucesso</string>
-    <string name="share_title">PopMovies - Compartilhar</string>
-    <string name="wifi_dialog_title">Importante</string>
-    <string name="wifi_dialog_content">Você irá realizar um Download sem estar conectado ao Wi-fi, deseja continuar?</string>
-    <string name="wifi_dialog_positive">Sim</string>
-    <string name="wifi_dialog_negative">Não</string>
-    <string name="filter_dialog_title">Filtrar</string>
-    <string name="filter_dialog_aplicar">Aplicar</string>
-    <string name="filter_dialog_cancel">Cancelar</string>
-    <string name="filter_dialog_reset">Resetar</string>
-    <string name="years_snipper_nenhum">Nenhum</string>
-    <string name="filmow">Filmow</string>
-    <string name="error_rankings">Erro ao carregar notas do IMDB e Tomatoes</string>
-    <string name="sucess_delete_movie">Filme deletado com sucesso</string>
-    <string name="videos_no_data">Sem Vídeos disponíveis</string>
-    <string name="movie_detail_tomatoes_reviews">Tomatoes Reviews</string>
-    <string name="movie_detail_imdb_reviews">IMDB Reviews</string>
     <string name="perfil_estatisticas_description">Estátisticas, Dados Pessoais e Gráficos</string>
     <string name="perfil_estatisticas_filmes_saved">Filmes Salvos</string>
     <string name="perfil_estatistiticas_filmes">Filmes</string>
@@ -391,24 +329,83 @@
     <string name="perfil_filmes_dont_see_no_data">Você não possui nenhum filme há não ser visto.</string>
     <string name="perfil_filmes_favorite_no_data">Você não possui nenhum filme favorito.</string>
     <string name="perfil_filmes_want_see_no_data">Você não possui nenhum filme há ser visto</string>
-    <string name="want_see_button">Quero Ver</string>
-    <string name="dont_want_see_button">Não quero ver</string>
-    <string name="pagina_inicial">Página Inicial</string>
-    <string name="movie_details_titulo_original_title">Título Original</string>
-    <string name="movie_details_permios_title">Prêmios e Nomeações</string>
-    <string name="movie_details_orcamento_title">Orçamento:</string>
-    <string name="movie_details_receita_title">Receita:</string>
-    <string name="movie_details_idioma_title">Idioma Original</string>
-    <string name="equipe_no_data">Sem informações sobre a equipe no momento.</string>
-    <string name="elenco_no_data">Sem informações sobre o elenco no momento.</string>
-    <string name="movie_details_dont_want_see_marked">Marcado como \'Não quero ver\'</string>
-    <string name="movie_details_dont_want_see_no_marked">Desmarcado como \'Não quero ver\'</string>
-    <string name="movie_details_want_see_marked">Marcado como \'Quero ver\'</string>
-    <string name="movie_details_want_see_desmarked">Desmarcado como \'Quero ver\'</string>
-    <string name="movie_details_favorite_marked">Marcado como Favorito</string>
-    <string name="movie_details_favorite_no_marked">Desmarcado como Favorito</string>
     <string name="perfil_estatisticas_graphic_genres_title">Seus Gêneros Favoritos!</string>
-    <string name="wallpapers_dialog_size">Tamanho da imagem</string>
+
+    <!-- Editar Perfil -->
+    <string name="edit_perfil_nome">Nome</string>
+    <string name="edit_perfil_decription_hint">Escreva algo sobre você...</string>
+    <string name="edit_perfil_decription_title">Descrição</string>
+    <string name="edit_perfil_birthday">Aniversário</string>
+    <string name="edit_perfil_nome_description">Entre com o seu nome</string>
+    <string name="edit_perfil_birthday_description">Escolha a sua data de nascimento</string>
+    <string name="edit_perfil_country_description">Escolha o seu país de origem</string>
+    <string name="edit_perfil_gender_description">Escolha o seu gênero</string>
+    <string name="edit_perfil_decription_description">Escreva algo sobre você</string>
+    <string name="edit_perfil_camera_description">Tire uma foto para o seu perfil</string>
+
+    <!-- Lançamentos da Semana -->
+    <string name="lanc_sem_btn_previous_week">Semana Anterior</string>
+    <string name="lanc_sem_btn_next_week">Próxima Semana</string>
+    <string name="lanc_sem_btn_previous_week_description">Visualizar filmes lançados na semana anterior</string>
+    <string name="lanc_sem_btn_next_week_description">Visualizar filmes lançados na próxima semana</string>
+
+    <!-- Login -->
+    <string name="login_facebook_title">Logar com o Facebook</string>
+    <string name="login_twitter_title">Logar com o Twitter</string>
+    <string name="login_facebook_description">Realizar login utilizando o facebook</string>
+    <string name="login_twitter_description">Realizar login utilizando o twitter</string>
+    <string name="wallpapers_no_data">Sem Wallpapers disponíveis.</string>
+
+    <!-- Filter Dialog -->
+    <string name="filter_dialog_conteudo_adulto">Conteúdo Adulto</string>
+    <string name="filter_dialog_conteudo_adulto_description">Incluir na pesquisa filmes para maiores de 18 anos</string>
+    <string name="filter_dialog_ordenar_por">Ordenar por</string>
+    <string name="filter_dialog_ano">Ano</string>
+    <string name="filter_dialog_data">Data de Lançamento</string>
+    <string name="filter_dialog_nota">Nota na Comunidade</string>
+    <string name="filter_dialog_data_inicial">Data Inicial</string>
+    <string name="filter_dialog_data_final">Data Final</string>
+    <string name="popularidade_maior">Popularidade (maior)</string>
+    <string name="popularidade_menor">Popularidade (menor)</string>
+    <string name="release_date_maior">Data de Lançamento (maior)</string>
+    <string name="release_date_menor">Data de Lançamento (menor)</string>
+    <string name="revenue_maior">Receita (maior)</string>
+    <string name="revenue_menor">Receita (menor)</string>
+    <string name="primary_release_date_maior">Data de Lançamento (maior)</string>
+    <string name="primary_release_date_menor">Data de Lançamento (menor)</string>
+    <string name="original_title_maior">Título (maior)</string>
+    <string name="original_title_menor">Título (menor)</string>
+    <string name="vote_average_maior">Nota Comunidade (maior)</string>
+    <string name="vote_average_menor">Nota (menor)</string>
+    <string name="vote_count_maior">Número de Votos (maior)</string>
+    <string name="vote_count_desc">Número de Votos (menor)</string>
+
+    <!-- Wallpapers -->
+    <string name="downloaded_image_perfil_name" translatable="false">%1$d_perfil.jpg</string>
+    <string name="downloaded_image_name" translatable="false">%1$d_image.jpg</string>
+    <string name="downloaded_name_folder" translatable="false">/PopMovies Images</string>
+    <string name="downloaded_baixando_content">Baixando Wallpaper</string>
+
+    <!-- Home -->
+    <string name="destaques_do_ano">Destaques do Ano</string>
+    <string name="mais_bem_avaliados">Mais bem Avaliados</string>
+    <string name="brasileiros">Brasileiros</string>
+    <string name="campeoes_bilheteria">Campeões de Bilheteria</string>
+    <string name="estreias_semana">Estréias da Semana</string>
+    <string name="estreias_semana_subtitle">Os Lançamentos da Semana</string>
+    <string name="em_cartaz">Em Cartaz</string>
+    <string name="em_cartaz_subtitle">Filmes em cartaz no Brasil e no Mundo</string>
+    <string name="em_breve">Em Breve</string>
+    <string name="em_breve_subtitle">Em breve nos cinemas</string>
+    <string name="populares">Populares no PopMovies</string>
+    <string name="populares_subtitle">Os Filmes mais Populares</string>
+
+    <!-- Login -->
+    <string name="login_google_title">Logar com o Google</string>
+    <string name="login_google_description">Realizar login utilizando o Google</string>
+
+    <!-- Long Click List Movies -->
+
     <string name="list_movies_long_click_favorite_marked">Marcado como Favorito</string>
     <string name="list_movies_long_click_watched_marked">Marcado como Assistido</string>
     <string name="list_movies_long_click_want_see_marked">Marcado como Quero ver</string>
@@ -417,19 +414,10 @@
     <string name="list_movies_long_click_want_see_will_marked">Marcar como quero ver</string>
     <string name="list_movies_long_click_watched_will_marked">Marcar como Assistido</string>
     <string name="list_movies_long_click_favorite_will_marked">Marcar como Favorito</string>
-    <string name="list_movies_long_click_opcoes_title">Opções</string>
-    <string name="btn_cancelar">Cancelar</string>
     <string name="movie_details_watched_marked">Marcado como Assistido</string>
     <string name="movie_details_watched_dont_marked">Desmarcado como Assistido</string>
-    <string name="image_picker_title">Selecione a fonte da imagem</string>
-    <string name="login_google_title">Logar com o Google</string>
-    <string name="login_google_description">Realizar login utilizando o Google</string>
-    <string name="login_google_error">Erro ao realizar o login pelo google</string>
-    <string name="movie_details_cons_rotten_consensius">- Rotten Tomatoes.</string>
-    <string name="tomatoes">Tomatoes</string>
-    <string name="metascore">Metascore</string>
-    <string name="google_play">Google Play</string>
-    <string name="netflix">Netflix</string>
-    <string name="amazon">Amazon</string>
+
+    <!-- Sobre -->
+    <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
 
 </resources>

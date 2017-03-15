@@ -9,7 +9,7 @@ public enum Sort {
     COMPANY(R.string.company),
     DISCOVER(R.string.discover),
     PERSON_MOVIES_CARRER(R.string.person),
-    PERSON_CONHECIDO_POR(R.string.conhecido_por_title),
+    PERSON_CONHECIDO_POR(R.string.conhecido_por),
     PERSON_POPULAR(R.string.persons_popular),
     PERSON_DIRECTORS(R.string.person_directors),
     FAVORITE(R.string.favoritos),

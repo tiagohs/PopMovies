@@ -34,7 +34,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.tiagohs.popmovies"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -106,7 +106,7 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
- 
+
     compile 'com.pnikosis:materialish-progress:1.7'
 
     compile 'com.crystal:crystalrangeseekbar:1.1.1'

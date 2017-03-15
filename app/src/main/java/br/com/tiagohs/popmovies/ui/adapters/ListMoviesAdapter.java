@@ -119,7 +119,7 @@ public class ListMoviesAdapter extends RecyclerView.Adapter<ListMoviesAdapter.Li
                                     .customView(list, true)
                                     .title(mContext.getString(R.string.list_movies_long_click_opcoes_title))
                                     .positiveText(mContext.getString(R.string.btn_ok))
-                                    .negativeText(mContext.getString(R.string.btn_cancelar))
+                                    .negativeText(mContext.getString(R.string.btn_cancel))
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

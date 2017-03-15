@@ -198,7 +198,7 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
                 if (EmptyUtils.isNotNull(mPerson.getBirthday())) {
                     int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
-                    personSubtitle.setText(getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age));
+                    personSubtitle.setText(getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_of_year, age));
                 } else {
                     personSubtitle.setVisibility(View.GONE);
                 }
@@ -299,10 +299,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
 
         mPersonName.setText(mPerson.getName());
 
-        mLabelTotalFilmes.setText(getResources().getQuantityString(R.plurals.number_of_films_person, totalFilmes));
+        mLabelTotalFilmes.setText(getResources().getQuantityString(R.plurals.number_of_films, totalFilmes).toUpperCase());
         mTotalFilmes.setText(String.valueOf(totalFilmes));
 
-        mLabelTotalFotos.setText(getResources().getQuantityString(R.plurals.number_of_fotos_person, totalFotos));
+        mLabelTotalFotos.setText(getResources().getQuantityString(R.plurals.number_of_fotos_person, totalFotos).toUpperCase());
         mTotalPhotos.setText(String.valueOf(totalFotos));
 
         mPersonNumbersContainer.setAnimation(AnimationsUtils.createFadeInAnimation(CONTAINER_PERSON_NUMBERS_ANIMATION_DURATION));

@@ -6,8 +6,8 @@
     <dimen name="txt_size_medium">24sp</dimen>
     <dimen name="txt_size_large">28sp</dimen>
 
-    <dimen name="margin_default_min">10dp</dimen>
-    <dimen name="margin_default_medium">15dp</dimen>
+    <dimen name="margin_default_min">15dp</dimen>
+    <dimen name="margin_default_medium">20dp</dimen>
 
     <dimen name="recycler_view_min_height">350dp</dimen>
     <dimen name="recycler_view_person_min_height">200dp</dimen>
@@ -61,6 +61,7 @@
     <dimen name="include_movie_detail_rankings_height">200dp</dimen>
     <dimen name="include_movie_detail_rankings_size">200dp</dimen>
     <dimen name="include_movie_detail_rankings_metascore_txt_size">30sp</dimen>
+    <dimen name="item_list_movies_height">350dp</dimen>
 
     <!-- Person -->
     <dimen name="item_person_fixo_width">150dp</dimen>

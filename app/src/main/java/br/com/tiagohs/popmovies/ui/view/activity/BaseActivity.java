@@ -215,7 +215,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();
-        mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
+        mSnackbar.setAction(getString(R.string.tentar_novamente).toUpperCase(), onSnackbarClickListener());
 
     }
 

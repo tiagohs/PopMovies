@@ -132,7 +132,7 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
 
     public void setTotalFilmesAssistidos(int totalFilmesAssistidos) {
         mTotalFilmesAssistidos.setText(String.valueOf(totalFilmesAssistidos));
-        mTotalFilmesAssistidosLabel.setText(getResources().getQuantityString(R.plurals.number_of_filmes_assistidos, totalFilmesAssistidos));
+        mTotalFilmesAssistidosLabel.setText(getResources().getQuantityString(R.plurals.number_of_films, totalFilmesAssistidos));
     }
 
     public void setDadosPessoais(String pais, Calendar birthday, String genero) {
@@ -141,11 +141,11 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
         if (EmptyUtils.isNotNull(birthday) && !EmptyUtils.isEmpty(genero)) {
             idade = MovieUtils.getAge(birthday);
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_idade_genero,
-                    pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_idade, idade), genero));
+                    pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_of_year, idade), genero));
         } else if (EmptyUtils.isNotNull(birthday) && EmptyUtils.isEmpty(genero)) {
             idade = MovieUtils.getAge(birthday);
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_idade,
-                    pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_idade, idade)));
+                    pais, String.valueOf(idade), getResources().getQuantityString(R.plurals.number_of_year, idade)));
         } else if (!EmptyUtils.isNotNull(birthday) && !EmptyUtils.isEmpty(genero)) {
             mResumoDadosPessoais.setText(getString(R.string.perfil_dados_pais_genero, pais, genero));
         } else if (EmptyUtils.isNotNull(pais)) {
@@ -179,7 +179,7 @@ public class PerfilEstatisticasFragment extends BaseFragment implements PerfilEs
     }
 
     private void setTotalsMovies(long total, TextView mTexView) {
-        mTexView.setText(String.valueOf(total) + " " + getResources().getQuantityString(R.plurals.number_of_filmes_assistidos, (int) total));
+        mTexView.setText(String.valueOf(total) + " " + getResources().getQuantityString(R.plurals.number_of_films, (int) total));
     }
 
     private void setTotalHorasVisibility(LinearLayout container, TextView numerTextView, TextView label, int idLabelString, int value) {

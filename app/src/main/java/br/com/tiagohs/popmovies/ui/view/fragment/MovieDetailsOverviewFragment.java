@@ -494,19 +494,19 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     @OnClick(R.id.elenco_riple)
     public void onClickElencoTitle() {
         if (!mMovie.getCast().isEmpty())
-            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.elenco_title_activity), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCastPersonListDTO(mMovie.getCast())));
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.cast_title), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCastPersonListDTO(mMovie.getCast())));
     }
 
     @OnClick(R.id.equipe_tecnica_riple)
     public void onClickEquipeTitle() {
         if (!mMovie.getCrew().isEmpty())
-            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.equipe_tecnica_title), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCrewPersonListDTO(mMovie.getCrew())));
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(getString(R.string.crew_title), mMovie.getTitle(), R.layout.item_list_movies, ListType.PERSON), DTOUtils.createCrewPersonListDTO(mMovie.getCrew())));
     }
 
     @OnClick(R.id.similares_riple)
     public void onClickSimilaresTitle() {
         if (!mMovie.getSimilarMovies().isEmpty())
-            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mMovie.getId(), getString(R.string.similares_title_activity), mMovie.getTitle(), Sort.SIMILARS, R.layout.item_list_movies, ListType.MOVIES)));
+            startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mMovie.getId(), getString(R.string.similares), mMovie.getTitle(), Sort.SIMILARS, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
     @OnClick(R.id.btn_pagina_inicial)

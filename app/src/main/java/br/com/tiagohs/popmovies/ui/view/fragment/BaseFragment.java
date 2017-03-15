@@ -109,7 +109,7 @@ public abstract class BaseFragment extends Fragment {
 
         mSnackbar.setActionTextColor(Color.RED);
         mSnackbar.show();
-        mSnackbar.setAction(getString(R.string.tentar_novamente), onSnackbarClickListener());
+        mSnackbar.setAction(getString(R.string.tentar_novamente).toUpperCase(), onSnackbarClickListener());
     }
 
     public void onErrorNoConnection() {

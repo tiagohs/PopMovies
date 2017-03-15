@@ -135,7 +135,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     private void updateDataNascimento() {
         int age = MovieUtils.getAge(mPerson.getYear(), mPerson.getMonth(), mPerson.getDay());
         mDataNascimento.setText(mPerson.getBirthday() != null && mPerson.getBirthday() != "" ?
-                getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_idade, age) :
+                getString(R.string.data_nascimento_formatado, DateUtils.formateDate(mPerson.getBirthday()), age) + " " + getResources().getQuantityString(R.plurals.number_of_year, age) :
                 "--");
     }
 
@@ -195,7 +195,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
 
     @OnClick(R.id.conhecido_por_riple)
     public void onClickConhecidoPorWallpapers() {
-        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mPerson.getId(), getString(R.string.conhecido_por_title_activity), mPerson.getName(), Sort.PERSON_CONHECIDO_POR, R.layout.item_list_movies, ListType.MOVIES)));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(mPerson.getId(), getString(R.string.conhecido_por), mPerson.getName(), Sort.PERSON_CONHECIDO_POR, R.layout.item_list_movies, ListType.MOVIES)));
     }
 
     @OnClick(R.id.riple_wiki)

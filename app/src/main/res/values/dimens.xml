@@ -43,6 +43,7 @@
     <dimen name="margin_divider_small">1dp</dimen>
     <dimen name="item_movie_fixo_width">100dp</dimen>
     <dimen name="item_person_fixo_width">100dp</dimen>
+    <dimen name="item_list_movies_height">160dp</dimen>
 
     <!-- Circle Pictures -->
     <dimen name="picture_circle_cardview_elevation">12dp</dimen>
@@ -163,8 +164,6 @@
     <dimen name="share_movie_image_height">155dp</dimen>
     <dimen name="share_sociais_images_margin">20dp</dimen>
     <dimen name="share_sociais_image_width">15dp</dimen>
-
-
 
 
 </resources>

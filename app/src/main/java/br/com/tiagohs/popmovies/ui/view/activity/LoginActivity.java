@@ -1,5 +1,6 @@
 package br.com.tiagohs.popmovies.ui.view.activity;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -155,6 +156,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             @Override
             public void onClick(View v) {
                 mLoginFacebookOriginalButton.performClick();
+                setGoogleButtonVisibility(View.GONE);
                 setFacebookButtonVisibility(View.GONE);
                 setTwitterButtonVisibility(View.GONE);
             }
@@ -375,28 +377,54 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         }
     }
 
-    private void setFacebookButtonVisibility(int visibility) {
+    private void setFacebookButtonVisibility(final int visibility) {
 
         if (visibility == View.VISIBLE)
-            AnimationsUtils.createShowCircularReveal(mLoginFacebookButton);
-        else
-            AnimationsUtils.createHideCircularReveal(mLoginFacebookButton);
+            AnimationsUtils.createShowCircularReveal(mLoginFacebookButton, onAnimatedEnd(mLoginFacebookButton, visibility));
+        else {
+            AnimationsUtils.createHideCircularReveal(mLoginFacebookButton, onAnimatedEnd(mLoginFacebookButton, visibility));
+        }
+
     }
 
     private void setTwitterButtonVisibility(int visibility) {
 
         if (visibility == View.VISIBLE)
-            AnimationsUtils.createShowCircularReveal(mLoginTwitterButton);
+            AnimationsUtils.createShowCircularReveal(mLoginTwitterButton, onAnimatedEnd(mLoginTwitterButton, visibility));
         else
-            AnimationsUtils.createHideCircularReveal(mLoginTwitterButton);
+            AnimationsUtils.createHideCircularReveal(mLoginTwitterButton, onAnimatedEnd(mLoginTwitterButton, visibility));
     }
 
     private void setGoogleButtonVisibility(int visibility) {
 
         if (visibility == View.VISIBLE)
-            AnimationsUtils.createShowCircularReveal(mLoginGoogleButton);
+            AnimationsUtils.createShowCircularReveal(mLoginGoogleButton, onAnimatedEnd(mLoginGoogleButton, visibility));
         else
-            AnimationsUtils.createHideCircularReveal(mLoginGoogleButton);
+            AnimationsUtils.createHideCircularReveal(mLoginGoogleButton, onAnimatedEnd(mLoginGoogleButton, visibility));
+    }
+
+    private Animator.AnimatorListener onAnimatedEnd(final Button button, final int visibility) {
+        return new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                button.setVisibility(visibility);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        };
     }
 
     @Override

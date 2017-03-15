@@ -96,21 +96,21 @@ public class FilterDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.filter_dialog_title))
-                .setPositiveButton(R.string.filter_dialog_aplicar,
+                .setPositiveButton(R.string.btn_aplicar,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                              mFiltersMoviesCallbacks.onFilterChanged(mFilterValuesDTO);
                             }
                         }
                 )
-                .setNegativeButton(R.string.filter_dialog_cancel,
+                .setNegativeButton(R.string.btn_cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                             }
                         }
                 )
-                .setNeutralButton(R.string.filter_dialog_reset, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.btn_reset, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         mFiltersMoviesCallbacks.onFilterReset();
                     }
@@ -175,7 +175,7 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = (String) adapterView.getItemAtPosition(i);
-                mFilterValuesDTO.setReleaseYear(item.equals(getString(R.string.years_snipper_nenhum)) ? null : item);
+                mFilterValuesDTO.setReleaseYear(item.equals(getString(R.string.btn_nenhum)) ? null : item);
             }
 
             @Override
@@ -186,7 +186,7 @@ public class FilterDialogFragment extends DialogFragment {
 
     private ArrayAdapter createArrayAdapter() {
         List<String> years = new ArrayList<>();
-        years.add(getString(R.string.years_snipper_nenhum));
+        years.add(getString(R.string.btn_nenhum));
 
         for (int cont = MIN_YEAR; cont >= MAX_YEAR; cont--)
             years.add(String.valueOf(cont));

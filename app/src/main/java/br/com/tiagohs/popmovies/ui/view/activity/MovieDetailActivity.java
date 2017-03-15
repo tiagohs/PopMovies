@@ -335,7 +335,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
                 startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), item.getNameItem(), Sort.GENEROS, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
                 break;
             case KEYWORD:
-                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), getString(R.string.keyword_name), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
+                startActivity(ListsDefaultActivity.newIntent(this, new ListActivityDTO(item.getItemID(), getString(R.string.keywords), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
                 break;
             case DIRECTORS:
                 onClickPerson(item.getItemID());

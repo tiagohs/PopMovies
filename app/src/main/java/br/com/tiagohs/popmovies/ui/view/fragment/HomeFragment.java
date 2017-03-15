@@ -178,7 +178,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
                 startActivity(GenresActivity.newIntent(getActivity()));
                 break;
             case KEYWORDS:
-                startActivity(ListsDefaultActivity.newIntent(getContext(), new ListActivityDTO(item.getItemID(), getString(R.string.keyword_name), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
+                startActivity(ListsDefaultActivity.newIntent(getContext(), new ListActivityDTO(item.getItemID(), getString(R.string.keywords), item.getNameItem(), Sort.KEYWORDS, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
                 break;
         }
     }

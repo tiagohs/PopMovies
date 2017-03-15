@@ -133,8 +133,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
             new MaterialDialog.Builder(this)
                     .title(getString(R.string.wifi_dialog_title))
                     .content(getString(R.string.wifi_dialog_content))
-                    .positiveText(getString(R.string.wifi_dialog_positive))
-                    .negativeText(getString(R.string.wifi_dialog_negative))
+                    .positiveText(getString(R.string.btn_yes))
+                    .negativeText(getString(R.string.btn_no))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
