@@ -16,7 +16,7 @@
   <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/gif.gif" width="360" height="640">
 </p>
 
-###Base de Dados:
+### Base de Dados:
 <ul>
 <li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
 <li><a href="https://github.com/jvanbaarsen/omdb"><b>OMDB API</b></a> - The OMDb API is a free web service to obtain movie information, all content and images on the site are contributed and maintained by our users.</li>
@@ -26,7 +26,7 @@
 <li><a href="http://antonioleiva.com/mvp-android">MVP</a> - Model View Presenter.</li>
 </ul>
 
-###Libaries utilizadas nesse Projeto:
+### Libaries utilizadas nesse Projeto:
 
 <ul>
 <li><a href="https://github.com/ReactiveX/RxAndroid">RxAndroid 2</a> - RxJava bindings for Android </li>
@@ -59,7 +59,7 @@
 <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538508.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538488.png" width="280" height="540">
 </p>
 
-###Desenvolvido por:
+### Desenvolvido por:
 
 Tiago Henrique da Silva - tiago.hsilva@al.infnet.edu.br / tiago.silva.93@hotmail.com
 
@@ -69,3 +69,19 @@ Tiago Henrique da Silva - tiago.hsilva@al.infnet.edu.br / tiago.silva.93@hotmail
 <a href="https://br.linkedin.com/in/tiago-henrique-395868b7">
   <img alt="Add me to Linkedin" src="http://image.flaticon.com/icons/svg/34/34405.svg" data-canonical-src="http://image.flaticon.com/icons/svg/34/34405.svg" style="max-width:100%;" height="60" width="60">
 </a></p>
+
+## License
+
+    Copyright 2015 Tiago Henrique da Silva
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
