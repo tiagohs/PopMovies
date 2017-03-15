@@ -12,7 +12,7 @@
 
 <p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
-![screen](../master/arts/gif.gif)
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/gif.gif" width="360" height="640">
 
 ###Base de Dados:
 <ul>
@@ -49,9 +49,7 @@
 
 ## Screens
 
-![screen](../master/arts/Screenshot_1489538467.png)
-![screen](../master/arts/Screenshot_1489538429.png)
-![screen](../master/arts/Screenshot_1489538508.png)
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538467.png" width="260" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538429.png" width="260" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538508.png" width="260" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538488.png" width="260" height="540">
 
 ###Desenvolvido por:
 
