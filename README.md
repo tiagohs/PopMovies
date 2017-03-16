@@ -16,6 +16,19 @@
   <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/gif.gif" width="360" height="640">
 </p>
 
+### Configuração:
+
+Antes de usar, você deverá preenxer no arquivo gradle.properties os seguintes campos:
+<ul>
+<li>MOVIEDB_API="" -> API Key do <a href="https://www.themoviedb.org/">theMovieDB.org</a></li>
+<li>TWITTER_SECRET="" -> Secret Token para realizar o Login com o <a href="https://apps.twitter.com/">Twitter com o Fabric</a></li>
+<li>TWITTER_KEY="" -> Key para realizar o Login com o <a href="https://apps.twitter.com/">Twitter com o Fabric</a></li>
+<li>GOOGLE_KEY="" -> API Key para abrir os <a href="https://developers.google.com/youtube/android/player/?hl=pt-br">vídeos com o Youtube </a></li>
+</ul>
+
+Além diso, no Arquivo string.xml, adicione no campo "facebook_app_id" o id do Facebook, para o login utilizando a rede social funcionar corretamente.
+
+
 ### Base de Dados:
 <ul>
 <li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
