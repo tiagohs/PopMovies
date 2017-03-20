@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.21.6'
     }
 }
 apply plugin: 'com.android.application'
@@ -30,11 +30,11 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.1'
 
     defaultConfig {
         applicationId "br.com.tiagohs.popmovies"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -147,4 +147,8 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
 
     compile 'com.google.android.gms:play-services-auth:9.8.0'
+
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

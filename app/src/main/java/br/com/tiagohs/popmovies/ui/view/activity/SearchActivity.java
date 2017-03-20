@@ -109,10 +109,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         mSearchView = (SearchView) menu.findItem(R.id.menu_item_search).getActionView();
 
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setQueryHint(getString(R.string.menu_search));
+        mSearchView.setQueryHint(getString(R.string.action_procurar));
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setFocusable(true);
+        mSearchView.requestFocus();
         mSearchView.setQuery(EmptyUtils.isNotNull(mQuery) ? mQuery : "", false);
 
         return true;

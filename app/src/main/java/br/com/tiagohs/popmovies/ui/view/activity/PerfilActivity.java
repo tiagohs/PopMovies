@@ -19,26 +19,27 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.PerfilContract;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.model.dto.ImageDTO;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
+import br.com.tiagohs.popmovies.ui.contracts.PerfilContract;
+import br.com.tiagohs.popmovies.ui.tools.AppBarMovieListener;
 import br.com.tiagohs.popmovies.ui.view.fragment.PerfilFragment;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
-import br.com.tiagohs.popmovies.ui.tools.AppBarMovieListener;
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PerfilActivity extends BaseActivity implements PerfilContract.PerfilView, ListMoviesCallbacks {
     private static final String TAG = PerfilActivity.class.getSimpleName();
 
     @BindView(R.id.background_perfil)               ImageView mBackgroundPerfil;
-    @BindView(R.id.image_circle)                    ImageView mImagePerfil;
+    @BindView(R.id.image_circle)                    CircleImageView mImagePerfil;
     @BindView(R.id.name_perfil)                     TextView mNamePerfil;
     @BindView(R.id.progress_perfil)                 ProgressBar mProgressPerfil;
     @BindView(R.id.progress_image_circle)           ProgressWheel mProgressFotoPerfil;
@@ -63,18 +64,14 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
 
         mPerfilPresenter.onBindView(this);
 
-        mEditar.setOnClickListener(onClickEditButton());
+        //mEditar.setOnClickListener(onClickEditButton());
 
         mPerfilPresenter.initUpdates(PrefsUtils.getCurrentUser(this).getUsername());
     }
 
-    public View.OnClickListener onClickEditButton() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(PerfilEditActivity.newIntent(PerfilActivity.this));
-            }
-        };
+    @OnClick(R.id.btn_editar)
+    public void onClickEditButton() {
+        startActivity(PerfilEditActivity.newIntent(PerfilActivity.this));
     }
 
     public void setProfile(ProfileDB mProfile) {

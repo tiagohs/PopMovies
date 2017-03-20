@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
@@ -26,6 +27,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MultiDex.install(getApplicationContext());
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));

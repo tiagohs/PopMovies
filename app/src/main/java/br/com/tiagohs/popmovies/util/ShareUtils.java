@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -18,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 
 public class ShareUtils {
     private static final String IMAGE_SHARE_TYPE = "image/jpeg";
@@ -44,17 +42,20 @@ public class ShareUtils {
     public static void shareImage(final Context context, String imageURL, final String imageName, final ProgressWheel progress) {
         progress.setVisibility(View.VISIBLE);
 
-        Picasso.with(context.getApplicationContext()).load(imageURL).into(new Target() {
-            @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("image/*");
-                i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(context, bitmap, imageName));
-                context.startActivity(Intent.createChooser(i, context.getString(R.string.share_title)));
-                progress.setVisibility(View.GONE);
-            }
+        Picasso.with(context)
+                .load(imageURL)
+                .into(new Target() {
+                        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            i.setType("image/*");
+                            i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(context, bitmap, imageName));
+                            context.startActivity(Intent.createChooser(i, context.getString(R.string.share_title)));
+                            progress.setVisibility(View.GONE);
+                        }
 
-            @Override public void onBitmapFailed(Drawable errorDrawable) { }
-            @Override public void onPrepareLoad(Drawable placeHolderDrawable) { }
+                        @Override public void onBitmapFailed(Drawable errorDrawable) {}
+                        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {}
+
         });
     }
 

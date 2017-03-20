@@ -237,9 +237,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                                     mPathFoto = getString(R.string.facebook_photo, object.getString(USER_ID_KEY).toString());
 
                                     setUserData();
-
-                                    startActivity(HomeActivity.newIntent(LoginActivity.this));
-                                    finish();
                                 } catch (Exception e) {
                                     ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
                                     setGoogleButtonVisibility(View.VISIBLE);
@@ -305,9 +302,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                             mPathFoto = user.profileImageUrl;
 
                             setUserData();
-
-                            startActivity(HomeActivity.newIntent(LoginActivity.this));
-                            finish();
                         } catch (Exception e) {
                             ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
                             setGoogleButtonVisibility(View.VISIBLE);
@@ -345,9 +339,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             mEmail = acct.getEmail();
 
             setUserData();
-
-            startActivity(HomeActivity.newIntent(LoginActivity.this));
-            finish();
         } else {
             ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_google_error));
 
@@ -359,6 +350,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     private void setUserData() {
         mPresenter.onSaveProfile(mUsername, mEmail, mName, mTypeLogin, mToken, mPathFoto, UserDB.PHOTO_ONLINE);
+    }
+
+    public void onStartHome() {
+        startActivity(HomeActivity.newIntent(LoginActivity.this));
+        finish();
     }
 
     public void onSaveInSharedPreferences(ProfileDB profileDB) {

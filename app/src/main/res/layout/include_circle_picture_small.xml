@@ -7,31 +7,19 @@
     android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_circle"
         android:layout_width="@dimen/picture_circle_small_cardview"
         android:layout_height="@dimen/picture_circle_small_cardview"
-        app:cardCornerRadius="@dimen/picture_circle_small_cardview_radius"
+        android:layout_gravity="center"/>
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_image_circle"
+        android:layout_width="@dimen/picture_circle_small_cardview"
+        android:layout_height="@dimen/picture_circle_small_cardview"
         android:layout_gravity="center"
-        app:cardPreventCornerOverlap="false"
-        android:background="@android:color/transparent"
-        android:shape="ring">
-
-        <ImageView
-            android:id="@+id/image_circle"
-            android:layout_width="@dimen/picture_circle_small_image"
-            android:layout_height="@dimen/picture_circle_small_image"
-            android:layout_gravity="center"/>
-
-        <com.pnikosis.materialishprogress.ProgressWheel
-            android:id="@+id/progress_image_circle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"
-            app:matProg_barColor="@color/colorAccent"
-            app:matProg_progressIndeterminate="true" />
-    </android.support.v7.widget.CardView>
+        android:visibility="gone"
+        app:matProg_barColor="@color/colorAccent"
+        app:matProg_progressIndeterminate="true" />
 
 </FrameLayout>

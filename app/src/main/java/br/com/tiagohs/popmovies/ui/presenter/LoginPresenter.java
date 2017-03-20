@@ -40,10 +40,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView, Login
 
                         @Override
                         public void onComplete() {
+
                             if (null == mProfileDB)
                                 onNewProfile(username, email, name, typeLogin, token, pathFoto, typePhoto);
                             else
                                 mView.onSaveInSharedPreferences(mProfileDB);
+
+                            mView.onStartHome();
                         }
                     });
     }

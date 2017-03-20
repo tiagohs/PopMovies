@@ -37,7 +37,7 @@
 
                         <TextView
                             style="@style/TitleTitleTextView"
-                            android:text="@string/favoritos_title" />
+                            android:text="@string/favoritos" />
 
                         <TextView
                             style="@style/TitleSubtitleTextView"

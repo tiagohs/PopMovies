@@ -360,7 +360,7 @@ public class MovieDetails extends Movie  {
         in.readList(this.spokenLanguages, Language.class.getClassLoader());
         this.tagline = in.readString();
         this.status = in.readString();
-        this.methods = in.readParcelable(Set.class.getClassLoader());
+        this.methods = in.readParcelable(getClass().getClassLoader());
         this.alternativeTitles = in.createTypedArrayList(AlternativeTitle.CREATOR);
         this.credits = in.readParcelable(MediaCreditList.class.getClassLoader());
         this.images = in.createTypedArrayList(Artwork.CREATOR);

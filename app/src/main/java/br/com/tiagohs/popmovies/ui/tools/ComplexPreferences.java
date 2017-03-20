@@ -8,13 +8,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-/**
- * Created by Tiago on 17/12/2016.
- */
 
 public class ComplexPreferences {
     private static ComplexPreferences complexPreferences;
-    private Context context;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private static Gson GSON = new Gson();
@@ -22,7 +18,6 @@ public class ComplexPreferences {
     }.getType();
 
     private ComplexPreferences(Context context, String namePreferences, int mode) {
-        this.context = context;
         if (namePreferences == null || namePreferences.equals("")) {
             namePreferences = "complex_preferences";
         }

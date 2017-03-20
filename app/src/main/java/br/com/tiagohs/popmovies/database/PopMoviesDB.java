@@ -3,7 +3,6 @@ package br.com.tiagohs.popmovies.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class PopMoviesDB extends SQLiteOpenHelper {
     private static final String TAG = PopMoviesDB.class.getSimpleName();
@@ -17,18 +16,10 @@ public class PopMoviesDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_USER_TABLE);
-        Log.i(TAG, "Tabela User Criada com Sucesso.");
-
         sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_PROFILE_TABLE);
-        Log.i(TAG, "Tabela Profile Criada com Sucesso.");
-
         sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_MOVIE_TABLE);
-        Log.i(TAG, "Tabela Movie Criada com Sucesso.");
-
         sqLiteDatabase.execSQL(SQLHelper.SQL_CREATE_GENRER_TABLE);
-        Log.i(TAG, "Tabela Genre Criada com Sucesso.");
 
 
     }

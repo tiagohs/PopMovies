@@ -10,7 +10,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wallpapers_item_image_height"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/wallpapers_item_image_height"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
         android:transitionName="@string/poster_movie"

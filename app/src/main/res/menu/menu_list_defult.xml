@@ -7,6 +7,6 @@
         android:id="@+id/menu_filter"
         android:orderInCategory="100"
         android:icon="@drawable/ic_filter"
-        android:title="@string/filter_title"
+        android:title="@string/filter_dialog_title"
         app:showAsAction="always"/>
 </menu>

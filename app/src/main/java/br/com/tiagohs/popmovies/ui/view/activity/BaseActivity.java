@@ -165,7 +165,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .withAboutAppName(getString(R.string.app_name))
-                .withActivityTitle(getString(R.string.sobre_title_actionbar))
+                .withActivityTitle(getString(R.string.menu_sobre))
                 .withAboutDescription(getString(R.string.sobre_descricao))
                 .start(this);
     }

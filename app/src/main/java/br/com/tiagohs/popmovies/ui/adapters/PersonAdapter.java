@@ -20,6 +20,7 @@ import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoViewHolder> {
     private Context mContext;
@@ -63,7 +64,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ElencoView
     class ElencoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.nome_profissional_movie)                   TextView mNomeTextView;
         @Nullable @BindView(R.id.subtitulo_item_person_movie)     TextView mSubtituloTextView;
-        @BindView(R.id.image_circle)                              ImageView mImagemPerson;
+        @BindView(R.id.image_circle)                              CircleImageView mImagemPerson;
 
         private PersonListDTO mPerson;
 

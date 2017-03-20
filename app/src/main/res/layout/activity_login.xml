@@ -44,7 +44,7 @@
             android:background="@drawable/button_facebook"
             android:text="@string/login_facebook_title"
             android:contentDescription="@string/login_facebook_description"
-            android:drawableLeft="@drawable/ic_facebook"/>
+            android:drawableStart="@drawable/ic_facebook"/>
 
         <Button
             android:id="@+id/login_twitter_button"
@@ -52,7 +52,7 @@
             android:background="@drawable/button_twitter"
             android:text="@string/login_twitter_title"
             android:contentDescription="@string/login_twitter_description"
-            android:drawableLeft="@drawable/ic_twitter_logo" />
+            android:drawableStart="@drawable/ic_twitter_logo" />
 
         <Button
             android:id="@+id/login_google_button"
@@ -61,7 +61,7 @@
             android:background="@drawable/button_google"
             android:text="@string/login_google_title"
             android:contentDescription="@string/login_google_description"
-            android:drawableLeft="@drawable/ic_google_logo" />
+            android:drawableStart="@drawable/ic_google_logo" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_facebook_button_original"

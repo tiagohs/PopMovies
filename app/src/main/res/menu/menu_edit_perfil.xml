@@ -6,6 +6,6 @@
         android:id="@+id/menu_edit_save"
         android:orderInCategory="100"
         android:icon="@drawable/ic_assistido"
-        android:title="@string/edit_done"
+        android:title="@string/action_save"
         app:showAsAction="always"/>
 </menu>

@@ -1,17 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Fonts -->
-    <string name="font_open_sans" translatable="false">opensans.ttf</string>
-    <string name="font_open_sans_italic" translatable="false">openSansItalic.ttf</string>
-    <string name="font_open_sans_bold" translatable="false">openSansBold.ttf</string>
-    <string name="font_times_new_roman" translatable="false">TimesNewRoman.ttf</string>
-
     <!-- Defaults -->
-    <string name="facebook_app_id" translatable="false">1628004524169901</string>
 
     <string name="app_name">PopMovies</string>
 
-    <string name="poster_movie" translatable="false">poster_movie</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
     <string name="navigation_drawer_close">Fechar navigation drawer</string>
     <string name="label_mais">Mais ></string>
@@ -56,7 +48,6 @@
     <string name="action_procurar">Procurar</string>
     <string name="action_recarregar">Atualizar</string>
     <string name="action_save">Salvar</string>
-    <string name="action_limpar">Limpar</string>
     <string name="menu_sobre">Sobre</string>
     <string name="menu_sair">Sair</string>
     <string name="menu_configuracoes">Configurações</string>
@@ -95,26 +86,6 @@
     <string name="google_play">Google Play</string>
     <string name="netflix">Netflix</string>
     <string name="amazon">Amazon</string>
-
-    <!-- Links -->
-    <string name="facebook_link" translatable="false">https://www.facebook.com/%1$s</string>
-    <string name="facebook_photo" translatable="false">https://graph.facebook.com/%1$s/picture?type=large</string>
-    <string name="twitter_link_uri" translatable="false">twitter://user?screen_name=%1$s</string>
-    <string name="instagram_link_uri" translatable="false">https://instagram.com/_u/%1$s</string>
-    <string name="twitter_link" translatable="false">https://twitter.com/#!/%1$s</string>
-    <string name="instagram_link" translatable="false">https://instagram.com/%1$s</string>
-    <string name="person_wiki" translatable="false">https://en.wikipedia.org/w/index.php?search=%1$s</string>
-    <string name="person_imdb" translatable="false">https://www.imdb.com/name/%1$s</string>
-    <string name="imdb_link" translatable="false">https://www.imdb.com/title/%1$s</string>
-    <string name="movie_imdb" translatable="false">https://www.imdb.com/title/%1$s</string>
-    <string name="filmow_url" translatable="false">https://filmow.com/buscar/?year_start=&amp;year_end=&amp;other_seen_user=&amp;other_want_see_user=&amp;q=%1$s&amp;order=boost</string>
-    <string name="netflix_link" translatable="false">https://www.netflix.com/search?q=%1$s</string>
-    <string name="google_play_link" translatable="false">https://play.google.com/store/search?q=%1$s&amp;c=movies&amp;hl=%2$s</string>
-    <string name="imdb_reviews_link" translatable="false">https://www.imdb.com/title/%1$s/reviews</string>
-    <string name="tomatoes_reviews_link" translatable="false">%1$s/reviews</string>
-    <string name="metacritic_link" translatable="false">http://www.metacritic.com/search/all/%1$s/results</string>
-    <string name="youtube_link" translatable="false">"https://img.youtube.com/vi/%1$s/0.jpg"</string>
-    <string name="url_image" translatable="false">http://image.tmdb.org/t/p/%1$s/%2$s</string>
 
     <!-- Arrays -->
     <string-array name="person_gender">
@@ -238,9 +209,7 @@
     <string name="idioma_original">Idioma Original:</string>
     <string name="orcamento">Orçamento:</string>
     <string name="receita">Receita:</string>
-    <string name="aspas" translatable="false">\"</string>
     <string name="movie_data_lancamento_mundial">Mundial: %1$s</string>
-    <string name="movie_data_lancamento_pais_origem" translatable="false">%1$s: %2$s</string>
     <string name="adult_movie">Não recomendado para menores de 18 anos.</string>
     <string name="sinopse_movie">Sinopse</string>
     <string name="marked_watched">Marcado como assistido</string>
@@ -260,12 +229,9 @@
     <string name="movie_details_favorite_marked">Marcado como Favorito</string>
     <string name="movie_details_favorite_no_marked">Desmarcado como Favorito</string>
     <string name="videos_no_data">Sem Vídeos disponíveis</string>
-    <string name="movie_details_cons_rotten_consensius" translatable="false">- Rotten Tomatoes.</string>
     <string name="cast_title">Elenco Principal</string>
     <string name="crew_title">Equipe Técnica</string>
     <string name="keywords">Keywords</string>
-    <string name="data_nascimento_formatado" translatable="false">%1$s - %2$d</string>
-    <string name="lanc_date_min_max" translatable="false">%1$s - %2$s</string>
     <string name="imdb_votes">%1$s votos</string>
     <string name="collection">Franquia %1$s</string>
 
@@ -273,10 +239,6 @@
     <string name="nao_ha_biografia">Não há uma biografia disponíbel.</string>
     <string name="person_carrer_movie_character">Personagem: %1$s</string>
     <string name="person_carrer_movie_departamento">Departamento: %1$s</string>
-    <string name="perfil_dados_pais" translatable="false">%1$s</string>
-    <string name="perfil_dados_pais_idade" translatable="false">%1$s, %2$s %3$s</string>
-    <string name="perfil_dados_pais_genero" translatable="false">%1$s- %2$s</string>
-    <string name="perfil_dados_pais_idade_genero" translatable="false">%1$s, %2$s %3$s - %4$s</string>
     <string name="tomatoes_num_reviews">%1$s reviews</string>
     <string name="person_nascimento">Data de Nascimento</string>
     <string name="genre_title">Gênero</string>
@@ -362,9 +324,6 @@
     <string name="vote_count_desc">Número de Votos (menor)</string>
 
     <!-- Wallpapers -->
-    <string name="downloaded_image_perfil_name" translatable="false">%1$d_perfil.jpg</string>
-    <string name="downloaded_image_name" translatable="false">%1$d_image.jpg</string>
-    <string name="downloaded_name_folder" translatable="false">/PopMovies Images</string>
     <string name="downloaded_baixando_content">Baixando Wallpaper</string>
 
     <!-- Home -->
@@ -400,5 +359,6 @@
 
     <!-- Sobre -->
     <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
+    <string name="action_limpar">Limpar</string>
 
 </resources>

@@ -3,7 +3,6 @@ package br.com.tiagohs.popmovies.database.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +87,6 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     public GenreDB findDatabase(String where, String[] values) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Find Genre Chamado.");
 
         try {
             Cursor c = db.query(PopMoviesContract.GenreEntry.TABLE_NAME, null, where, values, null, null, null);
@@ -123,7 +121,6 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     public List<GenreDB> findAllGenreDBDatabase(long movieID) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "findAll GenreDB Chamado.");
 
         try {
             return genreDBCursorToList(db.query(PopMoviesContract.GenreEntry.TABLE_NAME, null, SQLHelper.GenreSQL.WHERE_ALL_GENRE, new String[]{String.valueOf(movieID)}, null, null, null));
@@ -149,7 +146,6 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     public List<Integer> findAllGenreIDDatabase(long movieID) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "findAll GenreIDs Chamado.");
 
         List<Integer> genresID = new ArrayList<>();
         Integer id = null;

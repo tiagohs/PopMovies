@@ -37,7 +37,6 @@ public class UserRepositoryImpl implements UserRepository {
             @Override
             public void subscribe(ObservableEmitter<Long> subscriber) throws Exception {
                 SQLiteDatabase db = null;
-                Log.i(TAG, "Save User Chamado.");
                 long userID = 0;
 
                 try {
@@ -45,8 +44,6 @@ public class UserRepositoryImpl implements UserRepository {
 
                     boolean userJaExistente = EmptyUtils.isNotNull(findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())}));
                     db = mDatabaseManager.openDatabase();
-
-                    Log.i(TAG, "Ja existe: " + userJaExistente + "Username: " + user.getUsername() + " profile> " + user.getProfileID());
 
                     if (userJaExistente)
                         db.update(PopMoviesContract.UserEntry.TABLE_NAME, values, SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{user.getUsername(), String.valueOf(user.getProfileID())});
@@ -77,7 +74,6 @@ public class UserRepositoryImpl implements UserRepository {
             @Override
             public void subscribe(ObservableEmitter<Integer> subscriber) throws Exception {
                 SQLiteDatabase db = mDatabaseManager.openDatabase();
-                Log.i(TAG, "Delete User Chamado.");
 
                 try {
                     int idReturn = db.delete(PopMoviesContract.UserEntry.TABLE_NAME, where, values);
@@ -108,8 +104,6 @@ public class UserRepositoryImpl implements UserRepository {
 
                 UserDB user = findUserDatabase(SQLHelper.UserSQL.WHERE_USER_BY_USERNAME, new String[]{username, String.valueOf(profileID)});
 
-                Log.i(TAG, "Find, username: " + username + " - Profile: " + profileID + " user> " + user);
-
                 if (EmptyUtils.isNotNull(user))
                     observableEmitter.onNext(user);
 
@@ -125,7 +119,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     public UserDB findUserDatabase(final String where, final String[] values) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Find User Chamado.");
 
         try {
             Cursor c = db.query(PopMoviesContract.UserEntry.TABLE_NAME, null, where, values, null, null, null);
@@ -155,7 +148,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     public List<UserDB> findAllUsersDatabase() {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "findAll Users Chamado.");
 
         try {
             return movieCursorToList(db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, null, null, null, null, null));
@@ -199,8 +191,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     private ContentValues getUserContentValues(UserDB user) {
         ContentValues values = new ContentValues();
-
-        Log.i(TAG, "P " + user.getTypePhoto());
 
         values.put(PopMoviesContract.UserEntry.COLUMN_NAME, user.getNome());
         values.put(PopMoviesContract.UserEntry.COLUMN_PICTURE_PATH, user.getPicturePath());

@@ -16,17 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_editar"
-            android:layout_width="@dimen/froating_button_width"
-            android:layout_height="@dimen/froating_button_height"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_editar"
-            app:backgroundTint="@color/colorPrimary"
-            android:layout_gravity="bottom|end"
-            app:rippleColor="@android:color/white"
-            app:elevation="@dimen/froating_button_elevation" />
-
         <android.support.design.widget.AppBarLayout
             android:id="@+id/perfil_app_bar"
             android:layout_width="match_parent"
@@ -100,7 +89,20 @@
             android:layout_height="match_parent"
             android:id="@+id/perfil_fragment"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_editar"
+            android:layout_width="@dimen/froating_button_width"
+            android:layout_height="@dimen/froating_button_height"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_editar"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_gravity="bottom|end"
+            android:gravity="bottom|end"
+            app:layout_anchorGravity="bottom|end"
+            app:rippleColor="@android:color/white"
+            app:elevation="@dimen/froating_button_elevation" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -34,7 +34,7 @@
                 android:id="@+id/label_movie_details_titulo_original"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/movie_details_titulo_original_title"
+                android:text="@string/titulo_original"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"/>
 
@@ -139,7 +139,7 @@
                 android:layout_width="wrap_content"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"
-                android:text="@string/movie_details_orcamento_title"/>
+                android:text="@string/orcamento"/>
 
             <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/label_movie_details_receita_original"
@@ -149,7 +149,7 @@
                 android:layout_marginTop="@dimen/margin_default_min"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"
-                android:text="@string/movie_details_receita_title"/>
+                android:text="@string/receita"/>
 
             <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_orcamento_original"
@@ -197,7 +197,7 @@
                 android:layout_width="wrap_content"
                 style="@style/MovieDetailsTextView"
                 app:font="@string/font_open_sans"
-                android:text="@string/movie_details_idioma_title"/>
+                android:text="@string/idioma_original"/>
 
             <br.com.tiagohs.popmovies.ui.tools.PopTextView
                 android:id="@+id/movie_details_idioma_original"

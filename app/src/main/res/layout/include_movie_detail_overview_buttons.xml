@@ -16,7 +16,7 @@
             android:layout_gravity="center"
             android:drawableLeft="@drawable/ic_quero_ver"
             android:drawablePadding="@dimen/movie_detail_icon_padding"
-            android:text="@string/want_see_button"
+            android:text="@string/want_see"
             style="@style/ButtonsUserOptions" />
 
         <ImageButton
@@ -35,7 +35,7 @@
             android:drawablePadding="@dimen/movie_detail_icon_padding"
             android:layout_gravity="center"
             android:drawableRight="@drawable/ic_nao_quero_ver"
-            android:text="@string/dont_want_see_button"
+            android:text="@string/dont_want_see"
             style="@style/ButtonsUserOptions" />
 
     </LinearLayout>

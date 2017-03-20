@@ -3,7 +3,6 @@ package br.com.tiagohs.popmovies.database.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,7 +88,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
             @Override
             public void subscribe(ObservableEmitter<Integer> subscriber) throws Exception {
                 SQLiteDatabase db = mDatabaseManager.openDatabase();
-                Log.i(TAG, "Delete Movie Chamado.");
 
                 try {
                     int idReturn = db.delete(PopMoviesContract.MoviesEntry.TABLE_NAME, where, new String[]{String.valueOf(id), String.valueOf(profileID)});
@@ -131,7 +129,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
 
     private Movie findMovieDatabase(final String where, final String[] values) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Find Movie Chamado.");
 
         try {
             Cursor c = db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, where, values, null, null, null);
@@ -196,7 +193,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
 
     public List<Movie> findAllMovies(long profileID) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "findAll Movie Chamado.");
 
         try {
             return movieCursorToList(db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, SQLHelper.MovieSQL.WHERE_ALL_MOVIE, new String[]{String.valueOf(profileID)}, null, null, null));
@@ -221,7 +217,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
 
     private List<MovieDB> findAllDatabase(final String[] values, final String where) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "findAll MovieDB Chamado.");
 
         try {
             return movieDBCursorToList(db.query(PopMoviesContract.MoviesEntry.TABLE_NAME, null, where, values, null, null, null));
@@ -246,7 +241,6 @@ public class MovieRepositoryImpl implements MovieRepository  {
 
     private List<MovieDB> findAllByPageDatabase(final String[] values, final String where) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Find Movie by Page Chamado.");
 
         try {
             return movieDBCursorToList(db.rawQuery(where, values));

@@ -35,7 +35,7 @@
 
                         <TextView
                             style="@style/TitleTitleTextView"
-                            android:text="@string/titles_movie_detail_midia_videos" />
+                            android:text="@string/videos" />
 
                     </LinearLayout>
 

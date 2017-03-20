@@ -16,7 +16,7 @@
             android:drawablePadding="@dimen/movie_detail_icon_padding"
             android:layout_gravity="center"
             android:drawableLeft="@drawable/ic_quero_ver"
-            android:text="@string/want_see_button"
+            android:text="@string/want_see"
             android:layout_weight="1"
             style="@style/ButtonsUserOptions" />
 
@@ -37,7 +37,7 @@
             android:drawablePadding="@dimen/movie_detail_icon_padding"
             android:layout_gravity="center"
             android:drawableRight="@drawable/ic_nao_quero_ver"
-            android:text="@string/dont_want_see_button"
+            android:text="@string/dont_want_see"
             android:layout_weight="1"
             style="@style/ButtonsUserOptions" />
 

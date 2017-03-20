@@ -1,7 +1,5 @@
 package br.com.tiagohs.popmovies.server.interceptor;
 
-import android.util.Log;
-
 import java.io.IOException;
 
 import br.com.tiagohs.popmovies.BuildConfig;
@@ -26,7 +24,7 @@ public class ServerInterceptor implements Interceptor {
             newRequest = builder.url(newUrl).build();
         }
 
-        Log.i("URL", "Url " + newRequest.url().toString());
+        //Log.i("URL", "Url " + newRequest.url().toString());
 
         Response response = chain.proceed(newRequest);
 

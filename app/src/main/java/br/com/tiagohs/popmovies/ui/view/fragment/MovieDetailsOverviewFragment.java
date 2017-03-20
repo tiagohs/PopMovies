@@ -313,17 +313,11 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
         setPaginaInicialVisibility(EmptyUtils.isEmpty(mMovie.getHomepage()) ? View.GONE : View.VISIBLE);
 
         mSinopseMovie.setText(EmptyUtils.isEmpty(mMovie.getOverview()) ? getResources().getString(R.string.nao_ha_sinopse, LocaleUtils.getLocaleLanguageName()) : mMovie.getOverview());
-
         mAdultMovie.setVisibility(mMovie.isAdult() ? View.VISIBLE : View.GONE);
-
         mTituloOriginal.setText(mMovie.getOriginalTitle());
-
         mIdiomaOriginal.setText(EmptyUtils.isEmpty(mMovie.getOriginalLanguage()) ? getString(R.string.nao_disponivel) : MovieUtils.formatIdioma(getActivity(), mMovie.getOriginalLanguage()));
-
         mOcamento.setText(mMovie.getBudget() != 0 ? MovieUtils.formatCurrency(mMovie.getBudget()) : getString(R.string.nao_disponivel));
-
         mReceita.setText(mMovie.getRevenue() != 0 ? MovieUtils.formatCurrency(mMovie.getRevenue()) : getString(R.string.nao_disponivel));
-
         mReleaseDateMundial.setText(EmptyUtils.isEmpty(mMovie.getReleaseDate()) ? getString(R.string.nao_disponivel) : getString(R.string.movie_data_lancamento_mundial, DateUtils.formateDate(mMovie.getReleaseDate())));
 
         ReleaseInfo releaseTemp = new ReleaseInfo(LocaleUtils.getLocaleCountryISO().toUpperCase());

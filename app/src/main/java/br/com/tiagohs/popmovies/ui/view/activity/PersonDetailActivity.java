@@ -264,10 +264,10 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
                     if (!isDestroyed()) {
                         if (!mPerson.getTaggedImages().isEmpty()) {
                             indexImage = new Random().nextInt(mPerson.getTaggedImages().size());
-                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
                         } else if (!mPerson.getImages().isEmpty()) {
                             indexImage = new Random().nextInt(mPerson.getImages().size());
-                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.BACKDROP_300);
                         }
                     }
                 }

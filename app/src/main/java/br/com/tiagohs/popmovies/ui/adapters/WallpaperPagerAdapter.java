@@ -46,7 +46,7 @@ public class WallpaperPagerAdapter extends PagerAdapter {
         mCurrentImage = mImageDTOs.get(position);
 
         if (mTypeShowImage.equals(TypeShowImage.WALLPAPER_IMAGES))
-            ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_1280, mProgress);
+            ImageUtils.load(mContext, mCurrentImage.getImagePath(), mWallpaperImage, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, ImageSize.BACKDROP_780, mProgress);
         else
             ImageUtils.load(mContext, mCurrentImage.getImagePath(), R.drawable.placeholder_images_default, R.drawable.placeholder_images_default,  mWallpaperImage, mProgress);
 

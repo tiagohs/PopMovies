@@ -84,7 +84,7 @@
             android:label="@string/title_activity_wallpapers_details" />
         <activity
             android:name=".ui.view.activity.WallpapersActivity"
-            android:label="@string/title_activity_wallpapers" />
+            android:label="@string/wallpapers_title" />
         <activity
             android:name=".ui.view.activity.PerfilActivity"
             android:label="@string/title_activity_perfil"

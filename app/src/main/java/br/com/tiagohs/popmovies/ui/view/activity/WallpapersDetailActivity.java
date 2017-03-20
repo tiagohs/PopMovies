@@ -117,6 +117,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+
         if (hasFocus) {
             mWallpaperViewPager.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -124,14 +125,16 @@ public class WallpapersDetailActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+
     }
 
     public void onSaveImageClicked() {
 
         if (!ServerUtils.isWifiConnected(this)) {
             new MaterialDialog.Builder(this)
-                    .title(getString(R.string.wifi_dialog_title))
+                    .title(getString(R.string.permission_error_title))
                     .content(getString(R.string.wifi_dialog_content))
                     .positiveText(getString(R.string.btn_yes))
                     .negativeText(getString(R.string.btn_no))
@@ -189,6 +192,7 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     private void onQualitySelected(String size) {
         mProgress.setVisibility(View.VISIBLE);
+        Toast.makeText(WallpapersDetailActivity.this, getString(R.string.sucess_image_saved), Toast.LENGTH_LONG).show();
 
         DownloadManager mgr = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         String path = "";
@@ -206,12 +210,8 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         DownloadManager.Request request = new DownloadManager.Request(
                 downloadUri);
 
-        request.setAllowedNetworkTypes(
-                DownloadManager.Request.NETWORK_WIFI
-                        | DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false).setTitle(getString(R.string.app_name))
+        request.setAllowedOverRoaming(false).setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.downloaded_baixando_content))
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationInExternalPublicDir(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES).getAbsolutePath() + getString(R.string.downloaded_name_folder), nameImage);
@@ -272,6 +272,12 @@ public class WallpapersDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
     private void share() {
 
         if (PermissionUtils.validatePermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.permission_error_write_content)))
@@ -282,8 +288,10 @@ public class WallpapersDetailActivity extends AppCompatActivity {
 
     public void createShareIntent() {
 
-        ShareUtils.shareImage(this, getString(R.string.url_image, ImageSize.BACKDROP_1280.getSize(), mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath()),
-                getString(R.string.downloaded_image_name, mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID()), mProgress);
+        ShareUtils.shareImage(this, getString(R.string.url_image, ImageSize.BACKDROP_780.getSize(),
+                mImagens.get(mWallpaperViewPager.getCurrentItem()).getImagePath()),
+                getString(R.string.downloaded_image_name, mImagens.get(mWallpaperViewPager.getCurrentItem()).getMovieID()),
+                mProgress);
 
     }
 

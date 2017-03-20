@@ -94,7 +94,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             @Override
             public void subscribe(ObservableEmitter<Integer> subscriber) throws Exception {
                 SQLiteDatabase db = mDatabaseManager.openDatabase();
-                Log.i(TAG, "Delete Profile Chamado.");
 
                 try {
                     int idReturn = db.delete(PopMoviesContract.ProfileEntry.TABLE_NAME, where, new String[]{value});
@@ -127,6 +126,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             public void subscribe(ObservableEmitter<ProfileDB> observableEmitter) throws Exception {
                 ProfileDB profile = findProfileDatabase(SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, username);
 
+                Log.i("Teste", "profile database> " + profile);
+
                 if (EmptyUtils.isNotNull(profile))
                     observableEmitter.onNext(profile);
 
@@ -138,7 +139,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     public ProfileDB findProfileDatabase(String where, String username) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Find Profile Chamado.");
 
         try {
             Cursor c = db.query(PopMoviesContract.ProfileEntry.TABLE_NAME, null, where, new String[]{username}, null, null, null);
@@ -168,7 +168,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     public long getTotalDatabase(String sql, String[] values) {
         SQLiteDatabase db = mDatabaseManager.openDatabase();
-        Log.i(TAG, "Total Hour Chamado.");
         long total = 0;
 
         try {

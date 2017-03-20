@@ -49,7 +49,7 @@
             <item
                 android:id="@+id/menu_buscar"
                 android:icon="@drawable/ic_search_menu"
-                android:title="@string/menu_search" />
+                android:title="@string/action_procurar" />
             <item
                 android:id="@+id/menu_sobre"
                 android:icon="@drawable/ic_about"

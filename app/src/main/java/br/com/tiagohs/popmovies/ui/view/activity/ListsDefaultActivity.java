@@ -151,7 +151,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
         switch (item.getItemId()) {
             case R.id.menu_filter:
                 FilterDialogFragment filter = FilterDialogFragment.newInstance();
-                filter.show(getSupportFragmentManager().beginTransaction(), getString(R.string.filter_title));
+                filter.show(getSupportFragmentManager().beginTransaction(), getString(R.string.filter_dialog_title));
                 return true;
         }
 

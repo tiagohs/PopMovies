@@ -22,5 +22,6 @@ public class LoginContract {
 
         boolean isInternetConnected();
         void onSaveInSharedPreferences(ProfileDB profileDB);
+        void onStartHome();
     }
 }

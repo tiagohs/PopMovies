@@ -36,7 +36,9 @@ import jp.wasabeef.picasso.transformations.BlurTransformation;
 public class ImageUtils {
 
     public static void fixMediaDir() {
-        File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        //File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File sdcard = Environment.getExternalStorageDirectory();
+
         if (sdcard != null) {
             File mediaDir = new File(sdcard, "DCIM/Camera");
             if (!mediaDir.exists()) {
@@ -114,22 +116,23 @@ public class ImageUtils {
             request.into(imageView);
     }
 
-    public static TextDrawable createTextDrawable(String text, boolean isRetangulo) {
+    public static TextDrawable createTextDrawable(String text, boolean isRetangulo, ImageView imageView) {
         ColorGenerator generator = ColorGenerator.MATERIAL;
 
         TextDrawable.IShapeBuilder configBuilder = TextDrawable.builder()
                                                                 .beginConfig()
-                                                                .withBorder(4)
+                                                                .width(imageView.getWidth())
+                                                                .height(imageView.getHeight())
                                                                 .endConfig();
 
         if (isRetangulo)
-            return configBuilder.buildRoundRect(String.valueOf(text.charAt(0)), generator.getRandomColor(), 10);
+            return configBuilder.buildRect(String.valueOf(text.charAt(0)), generator.getRandomColor());
         else
-        return configBuilder.buildRound(String.valueOf(text.charAt(0)), generator.getRandomColor());
+            return configBuilder.buildRound(String.valueOf(text.charAt(0)), generator.getRandomColor());
 
     }
     public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        Drawable placeholderAndError = createTextDrawable(name, false);
+        Drawable placeholderAndError = createTextDrawable(name, false, imageView);
         load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
 
     }
@@ -175,18 +178,17 @@ public class ImageUtils {
     }
 
     public static void load(Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
-
         load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null, imageError, false, null, null);
 
     }
 
     public static void load(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        Drawable placeholderAndError = createTextDrawable(name, true);
+        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
         load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
     }
 
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        Drawable placeholderAndError = createTextDrawable(name, true);
+        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
         load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, new BlurTransformation(context), null);
     }
 
@@ -230,7 +232,7 @@ public class ImageUtils {
 
     public static void load(Context context, String url, String name, final ImageView imageView, final ProgressWheel progressbar) {
         progressbar.setVisibility(View.VISIBLE);
-        Drawable placeholderAndError = createTextDrawable(name, true);
+        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
 
         ViewCompat.setElevation(imageView, 12);
 
@@ -252,7 +254,7 @@ public class ImageUtils {
 
     public static void load(Context context, String url, String name, int imageError, final ImageView imageView, final ProgressWheel progressbar) {
         progressbar.setVisibility(View.VISIBLE);
-        Drawable placeholderAndError = createTextDrawable(name, true);
+        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
         ViewCompat.setElevation(imageView, 12);
 
         load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,

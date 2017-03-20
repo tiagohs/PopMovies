@@ -72,7 +72,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public void bindImage(ImageDTO image) {
             this.mImage = image;
 
-            ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, mIsTablet ? ImageSize.BACKDROP_780 : ImageSize.BACKDROP_300, mProgress);
+            ImageUtils.load(mContext, mImage.getImagePath(), mImageArtwork, R.drawable.placeholder_images_default, R.drawable.placeholder_images_default, mIsTablet ? ImageSize.BACKDROP_780 : ImageSize.POSTER_185, mProgress);
         }
 
         @Override

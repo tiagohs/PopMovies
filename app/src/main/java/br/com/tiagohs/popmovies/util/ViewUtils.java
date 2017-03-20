@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,8 +34,6 @@ public class ViewUtils {
             context.startActivity(MovieDetailActivity.newIntent(context, movieID));
         }
     }
-
-
 
     public static int getColorFromResource(Context context, int resourceID) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -69,7 +66,7 @@ public class ViewUtils {
 
             return returnedBitmap;
         }catch (Exception e){
-            Log.e("Error", "Erro na Conversão da View to Image");
+            e.printStackTrace();
         }
         return null;
     }
