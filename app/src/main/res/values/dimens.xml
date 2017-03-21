@@ -44,6 +44,8 @@
     <dimen name="item_movie_fixo_width">100dp</dimen>
     <dimen name="item_person_fixo_width">100dp</dimen>
     <dimen name="item_list_movies_height">160dp</dimen>
+    <dimen name="tile_letter_font_size">33sp</dimen>
+    <dimen name="letter_tile_size">64dp</dimen>
 
     <!-- Circle Pictures -->
     <dimen name="picture_circle_cardview_elevation">12dp</dimen>

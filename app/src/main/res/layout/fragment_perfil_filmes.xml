@@ -102,7 +102,7 @@
 
                         <TextView
                             style="@style/TitleTitleTextView"
-                            android:text="@string/quero_ver_title" />
+                            android:text="@string/want_see" />
 
                         <TextView
                             style="@style/TitleSubtitleTextView"

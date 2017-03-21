@@ -15,6 +15,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -131,9 +132,16 @@ public class ImageUtils {
             return configBuilder.buildRound(String.valueOf(text.charAt(0)), generator.getRandomColor());
 
     }
-    public static void loadByCircularImage(Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        Drawable placeholderAndError = createTextDrawable(name, false, imageView);
-        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
+    public static void loadByCircularImage(final Context context, final String path, final ImageView imageView, final String name, final ImageSize imageSize) {
+
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                Drawable placeholderAndError = createTextDrawable(name, false, imageView);
+                load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
+            }
+        });
 
     }
 
@@ -187,9 +195,16 @@ public class ImageUtils {
         load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
     }
 
-    public static void loadWithBlur(final Context context, String path, final ImageView imageView, String name, ImageSize imageSize) {
-        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
-        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, new BlurTransformation(context), null);
+    public static void loadWithBlur(final Context context, final String path, final ImageView imageView, final String name, final ImageSize imageSize) {
+
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                Drawable placeholderAndError = createTextDrawable(name, true, imageView);
+                load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, new BlurTransformation(context), null);
+            }
+        });
     }
 
     public static void loadWithBlur(final Context context, String path, final ImageView imageView, ImageSize imageSize) {
@@ -230,47 +245,62 @@ public class ImageUtils {
                                             });
     }
 
-    public static void load(Context context, String url, String name, final ImageView imageView, final ProgressWheel progressbar) {
-        progressbar.setVisibility(View.VISIBLE);
-        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
+    public static void load(final Context context, final String url, final String name, final ImageView imageView, final ProgressWheel progressbar) {
 
-        ViewCompat.setElevation(imageView, 12);
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                progressbar.setVisibility(View.VISIBLE);
+                Drawable placeholderAndError = createTextDrawable(name, true, imageView);
 
-        load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
-                null, false, null, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
+                ViewCompat.setElevation(imageView, 12);
 
-                    @Override
-                    public void onError() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-                });
+                load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
+                        null, false, null, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                progressbar.setVisibility(View.GONE);
+                                imageView.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                progressbar.setVisibility(View.GONE);
+                                imageView.setVisibility(View.VISIBLE);
+                            }
+                        });}
+        });
+
+
     }
 
-    public static void load(Context context, String url, String name, int imageError, final ImageView imageView, final ProgressWheel progressbar) {
-        progressbar.setVisibility(View.VISIBLE);
-        Drawable placeholderAndError = createTextDrawable(name, true, imageView);
-        ViewCompat.setElevation(imageView, 12);
+    public static void load(final Context context, final String url, final String name, final int imageError, final ImageView imageView, final ProgressWheel progressbar) {
 
-        load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
-                imageError, false, null, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                progressbar.setVisibility(View.VISIBLE);
+                Drawable placeholderAndError = createTextDrawable(name, true, imageView);
+                ViewCompat.setElevation(imageView, 12);
 
-                    @Override
-                    public void onError() {
-                        progressbar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-                });
+                load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,
+                        imageError, false, null, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                progressbar.setVisibility(View.GONE);
+                                imageView.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                progressbar.setVisibility(View.GONE);
+                                imageView.setVisibility(View.VISIBLE);
+                            }
+                        });
+            }
+        });
+
     }
 
     private static final float BITMAP_SCALE = 0.4f;

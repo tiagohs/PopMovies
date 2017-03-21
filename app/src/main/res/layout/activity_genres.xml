@@ -15,6 +15,12 @@
         android:layout_height="match_parent"
         tools:context="br.com.tiagohs.popmovies.ui.view.activity.GenresActivity">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_fragment"
+            android:orientation="vertical" />
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/movie_detail_app_bar"
             android:layout_width="match_parent"
@@ -32,12 +38,6 @@
                 android:background="@color/generesActionBarBackground"/>
 
         </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/content_fragment"
-            android:orientation="vertical" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -69,7 +69,7 @@ public class PerfilFilmesFragment extends BaseFragment implements PerfilFilmesCo
 
     @OnClick(R.id.perfil_quero_ver_riple)
     public void onClickQueroVer() {
-        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.quero_ver), Sort.QUERO_VER, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
+        startActivity(ListsDefaultActivity.newIntent(getActivity(), new ListActivityDTO(0, getString(R.string.want_see), Sort.QUERO_VER, R.layout.item_list_movies, ListType.MOVIES), new DiscoverDTO()));
     }
 
     @OnClick(R.id.perfil_nao_quero_ver_riple)

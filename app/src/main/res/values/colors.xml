@@ -62,4 +62,15 @@
     <color name="nav_drawer_end_color">#392e7d</color>
     <color name="nav_drawer_start_color">#9581c7</color>
     <color name="collection_background">#9575cd</color>
+
+    <array name="letter_tile_colors">
+        <item>#f16364</item>
+        <item>#f58559</item>
+        <item>#f9a43e</item>
+        <item>#e4c62e</item>
+        <item>#67bf74</item>
+        <item>#59a2be</item>
+        <item>#2093cd</item>
+        <item>#ad62a7</item>
+    </array>
 </resources>

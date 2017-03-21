@@ -5,7 +5,6 @@
     android:id="@+id/coordenation_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@android:color/black">
 
     <br.com.tiagohs.popmovies.ui.tools.ViewPagerWallpapers
@@ -18,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:fitsSystemWindows="true"
         android:background="@android:color/transparent"
         android:theme="@style/AppBarDetails">
 
