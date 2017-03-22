@@ -30,9 +30,3 @@ test:
         - emulator -avd circleci-android25 -no-audio -no-window:
            background: true
            parallel: true
-
-deployment:
-    continous:
-      branch: master
-      #we could specify branch here might even tags, or restrict to nightly builds
-
