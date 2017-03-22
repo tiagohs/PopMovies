@@ -35,5 +35,4 @@ deployment:
     continous:
       branch: master
       #we could specify branch here might even tags, or restrict to nightly builds
-      commands:
-        - ./gradlew deployGoogleDrive
+
