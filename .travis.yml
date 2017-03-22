@@ -20,5 +20,3 @@ android:
   - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 script:
   - chmod +x gradlew
-  - ./gradlew build jacocoTestReport assembleAndroidTest
-  - ./gradlew connectedCheck
