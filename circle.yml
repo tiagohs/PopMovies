@@ -1,0 +1,34 @@
+machine:
+    environment:
+
+dependencies:
+    override:
+        - chmod +x gradlew
+        - ./gradlew dependencies 
+
+test:
+    override:
+        #assemble the apk if tests were successful
+        - ./gradlew clean assembleDebug -PdisablePreDex
+#        # start the emulator
+        #run jvm unit tests
+        - ./gradlew test -PdisablePreDex
+        - emulator -avd circleci-android21 -no-audio -no-window:
+           background: true
+           parallel: true
+        # wait for it to have booted
+        - circle-android wait-for-boot
+        - adb shell input keyevent 82
+        # run tests  against the emulator.
+        - ./gradlew connectedDebugAndroidTest
+        - cp -r app/build/outputs/androidTest-results $CIRCLE_TEST_REPORTS
+        # copy the test results to the test results directory.
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+        - cp -r app/build/test-results $CIRCLE_TEST_REPORTS
+        - cp -r app/build/reports $CIRCLE_TEST_REPORTS
+deployment:
+    continous:
+      branch: master
+      #we could specify branch here might even tags, or restrict to nightly builds
+      commands:
+        - ./gradlew deployGoogleDrive
