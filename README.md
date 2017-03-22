@@ -1,6 +1,6 @@
 # PopMovies
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a9f549fe009d410f807065fce0f17bf4)](https://www.codacy.com/app/tiagohs/PopMovies?utm_source=github.com&utm_medium=referral&utm_content=tiagohs/PopMovies&utm_campaign=badger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a9f549fe009d410f807065fce0f17bf4)](https://www.codacy.com/app/tiagohs/PopMovies?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tiagohs/PopMovies&amp;utm_campaign=Badge_Grade)
 
 <p>Uma rede social de filmes relativamente simples, onde você pode:</p>
 
