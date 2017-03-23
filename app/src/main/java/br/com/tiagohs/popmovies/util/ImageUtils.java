@@ -37,8 +37,10 @@ import jp.wasabeef.picasso.transformations.BlurTransformation;
 public class ImageUtils {
 
     public static void fixMediaDir() {
-        //File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File sdcard = Environment.getExternalStorageDirectory();
+        File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        if (sdcard == null)
+            sdcard = Environment.getExternalStorageDirectory();
 
         if (sdcard != null) {
             File mediaDir = new File(sdcard, "DCIM/Camera");
