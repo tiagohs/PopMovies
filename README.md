@@ -70,11 +70,18 @@ Além diso, no Arquivo string.xml, adicione no campo "facebook_app_id" o id do F
 ## Screens
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538467.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538429.png" width="280" height="540">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_movies_list.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_lancamentos.png" width="280" height="540">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_wallpaper.png" width="280" height="540">
 </p>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538508.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/Screenshot_1489538488.png" width="280" height="540">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_estatisticas.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_filme.png" width="280" height="540">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_perfil.png" width="280" height="540">
+</p>
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_persons_list.png" width="280" height="540"> <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_search.png" width="280" height="540">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_person.png" width="280" height="540">
 </p>
 
 ### Desenvolvido por:
