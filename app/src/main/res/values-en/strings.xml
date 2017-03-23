@@ -252,7 +252,6 @@
     <string name="assistidos">Watched</string>
     <string name="favoritos">Favorites</string>
     <string name="nao_ha_descicao">You don\'t have any description yet, click in edit and write one!</string>
-    <string name="perfil_estatisticas_description">Statistics, Personal Data and Graphics</string>
     <string name="perfil_estatisticas_filmes_saved">Saved Movies</string>
     <string name="hours_watched_title">Total hours watched</string>
     <string name="perfil_estatistiticas_filmes">Movies</string>
@@ -334,14 +333,14 @@
     <string name="mais_bem_avaliados">Top Rated</string>
     <string name="brasileiros">Brazillian movies</string>
     <string name="campeoes_bilheteria">Box Office Records</string>
-    <string name="estreias_semana">Releases of Week</string>
-    <string name="estreias_semana_subtitle">The Releases of Week</string>
+    <string name="estreias_semana">New Movies In Theaters</string>
+    <string name="estreias_semana_subtitle">Movies Releasing this week</string>
     <string name="em_cartaz">Now Playing</string>
     <string name="em_cartaz_subtitle">Movies Playing in the world</string>
     <string name="em_breve">Upcoming</string>
     <string name="em_breve_subtitle">Upcoming in the theaters</string>
     <string name="populares">Popular on PopMovies</string>
-    <string name="populares_subtitle">The populars movies in PopMovies</string>
+    <string name="populares_subtitle">Populars movies in PopMovies</string>
 
 
     <!-- Long Click List Movies -->
@@ -359,4 +358,6 @@
     <!-- Sobre -->
     <string name="sobre_descricao">Your favorites movies, actor and actress in one place!<br /><b>Database: themoviedb.org</b></string>
     <string name="action_limpar">Clean</string>
+    <string name="list_default">Default List</string>
+    <string name="perfil_estatisticas_description">Statistics, Personal Data and Graphics</string>
 </resources>

@@ -10,15 +10,15 @@
     <string name="less">Ler menos..</string>
     <string name="more">Leia mais..</string>
     <string name="image_picker_title">Selecione a fonte da imagem</string>
-    <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos.</string>
+    <string name="pop_movie_subtitle_principal">Escolha os seus filmes favoritos</string>
 
     <!-- Messages -->
     <string name="movie_action_add_favourite">Add aos Favoritos</string>
     <string name="progress_wait">Aguarde..</string>
     <string name="tentar_novamente">Tentar Novamente</string>
-    <string name="nao_disponivel">Não disponível.</string>
-    <string name="loading">Carregando...</string>
-    <string name="no_movies_find">Nenhum filme encontrado.</string>
+    <string name="nao_disponivel">Não disponível</string>
+    <string name="loading">Carregando&#8230;</string>
+    <string name="no_movies_find">Nenhum filme encontrado!</string>
     <string name="no_person_find">Nenhuma pessoa encontrada!</string>
 
     <!-- Error Messages -->
@@ -26,7 +26,7 @@
     <string name="imagens_error_load">Erro ao carregar as imagens</string>
     <string name="videos_error_load">Erro ao carregar os vídeos</string>
     <string name="error_no_server">Erro no servidor</string>
-    <string name="genre_error_network">Erro ao ao recuperar gêneros</string>
+    <string name="genre_error_network">Erro ao recuperar gêneros</string>
     <string name="erro_unexpected">Erro inesperado</string>
     <string name="error_save_movie">Erro ao salvar o filme</string>
     <string name="error_loading_background">Erro ao carregar imagem de background</string>
@@ -38,7 +38,7 @@
     <string name="login_google_error">Erro ao realizar o login pelo google</string>
 
     <!-- Sucess Messages -->
-    <string name="sucess_save_movie">Filme salvo com sucesso.</string>
+    <string name="sucess_save_movie">Filme salvo com sucesso</string>
     <string name="sucess_data_saved">Dados salvos com sucesso</string>
     <string name="sucess_image_saved">Imagem salva com sucesso</string>
     <string name="sucess_delete_movie">Filme deletado com sucesso</string>
@@ -143,7 +143,7 @@
     <string name="genere_crime">Crime</string>
     <string name="genere_documentary">Documentário</string>
     <string name="genere_drama">Drama</string>
-    <string name="genere_family">Familia</string>
+    <string name="genere_family">Família</string>
     <string name="genere_fantasy">Fantasia</string>
     <string name="genere_history">Histórico</string>
     <string name="genere_horror">Horror</string>
@@ -219,8 +219,8 @@
     <string name="movie_detail_tomatoes_reviews">Tomatoes Reviews</string>
     <string name="movie_detail_imdb_reviews">IMDB Reviews</string>
     <string name="movie_details_permios_title">Prêmios e Nomeações</string>
-    <string name="equipe_no_data">Sem informações sobre a equipe no momento.</string>
-    <string name="elenco_no_data">Sem informações sobre o elenco no momento.</string>
+    <string name="equipe_no_data">Sem informações sobre a equipe no momento</string>
+    <string name="elenco_no_data">Sem informações sobre o elenco no momento</string>
     <string name="movie_details_dont_want_see_marked">Marcado como \'Não quero ver\'</string>
     <string name="movie_details_dont_want_see_no_marked">Desmarcado como \'Não quero ver\'</string>
     <string name="movie_details_want_see_marked">Marcado como \'Quero ver\'</string>
@@ -235,7 +235,7 @@
     <string name="collection">Franquia %1$s</string>
 
     <!-- Person Details -->
-    <string name="nao_ha_biografia">Não há uma biografia disponíbel.</string>
+    <string name="nao_ha_biografia">Não há uma biografia disponível.</string>
     <string name="person_carrer_movie_character">Personagem: %1$s</string>
     <string name="person_carrer_movie_departamento">Departamento: %1$s</string>
     <string name="tomatoes_num_reviews">%1$s reviews</string>
@@ -261,9 +261,8 @@
     <string name="hour_watched_hours">Horas</string>
     <string name="hour_watched_minutes">Minutos</string>
     <string name="perfil_estatisticas_no_data_to_hour">Não há dados Suficientes</string>
-    <string name="perfil_estatisticas_no_data_to_genres_graphic">Não há dados suficientes</string>
     <string name="favoritos_subtitle">Seus filmes favoritos</string>
-    <string name="quero_ver_subtitle">Seus filmes que você quer ver</string>
+    <string name="quero_ver_subtitle">Os filmes que você ainda quer ver</string>
     <string name="nao_quero_ver_title">Não quero ver</string>
     <string name="nao_quero_ver_subtitle">Os Filmes que você jamais quer ver!</string>
     <string name="assistidos_subtitle">Seus filmes assistidos</string>
@@ -275,7 +274,7 @@
 
     <!-- Editar Perfil -->
     <string name="edit_perfil_nome">Nome</string>
-    <string name="edit_perfil_decription_hint">Escreva algo sobre você...</string>
+    <string name="edit_perfil_decription_hint">Escreva algo sobre você&#8230;</string>
     <string name="edit_perfil_decription_title">Descrição</string>
     <string name="edit_perfil_birthday">Aniversário</string>
     <string name="edit_perfil_nome_description">Entre com o seu nome</string>
@@ -344,7 +343,6 @@
     <string name="login_google_description">Realizar login utilizando o Google</string>
 
     <!-- Long Click List Movies -->
-
     <string name="list_movies_long_click_favorite_marked">Marcado como Favorito</string>
     <string name="list_movies_long_click_watched_marked">Marcado como Assistido</string>
     <string name="list_movies_long_click_want_see_marked">Marcado como Quero ver</string>
@@ -359,5 +357,6 @@
     <!-- Sobre -->
     <string name="sobre_descricao">Os Seus filmes e atores favoritos em um só lugar!<br /><b>Base de Filmes: themoviedb.org</b></string>
     <string name="action_limpar">Limpar</string>
+    <string name="quero_ver_title">Quero ver</string>
 
 </resources>

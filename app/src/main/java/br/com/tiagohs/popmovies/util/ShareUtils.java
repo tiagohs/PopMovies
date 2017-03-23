@@ -25,18 +25,23 @@ public class ShareUtils {
     public static void shareImageWithText(Context context, String pathToImage, String textExtra) {
         ImageUtils.fixMediaDir();
 
-        Uri imageUri = Uri.parse(pathToImage);
+        try {
+            Uri imageUri = Uri.parse(pathToImage);
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
 
-        if (null != textExtra)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, textExtra);
+            if (null != textExtra)
+                shareIntent.putExtra(Intent.EXTRA_TEXT, textExtra);
 
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.setType(IMAGE_SHARE_TYPE);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(Intent.createChooser(shareIntent, IMAGE_SHARE_CHOOSER_SEND));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            shareIntent.setType(IMAGE_SHARE_TYPE);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(Intent.createChooser(shareIntent, IMAGE_SHARE_CHOOSER_SEND));
+        } catch (Exception ex) {
+            ViewUtils.createToastMessage(context, context.getString(R.string.erro_unexpected));
+        }
+
     }
 
     public static void shareImage(final Context context, String imageURL, final String imageName, final ProgressWheel progress) {

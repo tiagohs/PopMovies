@@ -479,7 +479,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             app:font="@string/font_open_sans"
-                            android:text="@string/perfil_estatisticas_no_data_to_genres_graphic"/>
+                            android:text="@string/perfil_estatisticas_no_data_to_hour"/>
                     </FrameLayout>
 
                 </LinearLayout>
