@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "896196742123",
-    "project_id": "popmovies-release"
+    "project_number": "769423231247",
+    "project_id": "popmovies-141719"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:896196742123:android:fe679ad475f74acf",
+        "mobilesdk_app_id": "1:769423231247:android:fe679ad475f74acf",
         "android_client_info": {
           "package_name": "br.com.tiagohs.popmovies"
         }
       },
       "oauth_client": [
         {
-          "client_id": "896196742123-63n7ck469m9d2l9ikq03j8e95031os6u.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "896196742123-lojnb4a0cnrfb7g0of2sk3no2pnrujua.apps.googleusercontent.com",
+          "client_id": "769423231247-bra48d21715tfi4m4es23ffl8qf2kcgs.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "br.com.tiagohs.popmovies",
-            "certificate_hash": "a00ca031abb33e09dc913bbbbfbff8826604d977"
+            "certificate_hash": "72d51ce7e81daa5e57cb17f1ec932bf6d7ac2d1f"
           }
+        },
+        {
+          "client_id": "769423231247-ihqp473a3qjsqkt160bdb6bu14l5iitb.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALWB9I1BwXLIfRRnKKRIXB3KdM5Zwrseg"
+          "current_key": "AIzaSyBorLMUetMx82sVlSLPwEMfZglKKV2RKqo"
         }
       ],
       "services": {
