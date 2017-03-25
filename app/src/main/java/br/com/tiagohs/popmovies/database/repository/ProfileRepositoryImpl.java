@@ -126,8 +126,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             public void subscribe(ObservableEmitter<ProfileDB> observableEmitter) throws Exception {
                 ProfileDB profile = findProfileDatabase(SQLHelper.ProfileSQL.WHERE_PROFILE_BY_USERNAME, username);
 
-                Log.i("Teste", "profile database> " + profile);
-
                 if (EmptyUtils.isNotNull(profile))
                     observableEmitter.onNext(profile);
 
