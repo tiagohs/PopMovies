@@ -84,6 +84,10 @@ Além diso, no Arquivo string.xml, adicione no campo "facebook_app_id" o id do F
 <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/image_person.png" width="280" height="540">
 </p>
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/tablet-2.png" width="800" height="538">
+</p>
+
 ### Desenvolvido por:
 
 Tiago Henrique da Silva - tiago.hsilva@al.infnet.edu.br / tiago.silva.93@hotmail.com
