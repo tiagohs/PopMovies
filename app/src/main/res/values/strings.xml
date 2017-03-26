@@ -8,7 +8,7 @@
     <string name="font_times_new_roman" translatable="false">TimesNewRoman.ttf</string>
 
     <!-- Defaults -->
-    <string name="facebook_app_id" translatable="false"></string>
+    <string name="facebook_app_id" translatable="false">1628004524169901</string>
     <string name="app_name">PopMovies</string>
     <string name="poster_movie" translatable="false">poster_movie</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
