@@ -17,6 +17,8 @@
 
 <p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
+<b>Donwload do APK</b>: <a href="https://github.com/tiagohs/PopMovies/raw/master/release/app-release.apk">DOWNLOAD</a>
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/gif.gif" width="360" height="640">
 </p>
