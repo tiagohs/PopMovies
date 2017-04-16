@@ -41,7 +41,7 @@ Além diso, no Arquivo string.xml, adicione no campo "facebook_app_id" o id do F
 <li><a href="https://www.themoviedb.org/"><b>TheMovieDB</b></a> - The Movie Database (TMDb) is a popular, user editable database for movies and TV shows.</li>
 <li><a href="https://github.com/jvanbaarsen/omdb"><b>OMDB API</b></a> - The OMDb API is a free web service to obtain movie information, all content and images on the site are contributed and maintained by our users.</li>
 </ul>
-###Padrões de Projetos Adotados:
+### Padrões de Projetos Adotados:
 <ul>
 <li><a href="http://antonioleiva.com/mvp-android">MVP</a> - Model View Presenter.</li>
 </ul>
