@@ -56,6 +56,7 @@ public class MovieDetailsOverviewPresenter extends BasePresenter<MovieDetailsOve
 
             @Override
             public void onError(Throwable e) {
+                e.printStackTrace();
                 mView.onErrorGetRankings();
                 mView.setRankingProgressVisibility(View.GONE);
                 mView.setRankingContainerVisibility(View.GONE);

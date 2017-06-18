@@ -22,7 +22,6 @@ package br.com.tiagohs.popmovies.model.credits;
 import android.os.Parcel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
 /**
  *
@@ -36,6 +35,8 @@ public class MediaCreditCrew extends MediaCredit {
     private String department;
     @JsonProperty("job")
     private String job;
+    @JsonProperty("gender")
+    private String gender;
 
     public String getDepartment() {
         return department;
@@ -53,6 +54,13 @@ public class MediaCreditCrew extends MediaCredit {
         this.job = job;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     @Override
     public int describeContents() {

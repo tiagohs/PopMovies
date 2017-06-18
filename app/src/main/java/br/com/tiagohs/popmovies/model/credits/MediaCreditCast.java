@@ -37,6 +37,8 @@ public class MediaCreditCast extends MediaCredit {
     private String character;
     @JsonProperty("order")
     private int order;
+    @JsonProperty("gender")
+    private String gender;
 
     public int getCastId() {
         return castId;
@@ -62,6 +64,13 @@ public class MediaCreditCast extends MediaCredit {
         this.order = order;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     @Override
     public int describeContents() {
