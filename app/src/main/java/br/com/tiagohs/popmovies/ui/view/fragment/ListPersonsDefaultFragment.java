@@ -181,8 +181,11 @@ public class ListPersonsDefaultFragment extends BaseFragment implements ListPers
     }
 
     public void addAllMovies(List<PersonListDTO> listMovies, boolean hasMorePages) {
-        mPersonCredit.addAll(listMovies);
-        this.hasMorePages = hasMorePages;
+        if (mPersonCredit != null) {
+            mPersonCredit.addAll(listMovies);
+            this.hasMorePages = hasMorePages;
+        }
+
     }
 
     public void setupRecyclerView() {
