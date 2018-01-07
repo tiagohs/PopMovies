@@ -12,6 +12,7 @@ import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.PerfilActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.SearchActivity;
+import br.com.tiagohs.popmovies.ui.view.activity.SignUpActivity;
 import br.com.tiagohs.popmovies.ui.view.fragment.GenresFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.LancamentosSemanaFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.ListMoviesDefaultFragment;
@@ -51,6 +52,7 @@ public interface PopMoviesComponent {
     void inject(PerfilEditFragment perfilEditFragment);
     void inject(LancamentosSemanaFragment lancamentosSemanaFragment);
     void inject(LoginActivity loginActivity);
+    void inject(SignUpActivity signUpActivity);
     void inject(PerfilFilmesFragment perfilFilmesFragment);
 
 }

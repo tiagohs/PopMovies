@@ -14,6 +14,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -254,7 +255,7 @@ public class ImageUtils {
             public void onGlobalLayout() {
                 imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 progressbar.setVisibility(View.VISIBLE);
-                Drawable placeholderAndError = createTextDrawable(name, true, imageView);
+                Drawable placeholderAndError = createTextDrawable(name == null ? "PopMovies" : name.toUpperCase(), true, imageView);
 
                 ViewCompat.setElevation(imageView, 12);
 
@@ -282,8 +283,9 @@ public class ImageUtils {
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 progressbar.setVisibility(View.VISIBLE);
-                Drawable placeholderAndError = createTextDrawable(name, true, imageView);
+                Drawable placeholderAndError = createTextDrawable(name == null ? "PopMovies" : name.toUpperCase(), true, imageView);
                 ViewCompat.setElevation(imageView, 12);
 
                 load(context, imageView, url, null, placeholderAndError, null, placeholderAndError,

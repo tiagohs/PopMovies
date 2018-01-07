@@ -37,6 +37,23 @@
     <string name="error_rankings">Erro ao carregar notas do IMDB e Tomatoes</string>
     <string name="login_google_error">Erro ao realizar o login pelo google</string>
 
+    <string name="invalid_custom_token">Erro inesperado, entre em contato ou tente novamente.</string>
+    <string name="token_mismatch">Erro inesperado, entre em contato ou tente novamente.</string>
+    <string name="invalid_credential">Credenciais Expiradas ou mal formatadas, tente novamente.</string>
+    <string name="invalid_email">Email incorreto, tente novamente.</string>
+    <string name="wrong_password">Senha inválida ou o usuário não possui uma senha.</string>
+    <string name="user_mismatch">Credenciais incorretas, tente novamente.</string>
+    <string name="requires_recent_login">Operação inválida, por favor faça login novamente.</string>
+    <string name="account_exists_diff_credential">Conta já existente utilizando outra forma de se Credenciar, tente novamente da forma correta.</string>
+    <string name="email_already_in_use">Email já em uso.</string>
+    <string name="credential_already_in_use">Credenciais já existente, tente novamente de outra forma.</string>
+    <string name="user_disable">Usuário desativado. Entre em contato.</string>
+    <string name="user_token_expired">Credenciais inválidas, faça login novamente.</string>
+    <string name="user_not_found">Usuário não encontrado, tente novamente ou se cadastre.</string>
+    <string name="invalid_user_token">Credenciais inválidas, tente novamente ou se cadastre</string>
+    <string name="operation_not_allowed">Erro inesperado, entre em contato ou tente novamente.</string>
+    <string name="weak_password">Senha muito fraca (Pelo menos 6 carácteres).</string>
+
     <!-- Sucess Messages -->
     <string name="sucess_save_movie">Filme salvo com sucesso</string>
     <string name="sucess_data_saved">Dados salvos com sucesso</string>
@@ -296,6 +313,15 @@
     <string name="login_facebook_description">Realizar login utilizando o facebook</string>
     <string name="login_twitter_description">Realizar login utilizando o twitter</string>
     <string name="wallpapers_no_data">Sem Wallpapers disponíveis.</string>
+    <string name="login_name">Nome</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Senha</string>
+    <string name="login_confirm_password">Confirmar senha</string>
+    <string name="sign_up_link">Não possui Cadastro ? Cadastre-se agora!</string>
+    <string name="sign_in_link">Já possui cadastro? Login in agora!</string>
+    <string name="login_button">Entrar</string>
+    <string name="sign_up_button">Registrar</string>
+    <string name="error_confirm_password">Senha e Confirmar senha não conferem</string>
 
     <!-- Filter Dialog -->
     <string name="filter_dialog_conteudo_adulto">Conteúdo Adulto</string>

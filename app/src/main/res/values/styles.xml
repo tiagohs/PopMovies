@@ -179,6 +179,24 @@
         <item name="android:layout_marginBottom">@dimen/margin_default_min</item>
     </style>
 
+    <style name="EditTextStyle">
+        <item name="android:padding">@dimen/margin_default_medium</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin_default_min</item>
+        <item name="android:background">@drawable/edit_text_login</item>
+    </style>
+
+    <style name="ErrorFormStyle">
+        <item name="android:paddingBottom">@dimen/margin_default_min</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin_default_medium</item>
+        <item name="android:background">@drawable/background_error_form</item>
+        <item name="android:textColor">@color/itemBackgroundLight</item>
+        <item name="android:textSize">@dimen/txt_size_small</item>
+    </style>
+
     <!-- Filter Dialog -->
 
     <style name="FilterDialogLine">

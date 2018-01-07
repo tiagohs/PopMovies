@@ -12,10 +12,10 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'android-apt'
+
 android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -30,11 +30,11 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "br.com.tiagohs.popmovies"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 2
         versionName "1.0"
@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-auth:11.0.4'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
@@ -80,12 +81,12 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
 
     //Depêndencias para o Butter Knife
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //Depêndencias para o Dagger 2
     compile 'com.google.dagger:dagger:2.6'
-    apt 'com.google.dagger:dagger-compiler:2.6'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.6'
 
     //Linke Button
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
@@ -115,7 +116,7 @@ dependencies {
 
     compile 'com.mikepenz:iconics-core:2.8.0@aar'
 
-    compile 'com.facebook.android:facebook-android-sdk:4.0.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
 
     compile 'com.google.code.gson:gson:2.8.0'
     compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
@@ -146,9 +147,11 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
 
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.0.4' 
 
     compile 'com.android.support:multidex:1.0.1'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

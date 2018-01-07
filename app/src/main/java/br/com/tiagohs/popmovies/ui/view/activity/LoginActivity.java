@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -16,8 +19,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -26,6 +27,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.TwitterAuthProvider;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -33,9 +44,6 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
-import com.twitter.sdk.android.core.models.User;
-
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -49,12 +57,13 @@ import br.com.tiagohs.popmovies.model.db.UserDB;
 import br.com.tiagohs.popmovies.ui.contracts.LoginContract;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
+import br.com.tiagohs.popmovies.util.FailureListener;
 import br.com.tiagohs.popmovies.util.PermissionUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
-import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements LoginContract.LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -66,9 +75,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
     private static final String USER_EMAIL_KEY = "email";
     private static final String USER_PHOTO_KEY = "user_photos";
 
+    @BindView(R.id.email_edit_text)                     EditText mEmailEditText;
+    @BindView(R.id.password_edit_text)                  EditText mPasswordEditText;
     @BindView(R.id.login_facebook_button)               Button mLoginFacebookButton;
     @BindView(R.id.login_twitter_button)                Button mLoginTwitterButton;
     @BindView(R.id.login_google_button)                 Button mLoginGoogleButton;
+    @BindView(R.id.btn_login)                           Button mLoginButton;
     @BindView(R.id.login_facebook_button_original)      LoginButton mLoginFacebookOriginalButton;
     @BindView(R.id.login_twitter_button_original)       TwitterLoginButton mLoginTwitterOriginalButton;
     @BindView(R.id.title_app)                           TextView mTitle;
@@ -78,9 +90,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     private CallbackManager mFacebookCallbackManager;
     private TwitterSession mSession;
+    private FailureListener mFailureListener;
 
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+
+    private FirebaseAuth mAuth;
 
     private String mUsername;
     private String mEmail;
@@ -110,6 +125,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
         super.onCreate(savedInstanceState);
         mPresenter.onBindView(this);
+
+        mFailureListener = new FailureListener(this);
+
+        onTextListener(mPasswordEditText);
+        onTextListener(mEmailEditText);
 
         onSetupFacebook();
         onSetupTwitter();
@@ -142,7 +162,27 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         return 0;
     }
 
+    private void onTextListener(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mPasswordEditText.getText().toString().length() > 0 && mEmailEditText.getText().toString().length() > 0) {
+                    mLoginButton.setVisibility(View.VISIBLE);
+                } else {
+                    mLoginButton.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
     public void onStartConfigurateLoginSDKs() {
+        mAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig), new Crashlytics());
@@ -179,6 +219,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     private void onSetupGoogle() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -214,6 +255,31 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         });
     }
 
+    @OnClick(R.id.btn_login)
+    public void onSignIn() {
+        final String email = mEmailEditText.getText().toString();
+        final String password = mPasswordEditText.getText().toString();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:sucess");
+
+                            mUsername = mEmail = mName = email;
+                            mToken = mAuth.getCurrentUser().getUid();
+
+                            setUserData();
+
+                        } else {
+                            mFailureListener.onFailure(task.getException());
+                        }
+                    }
+                }).addOnFailureListener(LoginActivity.this, mFailureListener);
+    }
+
     private FacebookCallback<LoginResult> facebookCallback() {
         mTypeLogin = UserDB.LOGIN_FACEBOOK;
 
@@ -223,36 +289,39 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             public void onSuccess(LoginResult loginResult) {
                 mToken = loginResult.getAccessToken().getToken();
 
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
+                AuthCredential credential = FacebookAuthProvider.getCredential(mToken);
+                mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                try {
-                                    mName = object.getString(USER_NAME_KEY).toString();
-                                    mUsername = object.getString(USER_EMAIL_KEY).toString();
-                                    mEmail = object.getString(USER_EMAIL_KEY).toString();
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
 
-                                    mPathFoto = getString(R.string.facebook_photo, object.getString(USER_ID_KEY).toString());
+                                    mName = user.getDisplayName();
+                                    mUsername = mEmail = user.getEmail();
+
+                                    mPathFoto = user.getPhotoUrl().getPath();
 
                                     setUserData();
-                                } catch (Exception e) {
-                                    ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_facebook_error));
+                                } else {
+                                    mFailureListener.onFailure(task.getException());
+
                                     setGoogleButtonVisibility(View.VISIBLE);
-                                    setFacebookButtonVisibility(View.VISIBLE);
                                     setTwitterButtonVisibility(View.VISIBLE);
+                                    setFacebookButtonVisibility(View.VISIBLE);
                                 }
 
                             }
+                        }).addOnFailureListener(LoginActivity.this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mFailureListener.onFailure(e);
 
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", USER_ID_KEY + "," + USER_NAME_KEY + "," + USER_EMAIL_KEY);
-                request.setParameters(parameters);
-                request.executeAsync();
+                        setGoogleButtonVisibility(View.VISIBLE);
+                        setTwitterButtonVisibility(View.VISIBLE);
+                        setFacebookButtonVisibility(View.VISIBLE);
+                    }
+                });
             }
 
             @Override
@@ -283,37 +352,42 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
                 mSession = result.data;
                 mToken = mSession.getAuthToken().token;
 
-                Call<User> call = Twitter.getApiClient(mSession).getAccountService()
-                        .verifyCredentials(true, false);
-                call.enqueue(new Callback<User>() {
+                AuthCredential credential = TwitterAuthProvider.getCredential(
+                        mSession.getAuthToken().token,
+                        mSession.getAuthToken().secret);
 
+                mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+
+                                    mName = user.getDisplayName();
+                                    mUsername = mEmail = user.getEmail();
+
+                                    mPathFoto = user.getPhotoUrl().getPath();
+
+                                    setUserData();
+                                } else {
+                                    mFailureListener.onFailure(task.getException());
+
+                                    setGoogleButtonVisibility(View.VISIBLE);
+                                    setTwitterButtonVisibility(View.VISIBLE);
+                                    setFacebookButtonVisibility(View.VISIBLE);
+                                }
+
+                            }
+                        }).addOnFailureListener(LoginActivity.this, new OnFailureListener() {
                     @Override
-                    public void failure(TwitterException e) {
-                        ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
+                    public void onFailure(@NonNull Exception e) {
+                        mFailureListener.onFailure(e);
+
                         setGoogleButtonVisibility(View.VISIBLE);
                         setTwitterButtonVisibility(View.VISIBLE);
                         setFacebookButtonVisibility(View.VISIBLE);
                     }
-                    @Override
-                    public void success(Result<User> userResult) {
-                        try {
-                            final User user = userResult.data;
-                            mUsername = user.name;
-                            mName = user.screenName;
-                            mPathFoto = user.profileImageUrl;
-
-                            setUserData();
-                        } catch (Exception e) {
-                            ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_twitter_error));
-                            setGoogleButtonVisibility(View.VISIBLE);
-                            setTwitterButtonVisibility(View.VISIBLE);
-                            setFacebookButtonVisibility(View.VISIBLE);
-                        }
-
-                    }
-
                 });
-
             }
 
             @Override
@@ -328,20 +402,44 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     private void googleCallback(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
+            final GoogleSignInAccount acct = result.getSignInAccount();
 
-            mUsername = acct.getEmail();
-            mName = acct.getDisplayName();
-            mToken = acct.getIdToken();
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
 
-            if (acct.getPhotoUrl() != null)
-                mPathFoto = acct.getPhotoUrl().toString();
+                                mUsername = mEmail = user.getEmail();
+                                mName = user.getDisplayName();
+                                mToken = acct.getIdToken();
 
-            mEmail = acct.getEmail();
+                                if (acct.getPhotoUrl() != null)
+                                    mPathFoto = acct.getPhotoUrl().toString();
 
-            setUserData();
+                                setUserData();
+                            } else {
+                                mFailureListener.onFailure(task.getException());
+
+                                setGoogleButtonVisibility(View.VISIBLE);
+                                setTwitterButtonVisibility(View.VISIBLE);
+                                setFacebookButtonVisibility(View.VISIBLE);
+                            }
+                        }
+                    }).addOnFailureListener(LoginActivity.this, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    mFailureListener.onFailure(e);
+
+                    setGoogleButtonVisibility(View.VISIBLE);
+                    setTwitterButtonVisibility(View.VISIBLE);
+                    setFacebookButtonVisibility(View.VISIBLE);
+                }
+            });
+
         } else {
-            Log.i(TAG, "erro: " + result.getStatus());
             ViewUtils.createToastMessage(LoginActivity.this, getString(R.string.login_google_error));
 
             setGoogleButtonVisibility(View.VISIBLE);
@@ -375,6 +473,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         }
     }
 
+    private void setButtonVisibility(Button button, final int visibility) {
+
+        if (visibility == View.VISIBLE)
+            AnimationsUtils.createShowCircularReveal(button, onAnimatedEnd(button, visibility));
+        else {
+            AnimationsUtils.createHideCircularReveal(button, onAnimatedEnd(button, visibility));
+        }
+    }
+
+
     private void setFacebookButtonVisibility(final int visibility) {
 
         if (visibility == View.VISIBLE)
@@ -382,7 +490,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         else {
             AnimationsUtils.createHideCircularReveal(mLoginFacebookButton, onAnimatedEnd(mLoginFacebookButton, visibility));
         }
-
     }
 
     private void setTwitterButtonVisibility(int visibility) {
@@ -423,6 +530,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
             }
         };
+    }
+
+    @OnClick(R.id.sign_up)
+    public void onSignUpLinkClick() {
+        startActivity(SignUpActivity.newIntent(this));
     }
 
     @Override

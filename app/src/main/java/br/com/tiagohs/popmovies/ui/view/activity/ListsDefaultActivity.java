@@ -17,16 +17,15 @@ import br.com.tiagohs.popmovies.model.dto.FilterValuesDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.dto.PersonListDTO;
+import br.com.tiagohs.popmovies.ui.callbacks.FiltersMoviesCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.PersonCallbacks;
 import br.com.tiagohs.popmovies.ui.view.fragment.FilterDialogFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.ListMoviesDefaultFragment;
 import br.com.tiagohs.popmovies.ui.view.fragment.ListPersonsDefaultFragment;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
-import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
-import br.com.tiagohs.popmovies.ui.callbacks.FiltersMoviesCallbacks;
 
 public class ListsDefaultActivity extends BaseActivity implements ListMoviesCallbacks, PersonCallbacks, FiltersMoviesCallbacks {
     private static final String TAG = ListsDefaultActivity.class.getSimpleName();
@@ -160,7 +159,7 @@ public class ListsDefaultActivity extends BaseActivity implements ListMoviesCall
 
     @Override
     public void onMovieSelected(int movieID, ImageView imageView) {
-        ViewUtils.startMovieActivityWithTranslation(this, movieID, imageView, getString(R.string.poster_movie));
+        startActivity(MovieDetailActivity.newIntent(this, movieID));
     }
 
     @Override

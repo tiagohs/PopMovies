@@ -114,8 +114,10 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
 
             @Override
             public void onCollapsed(AppBarLayout appBarLayout) {
+                String name = PrefsUtils.getCurrentUser(PerfilActivity.this).getNome();
+
                 mToolbar.setBackgroundColor(ViewUtils.getColorFromResource(getApplicationContext(), R.color.colorPrimary));
-                mToolbar.setTitle(PrefsUtils.getCurrentUser(PerfilActivity.this).getNome());
+                mToolbar.setTitle(name == null ? PrefsUtils.getCurrentUser(PerfilActivity.this).getEmail() : name);
                 mNamePerfil.setVisibility(View.GONE);
                 mPictureContainer.setVisibility(View.GONE);
             }
@@ -179,7 +181,7 @@ public class PerfilActivity extends BaseActivity implements PerfilContract.Perfi
 
     @OnClick(R.id.image_circle)
     public void onClickPerfilImage() {
-        if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE) {
+        if (mProfile.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE && mProfile.getUser().getPicturePath() != null) {
             ImageDTO perfilImage = new ImageDTO(mProfile.getUser().getPicturePath());
             List<ImageDTO> imagens = new ArrayList<>();
             imagens.add(perfilImage);

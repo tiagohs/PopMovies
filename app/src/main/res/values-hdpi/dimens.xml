@@ -71,7 +71,7 @@
     <dimen name="margin_spinner_country_max_width">100dp</dimen>
 
     <!-- Login -->
-    <dimen name="login_logo_margin_bottom">60dp</dimen>
+    <dimen name="login_logo_margin_bottom">10dp</dimen>
     <dimen name="txt_login_app_name">30sp</dimen>
 
     <!-- Perfil -->

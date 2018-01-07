@@ -99,6 +99,9 @@
             android:name=".ui.view.activity.LancamentosSemanaActivity"
             android:label="@string/title_activity_lancamentos_semana"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ui.view.activity.SignUpActivity"
+                  android:label="@string/title_activity_sign_up"
+                  android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

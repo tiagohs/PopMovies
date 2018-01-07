@@ -18,7 +18,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -39,7 +41,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class
+
+BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Nullable @BindView(R.id.toolbar)             Toolbar mToolbar;
     @Nullable @BindView(R.id.coordenation_layout) CoordinatorLayout mCoordinatorLayout;
@@ -50,6 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     protected Snackbar mSnackbar;
     protected ProfileDB mProfileDB;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         setContentView(getActivityBaseViewID());
 
         mProfileDB = PrefsUtils.getCurrentProfile(this);
+        mAuth = FirebaseAuth.getInstance();
 
         if (EmptyUtils.isNotNull(mToolbar))
             onSetupActionBar();
@@ -76,11 +82,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             ProgressWheel progress = (ProgressWheel) view.findViewById(R.id.progress_image_circle);
 
             if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_ONLINE)
-                ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), mProfileDB.getUser().getNome(), R.drawable.placeholder_images_default,  fotoPerfil, progress);
+                ImageUtils.load(this, mProfileDB.getUser().getPicturePath(), mProfileDB.getUser().getNome() == null ? mProfileDB.getUser().getEmail() : mProfileDB.getUser().getNome(), R.drawable.placeholder_images_default,  fotoPerfil, progress);
             else if (mProfileDB.getUser().getTypePhoto() == UserDB.PHOTO_LOCAL)
                 fotoPerfil.setImageBitmap(ImageUtils.getBitmapFromPath(mProfileDB.getUser().getLocalPicture(), this));
 
-            nomeUsuario.setText(mProfileDB.getUser().getNome());
+            nomeUsuario.setText(mProfileDB.getUser().getNome() == null ? mProfileDB.getUser().getEmail() : mProfileDB.getUser().getNome());
             emailUsuario.setText(mProfileDB.getCountry());
             ImageUtils.loadWithBlur(this, R.drawable.background_image, background);
 
@@ -114,6 +120,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void onPause() {
         super.onPause();
         ((App) getApplication()).clearCache();
+    }
+
+    public MaterialDialog showDialogProgress() {
+        return new MaterialDialog.Builder(this)
+                .content(getString(R.string.progress_wait))
+                .cancelable(false)
+                .progress(true, 0)
+                .show();
     }
 
     @Override
@@ -151,11 +165,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 PrefsUtils.clearCurrentUser(this);
                 PrefsUtils.clearCurrentProfile(this);
                 LoginManager.getInstance().logOut();
+                mAuth.signOut();
                 startActivity(LoginActivity.newIntent(this));
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void onSignOut() {
 
     }
 

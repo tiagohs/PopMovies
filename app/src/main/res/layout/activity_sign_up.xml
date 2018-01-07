@@ -11,13 +11,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="@dimen/login_logo_margin_bottom"
             android:orientation="vertical">
 
@@ -28,6 +28,15 @@
                 android:layout_gravity="center"/>
 
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:hint="@string/login_name"
+            android:inputType="textEmailAddress"
+            style="@style/EditTextStyle"/>
 
         <EditText
             android:id="@+id/email_edit_text"
@@ -47,6 +56,25 @@
             android:inputType="textPassword"
             style="@style/EditTextStyle"/>
 
+        <EditText
+            android:id="@+id/confirm_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_confirm_password"
+            android:inputType="textPassword"
+            style="@style/EditTextStyle"/>
+
+        <br.com.tiagohs.popmovies.ui.tools.PopTextView
+            android:id="@+id/error_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:visibility="gone"
+            android:text="@string/error_confirm_password"
+            app:font="@string/font_open_sans"
+            style="@style/ErrorFormStyle"/>
+
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,18 +86,18 @@
             app:mrl_rippleOverlay="true">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_sign_up"
                 style="@style/LancamentoSemanaButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:contentDescription="@string/lanc_sem_btn_previous_week_description"
-                android:text="@string/login_button"/>
+                android:text="@string/sign_up_button"/>
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/sign_up"
+            android:id="@+id/sign_in"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -81,59 +109,12 @@
                 android:id="@+id/title_app"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_up_link"
+                android:text="@string/sign_in_link"
                 android:textSize="@dimen/txt_size_medium"
                 android:layout_gravity="center"
                 app:font="@string/font_open_sans"
                 android:textColor="@android:color/white" />
         </com.balysv.materialripple.MaterialRippleLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/secondary_text" />
-
-
-        <Button
-            android:id="@+id/login_facebook_button"
-            style="@style/LoginButtonStyle"
-            android:background="@drawable/button_facebook"
-            android:text="@string/login_facebook_title"
-            android:contentDescription="@string/login_facebook_description"
-            android:drawableStart="@drawable/ic_facebook"/>
-
-        <Button
-            android:id="@+id/login_twitter_button"
-            style="@style/LoginButtonStyle"
-            android:background="@drawable/button_twitter"
-            android:text="@string/login_twitter_title"
-            android:contentDescription="@string/login_twitter_description"
-            android:drawableStart="@drawable/ic_twitter_logo" />
-
-        <Button
-            android:id="@+id/login_google_button"
-            style="@style/LoginButtonStyle"
-            android:textColor="@color/secondary_text"
-            android:background="@drawable/button_google"
-            android:text="@string/login_google_title"
-            android:contentDescription="@string/login_google_description"
-            android:drawableStart="@drawable/ic_google_logo" />
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_facebook_button_original"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <com.twitter.sdk.android.core.identity.TwitterLoginButton
-            android:id="@+id/login_twitter_button_original"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
 
     </LinearLayout>
 

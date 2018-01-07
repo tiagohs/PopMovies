@@ -3,8 +3,6 @@ package br.com.tiagohs.popmovies.model.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by Tiago Henrique on 04/09/2016.
  */
@@ -55,7 +53,7 @@ public class ImageDTO implements Parcelable {
 
         if (obj instanceof ImageDTO) {
             ImageDTO im = (ImageDTO) obj;
-            return this.getImagePath().equals(im.getImagePath());
+            return getImagePath() != null && this.getImagePath().equals(im.getImagePath());
         }
         return false;
     }

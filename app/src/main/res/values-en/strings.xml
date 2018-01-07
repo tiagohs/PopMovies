@@ -37,6 +37,23 @@
     <string name="error_rankings">Error to get IMDB and Tomatoes rate</string>
     <string name="login_google_error">Error in Google login</string>
 
+    <string name="invalid_custom_token">Unexpected Error, contact us or try again.</string>
+    <string name="token_mismatch">Unexpected Error, contact us or try again.</string>
+    <string name="invalid_credential">The supplied auth credential is malformed or has expired.</string>
+    <string name="invalid_email">The email address is badly formatted.</string>
+    <string name="wrong_password">The password is invalid or the user does not have a password.</string>
+    <string name="user_mismatch">The supplied credentials do not correspond to the previously signed in user.</string>
+    <string name="requires_recent_login">This operation is sensitive and requires recent authentication. Log in again.</string>
+    <string name="account_exists_diff_credential">An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.</string>
+    <string name="email_already_in_use">The email address is already in use by another account.</string>
+    <string name="credential_already_in_use">This credential is already associated with a different user account.</string>
+    <string name="user_disable">The user account has been disabled by an administrator. Please contact us</string>
+    <string name="user_token_expired">Your\'s credentials is no longer valid. Please sign in again</string>
+    <string name="user_not_found">There is no user record corresponding to this email. Please Sign Up.</string>
+    <string name="invalid_user_token">Your\'s credentials is no longer valid. Please sign in again</string>
+    <string name="operation_not_allowed">Unexpected Error, contact us or try again.</string>
+    <string name="weak_password">The given password is invalid (at least 6 characters).</string>
+
     <!-- Sucess Messages -->
     <string name="sucess_save_movie">Movie saved</string>
     <string name="sucess_data_saved">Data saved</string>
@@ -300,6 +317,14 @@
     <string name="wallpapers_no_data">No Wallpapers available.</string>
     <string name="login_google_title">Login with Google</string>
     <string name="login_google_description">Login with Google</string>
+    <string name="login_name">Name</string>
+    <string name="login_password">Password</string>
+    <string name="login_confirm_password">Confirm Password</string>
+    <string name="sign_up_link">Not a member? Sign up now!</string>
+    <string name="sign_in_link">Already registred! Login me.</string>
+    <string name="login_button">Login</string>
+    <string name="sign_up_button">Register</string>
+    <string name="error_confirm_password">Password and Confirm Password don\'t match</string>
 
     <!-- Filter Dialog -->
     <string name="filter_dialog_conteudo_adulto">Adult content</string>

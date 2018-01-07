@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "896196742123",
-    "project_id": "popmovies-release"
+    "firebase_url": "https://popmovies-release.firebaseio.com",
+    "project_id": "popmovies-release",
+    "storage_bucket": "popmovies-release.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,18 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "896196742123-n36hkt9ojf89e70hfvhfplmbqqrt6cdr.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "896196742123-qi7h4s0p2o04bpbuutcsehaq3an4ppun.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tiagohs.popmovies",
+            "certificate_hash": "0f3abe4e561ecf21aef6d3efdb5fd1b913f7f750"
+          }
+        },
         {
           "client_id": "896196742123-63n7ck469m9d2l9ikq03j8e95031os6u.apps.googleusercontent.com",
           "client_type": 3
@@ -35,11 +49,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896196742123-n36hkt9ojf89e70hfvhfplmbqqrt6cdr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
