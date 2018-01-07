@@ -46,6 +46,7 @@ android {
         buildConfigField "String", "GOOGLE_KEY", "${GOOGLE_KEY}"
         buildConfigField "String", "TWITTER_KEY", "${TWITTER_KEY}"
         buildConfigField "String", "TWITTER_SECRET", "${TWITTER_SECRET}"
+        buildConfigField "String", "OMDB_KEY", "${OMDB_KEY}"
     }
     buildTypes {
         release {

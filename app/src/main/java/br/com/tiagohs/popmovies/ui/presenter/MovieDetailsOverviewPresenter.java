@@ -5,12 +5,13 @@ import android.view.View;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsOverviewContract;
+import br.com.tiagohs.popmovies.model.Ranking;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.MovieListDTO;
 import br.com.tiagohs.popmovies.model.movie.Movie;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
+import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsOverviewContract;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.MovieUtils;
@@ -83,11 +84,17 @@ public class MovieDetailsOverviewPresenter extends BasePresenter<MovieDetailsOve
             else
                 mView.updateIMDB(response.getImdbRanting(), response.getImdbVotes());
 
-            if (isEmpty(response.getTomatoRating())) {
-                mView.setTomatoesRakingContainerVisibility(View.GONE);
-                mView.setTomatoesReviewsVisibility(View.GONE);
-            } else
-                mView.updateTomatoes(response.getTomatoRating(), response.getTomatoReviews());
+            for(Ranking ranking : response.getRatings()) {
+                if (ranking.getSource().equals("Rotten Tomatoes")) {
+                    if (isEmpty(ranking.getValue())) {
+                        mView.setTomatoesRakingContainerVisibility(View.GONE);
+                        mView.setTomatoesReviewsVisibility(View.GONE);
+                    } else {
+                        mView.updateTomatoes(ranking.getValue(), response.getTomatoReviews());
+                    }
+
+                }
+            }
 
             if (isEmpty(response.getMetascoreRating()))
                 mView.setMetascoreRakingContainerVisibility(View.GONE);

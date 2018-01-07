@@ -2,6 +2,7 @@ package br.com.tiagohs.popmovies.server.methods;
 
 import javax.inject.Inject;
 
+import br.com.tiagohs.popmovies.BuildConfig;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.movie.CollectionDetails;
 import br.com.tiagohs.popmovies.model.movie.Movie;
@@ -39,7 +40,7 @@ public class MoviesMethod {
     }
 
     public Observable<RankingResponse> getMovieRankings(String imdbID) {
-        return mMoviesService.getMovieRankings(BASE_URL_OMDB_MOVIES + "?i=" + imdbID + "&tomatoes=true");
+        return mMoviesService.getMovieRankings(BASE_URL_OMDB_MOVIES + "?i=" + imdbID + "&tomatoes=true" + "&apikey=" + BuildConfig.OMDB_KEY);
     }
 
     public Observable<GenericListResponse<Movie>> getMovieSimilars(int movieID, int currentPage) {

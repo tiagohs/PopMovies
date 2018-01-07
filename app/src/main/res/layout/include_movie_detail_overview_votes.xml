@@ -110,14 +110,6 @@
                     android:layout_gravity="center"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tomatoes_num_votos"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="@dimen/txt_size_small"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:textColor="@color/secondary_text"/>
             </FrameLayout>
         </com.balysv.materialripple.MaterialRippleLayout>
 

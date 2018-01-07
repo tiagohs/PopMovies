@@ -11,6 +11,10 @@ import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
+import br.com.tiagohs.popmovies.model.Ranking;
+
 public class RankingResponse implements Parcelable {
 
     @JsonProperty("Title")
@@ -118,9 +122,20 @@ public class RankingResponse implements Parcelable {
     @JsonProperty("Response")
     private boolean response;
 
+    @JsonProperty("Ratings")
+    private List<Ranking> ratings;
+
     @Nullable
     @JsonProperty("Error")
     private String error;
+
+    public List<Ranking> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Ranking> ratings) {
+        this.ratings = ratings;
+    }
 
     public String getTitle() {
         return title;

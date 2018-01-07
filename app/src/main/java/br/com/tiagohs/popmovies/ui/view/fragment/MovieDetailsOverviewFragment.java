@@ -18,12 +18,13 @@ import android.widget.Toast;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.tiagohs.popmovies.R;
-import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsOverviewContract;
 import br.com.tiagohs.popmovies.model.db.MovieDB;
 import br.com.tiagohs.popmovies.model.dto.DiscoverDTO;
 import br.com.tiagohs.popmovies.model.dto.ListActivityDTO;
@@ -33,8 +34,16 @@ import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.movie.ReleaseDate;
 import br.com.tiagohs.popmovies.model.movie.ReleaseInfo;
 import br.com.tiagohs.popmovies.model.response.RankingResponse;
-import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
+import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
+import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
+import br.com.tiagohs.popmovies.ui.callbacks.MovieDontWantSeeCallback;
+import br.com.tiagohs.popmovies.ui.callbacks.MovieFavoriteCallback;
+import br.com.tiagohs.popmovies.ui.callbacks.MovieWantSeeCallback;
 import br.com.tiagohs.popmovies.ui.callbacks.MovieWatchedCallback;
+import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsOverviewContract;
+import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
+import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
+import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
@@ -46,13 +55,6 @@ import br.com.tiagohs.popmovies.util.enumerations.ItemType;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.ReleaseType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
-import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
-import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
-import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
-import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
-import br.com.tiagohs.popmovies.ui.callbacks.MovieDontWantSeeCallback;
-import br.com.tiagohs.popmovies.ui.callbacks.MovieFavoriteCallback;
-import br.com.tiagohs.popmovies.ui.callbacks.MovieWantSeeCallback;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -69,7 +71,6 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     @BindView(R.id.imdb_num_votos)                          TextView mImdbVotes;
     @BindView(R.id.tomatoes_ranking)                        TextView mTomatoesRanking;
     @BindView(R.id.tomatoes_ranking_progress)               ProgressBar mTomatoesRankingProgress;
-    @BindView(R.id.tomatoes_num_votos)                      TextView mTomatoesVotes;
     @BindView(R.id.metascore_ranking)                       TextView mMetascoreRanking;
     @BindView(R.id.metascore_ranking_progress)              ProgressBar mMetascoreRankingProgress;
     @BindView(R.id.movie_tomatoes_consensus)                TextView mTomatoesConsensus;
@@ -290,9 +291,18 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     }
 
     public void updateTomatoes(String ranking, String votes) {
-        ViewUtils.createRatingGadget(getActivity(), Float.parseFloat(ranking), mTomatoesRankingProgress, 10);
-        mTomatoesRanking.setText(String.format("%.1f", Float.parseFloat(ranking)));
-        mTomatoesVotes.setText(getString(R.string.tomatoes_num_reviews, votes));
+        NumberFormat defaultFormat = NumberFormat.getPercentInstance();
+
+        try {
+            float rankingValue = defaultFormat.parse(ranking).floatValue() * 100;
+            ViewUtils.createRatingGadget(getActivity(), rankingValue, mTomatoesRankingProgress, 100);
+            mTomatoesRanking.setText(ranking);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            setTomatoesRakingContainerVisibility(View.GONE);
+            setTomatoesReviewsVisibility(View.GONE);
+        }
+
     }
 
     public void updateMetascore(String ranking) {
