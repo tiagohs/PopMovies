@@ -314,7 +314,6 @@
     <string name="login_twitter_description">Realizar login utilizando o twitter</string>
     <string name="wallpapers_no_data">Sem Wallpapers disponíveis.</string>
     <string name="login_name">Nome</string>
-    <string name="login_email">Email</string>
     <string name="login_password">Senha</string>
     <string name="login_confirm_password">Confirmar senha</string>
     <string name="sign_up_link">Não possui Cadastro ? Cadastre-se agora!</string>

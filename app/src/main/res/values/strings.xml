@@ -8,7 +8,7 @@
     <string name="font_times_new_roman" translatable="false">TimesNewRoman.ttf</string>
 
     <!-- Defaults -->
-    <string name="facebook_app_id" translatable="false"></string>
+    <string name="facebook_app_id" translatable="false">1628004524169901</string>
     <string name="app_name">PopMovies</string>
     <string name="poster_movie" translatable="false">poster_movie</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -346,6 +346,7 @@
     <string name="lanc_sem_btn_next_week_description">See releases movies from the next week</string>
 
     <!-- Login -->
+    <string name="title_activity_sign_up" translatable="false">Sign Up Activity</string>
     <string name="login_facebook_title">Login with facebook</string>
     <string name="login_twitter_title">Login with Twitter</string>
     <string name="login_facebook_description">Login with facebook</string>
@@ -423,6 +424,6 @@
     <!-- Sobre -->
     <string name="sobre_descricao">Your favorites movies, actor and actress in one place!<br /><b>Database: themoviedb.org</b></string>
     <string name="action_limpar">Clean</string>
-    <string name="title_activity_sign_up">Sign Up Activity</string>
+
 
 </resources>
