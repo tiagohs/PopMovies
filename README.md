@@ -7,6 +7,7 @@
 <p>Uma rede social de filmes relativamente simples, onde você pode:</p>
 
 <ul>
+<li>Login com Facebook, Twitter ou Google, obtendo estátisticas de quantas horas você já gastou assistindo filmes, além de saber os seus gêneros favoritos;</li>
 <li>Marcar seus filmes favoritos, quais filmes você já assistiu, os que quer assistir e os que não quer ver nunca;</li>
 <li>Obter Rankings no IMDB, Rotten Tomatoes e Metascore;</li>
 <li>Obter reviews do IMDB, Rotten Tomatoes e da Comunidade TMDB;</li>
@@ -14,8 +15,6 @@
 <li>Assistir trailers originais, legendados ou dublados;</li>
 <li>Visualizar e baixar Walpapers de vários filmes em diversas Qualidades;</li>
 </ul>
-
-<p>Além de obter uma página de perfil com suas informações e os seus filmes favoritos e assistidos.</p>
 
 <b>Donwload do APK</b>: <a href="https://github.com/tiagohs/PopMovies/raw/master/release/app-release.apk">DOWNLOAD</a>
 
