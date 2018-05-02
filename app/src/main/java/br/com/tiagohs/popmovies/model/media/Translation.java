@@ -42,6 +42,16 @@ public class Translation implements Parcelable {
     private String name;
     @JsonProperty("iso_3166_1")
     private String country;
+    @JsonProperty("data")
+    private Data data;
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
 
     public String getEnglishName() {
         return englishName;

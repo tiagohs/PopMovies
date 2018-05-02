@@ -65,6 +65,7 @@ public class MovieDetailsPresenter extends BasePresenter<MovieDetailsContract.Mo
 
             @Override
             public void onError(Throwable e) {
+                e.printStackTrace();
                 mView.onErrorInServer();
             }
 
