@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.text.NumberFormat;
@@ -43,7 +45,6 @@ import br.com.tiagohs.popmovies.ui.callbacks.MovieWatchedCallback;
 import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsOverviewContract;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.MovieDetailActivity;
-import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
@@ -110,6 +111,7 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     @BindView(R.id.label_movie_details_date_mundial)        TextView mReleaseDateMundial;
     @BindView(R.id.label_movie_details_date_pais_atual)     TextView mReleaseDatePaisAtual;
     @BindView(R.id.collection_title)                        TextView mTitleCollection;
+    @BindView(R.id.adView)                                  AdView mAdView;
 
     @Inject
     MovieDetailsOverviewContract.MovieDetailsOverviewPresenter mPresenter;
@@ -183,6 +185,8 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
         mPresenter.onBindView(this);
 
         init();
+
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     @Override
@@ -479,20 +483,19 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
 
     @OnClick(R.id.tomatoes_riple)
     public void onTomatoesClick() {
-        if (mMovieRankings.getTomatoURL() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), mMovieRankings.getTomatoURL(), mMovie.getTitle()), 0);
+        openUrl(mMovieRankings.getTomatoURL());
     }
 
     @OnClick(R.id.imdb_riple)
     public void onIMDBClick() {
         if (mMovieRankings.getImdbID() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.imdb_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
+            openUrl(getString(R.string.imdb_link, mMovie.getImdbID()));
     }
 
     @OnClick(R.id.metascore_riple)
     public void onMetascoreClick() {
         if (mMovieRankings.getMetascoreRating() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.metacritic_link, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+            openUrl(getString(R.string.metacritic_link, mMovie.getOriginalTitle()));
     }
 
     @OnClick(R.id.elenco_riple)
@@ -515,25 +518,23 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
 
     @OnClick(R.id.btn_pagina_inicial)
     public void onPaginaInicialClick() {
-        if (mMovie.getHomepage() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), mMovie.getHomepage(), mMovie.getTitle()), 0);
+        openUrl(mMovie.getHomepage());
     }
 
     @OnClick(R.id.btn_imdb)
     public void onImdbClick() {
-        if (mMovie.getImdbID() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.movie_imdb, mMovie.getImdbID()), mMovie.getTitle()), 0);
+        onIMDBClick();
     }
 
     @OnClick(R.id.btn_filmow)
     public void onFilmowClick() {
         if (mMovie.getOriginalTitle() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.filmow_url, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+            openUrl(getString(R.string.filmow_url, mMovie.getOriginalTitle()));
     }
 
     @OnClick(R.id.btn_wiki)
     public void onWikiClick() {
-        startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.person_wiki, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+        openUrl(getString(R.string.person_wiki, mMovie.getOriginalTitle()));
     }
 
     public void setImdbRakingContainerVisibility(int visibilityState) {
@@ -571,13 +572,13 @@ public class MovieDetailsOverviewFragment extends BaseFragment implements MovieD
     @OnClick(R.id.imdb_reviews)
     public void onClickIMDBReviews() {
         if (mMovie.getImdbID() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.imdb_reviews_link, mMovie.getImdbID()), mMovie.getTitle()), 0);
+            openUrl(getString(R.string.imdb_reviews_link, mMovie.getImdbID()));
     }
 
     @OnClick(R.id.tomatoes_reviews)
     public void onClickTomatoesReviews() {
         if (mMovieRankings.getTomatoURL() != null)
-            startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()), mMovie.getTitle()), 0);
+            openUrl(getString(R.string.tomatoes_reviews_link, mMovieRankings.getTomatoURL()));
     }
 
     @OnClick(R.id.collection_riple)

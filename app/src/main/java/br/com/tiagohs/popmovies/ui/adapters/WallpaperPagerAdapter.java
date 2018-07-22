@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import br.com.tiagohs.popmovies.util.enumerations.ImageSize;
 import br.com.tiagohs.popmovies.util.enumerations.TypeShowImage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import uk.co.senab.photoview.PhotoView;
 
 public class WallpaperPagerAdapter extends PagerAdapter {
 

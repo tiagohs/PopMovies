@@ -33,8 +33,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:label="@string/app_name" />
 
         <activity android:name=".ui.view.activity.HomeActivity"
                   android:label="@string/title_activity_home"
@@ -72,9 +71,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.view.activity.PersonDetailActivity"
-            android:label="@string/title_activity_actor_details" />
-        <activity
-            android:name=".ui.view.activity.WebViewActivity"
             android:label="@string/title_activity_actor_details" />
         <activity
             android:name=".ui.view.activity.VideosActivity"

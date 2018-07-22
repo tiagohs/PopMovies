@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,8 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
     @BindView(R.id.label_total_filmes)          TextView mLabelTotalFilmes;
     @BindView(R.id.label_total_fotos)           TextView mLabelTotalFotos;
     @BindView(R.id.name_person)                 TextView mPersonName;
+    @BindView(R.id.person_wallpaper_overlay)    View mBackgroundPersonOverlay;
+    @BindView(R.id.movie_shadow)                View mBackgroundShadow;
     @BindView(R.id.background_person)           ImageView mBackgroundPerson;
     @BindView(R.id.image_circle)                ImageView mImagePerson;
     @BindView(R.id.person_app_bar)              AppBarLayout mAppBarLayout;
@@ -264,7 +267,19 @@ public class PersonDetailActivity extends BaseActivity implements PersonDetailCo
                     if (!isDestroyed()) {
                         if (!mPerson.getTaggedImages().isEmpty()) {
                             indexImage = new Random().nextInt(mPerson.getTaggedImages().size());
-                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.POSTER_500);
+                            ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getTaggedImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.POSTER_500, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    mBackgroundPersonOverlay.setVisibility(View.VISIBLE);
+                                    mBackgroundShadow.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    mBackgroundPersonOverlay.setVisibility(View.VISIBLE);
+                                    mBackgroundShadow.setVisibility(View.VISIBLE);
+                                }
+                            });
                         } else if (!mPerson.getImages().isEmpty()) {
                             indexImage = new Random().nextInt(mPerson.getImages().size());
                             ImageUtils.loadWithRevealAnimation(PersonDetailActivity.this, mPerson.getImages().get(indexImage).getFilePath(), mBackgroundPerson, R.drawable.ic_image_default_back, ImageSize.POSTER_500);

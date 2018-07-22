@@ -14,7 +14,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -88,7 +87,7 @@ public class ImageUtils {
                              Drawable errorDrawable, Integer errorPath, boolean isToFit,
                              Transformation transformation, Callback callback) {
 
-        Picasso loader = Picasso.with(context);
+        Picasso loader = Picasso.get();
         RequestCreator request = null;
 
         if (EmptyUtils.isNotNull(url))
@@ -127,6 +126,7 @@ public class ImageUtils {
                                                                 .beginConfig()
                                                                 .width(imageView.getWidth())
                                                                 .height(imageView.getHeight())
+                                                                .toUpperCase()
                                                                 .endConfig();
 
         if (isRetangulo)
@@ -136,16 +136,8 @@ public class ImageUtils {
 
     }
     public static void loadByCircularImage(final Context context, final String path, final ImageView imageView, final String name, final ImageSize imageSize) {
-
-        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                Drawable placeholderAndError = createTextDrawable(name, false, imageView);
-                load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
-            }
-        });
-
+        Drawable placeholderAndError = createTextDrawable(name, false, imageView);
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, placeholderAndError, null, placeholderAndError, null, false, null, null);
     }
 
     public static void load(Context context, String path, final ImageView imageView, int placeholder, int imageError, ImageSize imageSize, final ProgressWheel progress) {
@@ -162,12 +154,31 @@ public class ImageUtils {
                                         }
 
                                         @Override
-                                        public void onError() {
+                                        public void onError(Exception e) {
                                             progress.setVisibility(View.GONE);
                                             imageView.setVisibility(View.VISIBLE);
                                         }
                                     });
 
+    }
+
+    public static void loadWithRevealAnimation(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize, final Callback callback) {
+        load(context, imageView, context.getString(R.string.url_image, imageSize.getSize(), path), null, null, null, null,
+                imageError, false, null, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (!((Activity) context).isDestroyed()) {
+                            AnimationsUtils.createShowCircularReveal(imageView);
+                            callback.onSuccess();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        callback.onError(e);
+                    }
+                });
     }
 
     public static void loadWithRevealAnimation(final Context context, String path, final ImageView imageView, int imageError, ImageSize imageSize) {
@@ -182,9 +193,7 @@ public class ImageUtils {
                                         }
 
                                         @Override
-                                        public void onError() {
-
-                                        }
+                                        public void onError(Exception e) {}
                                     });
     }
 
@@ -239,9 +248,8 @@ public class ImageUtils {
                                                     progressbar.setVisibility(View.GONE);
                                                     imageView.setVisibility(View.VISIBLE);
                                                 }
-
                                                 @Override
-                                                public void onError() {
+                                                public void onError(Exception e) {
                                                     progressbar.setVisibility(View.GONE);
                                                     imageView.setVisibility(View.VISIBLE);
                                                 }
@@ -268,7 +276,7 @@ public class ImageUtils {
                             }
 
                             @Override
-                            public void onError() {
+                            public void onError(Exception e) {
                                 progressbar.setVisibility(View.GONE);
                                 imageView.setVisibility(View.VISIBLE);
                             }
@@ -295,9 +303,8 @@ public class ImageUtils {
                                 progressbar.setVisibility(View.GONE);
                                 imageView.setVisibility(View.VISIBLE);
                             }
-
                             @Override
-                            public void onError() {
+                            public void onError(Exception e) {
                                 progressbar.setVisibility(View.GONE);
                                 imageView.setVisibility(View.VISIBLE);
                             }

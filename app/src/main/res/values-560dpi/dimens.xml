@@ -81,7 +81,7 @@
     <dimen name="perfil_name_txt_size">19sp</dimen>
 
     <!-- Person Perfil Detail -->
-    <dimen name="person_detail_perfil_height">350dp</dimen>
+    <dimen name="person_detail_perfil_height">380dp</dimen>
     <dimen name="person_detail_header_height">130dp</dimen>
     <dimen name="person_detail_progress_height">6dp</dimen>
     <dimen name="person_detail_total_filmes_txt_size">35sp</dimen>
