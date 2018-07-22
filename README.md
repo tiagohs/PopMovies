@@ -2,7 +2,6 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a9f549fe009d410f807065fce0f17bf4)](https://www.codacy.com/app/tiagohs/PopMovies?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tiagohs/PopMovies&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/tiagohs/PopMovies.svg?branch=master)](https://travis-ci.org/tiagohs/PopMovies)
-[![CircleCI](https://circleci.com/gh/tiagohs/PopMovies.svg?style=svg)](https://circleci.com/gh/tiagohs/PopMovies)
 
 <p>Uma rede social de filmes relativamente simples, onde você pode:</p>
 
@@ -16,7 +15,7 @@
 <li>Visualizar e baixar Walpapers de vários filmes em diversas Qualidades;</li>
 </ul>
 
-<b>Donwload do APK</b>: <a href="https://github.com/tiagohs/PopMovies/raw/master/release/app-release.apk">DOWNLOAD</a>
+<b>Donwload do APK</b>: Vá para a página de releases e baixe a última versão: <a href="https://github.com/tiagohs/PopMovies/releases">DOWNLOAD</a>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/tiagohs/PopMovies/master/arts/gif.gif" width="360" height="640">
