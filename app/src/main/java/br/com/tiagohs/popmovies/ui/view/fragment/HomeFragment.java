@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,6 +36,7 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
     private static final int ID_KEYWORD_BRAZILIAN = 983;
 
     @BindView(R.id.destaques_keywords_recycler_view)    RecyclerView mDestaquesKeywoedsRecyclerView;
+    @BindView(R.id.adView)                              AdView mAdView;
 
     private DiscoverDTO mEmBreveDiscoverDTO;
     private DiscoverDTO mEmCartazDiscoverDTO;
@@ -54,6 +58,8 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
         initMovies();
         initDestaques();
+
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     private void initDestaques() {
@@ -93,7 +99,10 @@ public class HomeFragment extends BaseFragment implements ListWordsCallbacks {
 
         mPopularesDiscoverDTO.setSortBy("popularity.desc");
 
-        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER, R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull, mPopularesDiscoverDTO, ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
+        return ListMoviesDefaultFragment.newInstance(Sort.DISCOVER,
+                R.layout.item_similares_movie, R.layout.fragment_list_movies_default_no_pull,
+                mPopularesDiscoverDTO,
+                ListMoviesDefaultFragment.createLinearListArguments(RecyclerView.HORIZONTAL, false));
     }
 
     private Fragment createEmCartazFragment() {

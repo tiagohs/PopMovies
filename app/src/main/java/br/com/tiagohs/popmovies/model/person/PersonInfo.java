@@ -64,6 +64,8 @@ public class PersonInfo extends PersonBasic {
     private String biography;
     @JsonProperty("birthday")
     private String birthday;
+    @JsonProperty("known_for_department")
+    private String knownForDepartment;
     @JsonProperty("deathday")
     private String deathday;
     @JsonProperty("homepage")
@@ -111,6 +113,14 @@ public class PersonInfo extends PersonBasic {
     public void setAlsoKnownAs(List<String> alsoKnownAs) {
         this.alsoKnownAs = alsoKnownAs;
 
+    }
+
+    public String getKnownForDepartment() {
+        return knownForDepartment;
+    }
+
+    public void setKnownForDepartment(String knownForDepartment) {
+        this.knownForDepartment = knownForDepartment;
     }
 
     public String getBiography() {

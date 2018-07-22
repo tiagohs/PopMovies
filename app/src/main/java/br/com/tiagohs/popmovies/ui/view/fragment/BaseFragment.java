@@ -2,8 +2,10 @@ package br.com.tiagohs.popmovies.ui.view.fragment;
 
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,13 +17,14 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import br.com.tiagohs.popmovies.App;
-import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
 import br.com.tiagohs.popmovies.R;
+import br.com.tiagohs.popmovies.dragger.components.PopMoviesComponent;
 import br.com.tiagohs.popmovies.model.db.ProfileDB;
 import br.com.tiagohs.popmovies.ui.view.activity.BaseActivity;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -100,6 +103,24 @@ public abstract class BaseFragment extends Fragment {
             fm.beginTransaction()
                     .replace(fragmentID, fragment)
                     .commitAllowingStateLoss();
+        }
+    }
+
+    public void openUrl(String url) {
+
+        if (!EmptyUtils.isEmpty(url)) {
+            try {
+                Uri urlUri = Uri.parse(url);
+                CustomTabsIntent intent = new CustomTabsIntent.Builder()
+                        .setToolbarColor(ViewUtils.getColorFromResource(getContext(), R.color.colorPrimary))
+                        .setShowTitle(true)
+                        .setStartAnimations(getContext(), R.anim.slide_in_right, R.anim.slide_out_left)
+                        .setExitAnimations(getContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .build();
+                intent.launchUrl(getContext(), urlUri);
+            } catch (Exception ex) {
+
+            }
         }
     }
 

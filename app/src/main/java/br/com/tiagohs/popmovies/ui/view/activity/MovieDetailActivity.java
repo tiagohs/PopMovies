@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,7 @@ import br.com.tiagohs.popmovies.model.media.Video;
 import br.com.tiagohs.popmovies.model.movie.MovieDetails;
 import br.com.tiagohs.popmovies.model.response.VideosResponse;
 import br.com.tiagohs.popmovies.ui.adapters.ListWordsAdapter;
+import br.com.tiagohs.popmovies.ui.adapters.MovieDetailsAdapter;
 import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.ListMoviesCallbacks;
 import br.com.tiagohs.popmovies.ui.callbacks.ListWordsCallbacks;
@@ -55,7 +59,6 @@ import br.com.tiagohs.popmovies.ui.callbacks.ReviewCallbacks;
 import br.com.tiagohs.popmovies.ui.contracts.MovieDetailsContract;
 import br.com.tiagohs.popmovies.ui.tools.AppBarMovieListener;
 import br.com.tiagohs.popmovies.ui.tools.EllipsizingTextView;
-import br.com.tiagohs.popmovies.ui.view.fragment.MovieDetailsFragment;
 import br.com.tiagohs.popmovies.util.AnimationsUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
@@ -92,16 +95,24 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     @BindView(R.id.movie_detail_app_bar)          AppBarLayout mAppBarLayout;
     @BindView(R.id.poster_movie)                  ImageView mPosterMovie;
     @BindView(R.id.background_movie)              ImageView mBackgroundMovie;
+    @BindView(R.id.comic_wallpaper_overlay)       View mBackgroundOverlay;
     @BindView(R.id.title_movie)                   TextView mTitleMovie;
+    @BindView(R.id.ano_lancamento_container)      LinearLayout mAnoLancamentoContainer;
     @BindView(R.id.ano_lancamento_movie)          TextView mAnoLancamento;
+    @BindView(R.id.duracao_container)             LinearLayout mDuracaoContainer;
     @BindView(R.id.duracao_movie)                 TextView mDuracao;
     @BindView(R.id.diretores_recycler_view)       RecyclerView mDiretoresRecyclerView;
     @BindView(R.id.play_image_movie_principal)    ImageView playButtonImageView;
     @BindView(R.id.movies_btn_ja_assisti)         FloatingActionButton mJaAssistiButton;
     @BindView(R.id.progress_movies_details)       ProgressBar mProgressMovieDetails;
-    @BindView(R.id.movie_details_fragment)        LinearLayout mContainerTabs;
+    @BindView(R.id.comicDetailsTabContainer)      LinearLayout mContainerTabs;
     @BindView(R.id.share_progress)                ProgressWheel mProgressShare;
     @BindView(R.id.duracao_icon)                  ImageView mDuracaoIcon;
+
+    @BindView(R.id.movie_view_pager)
+    ViewPager mViewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout mTabLayout;
 
     @Inject MovieDetailsContract.MovieDetailsPresenter mPresenter;
 
@@ -204,7 +215,17 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         mJaAssistiButton.show();
 
         if (EmptyUtils.isNotNull(mMovie.getBackdropPath()))
-            ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780);
+            ImageUtils.loadWithRevealAnimation(MovieDetailActivity.this, mMovie.getBackdropPath(), mBackgroundMovie, R.drawable.ic_image_default_back, ImageSize.BACKDROP_780, new Callback() {
+                @Override
+                public void onSuccess() {
+                    mBackgroundOverlay.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    mBackgroundOverlay.setVisibility(View.VISIBLE);
+                }
+            });
         else {
             ImageUtils.loadWithBlur(this, R.drawable.background_image, mBackgroundMovie);
         }
@@ -216,12 +237,16 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
         mDuracao.setText(getResources().getString(R.string.movie_duracao, mMovie.getRuntime()));
         mAnoLancamento.setText(String.valueOf(mMovie.getYearRelease()));
 
+        mAnoLancamentoContainer.setVisibility(View.VISIBLE);
+        mDuracaoContainer.setVisibility(View.VISIBLE);
+
+        mViewPager.setAdapter(new MovieDetailsAdapter(getSupportFragmentManager(), mMovie, getResources().getStringArray(R.array.movie_detail_tab_array)));
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     public void setupTabs() {
 
-        if (!isDestroyed())
-            startFragment(R.id.movie_details_fragment, MovieDetailsFragment.newInstance(mMovie));
+        //if (!isDestroyed()) startFragment(R.id.movie_details_fragment, MovieDetailsFragment.newInstance(mMovie));
 
         mAppBarLayout.addOnOffsetChangedListener(onOffsetChangedListener());
     }
@@ -230,6 +255,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(MOVIE, mMovie);
         outState.putBoolean(START, isStarted);
+
+        super.onSaveInstanceState(outState);
     }
 
     private AppBarMovieListener onOffsetChangedListener() {
@@ -487,7 +514,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     @Override
     public void onClickReviewLink(String url) {
-        startActivityForResult(WebViewActivity.newIntent(this, url, mMovie.getTitle()), 0);
+        openUrl(url);
     }
 
     @Override
@@ -500,17 +527,17 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailsCon
 
     @OnClick(R.id.btn_amazon)
     public void onAmazonClick() {
-        startActivityForResult(WebViewActivity.newIntent(this, "https://www.amazon.com/s/rh=n%3A2649512011%2Ck%3A" + mMovie.getOriginalTitle() +"&keywords=" + mMovie.getOriginalTitle() + "&ie=UTF8 ", mMovie.getTitle()), 0);
+        openUrl("https://www.amazon.com/s/rh=n%3A2649512011%2Ck%3A" + mMovie.getOriginalTitle() +"&keywords=" + mMovie.getOriginalTitle() + "&ie=UTF8 ");
     }
 
     @OnClick(R.id.btn_netflix)
     public void onNetflixClick() {
-        startActivityForResult(WebViewActivity.newIntent(this, getString(R.string.netflix_link, mMovie.getOriginalTitle()), mMovie.getTitle()), 0);
+        openUrl(getString(R.string.netflix_link, mMovie.getOriginalTitle()));
     }
 
     @OnClick(R.id.btn_google_play)
     public void onGooglePlayClick() {
-        startActivityForResult(WebViewActivity.newIntent(this, getString(R.string.google_play_link, mMovie.getOriginalTitle(), LocaleUtils.getLocaleLanguageAndCountry()), mMovie.getTitle()), 0);
+        openUrl(getString(R.string.google_play_link, mMovie.getOriginalTitle(), LocaleUtils.getLocaleLanguageAndCountry()));
     }
 
 }

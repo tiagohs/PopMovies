@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,6 @@ import br.com.tiagohs.popmovies.ui.callbacks.ImagesCallbacks;
 import br.com.tiagohs.popmovies.ui.view.activity.ListsDefaultActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.PersonDetailActivity;
 import br.com.tiagohs.popmovies.ui.view.activity.WallpapersActivity;
-import br.com.tiagohs.popmovies.ui.view.activity.WebViewActivity;
 import br.com.tiagohs.popmovies.util.DTOUtils;
 import br.com.tiagohs.popmovies.util.DateUtils;
 import br.com.tiagohs.popmovies.util.EmptyUtils;
@@ -48,6 +50,7 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     @BindView(R.id.imagens_recycler_view)           RecyclerView mImagensRecyclerView;
     @BindView(R.id.wallpapers_container)            LinearLayout mWallpapersContainer;
     @BindView(R.id.know_for_container)              LinearLayout mKnowForContainer;
+    @BindView(R.id.adView)                          AdView mAdView;
 
     private PersonInfo mPerson;
     private ImagesCallbacks mImagesCallbacks;
@@ -100,6 +103,8 @@ public class PersonDetailResumoFragment extends BaseFragment  {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updatePersonInfo();
+
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     public void updatePersonInfo() {
@@ -200,11 +205,11 @@ public class PersonDetailResumoFragment extends BaseFragment  {
 
     @OnClick(R.id.riple_wiki)
     public void onClickWiki() {
-        startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.person_wiki, mPerson.getName()), mPerson.getName()), 0);
+        openUrl(getString(R.string.person_wiki, mPerson.getName()));
     }
 
     @OnClick(R.id.riple_imdb)
     public void onClickIMDB() {
-        startActivityForResult(WebViewActivity.newIntent(getActivity(), getString(R.string.person_imdb, mPerson.getImdbId()), mPerson.getName()), 0);
+        openUrl(getString(R.string.person_imdb, mPerson.getImdbId()));
     }
 }

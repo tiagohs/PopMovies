@@ -1,9 +1,11 @@
 package br.com.tiagohs.popmovies.ui.view.activity;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -35,6 +37,7 @@ import br.com.tiagohs.popmovies.util.EmptyUtils;
 import br.com.tiagohs.popmovies.util.ImageUtils;
 import br.com.tiagohs.popmovies.util.PrefsUtils;
 import br.com.tiagohs.popmovies.util.ServerUtils;
+import br.com.tiagohs.popmovies.util.ViewUtils;
 import br.com.tiagohs.popmovies.util.enumerations.ListType;
 import br.com.tiagohs.popmovies.util.enumerations.Sort;
 import butterknife.BindView;
@@ -97,7 +100,6 @@ BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationIte
                 }
             });
         }
-
     }
 
     @Override
@@ -257,6 +259,22 @@ BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationIte
 
     public CoordinatorLayout getCoordinatorLayout() {
         return mCoordinatorLayout;
+    }
+
+    public void openUrl(String url) {
+
+        if (!EmptyUtils.isEmpty(url)) {
+            try {
+                Uri urlUri = Uri.parse(url);
+                CustomTabsIntent intent = new CustomTabsIntent.Builder()
+                                                .setToolbarColor(ViewUtils.getColorFromResource(this, R.color.colorPrimary))
+                                                .setShowTitle(true)
+                                                .build();
+                intent.launchUrl(this, urlUri);
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
     protected void startFragment(int fragmentID, Fragment fragment) {

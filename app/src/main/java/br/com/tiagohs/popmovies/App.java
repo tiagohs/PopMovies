@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.MobileAds;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
@@ -31,13 +33,14 @@ public class App extends Application {
         MultiDex.install(getApplicationContext());
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
 
         mPopMoviesComponent = DaggerPopMoviesComponent.builder()
                               .appModule(new AppModule(this))
                               .netModule(new NetModule("http://api.themoviedb.org/3/"))
                               .build();
 
+        MobileAds.initialize(this, BuildConfig.ADMOB_ID);
         instance = this;
         initPicasso();
     }

@@ -47,7 +47,7 @@ public class ShareUtils {
     public static void shareImage(final Context context, String imageURL, final String imageName, final ProgressWheel progress) {
         progress.setVisibility(View.VISIBLE);
 
-        Picasso.with(context)
+        Picasso.get()
                 .load(imageURL)
                 .into(new Target() {
                         @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -58,7 +58,9 @@ public class ShareUtils {
                             progress.setVisibility(View.GONE);
                         }
 
-                        @Override public void onBitmapFailed(Drawable errorDrawable) {}
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {}
+
                         @Override public void onPrepareLoad(Drawable placeHolderDrawable) {}
 
         });
