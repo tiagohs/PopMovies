@@ -1,7 +1,0 @@
-<resources>
-
-    <!-- Lançamentos da Semana -->
-    <string name="lanc_sem_btn_previous_week">Anterior</string>
-    <string name="lanc_sem_btn_next_week">Próxima</string>
-
-</resources>

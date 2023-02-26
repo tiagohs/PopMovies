@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="movie_detail_icon_padding">2dp</dimen>
-    <dimen name="movie_detail_button_review_margin">5dp</dimen>
-    <dimen name="button_user_txt_size">10sp</dimen>
-</resources>

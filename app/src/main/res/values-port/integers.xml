@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="movies_columns">3</integer>
-    <integer name="images_movie_detail_columns">2</integer>
-    <integer name="max_lenth_edit">30</integer>
-</resources>
