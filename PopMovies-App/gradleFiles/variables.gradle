@@ -1,0 +1,53 @@
+ext {
+    minSDK = 21
+    sdkVersion = 33
+
+    versionCode = 2
+    versionName = '2.0.0'
+
+    kotlinCompilerExtension_version = '1.4.2'
+
+    // Libraries / Tools Versions
+    coreKtx_version = '1.9.0'
+    appcompat_version = '1.6.1'
+    lifecycleRuntimeKtx_version = '2.5.1'
+    composeBom_version = '2023.01.00'
+    composeMaterialDesign_version = '1.1.0-alpha07'
+    composeActivity_version = '1.7.0-alpha04'
+    composeLifecycleViewModel_version = '2.5.1'
+    junit_version = '4.13.2'
+    testJunit4_version = '1.1.5'
+    espressoCore_version = '3.5.1'
+
+    dependencies = [
+        coreKtx: "androidx.core:core-ktx:$coreKtx_version",
+        appcompat: "androidx.appcompat:appcompat:$appcompat_version",
+        lifecycleRuntimeKtx: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx_version",
+
+        composeBom: "androidx.compose:compose-bom:$composeBom_version",
+        composeMaterialDesign: "androidx.compose.material3:material3:$composeMaterialDesign_version",
+        composeUiToolingPreview: "androidx.compose.ui:ui-tooling-preview",
+        composeActivity: "androidx.activity:activity-compose:$composeActivity_version",
+        composeLifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel-compose:$composeLifecycleViewModel_version",
+
+        junit: "junit:junit:$junit_version",
+        uiTestManifest: 'androidx.compose.ui:ui-test-manifest',
+        uiTooling: 'androidx.compose.ui:ui-tooling',
+
+        testJunit4: "androidx.compose.ui:ui-test-junit4",
+        extJunit: "androidx.test.ext:junit:$testJunit4_version",
+        espressoCore: "androidx.test.espresso:espresso-core:$espressoCore_version"
+    ]
+
+    modules = [
+        'core': ":core",
+        'components': ":core:components",
+        'database': ":core:database",
+        'helpers': ":core:helpers",
+        'navigation': ":core:navigation",
+        'theme': ":core:theme",
+        'network': ":core:network",
+        'data': ":data",
+        'features': ":features"
+    ]
+}

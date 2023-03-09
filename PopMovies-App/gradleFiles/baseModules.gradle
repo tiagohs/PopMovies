@@ -1,0 +1,52 @@
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdk globalConfiguration["sdkVersion"]
+
+    defaultConfig {
+        minSdk globalConfiguration["minSDK"]
+        targetSdk globalConfiguration["sdkVersion"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    productFlavors {
+        develop {
+            dimension "default"
+        }
+
+        prd {
+            dimension "default"
+        }
+    }
+
+    variantFilter { variant ->
+        if (variant.buildType.name == 'release') {
+            def flavorNames = variant.flavors*.name
+
+            if (flavorNames.contains("develop")) {
+                setIgnore(true)
+            }
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion globalConfiguration["kotlinCompilerExtension_version"]
+    }
+}

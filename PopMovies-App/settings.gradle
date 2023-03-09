@@ -14,3 +14,12 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PopMovies"
 include ':app'
+include ':features'
+include ':data'
+include ':core'
+include ':core:network'
+include ':core:database'
+include ':core:components'
+include ':core:helpers'
+include ':core:navigation'
+include ':core:theme'

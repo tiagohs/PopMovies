@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'br.com.tiagohs.core.theme'
+    flavorDimensions "default"
+
+    apply from: '../../gradleFiles/baseModules.gradle'
+
+    buildFeatures {
+        compose true
+    }
+}
+
+dependencies {
+    def dependencies = rootProject.ext.dependencies
+    def composeBom = platform(dependencies.composeBom)
+
+    implementation dependencies.coreKtx
+    implementation dependencies.appcompat
+
+    //******* Compose *********//
+
+    implementation composeBom
+    implementation dependencies.composeMaterialDesign
+    implementation dependencies.composeUiToolingPreview
+}

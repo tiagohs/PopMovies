@@ -79,7 +79,22 @@ android {
 
 dependencies {
     def dependencies = rootProject.ext.dependencies
+    def modules = rootProject.ext.modules
     def composeBom = platform(dependencies.composeBom)
+
+    //******* Modules *********//
+
+    implementation project(path: modules.features)
+    implementation project(path: modules.core)
+    implementation project(path: modules.components)
+    implementation project(path: modules.database)
+    implementation project(path: modules.helpers)
+    implementation project(path: modules.navigation)
+    implementation project(path: modules.network)
+    implementation project(path: modules.theme)
+    implementation project(path: modules.data)
+
+    //************************//
 
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
