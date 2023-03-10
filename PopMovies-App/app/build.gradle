@@ -108,6 +108,7 @@ dependencies {
     implementation dependencies.composeUiToolingPreview
     implementation dependencies.composeActivity
     implementation dependencies.composeLifecycleViewModel
+    implementation dependencies.composeNavigation
 
     //************************//
 

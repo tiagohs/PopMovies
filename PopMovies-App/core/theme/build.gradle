@@ -21,8 +21,6 @@ dependencies {
 
     //******* Modules *********//
 
-    implementation project(path: modules.navigation)
-
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
 
@@ -31,6 +29,7 @@ dependencies {
     implementation composeBom
     implementation dependencies.composeMaterialDesign
     implementation dependencies.composeUiToolingPreview
+    implementation dependencies.composeActivity
     implementation dependencies.composeNavigation
 
     //************************//

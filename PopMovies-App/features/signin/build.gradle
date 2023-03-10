@@ -16,7 +16,15 @@ android {
 
 dependencies {
     def dependencies = rootProject.ext.dependencies
+    def modules = rootProject.ext.modules
     def composeBom = platform(dependencies.composeBom)
+
+
+    //******* Modules *********//
+
+    implementation project(path: modules.theme)
+
+    //************************//
 
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
@@ -27,7 +35,10 @@ dependencies {
     implementation composeBom
     implementation dependencies.composeMaterialDesign
     implementation dependencies.composeUiToolingPreview
+    implementation dependencies.composeActivity
     implementation dependencies.composeLifecycleViewModel
+
+    debugImplementation dependencies.uiTooling
 
     //************************//
 }

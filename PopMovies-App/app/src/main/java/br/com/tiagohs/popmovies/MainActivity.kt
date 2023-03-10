@@ -3,21 +3,28 @@ package br.com.tiagohs.popmovies
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import br.com.tiagohs.core.navigation.PopMoviesNavHost
+import br.com.tiagohs.core.navigation.destinations.currentDestination
 import br.com.tiagohs.core.theme.AppTheme
-import br.com.tiagohs.core.theme.PopMoviesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            AppTheme()
+            val navController = rememberNavController()
+            val currentDestination = currentDestination(naviHostController = navController)
+
+            AppTheme { innerPadding ->
+                PopMoviesNavHost(
+                    navHostController = navController,
+                    modifier = Modifier.padding(innerPadding),
+                    startScreen = currentDestination
+                )
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package br.com.tiagohs.core.theme
+package br.com.tiagohs.core.theme.ui
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -85,11 +85,12 @@ fun PopMoviesTheme(
         DarkColors
     }
     val view = LocalView.current
-    val window = (view.context as Activity).window
-    if (!view.isInEditMode) {
-        SideEffect {
-            window.statusBarColor = colors.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+    (view.context as? Activity)?.window?.let { window ->
+        if (!view.isInEditMode) {
+            SideEffect {
+                window.statusBarColor = colors.primary.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            }
         }
     }
 
