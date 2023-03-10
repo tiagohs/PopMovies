@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'br.com.tiagohs.core.navigation'
+    namespace 'br.com.tiagohs.features.signin'
     flavorDimensions "default"
 
     apply from: '../../gradleFiles/baseModules.gradle'
@@ -16,24 +16,18 @@ android {
 
 dependencies {
     def dependencies = rootProject.ext.dependencies
-    def modules = rootProject.ext.modules
     def composeBom = platform(dependencies.composeBom)
-
-    //******* Modules *********//
-
-    implementation project(path: modules.signin)
-
-    //************************//
 
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
+    implementation dependencies.lifecycleRuntimeKtx
 
     //******* Compose *********//
 
     implementation composeBom
     implementation dependencies.composeMaterialDesign
     implementation dependencies.composeUiToolingPreview
-    implementation dependencies.composeNavigation
+    implementation dependencies.composeLifecycleViewModel
 
     //************************//
 }

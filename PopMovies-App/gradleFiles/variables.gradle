@@ -15,6 +15,7 @@ ext {
     composeMaterialDesign_version = '1.1.0-alpha07'
     composeActivity_version = '1.7.0-alpha04'
     composeLifecycleViewModel_version = '2.5.1'
+    composeNavigation_version = '2.5.3'
     junit_version = '4.13.2'
     testJunit4_version = '1.1.5'
     espressoCore_version = '3.5.1'
@@ -29,6 +30,7 @@ ext {
         composeUiToolingPreview: "androidx.compose.ui:ui-tooling-preview",
         composeActivity: "androidx.activity:activity-compose:$composeActivity_version",
         composeLifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel-compose:$composeLifecycleViewModel_version",
+        composeNavigation: "androidx.navigation:navigation-compose:$composeNavigation_version",
 
         junit: "junit:junit:$junit_version",
         uiTestManifest: 'androidx.compose.ui:ui-test-manifest',
@@ -48,6 +50,7 @@ ext {
         'theme': ":core:theme",
         'network': ":core:network",
         'data': ":data",
-        'features': ":features"
+        'features': ":features",
+        'signin': ":features:signin"
     ]
 }

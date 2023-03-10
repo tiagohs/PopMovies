@@ -85,6 +85,7 @@ dependencies {
     //******* Modules *********//
 
     implementation project(path: modules.features)
+    implementation project(path: modules.signin)
     implementation project(path: modules.core)
     implementation project(path: modules.components)
     implementation project(path: modules.database)
