@@ -19,12 +19,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.tiagohs.core.theme.AppTheme
+import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickSignIn: () -> Unit = {},
+    onClickForgotPassword: () -> Unit = {},
+    onClickSignUp: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -117,7 +120,7 @@ fun SignInScreen(
             )
 
             TextButton(
-                onClick = { /*TODO*/ },
+                onClick = onClickForgotPassword,
             ) {
                 Text(
                     text = "Esqueceu a senha?",
@@ -126,7 +129,7 @@ fun SignInScreen(
             }
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = onClickSignIn,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
@@ -149,7 +152,7 @@ fun SignInScreen(
             }
         }
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = onClickSignUp,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 12.dp)
@@ -162,12 +165,12 @@ fun SignInScreen(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
-fun SigninScreenPreview() {
-    AppTheme {
-        SignInScreen(
-            modifier = Modifier.padding(it)
-        )
+fun SignInScreenPreview() {
+    PopMoviesTheme {
+        SignInScreen()
     }
 }

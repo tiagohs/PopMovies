@@ -8,8 +8,40 @@ android {
     flavorDimensions "default"
 
     apply from: '../../gradleFiles/baseModules.gradle'
+
+    productFlavors {
+        def constants = rootProject.ext.constants
+
+        develop {
+            dimension "default"
+
+            buildConfigField ("String", "TMDB_API_KEY", "\"$constants.tmdbApiKey\"")
+        }
+
+        prd {
+            dimension "default"
+
+            buildConfigField ("String", "TMDB_API_KEY", "\"$constants.tmdbApiKey\"")
+        }
+    }
 }
 
 dependencies {
+    def dependencies = rootProject.ext.dependencies
 
+    implementation dependencies.coreKtx
+
+    implementation dependencies.koinAndroid
+
+    // Coroutines
+    implementation dependencies.coroutinesCore
+    implementation dependencies.coroutinesAndroid
+
+    // Retrofit
+    implementation dependencies.retrofit2ConverterGson
+    implementation dependencies.retrofit2Retrofit
+    implementation dependencies.okhttp3LoggingInterceptor
+    implementation dependencies.okLog3
+
+    implementation dependencies.googleGson
 }

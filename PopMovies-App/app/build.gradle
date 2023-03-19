@@ -86,6 +86,7 @@ dependencies {
 
     implementation project(path: modules.features)
     implementation project(path: modules.signin)
+    implementation project(path: modules.signup)
     implementation project(path: modules.core)
     implementation project(path: modules.components)
     implementation project(path: modules.database)
@@ -94,6 +95,7 @@ dependencies {
     implementation project(path: modules.network)
     implementation project(path: modules.theme)
     implementation project(path: modules.data)
+    implementation project(path: modules.dataMovies)
 
     //************************//
 
@@ -109,6 +111,13 @@ dependencies {
     implementation dependencies.composeActivity
     implementation dependencies.composeLifecycleViewModel
     implementation dependencies.composeNavigation
+
+    //************************//
+
+    //******* Koin *********//
+
+    implementation dependencies.koinAndroid
+    implementation dependencies.koinCompose
 
     //************************//
 

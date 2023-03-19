@@ -8,6 +8,16 @@ android {
     flavorDimensions "default"
 
     apply from: '../../gradleFiles/baseModules.gradle'
+
+    productFlavors {
+        develop {
+            dimension "default"
+        }
+
+        prd {
+            dimension "default"
+        }
+    }
 }
 
 dependencies {

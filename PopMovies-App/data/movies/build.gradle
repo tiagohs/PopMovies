@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'br.com.tiagohs.data.movies'
+    flavorDimensions "default"
+
+    apply from: '../../gradleFiles/baseModules.gradle'
+
+    productFlavors {
+        def constants = rootProject.ext.constants
+
+        develop {
+            dimension "default"
+
+            buildConfigField ("String", "TMDB_API_KEY", "\"$constants.tmdbApiKey\"")
+            buildConfigField ("String", "TMDB_BASE_URL", "\"$constants.tmdbUrl\"")
+        }
+
+        prd {
+            dimension "default"
+
+            buildConfigField ("String", "TMDB_API_KEY", "\"$constants.tmdbApiKey\"")
+            buildConfigField ("String", "TMDB_BASE_URL", "\"$constants.tmdbUrl\"")
+        }
+    }
+}
+
+dependencies {
+    def dependencies = rootProject.ext.dependencies
+    def modules = rootProject.ext.modules
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //******* Modules *********//
+
+    implementation project(path: modules.network)
+
+    //************************//
+
+    implementation dependencies.coreKtx
+
+    implementation dependencies.koinAndroid
+
+    implementation("androidx.annotation:annotation:1.6.0")
+
+    // Coroutines
+    implementation dependencies.coroutinesCore
+    implementation dependencies.coroutinesAndroid
+
+    // Retrofit
+    implementation dependencies.retrofit2ConverterGson
+    implementation dependencies.retrofit2Retrofit
+
+    implementation dependencies.googleGson
+}

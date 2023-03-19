@@ -10,12 +10,20 @@ ext {
     // Libraries / Tools Versions
     coreKtx_version = '1.9.0'
     appcompat_version = '1.6.1'
-    lifecycleRuntimeKtx_version = '2.5.1'
+    lifecycleRuntimeKtx_version = '2.6.0'
     composeBom_version = '2023.01.00'
-    composeMaterialDesign_version = '1.1.0-alpha07'
+    composeMaterialDesign_version = '1.1.0-alpha08'
     composeActivity_version = '1.7.0-alpha04'
-    composeLifecycleViewModel_version = '2.5.1'
+    composeLifecycleViewModel_version = '2.6.0'
     composeNavigation_version = '2.5.3'
+    retrofit_version = '2.9.0'
+    okhttp3LoggingInterceptor_version = '4.10.0'
+    coroutines_version = '1.6.4'
+    gson_version = '2.10.1'
+    okLog_version = '2.3.0'
+    koin_version = '3.3.3'
+    koin_compse_version = '3.4.2'
+
     junit_version = '4.13.2'
     testJunit4_version = '1.1.5'
     espressoCore_version = '3.5.1'
@@ -25,16 +33,38 @@ ext {
         appcompat: "androidx.appcompat:appcompat:$appcompat_version",
         lifecycleRuntimeKtx: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx_version",
 
+        // Compose
         composeBom: "androidx.compose:compose-bom:$composeBom_version",
         composeMaterialDesign: "androidx.compose.material3:material3:$composeMaterialDesign_version",
+        composeMaterialDesignIcons: "androidx.compose.material:material-icons-extended",
         composeUiToolingPreview: "androidx.compose.ui:ui-tooling-preview",
         composeActivity: "androidx.activity:activity-compose:$composeActivity_version",
         composeLifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel-compose:$composeLifecycleViewModel_version",
         composeNavigation: "androidx.navigation:navigation-compose:$composeNavigation_version",
 
+        // Koin
+        koinAndroid: "io.insert-koin:koin-android:$koin_version",
+        koinCompose: "io.insert-koin:koin-androidx-compose:$koin_compse_version",
+
         junit: "junit:junit:$junit_version",
         uiTestManifest: 'androidx.compose.ui:ui-test-manifest',
         uiTooling: 'androidx.compose.ui:ui-tooling',
+
+        coroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+        coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
+
+        // Retrofit
+        retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit_version",
+        retrofit2Retrofit: "com.squareup.retrofit2:retrofit:$retrofit_version",
+        okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttp3LoggingInterceptor_version",
+        googleGson: "com.google.code.gson:gson:$gson_version",
+
+        okLog3: "com.github.simonpercic:oklog3:$okLog_version",
+
+        //Koin Test
+        koinTest: "io.insert-koin:koin-test:$koin_version",
+        koinJunitTest: "io.insert-koin:koin-test:$koin_version",
+        koinJunit4Test: "io.insert-koin:koin-test-junit4:$koin_version",
 
         testJunit4: "androidx.compose.ui:ui-test-junit4",
         extJunit: "androidx.test.ext:junit:$testJunit4_version",
@@ -50,7 +80,14 @@ ext {
         'theme': ":core:theme",
         'network': ":core:network",
         'data': ":data",
+        'dataMovies': ":data:movies",
         'features': ":features",
-        'signin': ":features:signin"
+        'signin': ":features:signin",
+        'signup': ":features:signup"
+    ]
+
+    constants = [
+        tmdbUrl: 'https://api.themoviedb.org',
+        tmdbApiKey: 'dac4d50f24dee29513738d8fa3470a3f'
     ]
 }

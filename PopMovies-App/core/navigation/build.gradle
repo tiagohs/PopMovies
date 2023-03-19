@@ -22,6 +22,7 @@ dependencies {
     //******* Modules *********//
 
     implementation project(path: modules.signin)
+    implementation project(path: modules.signup)
 
     //************************//
 

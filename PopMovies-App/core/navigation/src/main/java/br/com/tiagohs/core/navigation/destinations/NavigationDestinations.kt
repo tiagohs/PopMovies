@@ -8,12 +8,24 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.tiagohs.core.navigation.models.Destination
 
 val destinations: List<Destination> = listOf(
-    SignInDestination
+    SignInDestination,
+    SignUpDestination
 )
 
 object SignInDestination: Destination {
     override val route: String = "signin"
     override val arguments: List<NamedNavArgument> = emptyList()
+
+    override val screenName: String = "Logar"
+    override val withToolbar: Boolean = false
+}
+
+object SignUpDestination: Destination {
+    override val route: String = "signup"
+    override val arguments: List<NamedNavArgument> = emptyList()
+
+    override val screenName: String = "Cadastro"
+    override val withToolbar: Boolean = false
 }
 
 @Composable
