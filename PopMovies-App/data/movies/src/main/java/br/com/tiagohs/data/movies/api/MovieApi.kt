@@ -5,7 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import androidx.annotation.IntRange
-import androidx.annotation.StringDef
+import br.com.tiagohs.data.movies.models.movie.Credits
+import br.com.tiagohs.data.movies.models.movie.Movie
+import br.com.tiagohs.data.movies.models.movie.MovieImages
+import br.com.tiagohs.data.movies.models.movie.Video
+import br.com.tiagohs.data.movies.models.Result
 
 /**
  * Movies API calls with Retrofit Setup. <a href="https://developers.themoviedb.org/3/getting-started/introduction">See The Movie Databse API</a>
@@ -23,12 +27,12 @@ interface MovieApi {
      * @param appendToResponse Append requests within the same namespace to the response.
      * <b>pattern</b>: ([\w]+)
      */
-    @GET("movie/${MOVIE_ID}")
+    @GET("3/movie/${MOVIE_ID}")
     suspend fun movieDetails(
         @Path(MOVIE_ID) movieId: Int,
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_APPEND_TO_RESPONSE) appendToResponse: String?
-    )
+    ): Movie
 
     /**
      * Get a list of similar movies. This is not the same as the "Recommendation" system you see on the website.
@@ -44,12 +48,12 @@ interface MovieApi {
      * <b>maximum<b>: 1000
      * <b>default<b>: 1
      */
-    @GET("movie/${MOVIE_ID}/similar")
+    @GET("3/movie/${MOVIE_ID}/similar")
     suspend fun similarMovies(
         @Path(MOVIE_ID) movieId: Int,
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @IntRange(from = 1, to = 1000) @Query(QUERY_PAGE) page: Int = 1,
-    )
+    ): Result<Movie>
 
     /**
      * Get the cast and crew for a movie.
@@ -60,11 +64,11 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("movie/${MOVIE_ID}/credits")
+    @GET("3/movie/${MOVIE_ID}/credits")
     suspend fun credits(
         @Path(MOVIE_ID) movieId: Int,
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE
-    )
+    ): Credits
 
     /**
      * Get the images that belong to a movie.
@@ -77,12 +81,12 @@ interface MovieApi {
      * <b>default</b>: en-US
      * @param includeImageLanguage Pass a ISO 639-1 list to display translated data for the fields that support it. Is accepted null as well.
      */
-    @GET("movie/${MOVIE_ID}/images")
+    @GET("3/movie/${MOVIE_ID}/images")
     suspend fun images(
         @Path(MOVIE_ID) movieId: Int,
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_INCLUDE_IMAGE_LANGUAGE) includeImageLanguage: String?
-    )
+    ): MovieImages
 
     /**
      * Get the videos that have been added to a movie.
@@ -94,12 +98,12 @@ interface MovieApi {
      * <b>default</b>: en-US
      * @param includeVideoLanguage Pass a ISO 639-1 list to display translated data for the fields that support it. Is accepted null as well.
      */
-    @GET("movie/${MOVIE_ID}/videos")
+    @GET("3/movie/${MOVIE_ID}/videos")
     suspend fun videos(
         @Path(MOVIE_ID) movieId: Int,
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_INCLUDE_VIDEO_LANGUAGE) includeVideoLanguage: String?
-    )
+    ): Result<Video>
 
     /**
      * Discover movies by different types of data like average rating, number of votes, genres and certifications. You can get a valid list of certifications from the  method.
@@ -165,7 +169,7 @@ interface MovieApi {
      * @param withWatchMonetizationTypes In combination with watch_region, you can filter by monetization type. Allowed Values: flatrate, free, ads, rent, buy
      * @param watchRegion An ISO 3166-1 code. Combine this filter with [withWatchProviders] in order to filter your results by a specific watch provider in a specific region.
      */
-    @GET("discover/movie")
+    @GET("3/discover/movie")
     suspend fun discover(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_REGION) region: String?,
@@ -202,7 +206,7 @@ interface MovieApi {
         @Query(QUERY_WITH_WATCH_PROVIDERS) withWatchProviders: String?,
         @Query(QUERY_WITH_WATCH_MONETIZATION_TYPES) withWatchMonetizationTypes: String?,
         @Query(QUERY_WATCH_REGION) watchRegion: String?
-    )
+    ): Result<Movie>
 
     /**
      *
@@ -212,7 +216,7 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("search/movie")
+    @GET("3/search/movie")
     suspend fun search(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_QUERY) query: String?,
@@ -221,7 +225,7 @@ interface MovieApi {
         @Query(QUERY_REGION) region: String?,
         @Query(QUERY_YEAR) year: Int?,
         @Query(QUERY_PRIMARY_RELEASE_YEAR) primaryReleaseYear: Int?
-    )
+    ): Result<Movie>
 
     /**
      *
@@ -231,25 +235,12 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("movie/latest")
-    suspend fun latest(
-        @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE
-    )
-
-    /**
-     *
-     *
-     * @param language Pass a ISO 639-1 value to display translated data for the fields that support it.
-     * <b>minLength</b>: 2
-     * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
-     * <b>default</b>: en-US
-     */
-    @GET("movie/now_playing")
+    @GET("3/movie/now_playing")
     suspend fun nowPlaying(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_PAGE) page: Int?,
         @Query(QUERY_REGION) region: String?,
-    )
+    ): Result<Movie>
 
     /**
      *
@@ -259,12 +250,12 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("movie/popular")
+    @GET("3/movie/popular")
     suspend fun popular(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_PAGE) page: Int?,
         @Query(QUERY_REGION) region: String?,
-    )
+    ): Result<Movie>
 
     /**
      *
@@ -274,12 +265,12 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("movie/top_rated")
+    @GET("3/movie/top_rated")
     suspend fun topRated(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_PAGE) page: Int?,
         @Query(QUERY_REGION) region: String?,
-    )
+    ): Result<Movie>
 
     /**
      *
@@ -289,10 +280,10 @@ interface MovieApi {
      * <b>pattern</b>: ([a-z]{2})-([A-Z]{2})
      * <b>default</b>: en-US
      */
-    @GET("movie/upcoming")
+    @GET("3/movie/upcoming")
     suspend fun upcoming(
         @Query(QUERY_LANGUAGE) language: String = DEFAULT_LANGUAGE,
         @Query(QUERY_PAGE) page: Int?,
         @Query(QUERY_REGION) region: String?,
-    )
+    ): Result<Movie>
 }

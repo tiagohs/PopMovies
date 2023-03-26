@@ -21,8 +21,10 @@
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/theme" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/auth" />
             <option value="$PROJECT_DIR$/data/movies" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/home" />
             <option value="$PROJECT_DIR$/features/signin" />
             <option value="$PROJECT_DIR$/features/signup" />
           </set>

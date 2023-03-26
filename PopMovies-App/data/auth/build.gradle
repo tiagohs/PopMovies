@@ -1,0 +1,35 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'br.com.tiagohs.data.auth'
+    flavorDimensions "default"
+
+    apply from: '../../gradleFiles/baseModules.gradle'
+}
+
+dependencies {
+    def dependencies = rootProject.ext.dependencies
+
+    implementation dependencies.coreKtx
+    implementation dependencies.koinAndroid
+
+    //******* Firebase *********//
+
+    implementation platform(dependencies.firebaseBom)
+    implementation dependencies.firebaseAuth
+
+    //************************//
+
+    //******* Coroutines *********//
+
+    implementation dependencies.coroutinesCore
+    implementation dependencies.coroutinesAndroid
+    implementation dependencies.coroutinesPlayServices
+
+    //************************//
+}

@@ -23,6 +23,8 @@ ext {
     okLog_version = '2.3.0'
     koin_version = '3.3.3'
     koin_compse_version = '3.4.2'
+    firebaseBom_version = '31.2.3'
+    coroutinesPlayServices_version = '1.6.4'
 
     junit_version = '4.13.2'
     testJunit4_version = '1.1.5'
@@ -31,7 +33,13 @@ ext {
     dependencies = [
         coreKtx: "androidx.core:core-ktx:$coreKtx_version",
         appcompat: "androidx.appcompat:appcompat:$appcompat_version",
+
         lifecycleRuntimeKtx: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx_version",
+        lifecycleViewmodelKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleRuntimeKtx_version",
+        lifecycleLiveData: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleRuntimeKtx_version",
+        lifecycleViewModelCompose: "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleRuntimeKtx_version",
+        lifecycleRuntimeCompose: "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleRuntimeKtx_version",
+
 
         // Compose
         composeBom: "androidx.compose:compose-bom:$composeBom_version",
@@ -52,6 +60,13 @@ ext {
 
         coroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
         coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
+        coroutinesPlayServices: "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesPlayServices_version",
+
+        // Firebase
+        firebaseBom: "com.google.firebase:firebase-bom:$firebaseBom_version",
+        firebaseCrashlytics: 'com.google.firebase:firebase-crashlytics-ktx',
+        firebaseAnalytics: 'com.google.firebase:firebase-analytics-ktx',
+        firebaseAuth: 'com.google.firebase:firebase-auth-ktx',
 
         // Retrofit
         retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit_version",
@@ -81,9 +96,11 @@ ext {
         'network': ":core:network",
         'data': ":data",
         'dataMovies': ":data:movies",
+        'dataAuth': ":data:auth",
         'features': ":features",
         'signin': ":features:signin",
-        'signup': ":features:signup"
+        'signup': ":features:signup",
+        'home': ":features:home"
     ]
 
     constants = [

@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -8,6 +12,15 @@ android {
 
     namespace 'br.com.tiagohs.popmovies'
     flavorDimensions "default"
+
+    signingConfigs {
+        config {
+            keyAlias 'PopMovies-Key'
+            keyPassword '14789632'
+            storeFile file('../keystore/keystore.jks')
+            storePassword '14789632'
+        }
+    }
 
     compileSdk globalConfiguration["sdkVersion"]
 
@@ -26,11 +39,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+
+            signingConfig signingConfigs.config
+        }
+
         release {
             minifyEnabled true
             shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.config
         }
     }
 
@@ -87,6 +109,7 @@ dependencies {
     implementation project(path: modules.features)
     implementation project(path: modules.signin)
     implementation project(path: modules.signup)
+    implementation project(path: modules.home)
     implementation project(path: modules.core)
     implementation project(path: modules.components)
     implementation project(path: modules.database)
@@ -96,6 +119,7 @@ dependencies {
     implementation project(path: modules.theme)
     implementation project(path: modules.data)
     implementation project(path: modules.dataMovies)
+    implementation project(path: modules.dataAuth)
 
     //************************//
 
@@ -114,10 +138,26 @@ dependencies {
 
     //************************//
 
+    //******* Firebase *********//
+
+//    implementation platform(dependencies.firebaseBom)
+//    implementation dependencies.firebaseCrashlytics
+//    implementation dependencies.firebaseanalytics
+
+    //************************//
+
     //******* Koin *********//
 
     implementation dependencies.koinAndroid
     implementation dependencies.koinCompose
+
+    //************************//
+
+    //******* Firebase *********//
+
+    implementation platform(dependencies.firebaseBom)
+    implementation dependencies.firebaseCrashlytics
+    implementation dependencies.firebaseAnalytics
 
     //************************//
 

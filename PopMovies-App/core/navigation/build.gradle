@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -23,6 +25,7 @@ dependencies {
 
     implementation project(path: modules.signin)
     implementation project(path: modules.signup)
+    implementation project(path: modules.home)
 
     //************************//
 
@@ -35,6 +38,11 @@ dependencies {
     implementation dependencies.composeMaterialDesign
     implementation dependencies.composeUiToolingPreview
     implementation dependencies.composeNavigation
+
+    //******* Koin *********//
+
+    implementation dependencies.koinCompose
+    implementation dependencies.koinAndroid
 
     //************************//
 }

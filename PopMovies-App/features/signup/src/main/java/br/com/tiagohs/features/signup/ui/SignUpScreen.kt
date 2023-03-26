@@ -1,4 +1,4 @@
-package br.com.tiagohs.features.signup
+package br.com.tiagohs.features.signup.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

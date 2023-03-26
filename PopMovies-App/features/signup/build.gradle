@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -27,7 +29,17 @@ dependencies {
 
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
+
+    //******* Livecycle *********//
+
     implementation dependencies.lifecycleRuntimeKtx
+    implementation dependencies.lifecycleViewmodelKtx
+    implementation dependencies.lifecycleLiveData
+
+    //******* Koin *********//
+
+    implementation dependencies.koinCompose
+    implementation dependencies.koinAndroid
 
     //******* Compose *********//
 
@@ -36,6 +48,12 @@ dependencies {
     implementation dependencies.composeUiToolingPreview
     implementation dependencies.composeActivity
     implementation dependencies.composeLifecycleViewModel
+
+    //******* Coroutines *********//
+
+    implementation dependencies.coroutinesCore
+    implementation dependencies.coroutinesAndroid
+    implementation dependencies.coroutinesPlayServices
 
     debugImplementation dependencies.uiTooling
 

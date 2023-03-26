@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "769423231247",
+    "firebase_url": "https://popmovies-141719.firebaseio.com",
+    "project_id": "popmovies-141719",
+    "storage_bucket": "popmovies-141719.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769423231247:android:560f5028418d23f68b567a",
+        "android_client_info": {
+          "package_name": "br.com.tiagohs.popmovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769423231247-a6121uuo5ec6mhptmur2vkrai621mrdb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tiagohs.popmovies",
+            "certificate_hash": "293e9c80ade73a2759bbb50952f19541c00c170f"
+          }
+        },
+        {
+          "client_id": "769423231247-gkit8c76rca5519p6b0v1apcqm0rgcb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2scfocBNbAeHcCv7_ai1gANp-_U_6x3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769423231247-gkit8c76rca5519p6b0v1apcqm0rgcb2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "769423231247-edte802a60le81b7q4m07uutluo4brqu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiagohs.popmovies"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

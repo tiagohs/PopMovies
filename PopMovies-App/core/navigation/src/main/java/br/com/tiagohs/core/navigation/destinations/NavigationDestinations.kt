@@ -28,6 +28,14 @@ object SignUpDestination: Destination {
     override val withToolbar: Boolean = false
 }
 
+object HomeDestination: Destination {
+    override val route: String = "home"
+    override val arguments: List<NamedNavArgument> = emptyList()
+
+    override val screenName: String = "Home"
+    override val withToolbar: Boolean = true
+}
+
 @Composable
 fun currentDestination(naviHostController: NavHostController): Destination {
     val currentBackStack by naviHostController.currentBackStackEntryAsState()

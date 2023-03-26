@@ -1,44 +1,46 @@
 package br.com.tiagohs.data.movies
 
+import br.com.tiagohs.core.network.createBaseNetworkModule
 import br.com.tiagohs.core.network.setup.addTMDBInterceptor
-import br.com.tiagohs.core.network.setup.createClient
-import br.com.tiagohs.core.network.setup.createGson
-import br.com.tiagohs.core.network.setup.createRetrofit
+import br.com.tiagohs.data.movies.api.MovieApi
+import br.com.tiagohs.data.movies.repository.MoviesRepository
+import br.com.tiagohs.data.movies.repository.MoviesRepositoryImpl
+import br.com.tiagohs.data.movies.useCases.GetNowPlayingMoviesUseCase
+import br.com.tiagohs.data.movies.useCases.GetNowPlayingMoviesUseCaseImpl
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import retrofit2.Retrofit
 
 internal const val DATA_MOVIES_CLIENT = "dataMovies_client"
 internal const val DATA_MOVIES_GSON = "dataMovies_gson"
 internal const val DATA_MOVIES_RETROFIT = "dataMovies_retrofit"
 
-val moviesModule = module {
-
-    // Retrofit Setup
-    val interceptors = listOf(
+val moviesNetworkModule = createBaseNetworkModule(
+    clientName = DATA_MOVIES_CLIENT,
+    gsonName = DATA_MOVIES_GSON,
+    retrofitName = DATA_MOVIES_RETROFIT,
+    baseUrl = BuildConfig.TMDB_BASE_URL,
+    interceptors = listOf(
         addTMDBInterceptor()
     )
+)
 
-    factory(named(
-        name = DATA_MOVIES_CLIENT
-    )) {
-        createClient(
-            interceptors = interceptors
-        )
+val moviesModule = module {
+
+    // Movies Repository
+
+    factory<MoviesRepository> {
+        MoviesRepositoryImpl(get())
     }
-    factory(named(
-        name = DATA_MOVIES_GSON
-    )) {
-        createGson()
-    }
-    single(named(
-        name = DATA_MOVIES_RETROFIT
-    )) {
-        createRetrofit(
-            get(named(name = DATA_MOVIES_CLIENT)),
-            get(named(name = DATA_MOVIES_GSON)),
-            BuildConfig.TMDB_BASE_URL
-        )
+    factory<GetNowPlayingMoviesUseCase> {
+        GetNowPlayingMoviesUseCaseImpl(get())
     }
 
-
+    factory<MovieApi> {
+        get<Retrofit>(
+            named(
+                name = DATA_MOVIES_RETROFIT
+            )
+        ).create(MovieApi::class.java)
+    }
 }

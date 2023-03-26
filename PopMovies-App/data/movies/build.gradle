@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -37,11 +39,11 @@ dependencies {
     //******* Modules *********//
 
     implementation project(path: modules.network)
+    implementation project(path: modules.helpers)
 
     //************************//
 
     implementation dependencies.coreKtx
-
     implementation dependencies.koinAndroid
 
     implementation("androidx.annotation:annotation:1.6.0")
