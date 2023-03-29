@@ -125,6 +125,7 @@ dependencies {
     implementation dependencies.coreKtx
     implementation dependencies.appcompat
     implementation dependencies.lifecycleRuntimeKtx
+    implementation dependencies.splashscreen
 
     //******* Compose *********//
 

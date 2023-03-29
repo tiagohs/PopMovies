@@ -1,16 +1,17 @@
 package br.com.tiagohs.core.navigation
 
+import androidx.compose.animation.*
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.tiagohs.core.navigation.destinations.HomeDestination
-import br.com.tiagohs.core.navigation.destinations.SignInDestination
-import br.com.tiagohs.core.navigation.destinations.SignUpDestination
-import br.com.tiagohs.core.navigation.destinations.destinations
+import br.com.tiagohs.core.navigation.destinations.*
 import br.com.tiagohs.core.navigation.models.Destination
+import br.com.tiagohs.features.auth.ui.logIn.LogInScreen
 import br.com.tiagohs.features.home.ui.HomeScreen
 import br.com.tiagohs.features.home.ui.HomeViewModel
 import br.com.tiagohs.features.auth.ui.signIn.SignInScreen
@@ -21,7 +22,8 @@ import org.koin.androidx.compose.koinViewModel
 fun PopMoviesNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startScreen: Destination = destinations.first()
+    startScreen: Destination = destinations.first(),
+    innerPadding: PaddingValues
 ) {
     NavHost(
         navController = navHostController,
@@ -29,18 +31,39 @@ fun PopMoviesNavHost(
         modifier = modifier
     ) {
         composable(
+            route = LogInDestination.route,
+            arguments = LogInDestination.arguments
+        ) {
+            LogInScreen(
+                innerPadding = innerPadding,
+                onClickSignIn = {
+                    navHostController.navigateSingleTopTo(SignInDestination.route)
+                },
+                onClickHelp = {
+
+                },
+                onClickSignUp = {
+                    navHostController.navigateSingleTopTo(SignUpDestination.route)
+                }
+            )
+        }
+        composable(
             route = SignInDestination.route,
             arguments = SignInDestination.arguments
         ) {
-            br.com.tiagohs.features.auth.ui.signIn.SignInScreen(
+            SignInScreen(
+                innerPadding = innerPadding,
                 onClickSignIn = {
-
+                    navHostController.navigateSingleTopTo(SignInDestination.route)
                 },
                 onClickForgotPassword = {
 
                 },
                 onClickSignUp = {
                     navHostController.navigateSingleTopTo(HomeDestination.route)
+                },
+                onClickClose = {
+
                 }
             )
         }
@@ -48,11 +71,15 @@ fun PopMoviesNavHost(
             route = SignUpDestination.route,
             arguments = SignInDestination.arguments
         ) {
-            br.com.tiagohs.features.auth.ui.signUp.SignUpScreen(
+            SignUpScreen(
+                innerPadding = innerPadding,
                 onClickSignUp = {
 
                 },
                 onClickSignIn = {
+
+                },
+                onClickClose = {
 
                 }
             )
@@ -64,6 +91,7 @@ fun PopMoviesNavHost(
             val homeViewModel = koinViewModel<HomeViewModel>()
 
             HomeScreen(
+                innerPadding = innerPadding,
                 homeViewModel = homeViewModel
             )
         }

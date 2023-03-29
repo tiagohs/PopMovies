@@ -25,6 +25,8 @@ ext {
     koin_compse_version = '3.4.2'
     firebaseBom_version = '31.2.3'
     coroutinesPlayServices_version = '1.6.4'
+    systemUiController_version = '0.30.0'
+    splashscreen_version = "1.0.0"
 
     junit_version = '4.13.2'
     testJunit4_version = '1.1.5'
@@ -33,6 +35,7 @@ ext {
     dependencies = [
         coreKtx: "androidx.core:core-ktx:$coreKtx_version",
         appcompat: "androidx.appcompat:appcompat:$appcompat_version",
+        splashscreen: "androidx.core:core-splashscreen:$splashscreen_version",
 
         lifecycleRuntimeKtx: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx_version",
         lifecycleViewmodelKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleRuntimeKtx_version",
@@ -49,6 +52,7 @@ ext {
         composeActivity: "androidx.activity:activity-compose:$composeActivity_version",
         composeLifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel-compose:$composeLifecycleViewModel_version",
         composeNavigation: "androidx.navigation:navigation-compose:$composeNavigation_version",
+        systemUiController: "com.google.accompanist:accompanist-systemuicontroller:$systemUiController_version",
 
         // Koin
         koinAndroid: "io.insert-koin:koin-android:$koin_version",

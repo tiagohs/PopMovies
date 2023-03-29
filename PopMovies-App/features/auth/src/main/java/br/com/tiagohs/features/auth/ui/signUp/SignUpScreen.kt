@@ -1,217 +1,149 @@
 package br.com.tiagohs.features.auth.ui.signUp
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.tiagohs.core.components.ui.preview.AnyDevicePreview
+import br.com.tiagohs.core.theme.AppContent
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
+import br.com.tiagohs.core.theme.ui.Screen
+import br.com.tiagohs.features.auth.R
+import br.com.tiagohs.features.auth.ui.components.AuthBackground
+import br.com.tiagohs.features.auth.ui.components.AuthInput
+import br.com.tiagohs.features.auth.ui.components.SignInUpHeader
+import br.com.tiagohs.features.auth.ui.components.accentStyle
 
-@OptIn(ExperimentalMaterial3Api::class)
+private const val TERMS_LINK_ID = "terms"
+private const val POLICY_LINK_ID = "policy"
+
 @Composable
 fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    onClickSignUp: () -> Unit,
+    onClickSignIn: () -> Unit,
+    onClickClose: () -> Unit
+) {
+    Screen(
+        statusBarTransparent = true,
+        innerPadding = innerPadding
+    ) {
+        Box(
+            modifier = modifier
+        ) {
+            AuthBackground(
+                imageResource = R.drawable.img_sign_inup_background
+            )
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+            ) {
+                SignInUpHeader(
+                    titleResource = R.string.sign_up_title,
+                    onClickClose = onClickClose
+                )
+
+                SignUpBody(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = 32.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        ),
+                    onClickSignIn = onClickSignIn,
+                    onClickSignUp = onClickSignUp
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SignUpBody(
     modifier: Modifier = Modifier,
     onClickSignUp: () -> Unit,
     onClickSignIn: () -> Unit
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                MaterialTheme.colorScheme.primary.copy(
-                    alpha = 0.1f
-                )
-            )
-            .padding(top = 32.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Cadastrar",
-            style = MaterialTheme.typography.headlineLarge
-        )
-        val appTitleStyle = MaterialTheme.typography.bodyMedium.toSpanStyle().copy(
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold
-        )
-        val textRegister = buildAnnotatedString {
-            append("Cadastre-se e organize os seus ")
-            withStyle(appTitleStyle) {
-                append("filmes")
-            }
-            append(" favoritos!")
-        }
-        Text(
-            text = textRegister,
-            style = MaterialTheme.typography.bodyMedium.copy(
-            textAlign = TextAlign.Center
-            ),
-            modifier = Modifier
-                .padding(
-                    top = 12.dp,
-                    end = 32.dp,
-                    start = 32.dp
-                )
-        )
+        var name by rememberSaveable { mutableStateOf("") }
+        var email by rememberSaveable { mutableStateOf("") }
+        var password by rememberSaveable { mutableStateOf("") }
+        var confirmPassword by rememberSaveable { mutableStateOf("") }
 
-        var name by rememberSaveable {
-            mutableStateOf("")
-        }
-        var email by rememberSaveable {
-            mutableStateOf("")
-        }
-        var password by rememberSaveable {
-            mutableStateOf("")
-        }
-        var confirmPassword by rememberSaveable {
-            mutableStateOf("")
-        }
-
-        TextField(
+        AuthInput(
             value = name,
-            label = { Text("Digite o seu nome") },
+            labelResource = R.string.sign_in_input_name_label,
             onValueChange = { name = it },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent
-            ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text
             ),
-            maxLines = 1,
-            singleLine = true,
             modifier = Modifier
                 .padding(
                     top = 42.dp,
-                    end = 32.dp,
-                    start = 32.dp
                 )
                 .fillMaxWidth()
         )
 
-        TextField(
+        AuthInput(
             value = email,
-            label = { Text("Digite o seu email") },
+            labelResource = R.string.sign_in_input_email_label,
             onValueChange = { email = it },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent
-            ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
             ),
-            maxLines = 1,
-            singleLine = true,
             modifier = Modifier
                 .padding(
                     top = 16.dp,
-                    end = 32.dp,
-                    start = 32.dp
                 )
                 .fillMaxWidth()
         )
 
-        TextField(
+        AuthInput(
             value = password,
-            label = { Text("Digite a sua senha") },
+            labelResource = R.string.sign_in_input_password_label,
             onValueChange = { password = it },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent
-            ),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
-            ),
-            maxLines = 1,
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 32.dp,
-                    end = 32.dp,
-                    top = 16.dp
-                )
-        )
-
-        TextField(
-            value = confirmPassword,
-            label = { Text("Confirme a sua senha") },
-            onValueChange = { confirmPassword = it },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent
-            ),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            ),
-            maxLines = 1,
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 32.dp,
-                    end = 32.dp,
-                    top = 16.dp
-                )
-        )
-
-        val uriHandler = LocalUriHandler.current
-        val termsText = buildAnnotatedString {
-            append("Ao se cadastrar, você está concordando com a nossa ")
-
-            pushStringAnnotation(
-                tag = "policy",
-                annotation = "https://google.com/policy"
-            )
-            withStyle(appTitleStyle) {
-                append("política de privacidade")
-            }
-            pop()
-
-            append(" e com nossos ")
-
-            pushStringAnnotation(
-                tag = "terms",
-                annotation = "https://google.com/terms"
-            )
-            withStyle(appTitleStyle) {
-                append("termos de uso")
-            }
-            pop()
-        }
-        ClickableText(
-            text = termsText,
-            onClick = {offset ->
-                termsText.getStringAnnotations(tag = "policy", start = offset, end = offset).firstOrNull()?.let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
-                }
-                termsText.getStringAnnotations(tag = "terms", start = offset, end = offset).firstOrNull()?.let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
-                }
-            },
-            style = MaterialTheme.typography.bodyMedium.copy(
-                textAlign = TextAlign.Center
             ),
             modifier = Modifier
                 .padding(
                     top = 16.dp,
-                    end = 32.dp,
-                    start = 32.dp
                 )
+                .fillMaxWidth()
+        )
+
+        AuthInput(
+            value = confirmPassword,
+            labelResource = R.string.sign_in_input_confirm_password_label,
+            onValueChange = { confirmPassword = it },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password
+            ),
+            modifier = Modifier
+                .padding(
+                    top = 16.dp,
+                )
+                .fillMaxWidth()
         )
 
         Button(
@@ -225,46 +157,110 @@ fun SignUpScreen(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Cadastrar",
+                text = stringResource(id = R.string.btn_sign_up),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
 
-        val textSignUpStyle = MaterialTheme.typography.bodySmall.toSpanStyle().copy(
-            fontWeight = FontWeight.Bold
+        AlreadyHasAccount(
+            onClickSignIn = onClickSignIn,
+            modifier = Modifier
+                .padding(
+                    top = 5.dp,
+                    bottom = 12.dp
+                )
         )
-        val signUpText = buildAnnotatedString {
-            append("Ja possui um cadastro? ")
 
-            withStyle(textSignUpStyle) {
-                append("entre aqui!")
-            }
-        }
-        TextButton(
-            onClick = onClickSignIn,
+        Terms(
             modifier = Modifier
                 .padding(
                     top = 16.dp,
-                    bottom = 12.dp
+                    end = 32.dp,
+                    start = 32.dp
                 )
-        ) {
-            Text(
-                text = signUpText,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
+        )
     }
 }
 
-@Preview(
-    showBackground = true
-)
+@Composable
+fun AlreadyHasAccount(
+    modifier: Modifier = Modifier,
+    onClickSignIn: () -> Unit
+) {
+    val signUpText = buildAnnotatedString {
+        append(stringResource(R.string.already_has_account_1))
+
+        withStyle(accentStyle) {
+            append(stringResource(R.string.already_has_account_2))
+        }
+    }
+    TextButton(
+        onClick = onClickSignIn,
+        modifier = modifier
+    ) {
+        Text(
+            text = signUpText,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+fun Terms(
+    modifier: Modifier = Modifier,
+) {
+    val uriHandler = LocalUriHandler.current
+    val termsText = buildAnnotatedString {
+        append(stringResource(R.string.terms_1))
+
+        pushStringAnnotation(
+            tag = POLICY_LINK_ID,
+            annotation = stringResource(R.string.policy_link)
+        )
+        withStyle(accentStyle) {
+            append(stringResource(R.string.terms_2))
+        }
+        pop()
+
+        append(stringResource(R.string.terms_3))
+
+        pushStringAnnotation(
+            tag = TERMS_LINK_ID,
+            annotation = stringResource(R.string.terms_link)
+        )
+        withStyle(accentStyle) {
+            append(stringResource(R.string.terms_4))
+        }
+        pop()
+    }
+    ClickableText(
+        text = termsText,
+        onClick = {offset ->
+            termsText.getStringAnnotations(tag = POLICY_LINK_ID, start = offset, end = offset).firstOrNull()?.let { stringAnnotation ->
+                uriHandler.openUri(stringAnnotation.item)
+            }
+            termsText.getStringAnnotations(tag = TERMS_LINK_ID, start = offset, end = offset).firstOrNull()?.let { stringAnnotation ->
+                uriHandler.openUri(stringAnnotation.item)
+            }
+        },
+        style = MaterialTheme.typography.bodyMedium.copy(
+            textAlign = TextAlign.Center,
+            color = Color.White
+        ),
+        modifier = modifier
+    )
+}
+
+@AnyDevicePreview
 @Composable
 fun SignUpScreenPreview() {
-    PopMoviesTheme {
+    AppContent(onBackPressed = {}) {
         SignUpScreen(
+            innerPadding = it,
             onClickSignUp = {},
-            onClickSignIn = {}
+            onClickSignIn = {},
+            onClickClose = {}
         )
     }
 }

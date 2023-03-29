@@ -1,6 +1,5 @@
 package br.com.tiagohs.features.auth.ui.signIn
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -12,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -19,149 +19,164 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.tiagohs.core.theme.AppContent
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
+import br.com.tiagohs.core.theme.ui.Screen
+import br.com.tiagohs.features.auth.R
+import br.com.tiagohs.features.auth.ui.components.AuthBackground
+import br.com.tiagohs.features.auth.ui.components.AuthInput
+import br.com.tiagohs.features.auth.ui.components.SignInUpHeader
+import br.com.tiagohs.features.auth.ui.components.accentStyle
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    onClickSignIn: () -> Unit = {},
+    onClickForgotPassword: () -> Unit = {},
+    onClickSignUp: () -> Unit = {},
+    onClickClose: () -> Unit
+) {
+    Screen(
+        statusBarTransparent = true,
+        innerPadding = innerPadding
+    ) {
+        Box(
+            modifier = modifier
+        ) {
+            AuthBackground(
+                imageResource = R.drawable.img_sign_inup_background
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+            ) {
+                SignInUpHeader(
+                    titleResource = R.string.sign_in_title,
+                    onClickClose = onClickClose
+                )
+
+                SignInBody(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = 32.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        ),
+                    onClickSignIn = onClickSignIn,
+                    onClickSignUp = onClickSignUp,
+                    onClickForgotPassword = onClickForgotPassword
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SignInBody(
     modifier: Modifier = Modifier,
     onClickSignIn: () -> Unit = {},
     onClickForgotPassword: () -> Unit = {},
     onClickSignUp: () -> Unit = {}
 ) {
-    Box(
+    Column(
         modifier = modifier
-            .fillMaxSize()
-            .background(
-                MaterialTheme.colorScheme.primary.copy(
-                    alpha = 0.1f
-                )
-            )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter)
-                .padding(top = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                "Bem-vindo",
-                style = MaterialTheme.typography.headlineLarge
-            )
-
-            val appTitleStyle = MaterialTheme.typography.headlineLarge.toSpanStyle().copy(
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
-            val text = buildAnnotatedString {
-                append("ao ")
-
-                withStyle(appTitleStyle) {
-                    append("PopMovies")
-                }
-            }
-            Text(
-                text = text,
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier
-            )
+        var email by rememberSaveable {
+            mutableStateOf("")
+        }
+        var password by rememberSaveable {
+            mutableStateOf("")
         }
 
-        Column(
+        AuthInput(
+            value = email,
+            labelResource = R.string.sign_in_input_email_label,
+            onValueChange = { email = it },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email
+            ),
             modifier = Modifier
+                .padding(
+                    top = 42.dp,
+                )
                 .fillMaxWidth()
-                .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            var email by rememberSaveable {
-                mutableStateOf("")
-            }
-            var password by rememberSaveable {
-                mutableStateOf("")
-            }
-            TextField(
-                value = email,
-                label = { Text("Digite o seu email") },
-                onValueChange = { email = it },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                ),
-                maxLines = 1,
-                singleLine = true,
-                modifier = Modifier
-                    .padding(horizontal = 32.dp)
-                    .fillMaxWidth()
-            )
-
-            TextField(
-                value = password,
-                label = { Text("Digite a sua senha") },
-                onValueChange = { password = it },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent
-                ),
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
-                ),
-                maxLines = 1,
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 32.dp,
-                        end = 32.dp,
-                        top = 16.dp
-                    )
-            )
-
-            TextButton(
-                onClick = onClickForgotPassword,
-            ) {
-                Text(
-                    text = "Esqueceu a senha?",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
-            Button(
-                onClick = onClickSignIn,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Entrar",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-
-        val textSignUpStyle = MaterialTheme.typography.bodySmall.toSpanStyle().copy(
-            fontWeight = FontWeight.Bold
         )
-        val signUpText = buildAnnotatedString {
-            append("Novo por aqui? ")
 
-            withStyle(textSignUpStyle) {
-                append("Cadastre-se!")
-            }
-        }
-        TextButton(
-            onClick = onClickSignUp,
+        AuthInput(
+            value = password,
+            labelResource = R.string.sign_in_input_password_label,
+            onValueChange = { password = it },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password
+            ),
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp)
+                .padding(
+                    top = 16.dp,
+                )
+                .fillMaxWidth()
+        )
+
+        TextButton(
+            onClick = onClickForgotPassword,
         ) {
             Text(
-                text = signUpText,
-                style = MaterialTheme.typography.bodySmall
+                text = stringResource(R.string.forgot_password),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondaryContainer
             )
         }
+
+        Button(
+            onClick = onClickSignIn,
+            modifier = Modifier
+                .padding(
+                    top = 32.dp,
+                    end = 16.dp,
+                    start = 16.dp
+                )
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.btn_sign_in),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        DoesntHasAccount(
+            onClickSignUp = onClickSignUp,
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+    }
+}
+
+@Composable
+fun DoesntHasAccount(
+    modifier: Modifier = Modifier,
+    onClickSignUp: () -> Unit = {}
+) {
+    val signUpText = buildAnnotatedString {
+        append(stringResource(R.string.doesnt_has_account_1))
+
+        withStyle(accentStyle) {
+            append(stringResource(R.string.doesnt_has_account_2))
+        }
+    }
+    TextButton(
+        onClick = onClickSignUp,
+        modifier = modifier
+    ) {
+        Text(
+            text = signUpText,
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = Color.White
+            )
+        )
     }
 }
 
@@ -170,7 +185,13 @@ fun SignInScreen(
 )
 @Composable
 fun SignInScreenPreview() {
-    PopMoviesTheme {
-        SignInScreen()
+    AppContent(onBackPressed = {}) {
+        SignInScreen(
+            innerPadding = it,
+            onClickClose = {},
+            onClickForgotPassword = {},
+            onClickSignUp = {},
+            onClickSignIn = {}
+        )
     }
 }

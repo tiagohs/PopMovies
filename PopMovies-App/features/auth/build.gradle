@@ -24,6 +24,7 @@ dependencies {
     //******* Modules *********//
 
     implementation project(path: modules.theme)
+    implementation project(path: modules.components)
 
     //************************//
 
@@ -48,6 +49,7 @@ dependencies {
     implementation dependencies.composeUiToolingPreview
     implementation dependencies.composeActivity
     implementation dependencies.composeLifecycleViewModel
+    implementation dependencies.systemUiController
 
     //******* Coroutines *********//
 

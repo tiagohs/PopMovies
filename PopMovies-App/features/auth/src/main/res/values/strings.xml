@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in_title">Entrar</string>
+    <string name="sign_in_input_name_label">Digite o seu nome</string>
+    <string name="sign_in_input_email_label">Digite o seu email</string>
+    <string name="sign_in_input_password_label">Digite a sua senha</string>
+    <string name="sign_in_input_confirm_password_label">Confirme a sua senha</string>
+    <string name="already_has_account_1">Ja possui um cadastro? &#160;</string>
+    <string name="already_has_account_2">entre aqui!</string>
+    <string name="doesnt_has_account_1">Novo por aqui? &#160;</string>
+    <string name="doesnt_has_account_2">Cadastre-se!</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="terms_1">Ao se cadastrar, você está concordando com a nossa &#160;</string>
+    <string name="terms_2">política de privacidade</string>
+    <string name="terms_3">&#160; e com nossos &#160;</string>
+    <string name="terms_4">termos de uso.</string>
+    <string name="terms_link">https://google.com/terms</string>
+    <string name="policy_link">https://google.com/policy</string>
+
+
+    <string name="sign_up_title">Cadastrar</string>
+
+    <string name="btn_help">Ajuda</string>
+    <string name="btn_sign_in">Entrar</string>
+    <string name="btn_sign_up">Cadastrar</string>
+</resources>

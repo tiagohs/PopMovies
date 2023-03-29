@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.tiagohs.core.navigation.PopMoviesNavHost
+import br.com.tiagohs.core.navigation.destinations.LogInDestination
 import br.com.tiagohs.core.navigation.destinations.SignInDestination
 import br.com.tiagohs.core.navigation.destinations.destinations
 import br.com.tiagohs.core.theme.AppContent
@@ -32,7 +33,7 @@ fun PopMoviesApp() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentNavDestination = currentBackStack?.destination
-        val currentDestination = destinations.find { it.route == currentNavDestination?.route } ?: SignInDestination
+        val currentDestination = destinations.find { it.route == currentNavDestination?.route } ?: LogInDestination
 
         AppContent(
             withTopBar = currentDestination.withToolbar,
@@ -44,8 +45,8 @@ fun PopMoviesApp() {
 
             PopMoviesNavHost(
                 navHostController = navController,
-                modifier = Modifier.padding(innerPadding),
-                startScreen = currentDestination
+                startScreen = currentDestination,
+                innerPadding = innerPadding
             )
         }
     }

@@ -13,7 +13,7 @@ import androidx.core.view.WindowCompat
 import br.com.tiagohs.core.theme.colors.*
 import br.com.tiagohs.core.theme.typography.Typography
 
-private val LightColors = lightColorScheme(
+internal val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
@@ -44,7 +44,7 @@ private val LightColors = lightColorScheme(
 )
 
 
-private val DarkColors = darkColorScheme(
+internal val DarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
     primaryContainer = md_theme_dark_primaryContainer,
@@ -79,23 +79,13 @@ fun PopMoviesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (!darkTheme) {
-        LightColors
-    } else {
-        DarkColors
-    }
-    val view = LocalView.current
-    (view.context as? Activity)?.window?.let { window ->
-        if (!view.isInEditMode) {
-            SideEffect {
-                window.statusBarColor = colors.primary.toArgb()
-                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-            }
-        }
-    }
-
+//    val colors = if (!darkTheme) {
+//        LightColors
+//    } else {
+//        DarkColors
+//    }
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = LightColors,
         typography = Typography,
         content = content
     )

@@ -1,6 +1,7 @@
 package br.com.tiagohs.features.home.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,21 +10,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.tiagohs.core.theme.AppContent
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
+import br.com.tiagohs.core.theme.ui.Screen
 import br.com.tiagohs.data.movies.models.movie.Movie
 import br.com.tiagohs.features.home.models.HomeUIState
 
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    Screen(innerPadding = innerPadding) {
+        val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
-    HomeScreen(
-        homeUiState = homeUiState,
-        modifier = modifier
-    )
+        HomeScreen(
+            homeUiState = homeUiState,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
@@ -31,7 +37,7 @@ fun HomeScreen(
     homeUiState: HomeUIState,
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier = modifier) {
         when (homeUiState) {
             is HomeUIState.Success -> {
                 NowPlayingMoviesList(
@@ -101,8 +107,9 @@ fun PopularMoviesList(
 )
 @Composable
 fun SignInScreenPreview() {
-    PopMoviesTheme {
+    AppContent(onBackPressed = {}) {
         HomeScreen(
+            innerPadding = it,
             homeViewModel = viewModel()
         )
     }
