@@ -98,8 +98,7 @@ ext {
         'dataMovies': ":data:movies",
         'dataAuth': ":data:auth",
         'features': ":features",
-        'signin': ":features:signin",
-        'signup': ":features:signup",
+        'auth': ":features:auth",
         'home': ":features:home"
     ]
 

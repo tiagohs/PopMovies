@@ -23,8 +23,7 @@ dependencies {
 
     //******* Modules *********//
 
-    implementation project(path: modules.signin)
-    implementation project(path: modules.signup)
+    implementation project(path: modules.auth)
     implementation project(path: modules.home)
 
     //************************//

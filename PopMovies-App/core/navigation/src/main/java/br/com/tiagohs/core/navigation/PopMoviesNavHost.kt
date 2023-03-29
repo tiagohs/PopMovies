@@ -2,7 +2,6 @@ package br.com.tiagohs.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,8 +13,8 @@ import br.com.tiagohs.core.navigation.destinations.destinations
 import br.com.tiagohs.core.navigation.models.Destination
 import br.com.tiagohs.features.home.ui.HomeScreen
 import br.com.tiagohs.features.home.ui.HomeViewModel
-import br.com.tiagohs.features.signin.ui.SignInScreen
-import br.com.tiagohs.features.signup.ui.SignUpScreen
+import br.com.tiagohs.features.auth.ui.signIn.SignInScreen
+import br.com.tiagohs.features.auth.ui.signUp.SignUpScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -33,7 +32,7 @@ fun PopMoviesNavHost(
             route = SignInDestination.route,
             arguments = SignInDestination.arguments
         ) {
-            SignInScreen(
+            br.com.tiagohs.features.auth.ui.signIn.SignInScreen(
                 onClickSignIn = {
 
                 },
@@ -49,7 +48,7 @@ fun PopMoviesNavHost(
             route = SignUpDestination.route,
             arguments = SignInDestination.arguments
         ) {
-            SignUpScreen(
+            br.com.tiagohs.features.auth.ui.signUp.SignUpScreen(
                 onClickSignUp = {
 
                 },

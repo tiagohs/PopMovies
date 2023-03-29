@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.tiagohs.core.helpers.state.UIState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.data.movies.models.movie.Movie
+import br.com.tiagohs.features.home.models.HomeUIState
 
 @Composable
 fun HomeScreen(
@@ -28,23 +28,71 @@ fun HomeScreen(
 
 @Composable
 fun HomeScreen(
-    homeUiState: UIState<List<Movie>>,
+    homeUiState: HomeUIState,
     modifier: Modifier = Modifier
 ) {
     Column {
         when (homeUiState) {
-            is UIState.Success -> {
-                homeUiState.data?.forEach {
-                    Text(it.title ?: "")
-                }
+            is HomeUIState.Success -> {
+                NowPlayingMoviesList(
+                    movies = homeUiState.nowPlayingMovies
+                )
+                PopularMoviesList(
+                    movies = homeUiState.popularMovies
+                )
+                UpcomingMoviesList(
+                    movies = homeUiState.upcomingMovies
+                )
+                TopRatedMoviesList(
+                    movies = homeUiState.topRatedMovies
+                )
             }
-            is UIState.Loading -> {
+            is HomeUIState.Loading -> {
                 CircularProgressIndicator()
             }
             else -> { Text("") }
         }
     }
+}
 
+@Composable
+fun NowPlayingMoviesList(
+    movies: List<Movie>? = null,
+    modifier: Modifier = Modifier
+) {
+    if (movies != null) {
+        Text("Pegou nowPlayingMovies")
+    }
+}
+
+@Composable
+fun UpcomingMoviesList(
+    movies: List<Movie>? = null,
+    modifier: Modifier = Modifier
+) {
+    if (movies != null) {
+        Text("Pegou upcoming")
+    }
+}
+
+@Composable
+fun TopRatedMoviesList(
+    movies: List<Movie>? = null,
+    modifier: Modifier = Modifier
+) {
+    if (movies != null) {
+        Text("Pegou topRated")
+    }
+}
+
+@Composable
+fun PopularMoviesList(
+    movies: List<Movie>? = null,
+    modifier: Modifier = Modifier
+) {
+    if (movies != null) {
+        Text("Pegou popular")
+    }
 }
 
 

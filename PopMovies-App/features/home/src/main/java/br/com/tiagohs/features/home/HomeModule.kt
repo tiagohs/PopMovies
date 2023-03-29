@@ -8,6 +8,6 @@ val homeModule = module {
 
     // Home
     viewModel {
-        HomeViewModel(get())
+        HomeViewModel(get(), get(), get(), get())
     }
 }
