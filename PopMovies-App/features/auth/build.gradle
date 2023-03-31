@@ -25,6 +25,7 @@ dependencies {
 
     implementation project(path: modules.theme)
     implementation project(path: modules.components)
+    implementation project(path: modules.dataAuth)
 
     //************************//
 
@@ -36,6 +37,8 @@ dependencies {
     implementation dependencies.lifecycleRuntimeKtx
     implementation dependencies.lifecycleViewmodelKtx
     implementation dependencies.lifecycleLiveData
+    implementation dependencies.lifecycleViewModelCompose
+    implementation dependencies.lifecycleRuntimeCompose
 
     //******* Koin *********//
 

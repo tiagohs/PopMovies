@@ -3,6 +3,7 @@ package br.com.tiagohs.features.auth.ui.logIn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,26 +13,46 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.tiagohs.core.components.ui.logo.AppLogo
 import br.com.tiagohs.core.components.ui.preview.Pixel4Preview
-import br.com.tiagohs.core.theme.AppContent
+import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.core.theme.ui.Screen
 import br.com.tiagohs.features.auth.R
 import br.com.tiagohs.features.auth.ui.components.AuthBackground
 
 @Composable
-fun LogInScreen(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
+fun LogInRoute(
+    onBackPressed: () -> Unit,
+    screenName: String,
     onClickHelp: () -> Unit = {},
     onClickSignIn: () -> Unit = {},
-    onClickSignUp: () -> Unit = {}
+    onClickSignUp: () -> Unit = {},
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
+) {
+    LogInScreen(
+        onBackPressed = onBackPressed,
+        screenName = screenName,
+        onClickHelp = onClickHelp,
+        onClickSignIn = onClickSignIn,
+        onClickSignUp = onClickSignUp,
+        snackBarHostState = snackBarHostState
+    )
+}
+
+@Composable
+fun LogInScreen(
+    onBackPressed: () -> Unit,
+    screenName: String,
+    onClickHelp: () -> Unit,
+    onClickSignIn: () -> Unit,
+    onClickSignUp: () -> Unit,
+    snackBarHostState: SnackbarHostState
 ) {
     Screen(
         statusBarTransparent = true,
-        innerPadding = innerPadding
-    ) {
-        Box(
-            modifier = modifier
-        ) {
+        screenName = screenName,
+        onBackPressed = onBackPressed,
+        snackBarHostState = snackBarHostState
+    ) { innerPadding ->
+        Box {
             AuthBackground(
                 imageResource = R.drawable.img_log_in_background
             )
@@ -158,11 +179,10 @@ fun LogInFooter(
 @Pixel4Preview
 @Composable
 fun PreviewLogInScreen() {
-    AppContent(
-        withTopBar = false,
-        onBackPressed = {}
-    ) {
-        LogInScreen(
-            innerPadding = it)
+    PopMoviesTheme {
+        LogInRoute(
+            screenName = "Login",
+            onBackPressed = {}
+        )
     }
 }

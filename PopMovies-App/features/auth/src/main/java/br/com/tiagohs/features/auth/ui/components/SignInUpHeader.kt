@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.tiagohs.core.components.ui.logo.AppLogo
 import br.com.tiagohs.core.components.ui.preview.Pixel4Preview
-import br.com.tiagohs.core.theme.AppContent
+import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.features.auth.R
 
 @Composable
@@ -63,7 +63,7 @@ fun SignInUpHeader(
 @Pixel4Preview
 @Composable
 fun SignInHeaderPreview() {
-    AppContent(onBackPressed = {}) {
+    PopMoviesTheme {
         Box {
             AuthBackground(imageResource = R.drawable.img_sign_inup_background)
             SignInUpHeader(titleResource = R.string.sign_in_title)
@@ -75,7 +75,7 @@ fun SignInHeaderPreview() {
 @Pixel4Preview
 @Composable
 fun SignUnHeaderPreview() {
-    AppContent(onBackPressed = {}) {
+    PopMoviesTheme {
         Box {
             AuthBackground(imageResource = R.drawable.img_sign_inup_background)
             SignInUpHeader(titleResource = R.string.sign_up_title)

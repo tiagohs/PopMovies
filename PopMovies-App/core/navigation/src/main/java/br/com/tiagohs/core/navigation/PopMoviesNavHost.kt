@@ -1,9 +1,6 @@
 package br.com.tiagohs.core.navigation
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -11,11 +8,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.tiagohs.core.navigation.destinations.*
 import br.com.tiagohs.core.navigation.models.Destination
+import br.com.tiagohs.features.auth.ui.logIn.LogInRoute
 import br.com.tiagohs.features.auth.ui.logIn.LogInScreen
+import br.com.tiagohs.features.auth.ui.signIn.SignInRoute
 import br.com.tiagohs.features.home.ui.HomeScreen
 import br.com.tiagohs.features.home.ui.HomeViewModel
 import br.com.tiagohs.features.auth.ui.signIn.SignInScreen
+import br.com.tiagohs.features.auth.ui.signUp.SignUpRoute
 import br.com.tiagohs.features.auth.ui.signUp.SignUpScreen
+import br.com.tiagohs.features.home.ui.HomeRoute
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -23,7 +24,7 @@ fun PopMoviesNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
     startScreen: Destination = destinations.first(),
-    innerPadding: PaddingValues
+    onBackPressed: () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -34,16 +35,17 @@ fun PopMoviesNavHost(
             route = LogInDestination.route,
             arguments = LogInDestination.arguments
         ) {
-            LogInScreen(
-                innerPadding = innerPadding,
+            LogInRoute(
+                screenName = LogInDestination.screenName,
+                onBackPressed = onBackPressed,
                 onClickSignIn = {
-                    navHostController.navigateSingleTopTo(SignInDestination.route)
+                    navHostController.navigateSingleTop(SignInDestination.route)
                 },
                 onClickHelp = {
 
                 },
                 onClickSignUp = {
-                    navHostController.navigateSingleTopTo(SignUpDestination.route)
+                    navHostController.navigateSingleTop(SignUpDestination.route)
                 }
             )
         }
@@ -51,16 +53,17 @@ fun PopMoviesNavHost(
             route = SignInDestination.route,
             arguments = SignInDestination.arguments
         ) {
-            SignInScreen(
-                innerPadding = innerPadding,
+            SignInRoute(
+                screenName = SignInDestination.screenName,
+                onBackPressed = onBackPressed,
                 onClickSignIn = {
-                    navHostController.navigateSingleTopTo(SignInDestination.route)
+                    navHostController.navigateSingleTop(SignInDestination.route)
                 },
                 onClickForgotPassword = {
 
                 },
                 onClickSignUp = {
-                    navHostController.navigateSingleTopTo(HomeDestination.route)
+                    navHostController.clearAndNavigate(HomeDestination.route)
                 },
                 onClickClose = {
 
@@ -69,15 +72,16 @@ fun PopMoviesNavHost(
         }
         composable(
             route = SignUpDestination.route,
-            arguments = SignInDestination.arguments
+            arguments = SignUpDestination.arguments
         ) {
-            SignUpScreen(
-                innerPadding = innerPadding,
+            SignUpRoute(
+                screenName = SignUpDestination.screenName,
+                onBackPressed = onBackPressed,
                 onClickSignUp = {
-
+                    navHostController.navigateSingleTop(SignUpDestination.route)
                 },
                 onClickSignIn = {
-
+                    navHostController.navigateSingleTop(SignInDestination.route)
                 },
                 onClickClose = {
 
@@ -88,15 +92,36 @@ fun PopMoviesNavHost(
             route = HomeDestination.route,
             arguments = HomeDestination.arguments
         ) {
-            val homeViewModel = koinViewModel<HomeViewModel>()
-
-            HomeScreen(
-                innerPadding = innerPadding,
-                homeViewModel = homeViewModel
+            HomeRoute(
+                screenName = HomeDestination.screenName,
+                onBackPressed = onBackPressed
             )
         }
     }
 }
+
+fun NavHostController.popUp() {
+    this.popBackStack()
+}
+
+fun NavHostController.navigateSingleTop(route: String) {
+    this.navigate(route) { launchSingleTop = true }
+}
+
+fun NavHostController.navigateAndPopUp(route: String, popUp: String) {
+    this.navigate(route) {
+        launchSingleTop = true
+        popUpTo(popUp) { inclusive = true }
+    }
+}
+
+fun NavHostController.clearAndNavigate(route: String) {
+    this.navigate(route) {
+        launchSingleTop = true
+        popUpTo(0) { inclusive = true }
+    }
+}
+
 
 fun NavHostController.navigateSingleTopTo(route: String) =
     this.navigate(route) {

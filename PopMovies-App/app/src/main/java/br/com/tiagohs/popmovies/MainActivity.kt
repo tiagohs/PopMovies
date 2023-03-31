@@ -3,17 +3,11 @@ package br.com.tiagohs.popmovies
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.tiagohs.core.navigation.PopMoviesNavHost
 import br.com.tiagohs.core.navigation.destinations.LogInDestination
-import br.com.tiagohs.core.navigation.destinations.SignInDestination
-import br.com.tiagohs.core.navigation.destinations.destinations
-import br.com.tiagohs.core.theme.AppContent
+import br.com.tiagohs.core.navigation.popUp
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,23 +25,13 @@ class MainActivity : ComponentActivity() {
 fun PopMoviesApp() {
     PopMoviesTheme {
         val navController = rememberNavController()
-        val currentBackStack by navController.currentBackStackEntryAsState()
-        val currentNavDestination = currentBackStack?.destination
-        val currentDestination = destinations.find { it.route == currentNavDestination?.route } ?: LogInDestination
 
-        AppContent(
-            withTopBar = currentDestination.withToolbar,
-            screenName = currentDestination.screenName,
+        PopMoviesNavHost(
+            navHostController = navController,
+            startScreen = LogInDestination,
             onBackPressed = {
-                navController.popBackStack()
+                navController.popUp()
             }
-        ) { innerPadding ->
-
-            PopMoviesNavHost(
-                navHostController = navController,
-                startScreen = currentDestination,
-                innerPadding = innerPadding
-            )
-        }
+        )
     }
 }

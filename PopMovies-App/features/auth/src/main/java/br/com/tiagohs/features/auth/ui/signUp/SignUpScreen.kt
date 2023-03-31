@@ -17,8 +17,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.tiagohs.core.components.ui.preview.AnyDevicePreview
-import br.com.tiagohs.core.theme.AppContent
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.core.theme.ui.Screen
 import br.com.tiagohs.features.auth.R
@@ -26,25 +27,51 @@ import br.com.tiagohs.features.auth.ui.components.AuthBackground
 import br.com.tiagohs.features.auth.ui.components.AuthInput
 import br.com.tiagohs.features.auth.ui.components.SignInUpHeader
 import br.com.tiagohs.features.auth.ui.components.accentStyle
+import org.koin.androidx.compose.koinViewModel
 
 private const val TERMS_LINK_ID = "terms"
 private const val POLICY_LINK_ID = "policy"
 
 @Composable
+fun SignUpRoute(
+    onBackPressed: () -> Unit,
+    screenName: String,
+    onClickSignUp: () -> Unit,
+    onClickSignIn: () -> Unit,
+    onClickClose: () -> Unit,
+    signUpViewModel: SignUpViewModel = koinViewModel(),
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
+) {
+    val uiState by signUpViewModel.uiState.collectAsStateWithLifecycle()
+
+    SignUpScreen(
+        uiState = uiState,
+        snackBarHostState = snackBarHostState,
+        onBackPressed = onBackPressed,
+        screenName = screenName,
+        onClickSignUp = onClickSignUp,
+        onClickSignIn = onClickSignIn,
+        onClickClose = onClickClose,
+    )
+}
+
+@Composable
 fun SignUpScreen(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
+    uiState: SignUpUIState,
+    snackBarHostState: SnackbarHostState,
+    onBackPressed: () -> Unit,
+    screenName: String,
     onClickSignUp: () -> Unit,
     onClickSignIn: () -> Unit,
     onClickClose: () -> Unit
 ) {
     Screen(
-        statusBarTransparent = true,
-        innerPadding = innerPadding
-    ) {
-        Box(
-            modifier = modifier
-        ) {
+        screenName = screenName,
+        onBackPressed = onBackPressed,
+        errorMessage = uiState.errorMessage,
+        snackBarHostState = snackBarHostState
+    ) { innerPadding ->
+        Box {
             AuthBackground(
                 imageResource = R.drawable.img_sign_inup_background
             )
@@ -255,9 +282,10 @@ fun Terms(
 @AnyDevicePreview
 @Composable
 fun SignUpScreenPreview() {
-    AppContent(onBackPressed = {}) {
-        SignUpScreen(
-            innerPadding = it,
+    PopMoviesTheme {
+        SignUpRoute(
+            screenName = "SignUp",
+            onBackPressed = {},
             onClickSignUp = {},
             onClickSignIn = {},
             onClickClose = {}

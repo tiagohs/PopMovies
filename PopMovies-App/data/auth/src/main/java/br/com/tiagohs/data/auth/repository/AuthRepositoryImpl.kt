@@ -30,4 +30,6 @@ class AuthRepositoryImpl(
             .await()
             .asUser(loginProvider = LoginProvider.EMAIL)
     }
+
+    override suspend fun isUserAuthenticate(): Boolean = auth.currentUser != null
 }

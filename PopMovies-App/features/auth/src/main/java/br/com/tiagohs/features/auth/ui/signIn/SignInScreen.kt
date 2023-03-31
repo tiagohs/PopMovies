@@ -3,23 +3,20 @@ package br.com.tiagohs.features.auth.ui.signIn
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.tiagohs.core.theme.AppContent
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.core.theme.ui.Screen
 import br.com.tiagohs.features.auth.R
@@ -27,23 +24,52 @@ import br.com.tiagohs.features.auth.ui.components.AuthBackground
 import br.com.tiagohs.features.auth.ui.components.AuthInput
 import br.com.tiagohs.features.auth.ui.components.SignInUpHeader
 import br.com.tiagohs.features.auth.ui.components.accentStyle
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SignInScreen(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
+fun SignInRoute(
+    onBackPressed: () -> Unit,
+    screenName: String,
     onClickSignIn: () -> Unit = {},
     onClickForgotPassword: () -> Unit = {},
     onClickSignUp: () -> Unit = {},
-    onClickClose: () -> Unit
+    onClickClose: () -> Unit = {},
+    signInViewModel: SignInViewModel = koinViewModel(),
+    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
+) {
+    val uiState by signInViewModel.uiState.collectAsStateWithLifecycle()
+
+    SignInScreen(
+        uiState = uiState,
+        onBackPressed = onBackPressed,
+        screenName = screenName,
+        onClickSignIn = onClickSignIn,
+        onClickForgotPassword = onClickForgotPassword,
+        onClickSignUp = onClickSignUp,
+        onClickClose = onClickClose,
+        snackBarHostState = snackBarHostState
+    )
+}
+
+@Composable
+fun SignInScreen(
+    uiState: SignInUIState,
+    onBackPressed: () -> Unit,
+    screenName: String,
+    onClickSignIn: () -> Unit,
+    onClickForgotPassword: () -> Unit,
+    onClickSignUp: () -> Unit,
+    onClickClose: () -> Unit,
+    snackBarHostState: SnackbarHostState
 ) {
     Screen(
         statusBarTransparent = true,
-        innerPadding = innerPadding
-    ) {
-        Box(
-            modifier = modifier
-        ) {
+        screenName = screenName,
+        onBackPressed = onBackPressed,
+        snackBarHostState = snackBarHostState,
+        errorMessage = uiState.errorMessage
+    ) { innerPadding ->
+        Box {
             AuthBackground(
                 imageResource = R.drawable.img_sign_inup_background
             )
@@ -185,9 +211,10 @@ fun DoesntHasAccount(
 )
 @Composable
 fun SignInScreenPreview() {
-    AppContent(onBackPressed = {}) {
-        SignInScreen(
-            innerPadding = it,
+    PopMoviesTheme {
+        SignInRoute(
+            screenName = "SignIn",
+            onBackPressed = {},
             onClickClose = {},
             onClickForgotPassword = {},
             onClickSignUp = {},

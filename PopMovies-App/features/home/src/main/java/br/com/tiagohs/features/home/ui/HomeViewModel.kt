@@ -43,7 +43,7 @@ class HomeViewModel(
             } catch (ex: Exception) {
                 viewModelState.update {
                     it.copy(
-                        error = Exception("Houve um problema ao buscar os filmes"),
+                        errorMessage = "Houve um problema ao buscar os filmes",
                         isLoading = false
                     )
                 }
@@ -115,7 +115,7 @@ class HomeViewModel(
                 }
                 is ResultState.Error -> {
                     it.copy(
-                        error = result.error,
+                        errorMessage = result.error?.message,
                         isLoading = false
                     )
                 }
