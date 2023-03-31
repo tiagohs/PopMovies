@@ -16,8 +16,8 @@ class SplashViewModel(
 
     fun checkSignIn(onSuccess: (isLogged: Boolean) -> Unit) {
         viewModelScope.launch {
-            when (checkUserStateUseCase()) {
-                is ResultState.Success -> onSuccess(true)
+            when (val result = checkUserStateUseCase()) {
+                is ResultState.Success -> onSuccess(result.data ?: false)
                 is ResultState.Error -> onSuccess(false)
             }
         }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.core.theme.ui.Screen
+import br.com.tiagohs.data.auth.models.UserManager
 import br.com.tiagohs.data.movies.models.movie.Movie
 import br.com.tiagohs.features.home.models.HomeUIState
 import org.koin.androidx.compose.koinViewModel

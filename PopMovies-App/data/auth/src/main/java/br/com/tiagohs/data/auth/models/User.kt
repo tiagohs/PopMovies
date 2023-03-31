@@ -6,8 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class User(
-    val email: String,
-    val loginProvider: LoginProvider
+    val email: String = "",
+    val name: String = "",
+    val loginProvider: LoginProvider = LoginProvider.EMAIL
 ): Parcelable
 
 fun AuthResult?.asUser(loginProvider: LoginProvider): User =

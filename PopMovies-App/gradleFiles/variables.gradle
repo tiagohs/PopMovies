@@ -43,7 +43,6 @@ ext {
         lifecycleViewModelCompose: "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleRuntimeKtx_version",
         lifecycleRuntimeCompose: "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleRuntimeKtx_version",
 
-
         // Compose
         composeBom: "androidx.compose:compose-bom:$composeBom_version",
         composeMaterialDesign: "androidx.compose.material3:material3:$composeMaterialDesign_version",
@@ -71,6 +70,7 @@ ext {
         firebaseCrashlytics: 'com.google.firebase:firebase-crashlytics-ktx',
         firebaseAnalytics: 'com.google.firebase:firebase-analytics-ktx',
         firebaseAuth: 'com.google.firebase:firebase-auth-ktx',
+        firestore: "com.google.firebase:firebase-firestore-ktx",
 
         // Retrofit
         retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit_version",
