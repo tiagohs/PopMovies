@@ -14,6 +14,6 @@ val featureAuthModule = module {
 
     // SignUp
     viewModel {
-        SignUpViewModel()
+        SignUpViewModel(get())
     }
 }

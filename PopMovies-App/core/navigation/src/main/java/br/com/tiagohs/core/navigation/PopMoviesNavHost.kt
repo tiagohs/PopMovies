@@ -23,12 +23,14 @@ import org.koin.androidx.compose.koinViewModel
 fun PopMoviesNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startScreen: Destination = destinations.first(),
-    onBackPressed: () -> Unit
+    startScreenRoute: String = destinations.first().route,
+    onBackPressed: () -> Unit = {
+        navHostController.popUp()
+    }
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = startScreen.route,
+        startDestination = startScreenRoute,
         modifier = modifier
     ) {
         composable(
@@ -56,16 +58,13 @@ fun PopMoviesNavHost(
             SignInRoute(
                 screenName = SignInDestination.screenName,
                 onBackPressed = onBackPressed,
-                onClickSignIn = {
-                    navHostController.navigateSingleTop(SignInDestination.route)
+                navigateToHome = {
+                    navHostController.navigateSingleTop(HomeDestination.route)
                 },
-                onClickForgotPassword = {
-
+                navigateToSignUp = {
+                    navHostController.navigateSingleTop(SignUpDestination.route)
                 },
-                onClickSignUp = {
-                    navHostController.clearAndNavigate(HomeDestination.route)
-                },
-                onClickClose = {
+                navigateToForgotPassword = {
 
                 }
             )
@@ -77,14 +76,11 @@ fun PopMoviesNavHost(
             SignUpRoute(
                 screenName = SignUpDestination.screenName,
                 onBackPressed = onBackPressed,
-                onClickSignUp = {
-                    navHostController.navigateSingleTop(SignUpDestination.route)
-                },
-                onClickSignIn = {
+                navigateToSignIn = {
                     navHostController.navigateSingleTop(SignInDestination.route)
                 },
-                onClickClose = {
-
+                navigateToHome = {
+                    navHostController.clearAndNavigate(HomeDestination.route)
                 }
             )
         }
@@ -118,7 +114,10 @@ fun NavHostController.navigateAndPopUp(route: String, popUp: String) {
 fun NavHostController.clearAndNavigate(route: String) {
     this.navigate(route) {
         launchSingleTop = true
-        popUpTo(0) { inclusive = true }
+
+        popUpTo(0) {
+            inclusive = true
+        }
     }
 }
 

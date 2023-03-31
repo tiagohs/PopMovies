@@ -8,7 +8,7 @@ data class HomeViewModelState(
     val topRatedMovies: List<Movie>? = null,
     val upcomingMovies: List<Movie>? = null,
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: List<String> = emptyList()
 ) {
 
     fun toUIState(): HomeUIState {
@@ -16,7 +16,7 @@ data class HomeViewModelState(
             return HomeUIState.Loading
         }
 
-        if (errorMessage != null) {
+        if (errorMessage.isNotEmpty()) {
             return HomeUIState.Error(
                 errorMessage = errorMessage
             )

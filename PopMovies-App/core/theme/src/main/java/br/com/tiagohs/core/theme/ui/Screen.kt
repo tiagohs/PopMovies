@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -28,7 +25,8 @@ fun Screen(
     withTopBar: Boolean = false,
     screenName: String = "PopMovies",
     onBackPressed: () -> Unit,
-    errorMessage: String? = null,
+    onErrorDismiss: (String) -> Unit = {},
+    errorMessage: List<String>? = null,
     snackBarHostState: SnackbarHostState,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -72,12 +70,15 @@ fun Screen(
     )
 
     if (!errorMessage.isNullOrEmpty()) {
-        val message = remember { errorMessage }
+        val message = remember { errorMessage.first() }
+        val onErrorDismissState by rememberUpdatedState(onErrorDismiss)
 
         LaunchedEffect(message, snackBarHostState) {
             snackBarHostState.showSnackbar(
                 message = message,
             )
+
+            onErrorDismissState(message)
         }
     }
 }

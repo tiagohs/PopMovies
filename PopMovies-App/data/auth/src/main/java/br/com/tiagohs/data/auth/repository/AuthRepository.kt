@@ -11,4 +11,9 @@ interface AuthRepository {
         token: String,
         secret: String = ""
     ): User
+    suspend fun signUp(
+        name: String,
+        email: String,
+        password: String
+    ): User
 }

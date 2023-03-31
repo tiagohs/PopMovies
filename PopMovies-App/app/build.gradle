@@ -136,15 +136,11 @@ dependencies {
     implementation dependencies.composeLifecycleViewModel
     implementation dependencies.composeNavigation
 
-    //************************//
+    //******* Livecycle *********//
 
-    //******* Firebase *********//
-
-//    implementation platform(dependencies.firebaseBom)
-//    implementation dependencies.firebaseCrashlytics
-//    implementation dependencies.firebaseanalytics
-
-    //************************//
+    implementation dependencies.lifecycleRuntimeKtx
+    implementation dependencies.lifecycleViewmodelKtx
+    implementation dependencies.lifecycleLiveData
 
     //******* Koin *********//
 
@@ -158,8 +154,6 @@ dependencies {
     implementation platform(dependencies.firebaseBom)
     implementation dependencies.firebaseCrashlytics
     implementation dependencies.firebaseAnalytics
-
-    //************************//
 
     testImplementation dependencies.junit
 

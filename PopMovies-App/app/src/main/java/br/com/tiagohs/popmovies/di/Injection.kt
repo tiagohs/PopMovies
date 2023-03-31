@@ -6,9 +6,20 @@ import br.com.tiagohs.data.movies.moviesModule
 import br.com.tiagohs.data.movies.moviesNetworkModule
 import br.com.tiagohs.features.auth.featureAuthModule
 import br.com.tiagohs.features.home.homeModule
+import br.com.tiagohs.popmovies.ui.splash.SplashViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
 object Injection {
+    private val appModule = module {
+
+        viewModel {
+            SplashViewModel(get())
+        }
+    }
+
     val modules = listOf(
+        appModule,
         componentsModule,
         moviesModule,
         moviesNetworkModule,

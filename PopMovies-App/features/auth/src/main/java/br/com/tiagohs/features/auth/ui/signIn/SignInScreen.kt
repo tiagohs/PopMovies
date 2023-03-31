@@ -1,22 +1,25 @@
 package br.com.tiagohs.features.auth.ui.signIn
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
 import br.com.tiagohs.core.theme.ui.Screen
 import br.com.tiagohs.features.auth.R
@@ -30,10 +33,9 @@ import org.koin.androidx.compose.koinViewModel
 fun SignInRoute(
     onBackPressed: () -> Unit,
     screenName: String,
-    onClickSignIn: () -> Unit = {},
-    onClickForgotPassword: () -> Unit = {},
-    onClickSignUp: () -> Unit = {},
-    onClickClose: () -> Unit = {},
+    navigateToHome: () -> Unit = {},
+    navigateToSignUp: () -> Unit = {},
+    navigateToForgotPassword: () -> Unit = {},
     signInViewModel: SignInViewModel = koinViewModel(),
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
@@ -41,12 +43,19 @@ fun SignInRoute(
 
     SignInScreen(
         uiState = uiState,
-        onBackPressed = onBackPressed,
         screenName = screenName,
-        onClickSignIn = onClickSignIn,
-        onClickForgotPassword = onClickForgotPassword,
-        onClickSignUp = onClickSignUp,
-        onClickClose = onClickClose,
+        onErrorDismiss = signInViewModel::onErrorDismiss,
+        onBackPressed = onBackPressed,
+        onClickClose = onBackPressed,
+        onClickSignIn = {
+            signInViewModel.onSignInClick {
+                navigateToHome()
+            }
+        },
+        onClickSignUp = { navigateToSignUp() },
+        onClickForgotPassword = { navigateToForgotPassword() },
+        onPasswordChange = signInViewModel::onPasswordChange,
+        onEmailChange = signInViewModel::onEmailChange,
         snackBarHostState = snackBarHostState
     )
 }
@@ -56,16 +65,20 @@ fun SignInScreen(
     uiState: SignInUIState,
     onBackPressed: () -> Unit,
     screenName: String,
+    onErrorDismiss: (String) -> Unit,
     onClickSignIn: () -> Unit,
     onClickForgotPassword: () -> Unit,
     onClickSignUp: () -> Unit,
     onClickClose: () -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     snackBarHostState: SnackbarHostState
 ) {
     Screen(
         statusBarTransparent = true,
         screenName = screenName,
         onBackPressed = onBackPressed,
+        onErrorDismiss = onErrorDismiss,
         snackBarHostState = snackBarHostState,
         errorMessage = uiState.errorMessage
     ) { innerPadding ->
@@ -91,38 +104,42 @@ fun SignInScreen(
                             start = 16.dp,
                             end = 16.dp
                         ),
+                    uiState = uiState,
                     onClickSignIn = onClickSignIn,
                     onClickSignUp = onClickSignUp,
-                    onClickForgotPassword = onClickForgotPassword
+                    onClickForgotPassword = onClickForgotPassword,
+                    onEmailChange = onEmailChange,
+                    onPasswordChange = onPasswordChange
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInBody(
     modifier: Modifier = Modifier,
-    onClickSignIn: () -> Unit = {},
-    onClickForgotPassword: () -> Unit = {},
-    onClickSignUp: () -> Unit = {}
+    uiState: SignInUIState,
+    onClickSignIn: () -> Unit,
+    onClickForgotPassword: () -> Unit,
+    onClickSignUp: () -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = modifier
     ) {
-        var email by rememberSaveable {
-            mutableStateOf("")
-        }
-        var password by rememberSaveable {
-            mutableStateOf("")
-        }
-
         AuthInput(
-            value = email,
+            value = uiState.email,
+            isError = uiState.isEmailFieldError,
             labelResource = R.string.sign_in_input_email_label,
-            onValueChange = { email = it },
+            onValueChange = onEmailChange,
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
             ),
             modifier = Modifier
                 .padding(
@@ -132,12 +149,21 @@ fun SignInBody(
         )
 
         AuthInput(
-            value = password,
+            value = uiState.password,
+            isError = uiState.isPasswordFieldError,
             labelResource = R.string.sign_in_input_password_label,
-            onValueChange = { password = it },
+            onValueChange = onPasswordChange,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onClickSignIn()
+
+                    keyboardController?.hide()
+                }
             ),
             modifier = Modifier
                 .padding(
@@ -147,7 +173,12 @@ fun SignInBody(
         )
 
         TextButton(
-            onClick = onClickForgotPassword,
+            onClick = {
+                keyboardController?.hide()
+
+                onClickForgotPassword()
+
+            },
         ) {
             Text(
                 text = stringResource(R.string.forgot_password),
@@ -157,7 +188,11 @@ fun SignInBody(
         }
 
         Button(
-            onClick = onClickSignIn,
+            onClick = {
+                keyboardController?.hide()
+
+                onClickSignIn()
+            },
             modifier = Modifier
                 .padding(
                     top = 32.dp,
@@ -166,14 +201,25 @@ fun SignInBody(
                 )
                 .fillMaxWidth()
         ) {
-            Text(
-                text = stringResource(R.string.btn_sign_in),
-                style = MaterialTheme.typography.bodyMedium
-            )
+            if (uiState.isLoadingSignIn) {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    modifier = Modifier.size(18.dp)
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.btn_sign_in),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
 
         DoesntHasAccount(
-            onClickSignUp = onClickSignUp,
+            onClickSignUp = {
+                keyboardController?.hide()
+
+                onClickSignUp()
+            },
             modifier = Modifier
                 .padding(top = 12.dp)
                 .align(Alignment.CenterHorizontally)
@@ -215,10 +261,9 @@ fun SignInScreenPreview() {
         SignInRoute(
             screenName = "SignIn",
             onBackPressed = {},
-            onClickClose = {},
-            onClickForgotPassword = {},
-            onClickSignUp = {},
-            onClickSignIn = {}
+            navigateToForgotPassword = {},
+            navigateToHome = {},
+            navigateToSignUp = {}
         )
     }
 }

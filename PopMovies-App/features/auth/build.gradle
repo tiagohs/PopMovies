@@ -23,6 +23,7 @@ dependencies {
 
     //******* Modules *********//
 
+    implementation project(path: modules.helpers)
     implementation project(path: modules.theme)
     implementation project(path: modules.components)
     implementation project(path: modules.dataAuth)

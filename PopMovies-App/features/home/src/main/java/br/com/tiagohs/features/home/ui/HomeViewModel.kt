@@ -33,6 +33,14 @@ class HomeViewModel(
         fetchHomeData()
     }
 
+    fun onErrorDismiss(error: String) {
+        viewModelState.update { currentUiState ->
+            val errorMessages = currentUiState.errorMessage.filterNot { it == error }
+
+            currentUiState.copy(errorMessage = errorMessages)
+        }
+    }
+
     private fun fetchHomeData() {
         viewModelScope.launch {
             try {
@@ -42,8 +50,10 @@ class HomeViewModel(
                 launch { upcomingMovies() }
             } catch (ex: Exception) {
                 viewModelState.update {
+                    val errorMessages = it.errorMessage + "Houve um Problema ao buscar os filmes"
+
                     it.copy(
-                        errorMessage = "Houve um problema ao buscar os filmes",
+                        errorMessage = errorMessages,
                         isLoading = false
                     )
                 }
@@ -114,8 +124,10 @@ class HomeViewModel(
                     )
                 }
                 is ResultState.Error -> {
+                    val errorMessages = it.errorMessage + (result.error?.message ?: "Houve um Problema ao buscar os filmes")
+
                     it.copy(
-                        errorMessage = result.error?.message,
+                        errorMessage = errorMessages,
                         isLoading = false
                     )
                 }

@@ -7,5 +7,6 @@ import java.io.Serializable
 
 data class MovieImages (
     @SerializedName("backdrops") val backdrops : List<Image>? = null,
-    @SerializedName("posters") val posters : List<Image>? = null
+    @SerializedName("posters") val posters : List<Image>? = null,
+    @SerializedName("logos") val logos : List<Image>? = null
 ): Serializable

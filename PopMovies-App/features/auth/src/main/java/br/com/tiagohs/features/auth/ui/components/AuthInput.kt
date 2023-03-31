@@ -3,6 +3,7 @@ package br.com.tiagohs.features.auth.ui.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.tiagohs.core.components.ui.preview.AnyDevicePreview
 import br.com.tiagohs.core.theme.ui.PopMoviesTheme
@@ -25,17 +27,31 @@ fun AuthInput(
     modifier: Modifier = Modifier,
     value: String,
     labelResource: Int,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit = {_ -> },
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Text
     ),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     OutlinedTextField(
         value = value,
         label = { Text(stringResource(id = labelResource)) },
+        isError = isError,
+        supportingText = {
+            if (isError) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Campo Inválido",
+                    textAlign = TextAlign.End,
+                )
+            }
+        },
         onValueChange = onValueChange,
         colors = TextFieldDefaults.outlinedTextFieldColors(
+            errorTextColor = MaterialTheme.colorScheme.outlineVariant,
+            focusedTextColor = MaterialTheme.colorScheme.outlineVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.outlineVariant,
             focusedSupportingTextColor = MaterialTheme.colorScheme.outlineVariant,
             focusedLabelColor = MaterialTheme.colorScheme.outlineVariant,
@@ -45,7 +61,8 @@ fun AuthInput(
         keyboardOptions = keyboardOptions,
         maxLines = 1,
         singleLine = true,
-        modifier = modifier
+        modifier = modifier,
+        keyboardActions = keyboardActions
     )
 }
 

@@ -29,6 +29,7 @@ fun HomeRoute(
 
     HomeScreen(
         homeUiState = homeUiState,
+        onErrorDismiss = homeViewModel::onErrorDismiss,
         onBackPressed = onBackPressed,
         screenName = screenName,
         snackBarHostState = snackBarHostState
@@ -38,12 +39,14 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeUiState: HomeUIState,
+    onErrorDismiss: (String) -> Unit,
     onBackPressed: () -> Unit,
     screenName: String,
     snackBarHostState: SnackbarHostState
 ) {
     Screen(
         screenName = screenName,
+        onErrorDismiss = onErrorDismiss,
         onBackPressed = onBackPressed,
         snackBarHostState = snackBarHostState,
         errorMessage = homeUiState.errorMessage,

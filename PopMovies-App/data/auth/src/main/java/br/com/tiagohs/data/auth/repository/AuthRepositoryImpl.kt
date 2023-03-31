@@ -31,5 +31,11 @@ class AuthRepositoryImpl(
             .asUser(loginProvider = LoginProvider.EMAIL)
     }
 
+    override suspend fun signUp(name: String, email: String, password: String): User {
+        return auth.createUserWithEmailAndPassword(email, password)
+            .await()
+            .asUser(loginProvider = LoginProvider.EMAIL)
+    }
+
     override suspend fun isUserAuthenticate(): Boolean = auth.currentUser != null
 }
