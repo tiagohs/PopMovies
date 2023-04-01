@@ -25,6 +25,9 @@ dependencies {
 
     implementation project(path: modules.auth)
     implementation project(path: modules.home)
+    implementation project(path: modules.profile)
+    implementation project(path: modules.search)
+    implementation project(path: modules.weekfeatures)
 
     //************************//
 

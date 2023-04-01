@@ -103,7 +103,10 @@ ext {
         'dataAuth': ":data:auth",
         'features': ":features",
         'auth': ":features:auth",
-        'home': ":features:home"
+        'home': ":features:home",
+        'profile': ":features:profile",
+        'search': ":features:search",
+        'weekfeatures': ":features:weekfeatures"
     ]
 
     constants = [

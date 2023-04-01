@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
+internal const val COLLECTION_USERS = "users"
+
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
@@ -56,7 +58,7 @@ class AuthRepositoryImpl(
             loginProvider = loginProvider
         )
 
-        firestore.collection("users")
+        firestore.collection(COLLECTION_USERS)
                 .document(email)
                 .set(user)
                 .await()
@@ -65,7 +67,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun getUserInfo(email: String): User? {
-        return firestore.collection("users")
+        return firestore.collection(COLLECTION_USERS)
             .document(email)
             .get()
             .await()

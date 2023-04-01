@@ -30,20 +30,10 @@ fun Screen(
     snackBarHostState: SnackbarHostState,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val view = LocalView.current
-    (view.context as? Activity)?.window?.let { window ->
-        if (!view.isInEditMode) {
-            SideEffect {
-                if (statusBarTransparent) {
-                    //window.statusBarColor = Color.TRANSPARENT
-                } else {
-                    window.statusBarColor = LightColors.primary.toArgb()
-                }
-
-                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-            }
-        }
-    }
+    StatusBarTransparent(
+        statusBarTransparent = statusBarTransparent,
+        darkTheme = darkTheme
+    )
 
     Scaffold(
         modifier = modifier,
@@ -58,17 +48,39 @@ fun Screen(
             content(innerPadding)
         },
         snackbarHost = {
-            SnackbarHost(
-                hostState = snackBarHostState,
-                modifier = modifier
-                    .systemBarsPadding(),
-                snackbar = { snackbarData ->
-                    Snackbar(snackbarData, contentColor = MaterialTheme.colorScheme.onPrimary)
-                }
+            AppSnackBarHost(
+                snackBarHostState = snackBarHostState
             )
         }
     )
 
+    AppSnackBar(
+        onErrorDismiss = onErrorDismiss,
+        errorMessage = errorMessage,
+        snackBarHostState = snackBarHostState
+    )
+}
+
+@Composable
+fun AppSnackBarHost(
+    snackBarHostState: SnackbarHostState
+) {
+    SnackbarHost(
+        hostState = snackBarHostState,
+        modifier = Modifier
+            .systemBarsPadding(),
+        snackbar = { snackbarData ->
+            Snackbar(snackbarData, contentColor = MaterialTheme.colorScheme.onPrimary)
+        }
+    )
+}
+
+@Composable
+fun AppSnackBar(
+    onErrorDismiss: (String) -> Unit = {},
+    errorMessage: List<String>? = null,
+    snackBarHostState: SnackbarHostState
+) {
     if (!errorMessage.isNullOrEmpty()) {
         val message = remember { errorMessage.first() }
         val onErrorDismissState by rememberUpdatedState(onErrorDismiss)
@@ -83,15 +95,36 @@ fun Screen(
     }
 }
 
+@Composable
+fun StatusBarTransparent(
+    statusBarTransparent: Boolean = false,
+    darkTheme: Boolean
+) {
+    val view = LocalView.current
+    (view.context as? Activity)?.window?.let { window ->
+        if (!view.isInEditMode) {
+            SideEffect {
+                if (statusBarTransparent) {
+                    //window.statusBarColor = Color.TRANSPARENT
+                } else {
+                    window.statusBarColor = LightColors.primary.toArgb()
+                }
+
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
     screenName: String,
     onBackPressed: () -> Unit,
-    withTopBar: Boolean
+    withTopBar: Boolean = true
 ) {
     if (!withTopBar) {
-        return Unit
+        return
     }
 
     CenterAlignedTopAppBar(

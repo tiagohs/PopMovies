@@ -6,6 +6,9 @@ import br.com.tiagohs.data.movies.moviesModule
 import br.com.tiagohs.data.movies.moviesNetworkModule
 import br.com.tiagohs.features.auth.featureAuthModule
 import br.com.tiagohs.features.home.homeModule
+import br.com.tiagohs.features.profile.profileModule
+import br.com.tiagohs.features.search.searchModule
+import br.com.tiagohs.features.weekfeatures.weekFeaturesModule
 import br.com.tiagohs.popmovies.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,6 +28,9 @@ object Injection {
         moviesNetworkModule,
         authModule,
         featureAuthModule,
-        homeModule
+        homeModule,
+        profileModule,
+        searchModule,
+        weekFeaturesModule
     )
 }
